@@ -1,0 +1,301 @@
+/* margin order top right bottom left */
+
+body
+{
+    font-family: Times New Roman, Times;
+    color: #000000;
+    background-color: #000066;
+    margin: 20px 0px 0px 0px;
+    text-align: center;
+}
+
+p
+{
+    font-size: 16px;
+    margin-top: 1px;
+    padding-top: 1px;
+    margin-bottom: 1px;
+    padding-bottom: 1px;
+    margin-left: 10px;
+}
+
+p.leftZero
+{
+    margin-left: 0px;
+}
+
+.buttonA
+{
+    border:3px ridge #c0c0c0;
+}
+
+.buttonB
+{
+    border:2px solid #c0c0c0;
+}
+
+.red
+{
+    color: #FF0000;
+}
+
+.gray
+{
+    color: #cccccc;
+}
+
+.black
+{
+    color: #000000;
+}
+
+.violet
+{
+    color: #660099;
+}
+
+.green
+{
+    color: #006600;
+}
+
+.teal
+{
+    color: #009999;
+}
+
+.blue
+{
+    color: #000099;
+}
+
+.pageblue
+{
+    color: #0000CC;
+}
+
+.yellow
+{
+    color: #FFFF00;
+}
+
+.white
+{
+    color: #FFFFFF;
+}
+
+.linkcolor
+{
+    color: #0033cc;
+}
+
+.pageBlk
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 1000px;
+}
+
+.pageBlkAlt
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 1140px;
+}
+
+h1
+{
+    font-size: 35px;
+    font-weight: bold;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+h2
+{
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+h3
+{
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+h4
+{
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+h5
+{
+    font-size: 12px;
+    font-weight: normal;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+ul
+{
+    margin-top: 5px;
+    padding-top: 0px;
+    margin-bottom: 5px;
+    padding-bottom: 0px;
+}
+
+ol
+{
+    margin-top: 5px;
+    padding-top: 0px;
+    margin-bottom: 5px;
+    padding-bottom: 0px;
+}
+
+li
+{
+    font-size: 16px;
+    margin-left: -6px;
+    margin-top: 5px;
+    padding-top: 0px;
+    margin-bottom: 5px;
+    padding-bottom: 0px;
+    list-style-position: outside;
+}
+
+li.blank
+{
+    list-style-image: url(../images/blank.gif);
+}
+
+table
+{
+    background-color: #ffffff;
+}
+
+table.pageMid
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table.pageTop
+{
+    border-right: 0px solid;
+    border-top: 0px solid;
+    border-bottom: 4px solid;
+    border-collapse: collapse;
+    width: 100%;
+    border-color: #ffffff #ffffff #0000ff #ffffff;
+    border-left: 0px solid;
+}
+
+table.vmkScreens
+{
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #ffffcc;
+}
+
+a:link
+{
+    color: #0033cc;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:visited
+{
+    color: #0033cc;
+    font-weight: bold;
+    text-decoration: none;
+    outline: none;
+}
+
+a:active
+{
+    color: #0000ff;
+    font-weight: bold;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover
+{
+    color: #0000ff;
+    font-weight: bold;
+    text-decoration: underline;
+    outline: none;
+}
+
+.popObj
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: #ffffcc;
+    font-size: 16px;
+    font-weight: normal;
+    width: 400px;
+    height: auto;
+    padding: 10px;
+    visibility: hidden;
+    border-style: solid;
+    border-color: #000099;
+    border-width: 15px;
+    text-align: center;
+}
+
+.rlObj
+{
+    position: relative;
+    background-color: #ffffff;
+    width: auto;
+    height: auto;
+}
+
+#blanket
+{
+    background-color: #111;
+    opacity: 0.65;
+    position: absolute;
+    z-index: 9001;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.popUpDiv
+{
+    z-index: 9002;
+    position: absolute;
+    background-color: #ffffcc;
+    font-size: 16px;
+    font-weight: normal;
+    width: 400px;
+    height: auto;
+    padding: 10px;
+    border-style: solid;
+    border-color: #000099;
+    border-width: 15px;
+    text-align: left;
+}
