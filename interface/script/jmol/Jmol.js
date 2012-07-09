@@ -834,7 +834,7 @@ function _jmolApplet(size, inlineModel, script, nameSuffix) {
         "</p>";
     } else {
       visitJava =
-        "<table bgcolor='yellow'><tr>" +
+        "<table bgcolor='white'><tr>" +
         "<td align='center' valign='middle' " + widthAndHeight + "><font color='black'>\n" +
 		noJavaMsg2 +
         "</font></td></tr></table>";

@@ -1,4 +1,17 @@
-
+/*
+ * 
+ * 
+ * Icons:
+ * 
+ * try to fool around with 
+ * http://thenounproject.com/tag/science/
+ * Looks like they have alot of icons.
+ * What is Terms of Usage?
+ * 
+ * 
+ */
+ 
+ 
 /* Reset All Style */
 @import url(reset.meyer.css);
 
@@ -40,16 +53,10 @@ strong {
 
 /* DEFAULT STYLE */
 	h2 {
-		font-family:Georgia,"Times New Roman",serif;
-		font-size:30px;
-		line-height:30px;
-		margin:0 0 20px 0;
+
 	}
 	h3 {
-		font-family:Georgia,"Times New Roman",serif;
-		font-size:20px;
-		line-height:25px;
-		margin:0 0 20px 0;
+
 		
 	}
 	p {
@@ -107,7 +114,7 @@ strong {
 
 	/* BODY */
 	.body {
-		background:#eee;
+		/*background:#eee;*/
 	}
 	.body  .container {
 		background:white;
@@ -123,7 +130,7 @@ strong {
 	.threecolumn .column.alpha {
 		float:left;
 		width:230px;
-		padding:0 10px;
+		padding:20px 10px;
 	}
 	.threecolumn .column.beta {
 		width:250px;
@@ -138,13 +145,81 @@ strong {
 	/* jmol canvas */
 	.threecolumn .column.gamma .canvas {
 		width:460px;
+		height:460px;
 		margin:0 auto;
 		padding:50px 0;
+		
+		background:black;
+		border-radius:3px;
+		
 	}
 
+/* 
+ * Editor 
+ * 
+ * 
+ * 
+ */
+.editor {
+	background:#333;
+	color:#777;
+	
+	border-width:1px;
+	border-color:#222;
+	border-style:solid;
+	border-radius:3px;
+	
+}
+.editor .category {
+	padding:20px;
+}
+.editor .category label {display:none;}
+
+.editor .category hr {
+	border-width:1px 0;
+	border-style:solid;
+	border-color:rgba(0,0,0,0.8) black rgba(255,255,255,0.2);
+	margin:20px 10px;
+	
+	clear:both;
+}
+
+.editor .category h3 {
+	text-align:center;
+	text-shadow:1px 1px 0 rgba(0,0,0,0.7);
+}
+
+.editor .category .actions {
+	margin:20px 0 0 0;
+}
+.editor .category .actions li {
+	display:block;
+	width:50px;
+	margin:0 10px 10px 0;
+	
+	float:left;
+	
+	font-size:9px;
+	text-align:center;
+	
+}
+.editor .category .actions li a {
+	
+	padding:35px 0 2px 0;
+	
+	background:black 50% 15px no-repeat;
+	border-radius:3px;
+	display:block;
+	
+	color:#efefef;
+}
+
+	.editor .category .actions li.cut a {background-image:url(../images/famfamfam_silk/cut.png);}
+	.editor .category .actions li.add a {background-image:url(../images/famfamfam_silk/add.png);}
+	.editor .category .actions li.minimize a {background-image:url(../images/famfamfam_silk/arrow_in.png);}
 
 
-/* */
+/* PAGE MODULE */
 	
 	.add_atom_to_molecule {
 		padding:0 10px 5px 10px;

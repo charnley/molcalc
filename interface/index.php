@@ -41,26 +41,45 @@
 			
 			<section class="column alpha">
 				
-				<br />
-				<br />
+	
 				
-				<strong>Molecule Actions</strong>
+				<div class="editor">
+					
+					<div class="category">
+						<label>Edit</label>
+						
+						<h3>Edit Molecule</h3>
+						<div class="actions">
+							<ul>
+								<li class="action cut"><a href="#">Cut</a></li>
+								<li class="action add"><a href="#">Add Atom</a></li>
+								<li class="action minimize"><a href="#">Minimize</a></li>
+							</ul>
+							<div class="clean"></div>
+						</div>
+						
+						<hr />
+						
+						
+						<h3>Add Atom</h3>
+						<div class="actions">
+							<ul>
+								<li class="action add"><a href="#">H</a></li>
+								<li class="action add"><a href="#">He</a></li>
+								<li class="action add"><a href="#">Cl</a></li>
+								<li class="action add"><a href="#">Be</a></li>
+								<li class="action add"><a href="#">C</a></li>
+							</ul>
+							<div class="clean"></div>
+						</div>
+						
+						
+						
+					</div>
 				
-				<div class="actions">
-					<ul>
-						<li><a href="#">Reset</a></li>
-						<li>
-							<select>
-								<option>Select</option>
-								<option>Caffine</option>
-								<option>Water</option>
-							</select>
-							<br />
-							<a href="#">Load</a>
-						</li>
-						<li><a href="#">Delete Atom</a></li>
-					</ul>
 				</div>
+
+
 				
 			</section>
 			
@@ -69,23 +88,25 @@
 			</section>
 			
 			<section class="column gamma">
-
-				<!-- Initialize Jmol -->
-				<script>
-				  jmolInitialize("script/jmol");
-				  jmolCheckBrowser("popup", "browsercheck", "onClick");
-				</script>
-				
+				<div class="hidden">
+					<script>
+						// Initialize jMol
+						jmolInitialize("script/jmol");
+						jmolCheckBrowser("popup", "browsercheck", "onClick");
+					</script>
+				</div>
 				<div class="canvas">
 					<script>
 						//jmolApplet(460);
 						jmolApplet(460, "load caffeine.xyz.gz");
 					</script>
 				</div>
-					
-				<div class="add_atom_to_molecule">
+				
+
+				<div class="add_atom_to_molecule hidden">
 					<?php include('includes/periodic.inc.php');?>
 				</div>
+
 				
 				<br />
 				<br />
