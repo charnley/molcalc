@@ -16,7 +16,12 @@ $(function(){
 	{
 		// TODO Save State before each action.
 		// TODO Does not really need to be in jquery
-	
+		
+		// TODO Add element (up to Ar)
+		// TODO Add bond (up to triple bond)
+		// TOOO Undo last action 
+		// TODO Remove Atom
+		// TODO Remove Bond
 	
 	}
 
