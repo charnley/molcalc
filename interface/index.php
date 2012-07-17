@@ -53,37 +53,49 @@
 						<h3>Molecule Tools</h3>
 						<div class="actions">
 							<ul>
-								<li class="action cut"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Remove atom</span></span><span class="text">Remove</span></a></li>
-								<li class="action undo"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Undo last action</span></span><span class="text">Undo</span></a></li>
-								<li class="action minimize"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Minimize Geometry</span></span><span class="text">Minimize</span></a></li>
+								<li class="action cut">			<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Remove atom</span></span>		<span class="text">Remove</span></a></li>
+								<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>
+								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry</span></span><span class="text">Minimize</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
 						
 						<hr />
 						
+						<h3>Bonds</h3>
 						
-						<h3>Atom Addition</h3>
 						<div class="actions">
 							<ul>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Hydrogen</span></span><span class="text">H</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Helium</span></span><span class="text">He</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Lithium</span></span><span class="text">Li</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Beryllium</span></span><span class="text">Be</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Boron</span></span><span class="text">B</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Carbon</span></span><span class="text">C</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Nitrogen</span></span><span class="text">N</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Oxygen</span></span><span class="text">O</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Fluorine</span></span><span class="text">F</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Neon</span></span><span class="text">Ne</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Sodium</span></span><span class="text">Na</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Magnesium</span></span><span class="text">Mg</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Aluminium</span></span><span class="text">Al</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Silicon</span></span><span class="text">Si</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Phosphorus</span></span><span class="text">P</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Sulfur</span></span><span class="text">S</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Chlorine</span></span><span class="text">Cl</span></a></li>
-								<li class="action add"><a href=""><span class="hvrHlpCnt"><span class="hvrHlp">Argon</span></span><span class="text">Ar</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Single</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Double</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Triple</span></a></li>
+							</ul>
+							<div class="clean"></div>
+						</div>
+						
+						<hr />
+						
+						<h3>Atom Addition</h3>
+						<div class="actions atoms">
+							<ul>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Hydrogen</span></span><span class="text">H</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Helium</span></span><span class="text">He</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Lithium</span></span><span class="text">Li</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Beryllium</span></span><span class="text">Be</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Boron</span></span><span class="text">B</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Carbon</span></span><span class="text">C</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Nitrogen</span></span><span class="text">N</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Oxygen</span></span><span class="text">O</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Fluorine</span></span><span class="text">F</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Neon</span></span><span class="text">Ne</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Sodium</span></span><span class="text">Na</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Magnesium</span></span><span class="text">Mg</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Aluminium</span></span><span class="text">Al</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Silicon</span></span><span class="text">Si</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Phosphorus</span></span><span class="text">P</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Sulfur</span></span><span class="text">S</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Chlorine</span></span><span class="text">Cl</span></a></li>
+								<li class="action add"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Argon</span></span><span class="text">Ar</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>

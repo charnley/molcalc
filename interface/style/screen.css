@@ -15,6 +15,17 @@
 /* Reset All Style */
 @import url(reset.meyer.css);
 
+
+::-moz-focus-inner {border: 0;}
+	input[type=submit]:focus {outline: 0;}
+	::-webkit-input-placeholder,
+	:-moz-placeholder {color:#999;}
+	::selection,
+	::-moz-selection {color:white;background:black;
+		text-shadow:none;
+	}
+
+
 html {
 	
 	
@@ -50,6 +61,8 @@ strong {
 	.hidden,
 	.print {display:none;}
 	.clean {clear:both;}
+	
+	.hidden {display:none !important;}
 
 /* DEFAULT STYLE */
 	h2 {
@@ -226,39 +239,15 @@ strong {
 }
 
 .editor .category .actions {
-	margin:20px 0 0 0;
+	margin:20px;
 }
 .editor .category .actions li {
-	display:block;
-	width:50px;
-	margin:0 10px 10px 0;
-	
 	float:left;
-	
-	font-size:9px;
-	text-align:center;
-	
-}
-.editor .category .actions li a {
-	
-	
-	background: 50% 5px no-repeat;
-	border-radius:3px;
-	display:block;
-	position:relative;
-	
-}
-.editor .category .actions li a .hvrHlpCnt {margin:20px 0 0 0}
-.editor .category .actions li a .hvrHlpCnt .hvrHlp {left:-70%;width:100px;}
-.editor .category .actions li a .text {
-	display:block;
-	padding:30px 0 2px 0;
-}
+	margin:0 10px 10px 0}
 
-	.editor .category .actions li.cut a {background-image:url(../images/twgretina/minus_24.png);}
-	.editor .category .actions li.add a {background-image:url(../images/twgretina/plus_24.png);}
-	.editor .category .actions li.minimize a {background-image:url(../images/twgretina/chart_down_24.png);}
-	.editor .category .actions li.undo a {background-image:url(../images/twgretina/arrow_circle_left_24.png);}
+.editor .category .actions.atoms li .button {
+	width:14px;
+}
 
 /* PAGE MODULE */
 	
@@ -330,31 +319,43 @@ strong {
 
 	visibility:hidden;
 	opacity:0;
-
+	
+	
+	
+	/* 
+	visibility:visible;
+	opacity:1;
+	height:2px;
+	background:red;
+	/* */
+	
+	width:10px;
+	margin:0 auto;
 
   }
   .hvrHlp {
-    display:block;
-    background:#000;
-    color:#fff;
+		display:block;
+		background:#000;
+		color:#fff;
 
-    width:120px;
-    font-size:9px;
-    font-weight:bold;
-    line-height:140%;
-    padding:8px 8px 0px 8px;
+		width:120px;
+		font-size:9px;
+		font-weight:bold;
+		line-height:140%;
+		padding:8px 8px 0px 8px;
 
-    position:absolute;
-    bottom:0;
-    left:-45%;
-    
-    margin:0 0 0 0;
-	
-	border-radius:2px;
+		position:absolute;
+		bottom:11px;
+		left:-60px;
 
-    box-shadow:1px 1px 2px rgba(0,0,0,0.5);
-    box-shadow:1px 1px 0px #fff;
+		
 
+		border-radius:2px;
+
+		box-shadow:1px 1px 2px rgba(0,0,0,0.5);
+		box-shadow:1px 1px 0px #fff;
+		text-shadow:none;
+		
   }
   .hvrHlp:before {
     display:none;
@@ -385,4 +386,39 @@ strong {
 
   }
 
-
+	/* Button */
+	.button {
+		
+		cursor:pointer;
+		
+		border-width:1px;
+		border-style:solid;
+		
+		border-color:#fff;
+		border-radius:1px;
+		
+		display:inline-block;
+		padding:5px;
+		
+		background:
+			rgba(255,255,255,0.3),
+			red;
+		
+		box-shadow:
+			0 0 1px rgba(0,0,0,0.5),
+			1px 1px 3px rgba(0,0,0,0.3);
+			
+		text-shadow:1px 1px 0 #fff;
+		
+		line-height:100%;
+		
+		font-weight:bold;
+		
+		
+	}
+	
+	.button:active {
+		box-shadow:
+			inset 1px 1px 4px rgba(0,0,0,0.1);
+		background:rgba(0,0,0,0.01);
+	}
