@@ -28,7 +28,7 @@
 				<li><a href="#">Create Molecule</a></li>
 				<li><a href="#">Calculate</a></li>
 				<li><a href="#">About DGU</a></li>
-				<li><a href="#">Understanding Reulsts</a></li>
+				<li><a href="#">Understanding Results</a></li>
 				<li><a href="#">Help</a></li>
 			</ul>
 		</section>
@@ -55,7 +55,7 @@
 							<ul>
 								<li class="action cut">			<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Remove atom</span></span>		<span class="text">Remove</span></a></li>
 								<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>
-								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry</span></span><span class="text">Minimize</span></a></li>
+								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry using UFF forcefield.</span></span><span class="text">Minimize</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
@@ -112,11 +112,22 @@
 			
 			<section class="column beta">
 				
-				<div class="note">
-					Note: <br />
-					If you are using Chrome on Linux you will notice lots of bugs, and I
-					recommend you using Firefox instead.
-				</div>
+					<div class="editor">
+					
+					<div class="category">
+						<label>Edit</label>
+						
+						<h3>Note:</h3>
+						<div class="note">
+							If you are using Chrome on Linux you will notice lots of bugs. It is therfore
+							recommended using Firefox instead.
+						</div>
+				
+						
+					</div>
+					</div>
+				
+				
 				
 			</section>
 			

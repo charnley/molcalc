@@ -237,17 +237,10 @@ strong {
 	
 	
 }
-
-.editor .category .actions {
-	margin:20px;
-}
-.editor .category .actions li {
-	float:left;
-	margin:0 10px 10px 0}
-
-.editor .category .actions.atoms li .button {
-	width:14px;
-}
+.editor .category .note {margin:20px;}
+.editor .category .actions {margin:20px;}
+.editor .category .actions li {float:left;margin:0 10px 10px 0}
+.editor .category .actions.atoms li .button {	width:14px;}
 
 /* PAGE MODULE */
 	
@@ -346,7 +339,7 @@ strong {
 
 		position:absolute;
 		bottom:11px;
-		left:-60px;
+		left:-62px;
 
 		
 
