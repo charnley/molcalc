@@ -6,14 +6,8 @@
  */
 $(function(){
 
-	/**
-    * Jmol Script Handler
-    * 
-    * @param cmd The Jmol valid command to run 
-    * @return void
-    */
-	function runJmolCommand(cmd) 
-	{
+
+		
 		// TODO Save State before each action.
 		// TODO Does not really need to be in jquery
 		
@@ -23,85 +17,123 @@ $(function(){
 		// TODO Remove Atom
 		// TODO Remove Bond
 	
-	}
-
 	// TODO Jquery notification system
 	// - Prompt (questions)
 	// - Small Notification (gnome like)
 	// - 
-
-
-	$('.periodictable .symbol').each(function() 
-	{
-		var atom = 
-		{
-			'sym': $(this).html(),
-			'num': parseInt($(this).parent().find('.number').html()),
-			'wei': parseFloat($(this).parent().find('.weight').html())
-		}
+	
+	
+	
+	// TODO MOVE BUTTONS TO SEPERATE JS FOR SPECIFIC PAGE
+	
+	/**
+	 *  BUTTON LIST
+	 */
 		
-		$(this).click(function() 
+		function runJmolCommand(cmd) 
 		{
+			// Save State
 			
-			if(atom['num'] > 16 )
+			jmolScript(cmd);
+		}
+		 
+		/*
+		 * Set Bond Type
+		 */
+		$('.action.bond .button').click(function() 
+		{	
+			var bond = $(this).attr('rel');
+			
+			$('.action.bond .button.active').removeClass('active');
+			
+			if(bond == 'n') 
 			{
-					alert('too high');
-					return false;
+				jmolScript('set bondpicking false;');
+			}
+			else
+			{
+				jmolScript('set picking assignBond_'+bond+';');
+				$(this).addClass('active');
+			}
+
+			return false;	
+		});
+				
+		/*
+		 * Add Atom
+		 */
+		$('.action.atom .button').click(function() 
+		{
+			var atom = $(this).find('.text').html();
+			$('.action.atom .button.active').removeClass('active');
+			
+			if(atom == 'Off')
+			{
+				//jmolScript('set atompicking false;');
+				//jmolScript("set minimizationRefresh false;set useMinimizationThread false");
+				//jmolScript("set picking dragmolecule;");
+				//jmolScript('set picking off');
+				jmolScript('set atomPicking off');
+			}
+			else
+			{
+				jmolScript('set picking assignAtom_'+atom);
+				$(this).addClass('active');
 			}
 			
 			
-			jmolScript('set picking assignAtom_'+atom['sym']);
-
-
-			$('.periodictable .symbol.active').removeClass('active');
-			$(this).addClass('active');
+			return false;
+		});
+		
+		/*
+		 * Undo last action
+		 */
+		$('.action.undo .button').click(function () 
+		{
+			// TODO Load saved structure
+			
 			
 		});
-	});
-	
-	$('a.undo').click(function() {
 		
-		alert('undo');
+		/*
+		 * Undo last action
+		 */
+		$('.action.minimize .button').click(function () 
+		{
+			jmolScript('minimize');
+			return false;
+		});
 
-		jmolScript('undo');
+		/*
+		 * Picture Time
+		 */
+		$('.action.pic .button').click(function() 
+		{
 
-		// save state
-		// restore state
+				var rel = $(this).attr('rel');
+				var $imgCnt = $('.note.picture');
+				var imgStr;
+				
+				if(rel == '3d')
+				{
+					imgStr = "data:image/jpeg;base64,";
+					imgStr = imgStr + jmolGetPropertyAsString("image", "all");
+				}
+				else 
+				{
+					// http://cactus.nci.nih.gov/ - CADD Group Chemoinformatics Tools and User Services
+					//alert( jmolEvaluate("{*}.length") ); // Length of molecule
 
-		return false;
-	});
-
-	$('a.undoMove').click(function() {
-		
-		alert('undoMove');
-
-		jmolScript('undoMove');
-
-		return false;
-	});
-
-	
-	$('.minimize a').click(function() {
-
-
-		jmolScript('minimize');
-
-		return false;
-	});
-	
-	$('.add a').click(function() {
-
-		jmolScript('set picking assignAtom_C');
-
-		return false;
-	});
-	
-
-
-
-
+					jmolSmiles = jmolEvaluate("{*}.find('SMILES')");
+					
+					imgStr = 'http://cactus.nci.nih.gov/chemical/structure?string=';
+					imgStr = imgStr + jmolSmiles;
+					imgStr = imgStr + '&representation=image';					
+				}
+				
+				$imgCnt.prepend('<a class="picture" href="'+imgStr+'" target="_blank"><img src="'+imgStr+'" /></a>');
+				
+				
+		});
 
 });
-
-
-

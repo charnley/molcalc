@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Rewrite url for parameters, and keep GET query string
+#RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)/([^/\.]+)$ index.php?pagename=$2&listname=$3&videoid=$4&%{QUERY_STRING} [L] 
+#RewriteRule ^([^/\.]+)/([^/\.]+)/([^/\.]+)$ index.php?pagename=$2&listname=$3&%{QUERY_STRING} [L] 
+#RewriteRule ^([^/\.]+)/([^/\.]+)$ index.php?lang=$1&pagename=$2&%{QUERY_STRING} [L] 
+RewriteRule ^([^/\.]+)$ index.php?p=$1&%{QUERY_STRING} [L] 
+
+	
+
+
+
+
+
