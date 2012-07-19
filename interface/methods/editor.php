@@ -86,7 +86,7 @@
 						<div class="actions">
 							<ul>
 								<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>
-								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry using UFF forcefield.</span></span><span class="text">Minimize</span></a></li>
+								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry using some forcefield.</span></span><span class="text">Minimize</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
