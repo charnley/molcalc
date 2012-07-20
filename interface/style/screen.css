@@ -266,6 +266,17 @@ strong {
 .editor .category .actions li {}
 .editor .category .actions.atoms li .button {	width:17px;}
 
+/* To help mac 
+.editor:hover .hvrHlpCnt 
+{
+    visibility:visible;
+    opacity:1;
+    transition-delay:0s;
+
+  
+}
+/* */
+
 .editor .category .note.picture {}
 .editor .category .note.picture img {
 	max-width:200px;
@@ -331,6 +342,7 @@ strong {
     transition-delay:0s;
  
  }
+/* */
   .hvrHlpCnt:hover {
     visibility:hidden;
     opacity:0;

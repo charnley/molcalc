@@ -58,11 +58,11 @@
 						<h3>Bond Manipulation</h3>
 						<div class="actions">
 							<ul>
-								<li class="action bond"><a rel="n" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Turn off bond editing</span></span><span class="text">Off</span></a></li>
-								<li class="action bond"><a rel="0" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Break bond</span></span><span class="text">Break</span></a></li>
-								<li class="action bond"><a rel="1" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Single</span></a></li>
-								<li class="action bond"><a rel="2" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Double</span></a></li>
-								<li class="action bond"><a rel="3" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Triple</span></a></li>
+								<li class="action bond"><a rel="n" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Turn off bond editing</span></span><span class="text">Off</span></a></li>
+								<li class="action bond"><a rel="0" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Break bond</span></span><span class="text">Break</span></a></li>
+								<li class="action bond"><a rel="1" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Single</span></a></li>
+								<li class="action bond"><a rel="2" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Double</span></a></li>
+								<li class="action bond"><a rel="3" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Triple</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
@@ -91,7 +91,16 @@
 						</div>
 						
 
-						
+
+						<h3>Tools</h3>
+						<div class="actions">
+							<ul>
+								<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>
+								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry using some forcefield.</span></span><span class="text">Minimize</span></a></li>
+							</ul>
+							<div class="clean"></div>
+						</div>
+
 
 						<h3>Picture</h3>
 						<div class="actions">
