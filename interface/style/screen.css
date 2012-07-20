@@ -223,12 +223,24 @@ strong {
 	border-style:solid;
 	border-radius:2px;
 	
+	position:relative;
+}
+
+.editor label {
+	padding:5px;
+	display:block;
+	background:red;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	transform: rotate(90deg);
+	position: absolute;
+	
+	right:0;
+
 }
 .editor .category {
 	
 }
-.editor .category label {display:none;}
-
 .editor .category hr {
 	border-width:1px 0;
 	border-style:solid;

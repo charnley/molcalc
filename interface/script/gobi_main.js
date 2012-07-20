@@ -64,24 +64,30 @@ $(function(){
 		 */
 		$('.action.atom .button').click(function() 
 		{
-			var atom = $(this).find('.text').html();
+			var atom = $(this).attr('rel');
 			$('.action.atom .button.active').removeClass('active');
 			
-			if(atom == 'Off')
+			switch(atom)
 			{
-				//jmolScript('set atompicking false;');
-				//jmolScript("set minimizationRefresh false;set useMinimizationThread false");
-				//jmolScript("set picking dragmolecule;");
-				//jmolScript('set picking off');
-				jmolScript('set atomPicking off');
-			}
-			else
-			{
-				jmolScript('set picking assignAtom_'+atom);
-				$(this).addClass('active');
+				case 'off':
+					jmolScript('set atomPicking off');
+					break;
+				case 'dra':
+					jmolScript("set minimizationRefresh false;set useMinimizationThread false");
+					jmolScript("set picking dragmolecule;");
+					$(this).addClass('active');
+					break;
+				default:
+					jmolScript('set picking assignAtom_'+atom);
+					$(this).addClass('active');
 			}
 			
-			
+			//jmolScript('set atompicking false;');
+			//jmolScript("set minimizationRefresh false;set useMinimizationThread false");
+			//jmolScript("set picking dragmolecule;");
+			//jmolScript('set picking off');
+
+
 			return false;
 		});
 		
