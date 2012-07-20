@@ -1,10 +1,3 @@
-/**
- * 
- * GOBI
- * GAMESS and ObenBAbel Interface
- * 
- */
-$(function(){
 
 
 		
@@ -26,120 +19,115 @@ $(function(){
 	
 	// TODO MOVE BUTTONS TO SEPERATE JS FOR SPECIFIC PAGE
 	
+		// Common Block
+		
+$(function()
+{
+	
+	var ajaxarea = $('.ajaxarea');
+	
 	/**
-	 *  BUTTON LIST
+	 * Prompt gives the user a prompt message to respond too.
+	 * 
+	 * @param message	The Message to prompt the user.
+	 * @param responds	The actions the user can take.
 	 */
+	function xprompt(message,responds,title,classes)
+	{
 		
-		function runJmolCommand(cmd) 
-		{
-			// Save State
-			
-			jmolScript(cmd);
-		}
-		 
-		/*
-		 * Set Bond Type
-		 */
-		$('.action.bond .button').click(function() 
-		{	
-			var bond = $(this).attr('rel');
-			
-			$('.action.bond .button.active').removeClass('active');
-			
-			if(bond == 'n') 
-			{
-				jmolScript('set bondpicking false;');
-			}
-			else
-			{
-				jmolScript('set picking assignBond_'+bond+';');
-				$(this).addClass('active');
-			}
+		// Define body
+		var background 	= $('<div class="prompt-container"></div>');
+		var box 	    		= $('<div class="prompt-box '+classes+'"></div>');
+		var boxHeader  	= $('<div class="prompt-header"><strong>'+title+'</strong></div>');
+		var boxMessage 	= $('<div class="prompt-message"></div>');
+		var boxFooter 		= $('<div class="prompt-respond"></div>');
+		
+		// Insert Variable
+		boxMessage.append(message);
+		boxFooter.append(responds);
+		boxFooter.append('<div class="clean"></div>');
+		
+		// Filling
+		var html = box;
+		
+		html.append(boxHeader);
+		html.append(boxMessage);
+		html.append(boxFooter);
+		
+		html = background.append(html);
 
-			return false;	
-		});
-				
-		/*
-		 * Add Atom
-		 */
-		$('.action.atom .button').click(function() 
-		{
-			var atom = $(this).attr('rel');
-			$('.action.atom .button.active').removeClass('active');
-			
-			switch(atom)
-			{
-				case 'off':
-					jmolScript('set atomPicking off');
-					break;
-				case 'dra':
-					jmolScript("set minimizationRefresh false;set useMinimizationThread false");
-					jmolScript("set picking dragmolecule;");
-					$(this).addClass('active');
-					break;
-				default:
-					jmolScript('set picking assignAtom_'+atom);
-					$(this).addClass('active');
-			}
-			
-			//jmolScript('set atompicking false;');
-			//jmolScript("set minimizationRefresh false;set useMinimizationThread false");
-			//jmolScript("set picking dragmolecule;");
-			//jmolScript('set picking off');
+		ajaxarea
+			.show()
+			.html(html);
 
-
-			return false;
+	}
+	
+	function xpromptCancel()
+	{
+		ajaxarea.fadeOut(200);
+		
+	}
+	
+	/**
+	 * Prompt gives the user a prompt message to respond too.
+	 * 
+	 * @param message	The Message to prompt the user.
+	 */
+	function xerrorPrompt(message)
+	{
+		
+		var respond = $('<a class="button okay">Modtaget</a>');
+		
+		respond.click(function() {
+			promptCancel();
 		});
 		
-		/*
-		 * Undo last action
-		 */
-		$('.action.undo .button').click(function () 
-		{
-			// TODO Load saved structure
-			
-			
+		respond = $('<li></li>').append(respond);
+		respond = $('<ul></ul>').append(respond);
+		
+		xprompt(message,respond,'Fejl Meddelse','error');
+		
+	}
+	
+	/**
+	 * Prompt gives the user a prompt message to respond too.
+	 * 
+	 * @param message	The Message to prompt the user.
+	 */
+	function xinfoPrompt(message)
+	{
+		
+		var respond = $('<a class="button okay">Modtaget</a>');
+		
+		respond.click(function() {
+			promptCancel();
 		});
 		
-		/*
-		 * Undo last action
-		 */
-		$('.action.minimize .button').click(function () 
-		{
-			jmolScript('minimize');
-			return false;
-		});
-
-		/*
-		 * Picture Time
-		 */
-		$('.action.pic .button').click(function() 
-		{
-
-				var rel = $(this).attr('rel');
-				var $imgCnt = $('.note.picture');
-				var imgStr;
-				
-				if(rel == '3d')
-				{
-					imgStr = "data:image/jpeg;base64,";
-					imgStr = imgStr + jmolGetPropertyAsString("image", "all");
-				}
-				else 
-				{
-					// http://cactus.nci.nih.gov/ - CADD Group Chemoinformatics Tools and User Services
-					//alert( jmolEvaluate("{*}.length") ); // Length of molecule
-
-					jmolSmiles = jmolEvaluate("{*}.find('SMILES')");
-					
-					imgStr = 'http://cactus.nci.nih.gov/chemical/structure?string=';
-					imgStr = imgStr + jmolSmiles;
-					imgStr = imgStr + '&representation=image';					
-				}
-				
-				$imgCnt.prepend('<a class="picture" href="'+imgStr+'" target="_blank"><img src="'+imgStr+'" /></a>');
-				
-				
-		});
-
+		
+		respond = $('<li></li>').append(respond);
+		respond = $('<ul></ul>').append(respond);
+		
+		xprompt(message,respond,'&nbsp;','info');
+		
+	}
+	
+	/**
+	 * Make it global
+	 */
+	jQuery.infoPrompt = function infoPrompt(msg)
+	{
+		xinfoPrompt(msg);
+	}
+	
+	jQuery.prompt = function prompt(message,respond,title,classes)
+	{
+		xprompt(message,respond,title,classes);
+	}
+	jQuery.promptCancel = function promptCancel()
+	{
+		xpromptCancel();
+	}
+	
+	
 });
+

@@ -4,6 +4,8 @@
 		<!-- PAGE -->
 		<section class="threecolumn">
 			
+			<h1>Molecule Editor</h1>
+			
 			<section class="column alpha">
 				
 	
@@ -16,6 +18,8 @@
 						<h3>Structure Tools</h3>
 						<div class="actions">
 							<ul>
+								<li class="action load">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Load state from cookie</span></span>	<span class="text">Load</span></a></li>
+								<li class="action save">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Save state in cookie</span></span>	<span class="text">Save</span></a></li>
 								<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>
 								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry using UFF forcefield.</span></span><span class="text">Minimize</span></a></li>
 							</ul>
@@ -92,14 +96,6 @@
 						
 
 
-						<h3>Tools</h3>
-						<div class="actions">
-							<ul>
-								<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>
-								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry using some forcefield.</span></span><span class="text">Minimize</span></a></li>
-							</ul>
-							<div class="clean"></div>
-						</div>
 
 
 						<h3>Picture</h3>
