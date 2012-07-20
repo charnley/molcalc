@@ -48,11 +48,11 @@
 						<h3>Bonds</h3>
 						<div class="actions">
 							<ul>
-								<li class="action bond"><a rel="n" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Turn off bond editing</span></span><span class="text">Off</span></a></li>
-								<li class="action bond"><a rel="0" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Break bond</span></span><span class="text">Break</span></a></li>
-								<li class="action bond"><a rel="1" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Single</span></a></li>
-								<li class="action bond"><a rel="2" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Double</span></a></li>
-								<li class="action bond"><a rel="3" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Triple</span></a></li>
+								<li class="action bond"><a rel="n" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Turn off bond editing</span></span><span class="text">Off</span></a></li>
+								<li class="action bond"><a rel="0" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Break bond</span></span><span class="text">Break</span></a></li>
+								<li class="action bond"><a rel="1" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Single</span></a></li>
+								<li class="action bond"><a rel="2" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Double</span></a></li>
+								<li class="action bond"><a rel="3" href="#" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Change Bond type</span></span><span class="text">Triple</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
