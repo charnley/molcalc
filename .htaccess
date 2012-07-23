@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Rewrite url for parameters, and keep GET query string
+
+
+RewriteRule ^calculation/([^/\.]+)$ index.php?p=calculation&m=$1&%{QUERY_STRING} [L] 
+RewriteRule ^([^/\.]+)$ index.php?p=$1&%{QUERY_STRING} [L] 
+
+	
+
+
+
+
+
