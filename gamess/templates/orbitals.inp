@@ -1,0 +1,11 @@
+!   Template for GOBI
+!   Calculate the heat of formation
+!   using semi-emperical method.
+ $BASIS GBASIS=AM1 $END
+ $CONTRL SCFTYP=RHF RUNTYP=ENERGY $END
+
+ $DATA 
+Title
+C1
+[%ATOMS%]
+ $END

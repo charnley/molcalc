@@ -142,10 +142,10 @@ $(function(){
 		$('.actions.calculation .button').click(function() 
 		{
 			
-			var message = '<p>Are you sure? You wont be able to edit the molecule beyong this point.</p><p>Coordinates:</p>';
+			var message = '<p>Are you sure? You wont be able to edit the molecule beyond this point.</p>';
 			
 			var yes = $('<a class="button okay">Yes, I\'m sure</a>');
-			var no = $('<a class="button okay">No, wait. Cancel.</a>');
+			var no = $('<a class="button okay">No, wait</a>');
 			
 			// TODO
 			// Check molecule size
@@ -195,7 +195,7 @@ $(function(){
 			respond.append(yes);
 			respond.append(no);
 
-			$.prompt(message,respond,'Preparing GAMESS Calculation','calculate');
+			$.prompt(message,respond,'Calculation','calculate');
 			
 			return false;
 		});

@@ -11,7 +11,7 @@
 	
 	function curPageURL() 
 	{
-		return 'http://'.$_SERVER["SERVER_NAME"].'/dgu/gobi/interface';
+		return 'http://'.$_SERVER["SERVER_NAME"].'/sites/gobi';
 	}
 	
 	$root = curPageURL();

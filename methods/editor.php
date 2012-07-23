@@ -146,6 +146,7 @@ message command
 						// Initialize jMol
 						jmolInitialize("script/jmol");
 						jmolCheckBrowser("popup", "browsercheck", "onClick");
+            jmolSetAppletColor('#FFFFFF');
 					</script>
 				</div>
 				<div class="canvas">

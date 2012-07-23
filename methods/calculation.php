@@ -51,7 +51,9 @@
 	if(isset($_GET['m'])):
 		$molid = $_GET['m'];
 ?>
-
+    <script>
+      var molid = '<?php print $molid ?>';
+    </script>
 		
 		<section class="twocolumn calculate">
 			
@@ -130,6 +132,9 @@ message command
 							</ul>
 							<div class="clean"></div>
 						</div>
+            <div class="note">
+              <p>Problem understanding the result? See <a href="#">understanding results</a> for a quick explanation, and a guide to courses/books</p>
+            </div>
 					</div>
 					
 					<div class="category wavefunction">
@@ -152,12 +157,13 @@ message command
 						// Initialize jMol
 						jmolInitialize("script/jmol");
 						jmolCheckBrowser("popup", "browsercheck", "onClick");
+            jmolSetAppletColor('#F7F7F7');
+            jmolSetAppletColor('#FFFFFF');
 					</script>
 				</div>
 				<div class="canvas">
 					<script>
-						//jmolApplet(560);
-						jmolApplet(560, "load /dgu/gobi/interface/data/<?php print $molid ?>/coordinates.xyz");
+						jmolApplet(560, "load /sites/gobi/data/<?php print $molid ?>/coordinates.xyz");
 					</script>
 				</div>
 			</section><!-- beta -->
