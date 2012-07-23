@@ -1,0 +1,12 @@
+
+# Mac Files
+.DS_Store
+
+# Swap files
+*~
+*.swp
+
+# Data Folder
+data/**/*
+
+
