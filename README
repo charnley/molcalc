@@ -1,10 +1,53 @@
 
+HELLO WORLD!
 
-NEW MODULES
-If you want to add modules to the system put them
-in the /modules/ folder, and follow the syntax of the other pages.
+core by:
+jimmy@charnley.dk
+jhjensen@ki.ku.dk
 
-Dont screw it up.
+FAQ
+1) Insert New Page
+2) Insert New Calculation Type
+3) Add Jmol funcionalities to the Editor
+
+
+#1 INSERT NEW PAGE
+
+  Put a page with pagename.php in methods/
+  it will then be loaded with /pagename
+
+
+
+#2 INSERT A NEW CALCULATION TYPE
+  
+  You need to create several files.
+  For example, for a new calculation 'CALX',
+  you need to generate:
+
+  # GAMESS Input Header
+  gamess/templates/clax.inp
+
+  # GAMESS result viewer
+  gamess/process/clax.php
+
+  Which will be used by 
+  methods/calculation.php and 
+  gamess/treatment.php
+
+
+#3 JMOL INTRODUCTION
+  
+  Jmol is integrated in jquery .click()'s 
+  if you want to expand functionalities with 
+  jmol, just create a new button and use jmolScript()
+  to issue a command. Commands from version 12 can 
+  be found in:
+
+  http://chemapps.stolaf.edu/jmol/docs/
+
+  Good luck!
+
+
 
 
 

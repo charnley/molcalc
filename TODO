@@ -1,15 +1,30 @@
 
+# EDITOR
+#  DONE Drag Atom
+  TODO Load
+    Water
+    Methan
+    Ethanol
+    Ethan
+    Ethen
+#  DONE Auto Minimize when adding atoms, charge and bonds
+
+# Check (fra editor til calculation):
+TODO Hent alle kerneladninger + totale ladning
+TODO LIGE ANTAL ELEKTRONER!
+
+
+# Heat of Formation
+#DONE Show HOF in jmol interface
+#DONE Show HOF in kJOULE/mol
+
+# INPUT
+TODO Vibration Energier
+     DONE Virations via PM3 (også HOF)
+     DONE Show Arrows on/off (for picture)
+     DONE vib: 50 skridt før vib-udregning
 
 
 
-Noter:
 
-  Increase, Decrease charge on atom
-  Drag Atom
-
-
-
-- Calculate wavefunction
-- PM6 - Heat of formation (example: TS calculation)
-- 
 

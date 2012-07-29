@@ -26,7 +26,11 @@
 	}
 	else
 	{
-		include_once('methods/frontpage.php');
+    // Skip frontpage and start editor right away.
+    header('location: editor');
+    
+    // Load the frontpage
+		//include_once('methods/frontpage.php');
 	}
 	
 	if(!$ajax){include_once('includes/footer.inc.php');}

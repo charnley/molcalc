@@ -18,9 +18,10 @@
 						<h3>Structure Tools</h3>
 						<div class="actions">
 							<ul>
-								<li class="action load">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Load state from cookie</span></span>	<span class="text">Load</span></a></li>
-								<li class="action save">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Save state in cookie</span></span>	<span class="text">Save</span></a></li>
-								<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>
+								<li class="action save">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Temporarily save jmol state </span></span>	<span class="text">Save</span></a></li>
+								<li class="action restore">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Restore saved state</span></span>	<span class="text">Restore</span></a></li>
+								<!--<li class="action reset">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Reset to original structure</span></span>	<span class="text">Reset</span></a></li>-->
+								<!--<li class="action undo">		<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Undo last action</span></span>	<span class="text">Undo</span></a></li>-->
 								<li class="action minimize">	<a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize Geometry using UFF forcefield.</span></span><span class="text">Minimize</span></a></li>
 							</ul>
 							<div class="clean"></div>
@@ -29,9 +30,9 @@
 						<h3>Atom Manipulation</h3>
 						<div class="actions">
 							<ul>
-								<li class="action atom remove"><a rel="off" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Turn off atom manipulation</span></span>	<span class="text">Off</span></a></li>
-								<!--<li class="action atom remove"><a rel="dra" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Drag selected atom</span></span>	<span class="text">Drag</span></a></li>-->
-								<li class="action atom remove"><a rel="x" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Remove selected atom from stucture</span></span>	<span class="text">Delete</span></a></li>
+								<li class="action atom"><a rel="off" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Turn off atom manipulation</span></span>	<span class="text">Off</span></a></li>
+								<li class="action atom"><a rel="dra" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Drag selected atom</span></span>	<span class="text">Drag</span></a></li>
+								<li class="action atom"><a rel="x" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Remove selected atom from stucture</span></span>	<span class="text">Delete</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
@@ -95,17 +96,8 @@
 					<div class="category">
 						
 						<h3>Molecule Calculator</h3>
-						<div class="note">
-							When you are done editing the molecule go to the calculation part. Remmeber to <strong>minimize geometry before submitting calculation</strong>.
-						</div>
 						<div class="actions center calculation">		
-							<a class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Calculate quantum chemical properties</span></span><span class="text">Calculate</span></a>
-						</div>
-						<div class="note">
-							Note you will not be able to edit the molecule beyond this part.
-						</div>
-						<div class="note">
-							Please read <a href="#TODO">terms for molcule calculations</a> before submitting.
+							<a class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Calculate molecule properties</span></span><span class="text">Calculate</span></a>
 						</div>
 						
 						<h3>Picture</h3>
@@ -119,8 +111,8 @@
 						<div class="note picture"></div>
 						
 						
-						<h3>Measure Tools</h3>
 						<!--
+						<h3>Measure Tools</h3>
 measure RANGE [min] [max] (atomset) (atomset) .....
 measure all
 measure allConnected
@@ -129,9 +121,6 @@ measure "some label format"
 measures off
 message command
 						-->
-						<div class="note">
-							TODO
-						</div>
 						
 					</div>
 					</div>
@@ -152,7 +141,7 @@ message command
 				<div class="canvas">
 					<script>
 						//jmolApplet(460);
-						jmolApplet(460, "load start.xyz.gz");
+						jmolApplet(460, "load molecules/methane.xyz.gz");
 					</script>
 				</div>
 				

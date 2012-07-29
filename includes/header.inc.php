@@ -4,7 +4,7 @@
 	
 	<meta charset="utf-8">
 	
-	<title>GOBI2</title>
+	<title>Molecule Calculator</title>
 	
 	<link rel="stylesheet" href="<?php print $root ?>/style/screen.css" >
 	
@@ -22,13 +22,14 @@
 	<section class="container">
 		<section class="logo">
 			<a href="<?php print $root ?>">
-				<h1>GOBI2</h1>
+				<h1>Jan Jensen's Molecule Calculator</h1>
 			</a>
 		</section>
 		<section class="navigation">
 			<ul>
-				<li><a href="<?php print $root ?>/editor">Create New</a></li>
-				<li><a href="<?php print $root ?>/calculation">Calculations</a></li>
+				<li><a href="<?php print $root ?>/editor">New Molecule</a></li>
+				<li><a href="<?php print $root ?>/calculation">History</a></li>
+				<li><a href="<?php print $root ?>/about">About</a></li>
 			</ul>
 		</section>
 	</section>

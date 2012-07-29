@@ -38,24 +38,64 @@ $(function(){
 	});
 	
 	$('.tabs a').eq(0).click();
+
+  // Vertical Tabs / Calculation Types
+  $('.category .calculationtype').each(function() 
+  {
+    var caltype = $(this).attr('rel');
+    var output =  $(this).find('.output');
+    var thistab = $(this);
+    var tabbtn = $(this).find('.cat.headlin');    
+
+    output.hide();
+    
+    tabbtn.click(function() {
+      
+      if(thistab.hasClass('active'))
+      {
+        thistab.removeClass('active');
+        output.fadeOut('fast');
+      }
+      else
+      {
+      
+        $('.calculationtype.active').removeClass('active');
+        thistab.addClass('active');
+
+        $('.calculationtype .output').hide();
+        thistab.find('.output').fadeIn('fast');
+      }
+
+      return false;
+    });
+    
+    // Calculate Input
+    thistab.find('.button.calculateInput').click(function() 
+    {
+      calculate(caltype);
+      return false;
+    });
+
+
+  });
 	
 	
 	
 	/**
 	 *  Buttons
 	 */
-
+  
   /*
-   * Orbital Calculation
+   * Calculation AJAX Function
    */
-	$('.action.electric.calculate .button').click(function() 
+	function calculate(caltype) 
 	{
 	  var message = $("<div><p>Starting a GAMESS calculation</p></div>");
 
 		message.append($('<ul></ul>'));
 
     
-		var respond = $('<a class="button okay">Cancel Calculation</a>');
+		var respond = $('<a class="button cancel">Cancel</a>');
 		
 		respond.click(function() 
     {
@@ -67,14 +107,33 @@ $(function(){
 		
     function check()
     {
+      // TODO AJAX Create Check (check if ongoing .dat file)
       usrCheck = $('<li class="check">Checking data&hellip;</li>');
       message.find('ul').append(usrCheck);
-      
-      setup();
 
-      usrCheck
-        .removeClass('loading')
-        .addClass('success');
+      $.post('gamess/check', 
+      {
+        c:caltype, 
+        m:molid, 
+        ajax:true
+      },function(data) 
+      {
+          usrCheck.removeClass('loading');
+          
+          if(data != 1)
+          {
+            usrCheck.addClass('fail');
+            message.append('<p class="fail message">'+data+'</p>');
+          }
+          else
+          {
+            usrCheck.addClass('success');
+            
+            // Go the next part
+            setup();
+          }
+      });
+
     }
 
     function setup()
@@ -85,7 +144,7 @@ $(function(){
       
       $.post('gamess/setup', 
       {
-        c:'motype', 
+        c:caltype, 
         m:molid, 
         ajax:true
       },function(data) 
@@ -112,7 +171,7 @@ $(function(){
       message.find('ul').append(usrHandle);
       $.post('gamess/handle', 
       {
-        c:'motype', 
+        c:caltype, 
         m:molid, 
         ajax:true
       },function(data) 
@@ -140,7 +199,7 @@ $(function(){
       
       $.post('gamess/treatment', 
       {
-        c:'motype', 
+        c:caltype, 
         m:molid, 
         ajax:true
       },function(data) 
@@ -153,25 +212,40 @@ $(function(){
           }
           else
           {
-            
             usrProces.addClass('success');
-            
-            // Process Done See Results
-            respond.find('.cancel').hide();
-            var newrespond = $('<a href="#" class="button">See Results</a>');
-            newrespond.click(function() 
-            {
-              
-              // TODO Remove current calculation button
-              // TODO Get data
-              
-              $.promptCancel();
-              return false;
-            });
-
-            respond.append($('<li></li>').append(newrespond));
-            
           }
+
+          // Process Done See Results
+          respond.find('.cancel').hide();
+          var newrespond = $('<a href="#" class="button">See Results</a>');
+          newrespond.click(function() 
+          {
+            // Get the new treatment section
+            var outputSelect = '.calculationtype[rel='+caltype+'] .output';
+            /*
+            $(outputSelect).html('');
+            $(outputSelect).load('gamess/treatment',function() {
+              $(document).ready();
+              $.promptCancel();
+            });
+            */
+            
+            
+            $.post('gamess/treatment', 
+            {
+              c:caltype, 
+              m:molid, 
+              show:true
+             },function(data) 
+             {
+              $(outputSelect).html(data);
+              $.promptCancel();
+             });
+            
+            return false;
+          });
+
+          respond.append($('<li></li>').append(newrespond));
       });
     
     }
@@ -183,8 +257,19 @@ $(function(){
 		
     check();
 
-	});
+	}
 	
+  $('.button.loadInpMol').click(function() {
+			jmolScript("load data/"+molid+"/coordinates.xyz");
+      return false;
+  });
+
+  $('a.loadResult').bind("click",
+  function() {
+    $('.button.loadResult.active').removeClass('active');
+    $(this).addClass('active');
+    return false;
+  });
 	
 		/*
 		 * Picture Time

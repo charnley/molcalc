@@ -31,7 +31,7 @@ mkdir($molFolder.$calType);
 
 chdir($molFolder);
 
-$output = shell_exec('babel -xf ../../gamess/templates/heat.inp -ixyz coordinates.xyz -ogamin '.$calType.'/'.$molId.'.inp');
+$output = shell_exec('babel -xf ../../gamess/templates/'.$calType.'.inp -ixyz coordinates.xyz -ogamin '.$calType.'/'.$molId.'.inp');
 
 
 
