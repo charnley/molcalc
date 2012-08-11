@@ -1,5 +1,5 @@
 ! Vibration calculation after a 30 step 
 ! geometry optimisation via PM3
  $basis gbasis=pm3 $end
- $contrl runtyp=optimize $end
+ $contrl icharg=0 runtyp=optimize $end
  $statpt hssend=.t. $end

@@ -1,28 +1,22 @@
 
 # EDITOR
-#  DONE Drag Atom
   TODO Load
     Water
     Methan
     Ethanol
     Ethan
     Ethen
-#  DONE Auto Minimize when adding atoms, charge and bonds
+   TODO jeg synes vi skal tillade op til 10 ikke-H atomer.
+
 
 # Check (fra editor til calculation):
 TODO Hent alle kerneladninger + totale ladning
 TODO LIGE ANTAL ELEKTRONER!
 
-
-# Heat of Formation
-#DONE Show HOF in jmol interface
-#DONE Show HOF in kJOULE/mol
-
-# INPUT
-TODO Vibration Energier
-     DONE Virations via PM3 (også HOF)
-     DONE Show Arrows on/off (for picture)
-     DONE vib: 50 skridt før vib-udregning
+# VIBRATION
+     TODO  For ulineære molekyler skal du ikke vise de første 6 vibrationer.  For lineære molekyler skal du ikke vise de første 5 vibrationer.  GAMESS vil skrive om det er lineært i output filen.
+     TODO Istedet for mode X skriv bølgetallet for vibrationen: e.g. 1362 cm^{-1}.  Ligesom orbitalerne er angivet ifølge deres orbital energi.
+     TODO Det skal fremgå fra vinduet hvilken vibration du viser, dvs hvilken bølgetal.
 
 
 

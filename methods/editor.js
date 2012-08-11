@@ -1,10 +1,33 @@
+/**********************************************************************
+editor.js
+
+Copyright (C) 2012 Jimmy Charnley Kromann, DGU
+
+This file is part of the FragIt project.
+
+FragIt is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+FragIt is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+02110-1301, USA.
+***********************************************************************/
 $(function(){
 	
 
 if($.browser.webkit)
 {
-  alert('The molecule editor is completely buggy in Chrome and Safari. Please use firefox! If you use Chrome, the molecule wont save.');  
+  //alert('The molecule editor is completely buggy in Chrome and Safari. Please use firefox! If you use Chrome, the molecule wont save.');  
 }
+
 
 
 	/**
@@ -21,10 +44,11 @@ if($.browser.webkit)
     /**
      * Auto Miminimze
      */
-		jmolScript('set useMinimizationThread on'); // FALSE or ON
+		//jmolScript('set useMinimizationThread on'); // FALSE or ON
     $('.canvas').mouseout(function() {
       jmolScript('minimize');
     });
+    /* */
 	  
     /*
      * Reset Molcule
@@ -80,22 +104,21 @@ if($.browser.webkit)
 		 */
 		$('.action.atom .button').click(function() 
 		{
-			jmolScript('set useMinimizationThread on'); // FALSE or ON
-
+			//jmolScript('set useMinimizationThread on'); // FALSE or ON
 			var atom = $(this).attr('rel');
 			$('.action.atom .button.active').removeClass('active');
-			
+      
+      /* */
 			switch(atom)
 			{
 				case 'off':
 					jmolScript('set atomPicking off');
 					break;
 				case 'dra':
-					// TODO 
-          /*
-          set allowMoveAtoms FALSE
-          Set this parameter TRUE to allow the moving of selected atoms (not just whole molecules) using ALT-LEFT drag and ALT-SHIFT-LEFT drag.
-          */
+          
+          //set allowMoveAtoms FALSE
+          //Set this parameter TRUE to allow the moving of selected atoms (not just whole molecules) using ALT-LEFT drag and ALT-SHIFT-LEFT drag.
+          
 					jmolScript('set atomPicking on');
           jmolScript('set picking dragMinimize'); // on off
           //jmolScript('set picking dragAtom'); // on off
@@ -107,6 +130,7 @@ if($.browser.webkit)
 					jmolScript('set picking assignAtom_'+atom);
 					$(this).addClass('active');
 			}
+      /* */
 			
 			//notes:
 			//jmolScript('set atompicking false;');
@@ -198,16 +222,22 @@ if($.browser.webkit)
 					{ atoms: coordinates, ajax: true},
 					function(data) {
             $.infoPrompt(data);
-						if(data != 0)
+						if(data.length == 32)
 						{
+              //  Check length of data too make sure it is a hash
+							$.infoPrompt(data);
+
 							url = window.location.href.replace('editor','calculation?m='+data);
-							//console.log(url);
 							window.location = url;
 						}
-						else
+						else if(data == 0)
 						{
-							$.infoPrompt('Invalid molecule submitted. Please read terms for molcule calculations.');
+							$.infoPrompt('Invalid molecule submitted.');
 						}
+            else
+            {
+              $.infoPrompt(data);
+            }
 					}
 				);
 			});
@@ -221,6 +251,7 @@ if($.browser.webkit)
 
 			$.prompt(message,respond,'Calculation','calculate');
 			
+
       // ERROR (In Chrome)
       if(coordinates.indexOf("ERROR") != -1 )
       {
@@ -229,11 +260,19 @@ if($.browser.webkit)
       }
 
       // Check Molecule size. Maybe find \n in file?
-      if(coordinates.match(/\n/g).length > (2+100))
+      var atoms = coordinates.match(/\n/g).length-2;
+      var hydrogens = coordinates.match(/\nH[^e]/g).length;
+      if(atoms-hydrogens > 10)
       {
         // TODO Check kun for non Hydrogen atoms.
-        $.infoPrompt("You have too many atoms in your molecule. Restrict yourself to 10 atoms.");
+        $.infoPrompt("Your molcule is too complex. Restrict yourself to 10 non-hydrogen atoms.");
+        return false;
       }
+
+      // Check charge setup
+      //var molecule = jmolScript('getProperty extractModel');
+      //$.infoPrompt(molecule);
+      
 
       
 

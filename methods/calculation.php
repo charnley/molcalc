@@ -1,4 +1,26 @@
 <?php
+/**********************************************************************
+calculation.php
+
+Copyright (C) 2012 Jimmy Charnley Kromann, DGU
+
+This file is part of the FragIt project.
+
+FragIt is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+FragIt is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+02110-1301, USA.
+***********************************************************************/
 	
 	$datafolder;
 	$molId;
@@ -29,12 +51,15 @@
 			mkdir('data/'.$molId);
 			
 			// Generate XYZ File
-
 			$xyzfile = "coordinates.xyz";
 			$fh = fopen($dataFolder.$xyzfile.'.tmp','w');
 			fwrite($fh, $filestring);
 			fclose($fh);
+      
+      // Check molecule
+      include('includes/checkmolc.inc.php');
 
+      // Minimize geometry and Save coordinates
       include('includes/minimizeandsave.inc.php');
 		}
 		
@@ -80,7 +105,7 @@
             $calculations = array(
               'heat' => 'Heat of Formation Calculation',
               'orbitals' => 'Molecular Orbital Calculation',
-              'vibrations' => 'Vibrational Energy Calculation'
+              'vibrations' => 'Vibrational Frequency Calculation'
             );
           ?>
 					<div class="category">
@@ -153,7 +178,7 @@
 				</div>
 				<div class="canvas">
 					<script>
-						jmolApplet(560, "load /sites/gobi/data/<?php print $molId ?>/coordinates.xyz");
+						jmolApplet(560, "load data/<?php print $molId ?>/coordinates.xyz");
 					</script>
 				</div>
 			</section><!-- beta -->

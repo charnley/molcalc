@@ -11,7 +11,7 @@
 	
 	function curPageURL() 
 	{
-		return 'http://'.$_SERVER["SERVER_NAME"].'/sites/gobi';
+		return 'http://'.$_SERVER["SERVER_NAME"].'/molcalc';
 	}
 	
 	$root = curPageURL();
