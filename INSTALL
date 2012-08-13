@@ -5,6 +5,10 @@ INSTALLATION
   cp default.settings.php to settings.php
   and change settings to fit your system.
 
+  Crate the folder 'data' in molcalc root
+  folder and remmeber to give the www-data
+  user read write permission to that folder.
+
   And I think that's it, please
   let me know if it is not.
   
