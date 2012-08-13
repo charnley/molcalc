@@ -1,24 +1,8 @@
-
 # EDITOR
-  TODO Load
+  TODO Load command
     Water
     Methan
     Ethanol
     Ethan
     Ethen
-   TODO jeg synes vi skal tillade op til 10 ikke-H atomer.
-
-
-# Check (fra editor til calculation):
-TODO Hent alle kerneladninger + totale ladning
-TODO LIGE ANTAL ELEKTRONER!
-
-# VIBRATION
-     TODO  For ulineære molekyler skal du ikke vise de første 6 vibrationer.  For lineære molekyler skal du ikke vise de første 5 vibrationer.  GAMESS vil skrive om det er lineært i output filen.
-     TODO Istedet for mode X skriv bølgetallet for vibrationen: e.g. 1362 cm^{-1}.  Ligesom orbitalerne er angivet ifølge deres orbital energi.
-     TODO Det skal fremgå fra vinduet hvilken vibration du viser, dvs hvilken bølgetal.
-
-
-
-
 

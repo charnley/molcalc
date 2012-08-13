@@ -1,6 +1,6 @@
 <?php
 /**********************************************************************
-minimizeandsave.inc.php
+settings.php
 
 Copyright (C) 2012 Jimmy Charnley Kromann, DGU
 
@@ -21,32 +21,28 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 02110-1301, USA.
 ***********************************************************************/
-  /**
-   * TODO Maybe some notes
+  
+  /*
+   * Settings Array
+   *
+   * - $settings['gamess']['rungms'] -
+   * String containing absolute path to the rungms shell
+   * script located in the GAMESS folder.
+   *
+   * - $settings['server']['root']
+   * String containg the server root from public view
+   * eg http://dgu.ki.ku.dk/molcalc
+   * without following slash
    *
    */
 
-  // Variables:
-  // $molId  - the MD5 hash of the molecule
-  // $molec_charge - The charge of the molecule
+  $settings = array(
+    'gamess' => array (
+      'rungms' => '/opt/gamess/rungms'
+    ),
+    'server' => array (
+      'root' => 'http://'.$_SERVER["SERVER_NAME"].'/molcalc'
+    )
+  );
 
-  // CHECK INPUT
- //LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib python molecule_charge.py q coordinates.xyz
 
-  // LET'S GO!
-  $root = '';
-  $molFolder = $root.'data/'.$molId;
-
-  // SETUP INPUT
-  
-  // EXECUTE GAMESS
-  $rungms = $settings['gamess']['rungms'];
-  $cmd = $rungms.' '.$molId.'.inp > gamess.log';
-  chdir($molFolder);
-  shell_exec('babel -xf ../../includes/minimize.inp -ixyz coordinates.xyz.tmp -ogamin '.$molId.'.inp');
-  shell_exec('sed -i "s/icharg=0/icharg='.intval($molec_charge).'/" *.inp');
-  shell_exec($cmd);
-
-  // EXPORT OUTPUT
-  shell_exec('babel -igamess gamess.log -oxyz coordinates.xyz');
-  

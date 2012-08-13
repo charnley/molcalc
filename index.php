@@ -1,21 +1,14 @@
 <?php
+	include_once('settings.php');
+
+  // Is this a ajax call? 
+	if(isset($_POST['ajax']))	{	$ajax = true;	} else { $ajax = false; }
 	
-	if(isset($_POST['ajax']))
-	{
-		$ajax = true;
-	}
-	else
-	{
-		$ajax = false;
-	}
+  // Get root
+	$root = $settings['server']['root'];
 	
-	function curPageURL() 
-	{
-		return 'http://'.$_SERVER["SERVER_NAME"].'/molcalc';
-	}
-	
-	$root = curPageURL();
-	
+
+
 	if(isset($_GET['p'])) $view = $_GET['p'];
 	
 	if(!$ajax){ include_once('includes/header.inc.php');}

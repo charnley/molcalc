@@ -1,6 +1,6 @@
 <?php
 /**********************************************************************
-minimizeandsave.inc.php
+checkmolc.inc.php
 
 Copyright (C) 2012 Jimmy Charnley Kromann, DGU
 
@@ -22,31 +22,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 02110-1301, USA.
 ***********************************************************************/
   /**
-   * TODO Maybe some notes
-   *
+   * Check molecule
+   * 
+   * Used between the editor and calculation step
    */
 
-  // Variables:
-  // $molId  - the MD5 hash of the molecule
-  // $molec_charge - The charge of the molecule
-
-  // CHECK INPUT
- //LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib python molecule_charge.py q coordinates.xyz
-
-  // LET'S GO!
-  $root = '';
-  $molFolder = $root.'data/'.$molId;
-
-  // SETUP INPUT
+  $xyzFileLocation = $dataFolder.'coordinates.xyz.tmp';
   
-  // EXECUTE GAMESS
-  $rungms = $settings['gamess']['rungms'];
-  $cmd = $rungms.' '.$molId.'.inp > gamess.log';
-  chdir($molFolder);
-  shell_exec('babel -xf ../../includes/minimize.inp -ixyz coordinates.xyz.tmp -ogamin '.$molId.'.inp');
-  shell_exec('sed -i "s/icharg=0/icharg='.intval($molec_charge).'/" *.inp');
-  shell_exec($cmd);
+  $checkcmd = "LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib python python/molecule_charge.py";
 
-  // EXPORT OUTPUT
-  shell_exec('babel -igamess gamess.log -oxyz coordinates.xyz');
+  $molec_charge = shell_exec($checkcmd.' q '.$xyzFileLocation);
+  $core_charges = shell_exec($checkcmd.' z '.$xyzFileLocation);
+
+  if($odd = ($core_charges - $molec_charge)%2) 
+  {
+    // Print Error Message
+    print "Your current molecule has an odd number of electrons.  MolCalc only works for molecules with all doubly occupied orbitals.";  
+    
+    // CleanUp HASH Files
+    shell_exec('rm -r '.$dataFolder);
+
+    // Exit
+    exit();
+  }
   
+  // Write molecule charge to file
+  $fh = fopen($dataFolder.'charge','w');
+  fwrite($fh, intval($molec_charge));
+  fclose($fh);
+

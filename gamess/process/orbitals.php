@@ -4,14 +4,14 @@ orbitals.php
 
 Copyright (C) 2012 Jimmy Charnley Kromann, DGU
 
-This file is part of the FragIt project.
+This file is part of the MolCalc project.
 
-FragIt is free software; you can redistribute it and/or modify
+MolCalc is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
 
-FragIt is distributed in the hope that it will be useful,
+MolCalc is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -87,7 +87,7 @@ $(function()
   // Load Results File
   $('.button.loadOrbitalResults').click(function() {
     jmolScript('load data/<?php print $moli ?>/orbitals/results.log');
-    jmolScript('set echo top left');
+    jmolScript('set echo top right');
     jmolScript('color echo black');
     jmolScript('echo "Molecular Orbitals"');
     return false;

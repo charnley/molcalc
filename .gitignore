@@ -9,4 +9,6 @@
 # Data Folder
 data/**/*
 
+# Settings
+settings.php
 
