@@ -1,5 +1,29 @@
-core by:
-jimmy@charnley.dk
+Hosted at http://dgu.ki.ku.dk/molcalc
+
+*What is MolCalc?
+MolCalc is a web interface that allows anyone to build 
+small molecules  and estimate molecular properties such as molecular structure, heats of formation, vibrational frequencies and vibrational modes, and molecular orbitals and orbital energies in a matter of seconds or minutes - depending on the size.
+
+MolCalc is designed for teaching as opposed to research - specifically for assignments in which students build their own molecules and estimate their own molecular properties. MolCalc is designed to run fast and therefore estimated molecular properties will not match experimental values exactly, and in some cases be quite different. The idea is to have students develop a “chemical intuition” about how molecular structure affects molecular properties, without performing the underlying calculations by hand (which would be near impossible for all but the simplest chemical systems).
+
+*How can I use MolCalc in teaching?
+Just like a pocket calculator or a symbolic math program (such as Mathematica or MAPLE), MolCalc allows one to assign “higher level” chemical problems, that are not practically possible to solve previously.
+
+For example, one might now ask students to compute the effect of a substituent on a particular vibration, and then rationalize it using molecular orbitals. Or one might ask more open ended questions such as “build a molecule with an unusually long C-C single bond”.
+
+*How does MolCalc work?
+In the Molecule Editor page the molecular structure is build using Jmol and energy minimized using the UFF force field as implemented in Jmol.
+
+In the Molecule Calculator page the structure is re-optimized at the PM3 level of theory for a maximum of 50 steps. This structure is then used to compute the heat of formation or vibrational frequencies at the PM3 level of theory, or the molecular orbitals using the RHF/STO-3G level of theory. These calculations are performed with the GAMESS program. OpenBabel is used to manage input files and coordinate files.
+
+*Can I modify and/or install MolCalc on my own server?
+Yes, MolCalc is distributed through github under the GPL license (https://github.com/charnley/molcalc). You must obtain a copy of the GAMESS code separately from http://www.msg.ameslab.gov/gamess/download.html
+
+The interface code uses PHP5, jQuery, HTML5, and CSS3 and is very modular. It therefore quite easy to add new capabilities to MolCalc.
+
+*Who is involved with MolCalc?
+MolCalc 1.0 is written by Jimmy Charnley Kromann based on an idea by Jan Jensen. Toke Fritzemeier wrote an early prototype. The development of MolCalc is supported by the University of Copenhagen through the Education at its Best initiative (Den gode uddannelse).
+
 
 FAQ
 #1 - Insert New Page
@@ -49,8 +73,5 @@ FAQ
   http://chemapps.stolaf.edu/jmol/docs/
 
   Good luck!
-
-
-
 
 

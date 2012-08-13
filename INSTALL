@@ -1,17 +1,39 @@
 
 INSTALLATION
 
-  Copy and paste everything to a php-host
+  1) Copy and paste everything to a php-host
   cp default.settings.php to settings.php
   and change settings to fit your system.
-
-  Crate the folder 'data' in molcalc root
+  
+  2) Crate the folder 'data' in molcalc root
   folder and remmeber to give the www-data
   user read write permission to that folder.
+  
+  3) Check Dependency:
+
+    GAMESS
+      http://www.msg.ameslab.gov/gamess/
+
+    Python2.7
+      http://www.python.org/getit/releases/2.7/
+
+    OpenBabel
+      with Python Binding (important)
+      see http://openbabel.org/docs/2.3.1/UseTheLibrary/PythonInstall.html
+
+
+  -----------------------------------------------
+
+    
+  Note: Alot of shell command are used, and this
+  is not tested on a windows server. But I assume
+  most people are using a linux server anyway.
 
   And I think that's it, please
   let me know if it is not.
   
+  Best Regards
+
   Jimmy Charnley
   jimmy@charnley.dk
   jimmy.charnley.dk
