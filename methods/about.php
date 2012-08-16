@@ -31,6 +31,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
     <article class="text" style="margin:0 400px 0 10px;">
 
 
+<br />
+<iframe width="640" height="480" src="http://www.youtube.com/embed/ahJ83pu7HVY?rel=0" frameborder="0" allowfullscreen></iframe>
+
+<br />
 
 
 <strong>What is MolCalc?</strong>
@@ -73,7 +77,7 @@ In the Molecule Editor page the molecular structure is build using Jmol and ener
 </p>
 <strong>Who is involved with MolCalc?</strong>
 <p>
-  MolCalc 1.0 is written by Jimmy Charnley Kromann based on an idea by Jan Jensen. Toke Fritzemeier wrote an early prototype.  The development of MolCalc is supported by the University of Copenhagen through the Education at its Best initiative (Den gode uddannelse).
+  MolCalc 1.0 is written by <a href="http://jimmy.charnley.dk">Jimmy Charnley Kromann</a> based on an idea by <a href="http://molecularmodelingbasics.blogspot.dk/">Jan Jensen</a>. Toke Fritzemeier wrote an early prototype.  The development of MolCalc is supported by the University of Copenhagen through the Education at its Best initiative (Den gode uddannelse).
 </p>
 
 

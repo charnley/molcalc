@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 						<div class="actions atoms">
 							<ul>
 								<li class="action atom"><a rel="H"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Hydrogen</span></span><span class="text">H</span></a></li>
-								<li class="action atom"><a rel="He" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Helium</span></span><span class="text">He</span></a></li>
+<!--								<li class="action atom"><a rel="He" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Helium</span></span><span class="text">He</span></a></li>-->
 								<li class="action atom"><a rel="Li" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Lithium</span></span><span class="text">Li</span></a></li>
 								<li class="action atom"><a rel="Be" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Beryllium</span></span><span class="text">Be</span></a></li>
 								<li class="action atom"><a rel="B"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Boron</span></span><span class="text">B</span></a></li>
