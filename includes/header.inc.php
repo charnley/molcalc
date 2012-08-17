@@ -32,6 +32,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 	
 	<link rel="stylesheet" href="<?php print $root ?>/style/screen.css" >
 	
+
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<link rel="stylesheet" href="/sites/all/themes/rsldc2012/style/screenIE7.css">
+		<![endif]-->
 	<script type="text/javascript" src="<?php print $root ?>/script/jmol/Jmol.js"></script>
 	<script type="text/javascript" src="<?php print $root ?>/script/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="<?php print $root ?>/script/gobi_main.js"></script>
