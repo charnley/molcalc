@@ -197,18 +197,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 	
 	<?php
 		$calculations = scandir('data');
-	?>	
+	?>
+  <div class="molcalc_histlist">
 	<ul>
 	<?php foreach($calculations as $calculation): ?>
 		
 		<?php
-			if($calculation == '..' || $calculation == '.') continue;
+			if($calculation == '..' || $calculation == '.'  || $calculation == 'index.html') continue;
 		?>
 		
-		<li><a href="?m=<?php print $calculation ?>">Mol <?php print $calculation ?></a></li>
+		<li><a href="?m=<?php print $calculation ?>"><?php print $calculation ?></a></li>
 		
 	<?php endforeach ?>
 	</ul>
+  </div>
 	
 <?php endif; ?>
 	</section>

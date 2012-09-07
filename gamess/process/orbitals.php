@@ -45,7 +45,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 <br />
 <br />
 
-<div style="height:250px;overflow:auto;background:white;border:1px solid #eee;padding:0 5px;">
+<!--
+height:250px;overflow:auto;background:white;border:1px solid #eee;padding:0 5px;
+-->
+
+<div class="outputbox orbitals">
 
 <ul>
 <?php
@@ -77,7 +81,8 @@ for($k=0;$k<count($result);$k++)
 <?
 }
 ?>  
-</li>
+</ul>
+
 </div>
 
 <script type="text/javascript">
@@ -104,7 +109,4 @@ $(function()
 
 }); 
 </script>
-
-
-
 

@@ -101,7 +101,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
   </tr>
 </table>
 
-<div class="code vibrations">
+<div class="outputbox vibrations">
   <ul>
     <?php for($i = $start; $i <= count($vibs)-1; $i++ ): ?>
       <li><a href="#" class="vibration_level" rel="<?php print $i+1 ?>"><?php print $vibs[$i] ?> cm<sup>-1</sup></a></li>
