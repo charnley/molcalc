@@ -1,4 +1,5 @@
 /**********************************************************************
+
 screen.css
 
 Copyright (C) 2012 Jimmy Charnley Kromann, DGU
@@ -19,11 +20,10 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 02110-1301, USA.
+
 ***********************************************************************/
 
 /*
- * 
- * 
  * Icons:
  * 
  * try to fool around with 
@@ -31,17 +31,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * Looks like they have alot of icons.
  * What is Terms of Usage?
  * 
- * 
  */
- 
- 
+
+
 /* Reset All Style */
 @import url(reset.meyer.css);
 
 
-  ::-moz-focus-inner {border: 0;}
-	input[type=submit]:focus {outline: 0;}
-	::-webkit-input-placeholder,
+::-moz-focus-inner {border: 0;}
+ input[type=submit]:focus {outline: 0;}
+ ::-webkit-input-placeholder,
 	:-moz-placeholder {color:#999;}
 	::selection,
 	::-moz-selection {color:white;background:black;
@@ -371,7 +370,7 @@ sub{font-size:xx-small; vertical-align:bottom;display:inline-block;margin:0 0 -2
 	/*background:#333;*/
 	color:#333;
 	
-	border-width:1px;
+	border-width:0px;
 	border-color:#eee;
 	border-style:solid;
 	border-radius:2px;
@@ -421,18 +420,32 @@ sub{font-size:xx-small; vertical-align:bottom;display:inline-block;margin:0 0 -2
 .editor .category .actions li {}
 .editor .category .actions.atoms li .button {	width:17px;}
 
+
 .category .results {
   padding:0 20px 20px 20px;
 }
 .category .results ul {
-  margin:10px 0 10px 20px;
-  list-style:square;
+  margin:10px 0 10px 0;
+  
 }
 .category .results ul li {
-  line-height:27px;
+  line-height:25px;
+  margin:0 0 0 0;
+  padding:;
+  
+  background:#f7f7f7;
+  
 }
+
+.category .results ul li:nth-child(odd) {background:#fbfbfb;}
+
+.category .results ul li a {
+  display:block;
+  padding:0 10px;
+}
+
 .category .results {}
-.category .results {}
+
 
 .category .results .button {
   display:inline-block;
@@ -477,18 +490,53 @@ sub{font-size:xx-small; vertical-align:bottom;display:inline-block;margin:0 0 -2
 .category a.cat.headlin {
   display:block;
 
-  background:white;
-  padding:5px 0 5px 20px;
+  background-image:url(../images/pixelated/pixelated-dark/arrow-up-right.gif);
+  background-position:95% 50%;
+  background-repeat:no-repeat;
   
+  padding:5px 0 5px 20px;
+
   cursor:pointer;
 }
 
+.category .active a.cat.headlin {color:black;background-image:url(../images/pixelated/pixelated-dark/arrow-down-right.gif);}
 
-.category .code {}
-.category .code.vibrations {
+.category .calculationtype {    
+  background:#fff;
+  
+  margin:0 10px 10px 10px;
+  
+  border-width:1px;
+  border-color:rgba(0,0,0,0.0);
+  border-style:solid;
+  border-radius:2px;
+  
+  box-shadow:1px 1px 0px rgba(0,0,0,0.1);
+  
+    
+
+}
+
+.category .calculationtype .output {
+        
+  border-width:1px 0 0 0;
+  border-style:solid;
+  border-color:inherit;
+
+}
+
+.category .code {
   height:300px;
   overflow:auto;
 }
+.category .code.vibrations {}
+.category .code.orbitals {}
+
+.results .outputbox {
+  max-height:300px;
+  overflow:auto;
+}
+
 
 /* PAGE MODULE */
 	
@@ -531,6 +579,25 @@ sub{font-size:xx-small; vertical-align:bottom;display:inline-block;margin:0 0 -2
 		color:#fff;
 		background:#6d929b;
 	}
+
+/* history */ 
+
+.molcalc_histlist {
+  width:500px;
+}
+.molcalc_histlist ul {}
+.molcalc_histlist ul li {
+  line-height:50px;
+  background:#fff;
+}
+.molcalc_histlist ul li:nth-child(even) {background:transparent;}
+.molcalc_histlist ul li a {
+  display:block;
+  padding:0 10px;
+  
+}
+
+
 
 /* MODULES */
  /* hvrHelp */

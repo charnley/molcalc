@@ -29,19 +29,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
    * String containing absolute path to the rungms shell
    * script located in the GAMESS folder.
    *
-   * - $settings['server']['root']
-   * String containg the server root from public view
-   * eg http://dgu.ki.ku.dk/molcalc
-   * without following slash
-   *
    */
 
   $settings = array(
     'gamess' => array (
       'rungms' => '/opt/gamess/rungms'
-    ),
-    'server' => array (
-      'root' => 'http://'.$_SERVER["SERVER_NAME"].'/molcalc'
     )
   );
 
