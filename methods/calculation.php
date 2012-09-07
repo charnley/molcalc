@@ -113,8 +113,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
             <h3>Calculation</h3>
             <div class="note">
             <a href="#" class="button active loadResult loadInpMol">
-              <span class="hvrHlpCnt"><span class="hvrHlp">Load input molecule</span></span>
-              Load Molecule
+              <span class="hvrHlpCnt"><span class="hvrHlp">Load molecule used for calculation input</span></span>
+              Load Original Molcecule
             </a>
             </div>
 					<?php foreach($calculations as $name => $calculation): ?>
