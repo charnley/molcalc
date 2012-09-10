@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
         <meta charset="utf-8">
 
-        <title>Molecule Calculator</title>
+        <title>Online Molecule Calculator</title>
 
         <link rel="stylesheet" href="<?php print BASEURL ?>/style/screen.css" >
 
