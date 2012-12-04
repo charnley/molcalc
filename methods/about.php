@@ -70,7 +70,7 @@ In the Molecule Editor page the molecular structure is build using Jmol and ener
 
 <strong>Can I modify and/or install MolCalc on my own server?</strong>
 <p>
-  Yes, MolCalc is distributed through github under the GPL license (<a href="https://github.com/charnley/molcalc">https://github.com/charnley/molcalc</a>). You must obtain a copy of the GAMESS code separately from <a href="http://www.msg.ameslab.gov/gamess/download.html">http://www.msg.ameslab.gov/gamess/download.html</a>
+  Yes, MolCalc is distributed through github under the GPL license (<a href="https://github.com/jensengroup/molcalc">https://github.com/jensengroup/molcalc</a>). You must obtain a copy of the GAMESS code separately from <a href="http://www.msg.ameslab.gov/gamess/download.html">http://www.msg.ameslab.gov/gamess/download.html</a>
 </p>
 <p>
   The interface code uses PHP5, jQuery, HTML5, and CSS3 and is very modular.  It therefore quite easy to add new capabilities to MolCalc.
