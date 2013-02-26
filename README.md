@@ -3,7 +3,7 @@
 Hosted at [dgu.ki.ku.dk/molcalc](http://dgu.ki.ku.dk/molcalc)
 
 
-![Editor Screenshot](https://raw.github.com/jensen/molcalc/master/manual/screenshot/molcalc_editor.png)
+![Editor Screenshot](https://raw.github.com/jensengroup/molcalc/master/manual/screenshots/molcalc_editor.png)
 
 
 MolCalc is a web interface that allows anyone to build
