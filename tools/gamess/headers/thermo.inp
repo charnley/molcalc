@@ -1,0 +1,5 @@
+!   Calculate the heat of formation
+!   using semi-emperical method.
+ $BASIS GBASIS=PM3 $END
+ $CONTRL SCFTYP=RHF RUNTYP=HESSIAN ICHARG=0 $END
+ $force nvib=2 $end

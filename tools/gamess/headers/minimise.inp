@@ -1,0 +1,3 @@
+ $basis gbasis=pm3 $end
+ $contrl icharg=0 runtyp=optimize $end
+ $statpt projct=.f. $end

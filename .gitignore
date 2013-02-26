@@ -1,4 +1,3 @@
-
 # Mac Files
 .DS_Store
 
@@ -6,9 +5,12 @@
 *~
 *.swp
 
+# Python files
+*.py[cod]
+
 # Data Folder
 data/**/*
 
-# Settings
-settings.php
+# Settings file
+settings
 

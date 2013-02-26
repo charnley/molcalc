@@ -1,12 +1,10 @@
 RewriteEngine On
 
+# TODO Rewrtie people from tools folder
+# TODO Rewrite away from everything but the assets folder
+
 # Rewrite url for parameters, and keep GET query string
-
-RewriteRule ^calculation/([^/\.]+)$ index.php?p=calculation&m=$1&%{QUERY_STRING} [L] 
-RewriteRule ^([^/\.]+)$ index.php?p=$1&%{QUERY_STRING} [L] 
-
-  
-
-
-
+RewriteRule ^calculation/([^/\.]+)$ application/index.php?p=calculation&m=$1&%{QUERY_STRING} [L]
+RewriteRule ^([^/\.]+)$ application/index.php?p=$1&%{QUERY_STRING} [L]
+RewriteRule ^$ application/index.php [L]
 
