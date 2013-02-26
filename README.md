@@ -13,13 +13,15 @@ vibrational frequencies and vibrational modes,
 and molecular orbitals and orbital energies in a
 matter of seconds or minutes - depending on the size.
 
-## For developers
+## For Developers
 
 MolCalc uses
 
 * JSmol to edit and visualise the properties of molecules.
 
 * OpenBabel to convert file formats, calculate molecule charge and creation of 2D PNG structures.
+
+* GAMESS for all QM calculations.
 
 and the source is released under the GPL license.
 
@@ -29,11 +31,13 @@ and the source is released under the GPL license.
 If you want to install it on your own server
 with PHP support, of course.
 
-### Dependencies
+### Dependency
 
-1. OpenBabel w/ Pyton Bindings and PNG Support
+* Python 2.x
 
-2. GAMESS
+* [OpenBabel w/ Python Bindings and PNG Support](http://openbabel.org/docs/dev/Installation/install.html)
+
+* [GAMESS](http://www.msg.ameslab.gov/gamess/)
 
 
 ### Installation
