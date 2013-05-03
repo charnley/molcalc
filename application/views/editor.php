@@ -65,7 +65,7 @@ var myInfo1 = {
 								<!--<li class="action load"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Load molecule structure</span></span><span class="text">Load</span></a></li>-->
 								<li class="action save"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Temporarily save state </span></span>	<span class="text">Save</span></a></li>
 								<li class="action restore"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Restore saved state</span></span>	<span class="text">Restore</span></a></li>
-								<li class="action minimise"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimise Geometry using MMFF forcefield</span></span><span class="text">Minimise</span></a></li>
+								<li class="action minimise"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize geometry using MMFF forcefield</span></span><span class="text">Minimize</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
