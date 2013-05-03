@@ -28,6 +28,7 @@ include_once('rungamess.php');
 if(isset($_POST['xyz']))
 {
   $xyz = $_POST['xyz'];
+  $mol_charges = $_POST['charge'];
 }
 else
 {
@@ -42,18 +43,24 @@ $tmpfile = $tmp.$hash.".xyz";
 file_put_contents($tmpfile, $xyz);
 
 // First, Check the multiplicity
-$checkcharge = '../tools/molecule_charge.py';
-$mol_charges = shell_exec($checkcharge.' q '.$tmpfile);
-$cor_charges = shell_exec($checkcharge.' z '.$tmpfile);
+#$checkcharge = '../tools/molecule_charge.py';
+#$mol_charges = intval(shell_exec($checkcharge.' q '.$tmpfile));
+#$cor_charges = intval(shell_exec($checkcharge.' z '.$tmpfile));
 
 unlink($tmpfile); // Removes the tmp file
 
-if($odd = ($cor_charges - $mol_charges)%2)
-{
-  print "Your current molecule has an odd number of electrons.
-    MolCalc only works for molecules with all doubly occupied orbitals.";
-  exit();
-}
+
+#if($odd = ($cor_charges - $mol_charges)%2)
+#{
+#
+#
+#  print "Your current molecule has an odd number of electrons";
+#  print "With core charge of <strong>".$cor_charges."</strong> and a molecule charge of <strong>".$mol_charges."</strong>. ";
+#  print "MolCalc only works for molecules with all doubly occupied orbitals.";
+#  print "<br /><br />";
+#  print "Did you remmeber to minimise the molecule?";
+#  exit();
+#}
 
 // Okay, seems fine, now minimize and save the
 // molecule
@@ -66,7 +73,6 @@ if(!is_dir($folder))
 }
 else
 {
-  //print "Molecule HASH already exist, on my TODO List";
   print $hash;
   exit();
 }
@@ -92,9 +98,7 @@ if(strpos($min, $pattern))
 {
   // Delete and die
   chdir('../');
-  //shell_exec('rm -r '.$hash);
-  print $hash;
-  print "<br />";
+  shell_exec('rm -r '.$hash);
   print "Minimisation ended abnormally. Please check your molecule.";
   die();
   exit();

@@ -29,22 +29,39 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
 $(function(){
 	
+  /**
+  * Functions
+  */
+
+  function runMolCmd(cmd) 
+  {
+    // Define Jmol object
+    var editorJsmol = myJmol1;
+    Jmol.script(myJmol1, cmd);
+  }
+
+  // Settings for WebGL:
+  // seems not to matter with html5
+  // set antialiasDisplay false
+  // set antialiasDisplay true
+
+  function checkMolCharge()
+  {
+    // Use runMolCmd()
+
+
+  }
+
+  function truncate(_value)
+  {
+      if (_value<0) return Math.ceil(_value);
+        else return Math.floor(_value);
+  }
+
 	/**
 	 *  BUTTON LIST
 	 */
 		
-		function runMolCmd(cmd) 
-		{
-			// Define Jmol object
-      var editorJsmol = myJmol1;
-      Jmol.script(myJmol1, cmd);
-		}
-
-    // Settings for WebGL:
-    // seems not to matter with html5
-    // set antialiasDisplay false
-    // set antialiasDisplay true
-
     /**
      * Auto Miminimze
      *
@@ -157,7 +174,6 @@ $(function(){
 			return false;	
 		});
 		
-		
 		/*
 		 * Set Bond Type
 		 */
@@ -262,13 +278,13 @@ $(function(){
 		 */
 		$('.actions.calculation .button').click(function()
 		{
-      // jmol
-			//var coordinates = jmolEvaluate('write("coords")');
-			//jmolGetPropertyAsJSON("atomList","all"); ARRAY OF ALL ATOMS
+
+      // Calculate Partial charges on molecule
+      runMolCmd('calculate partialCharge');
 
       // jsmol
       var atominfo = Jmol.getPropertyAsArray(myJmol1, "atominfo", "all"); // returns a JSON object with all the atoms
-	
+
       // Check Molecule size
       var Natoms=atominfo.length, Nhydrogens=0;
       for(var i = 0; i < Natoms; i++)
@@ -288,6 +304,38 @@ $(function(){
         return false;
       }
 
+      // Calculate Charges
+      mole_charges = 0;
+      core_charges = 0;
+
+      for(var i=0; i < Natoms; i++)
+      {
+        formal_charge = atominfo[i].formalCharge;
+        partial_charge = atominfo[i].partialCharge;
+        elem_no = atominfo[i].elemno;
+
+        mole_charges += partial_charge;
+        core_charges += elem_no;
+      }
+
+      mole_charges = truncate(mole_charges);
+      odd = (core_charges - mole_charges) % 2;
+
+      if(odd)
+      {
+        var tellUser = new $.Prompt;
+        var odd_message = "Your current molecule has an odd number of electrons. ";
+        odd_message += "With core charge of <strong>"+core_charges+"</strong> and a molecule charge of <strong>"+mole_charges+"</strong>. ";
+        odd_message += "MolCalc only works for molecules with all doubly occupied orbitals. ";
+        odd_message += "<br /><br /> ";
+        odd_message += "Did you remmeber to minimise the molecule? ";
+        tellUser.setMessage(odd_message);
+        tellUser.addCancelBtn("Okay");
+        tellUser.show();
+        return false;
+      }
+
+      // Prepare Calculation
       var askCal = new $.Prompt();
       askCal.setMessage('<p>Are you sure? You wont be able to edit the molecule beyond this point.</p>');
 		
@@ -316,7 +364,7 @@ $(function(){
         req = $.ajax({
             type: "POST",
             url: "application/check.php",
-            data: {'xyz' : xyz},
+            data: {'xyz' : xyz, 'charge' : mole_charges},
             dataType: "text",
             success: function(data){
               if(data.length==32) // Length of a hash key
@@ -325,7 +373,6 @@ $(function(){
                 tellUser.setMessage('Fast Forwarding&hellip;');
 			          url = window.location.href.replace('editor', '');
                 url = url + 'calculation/'+data;
-                console.log(url);
   				      window.location = url;
               }
               else

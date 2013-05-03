@@ -86,7 +86,7 @@ var myInfo1 = {
 								<li class="action atom"><a rel="H"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Hydrogen</span></span><span class="text">H</span></a></li>
 								<li class="action atom"><a rel="Li" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Lithium</span></span><span class="text">Li</span></a></li>
 								<li class="action atom"><a rel="Be" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Beryllium</span></span><span class="text">Be</span></a></li>
-								<li class="action atom"><a rel="B"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Boron</span></span><span class="text">B</span></a></li>
+								<!--<li class="action atom"><a rel="B"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Boron</span></span><span class="text">B</span></a></li> --><!-- not in pm3 -->
 								<li class="action atom"><a rel="C"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Carbon</span></span><span class="text">C</span></a></li>
 								<li class="action atom"><a rel="N"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Nitrogen</span></span><span class="text">N</span></a></li>
 								<li class="action atom"><a rel="O"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Oxygen</span></span><span class="text">O</span></a></li>

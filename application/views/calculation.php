@@ -96,6 +96,7 @@ else
     <div class="viewer" style="float:right;width:500px;height:500px;margin-bottom:20px;">
         <script type="text/javascript">
         jmol_intro = Jmol.getApplet("jmol_intro", myInfo1);
+//        Jmol.script(jmol_intro, 'set autoBond On'); Not working
         Jmol.script(jmol_intro, 'load "<?php print BASEURL?>/data/<?php print $hash ?>/coordinates.xyz";');
         Jmol.script(jmol_intro, 'set bondRadiusMilliAngstroms 100; set multipleBondSpacing -0.3');
         </script>
@@ -135,6 +136,14 @@ endforeach;
 $calculations = scandir('../data');
 function cmp($a, $b)
 {
+  if($b["name"] == "")
+  {
+    return -1;
+  }
+  if($a["name"] == "")
+  {
+    return 1;
+  }
   return strcmp($a["name"], $b["name"]);
 }
 $calculationlist = array();
@@ -159,7 +168,6 @@ usort($calculationlist, "cmp");
   <div class="molcalc_histlist">
   <ul>
   <?php foreach($calculationlist as $cal): ?>
-  <?php // TODO Make this list alphabetic ?>
 
 		<li>
       <a href="<?php print BASEURL ?>/calculation/<?php print $cal['hash'] ?>">
