@@ -111,16 +111,16 @@ shell_exec('babel -igamess '.$hash.'.log -oxyz coordinates.xyz');
 // Get Common name and Inchi code
 // Sometimes inchi didnt work with this search, sometimes not with smiles
 $smiles   = shell_exec('babel -ixyz coordinates.xyz -osmiles --title " "');
-$inchi    = shell_exec('babel -ixyz coordinates.xyz -oinchi --title " "');
-$inchikey = shell_exec('babel -ixyz coordinates.xyz -oinchikey --title " "');
 $smiles   = str_replace("\n",'', $smiles);
 $smiles   = preg_replace("/\s+/",'', $smiles);
+$inchi    = shell_exec('babel -ixyz coordinates.xyz -oinchi --title " "');
 $inchi    = str_replace("\n",'', $inchi);
+$inchikey = shell_exec('babel -ixyz coordinates.xyz -oinchikey --title " "');
 $inchikey = str_replace("\n",'', $inchikey);
 $inchikey = preg_replace("/\s+/",'', $inchikey);
 $name     = "";
-//$name  = shell_exec('../../tools/molecule_name.py "'.$smiles.'"'); 
 
+// TODO Check if SMILES is empty
 
 if(!strpos($smiles, "."))
 {
@@ -146,6 +146,11 @@ if(!strpos($smiles, "."))
     $headers = get_headers($url);
     return substr($headers[0], 9, 3);
   }
+
+  // TODO Cactus name
+  // Check if the response is HTML code
+  // because catus response is a .html file
+  // when SMILE is empty
 
   if(get_http_response_code($cactus) != "404"){
     $names = file_get_contents($cactus);

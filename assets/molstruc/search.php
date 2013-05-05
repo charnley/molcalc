@@ -1,21 +1,35 @@
 <?php
 
-  // TODO
-  // Check also for POST information, because
-  // some search patterns are too destroted (like inchi)
+ /* Using Cactus to find chemical structure from
+  * search pattern.
+  * The use babel to generate 3D structure based in inchi
+  */
 
-  if(isset($_GET['search']))
-  {
-    $search = $_GET['search'];
-  }
-  else
-  {
-    print "0";
-    die();
-  }
+if(isset($_GET['search']))
+{
+  $search = $_GET['search'];
+}
+else
+{
+  print "0";
+  die();
+}
 
-$search = str_replace("%20", " ", $search);
-// Search for $search in webspider database
-//print shell_exec('../../tools/molecule_search.py '.$search.' | obabel -imol -oxyz -h --gen3d');
-print shell_exec('../../tools/molecule_search.py "'.$search.'" | obabel -iinchi -oxyz -h --gen3d');
+# Prepare search, if in SMILES format.
+$search = str_replace(" ", "%20", $search);
+$search = str_replace("[", "%5B", $search);
+$search = str_replace("]", "%5D", $search);
+$search = str_replace("@", "%40", $search);
+//$search = str_replace(")", "", $search);
+//$search = str_replace("(", "", $search);
+$search = str_replace("=", "%3D", $search); #double bond
+$search = str_replace("#", "%23", $search); #triple bond
+
+$cactus_inchi  = "http://cactus.nci.nih.gov/chemical/structure/".$search."/inchi";
+$cactus_smiles = "http://cactus.nci.nih.gov/chemical/structure/".$search."/smiles";
+
+$inchi = file_get_contents($cactus_inchi);
+$inchi = str_replace("\n", '', $inchi);
+
+print shell_exec("echo \"".$inchi."\" | obabel -iinchi -oxyz -h --gen3d");
 

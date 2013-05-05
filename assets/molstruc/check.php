@@ -1,8 +1,8 @@
 <?php
 
-// Check if ChemSpider can find the molecule
-// and return image source,
-// otherwise return 0
+ /* Using Cactus to find chemical structure from
+  * search pattern.
+  */
 
 if(isset($_GET['search']))
 {
@@ -14,14 +14,31 @@ else
   die();
 }
 
-$search = str_replace("%20", " ", $search);
 
-// Search Chemspider, and get MF results
-$smiles = shell_exec('../../tools/molecule_search_mol.py "'.$search.'"');
-$smiles = str_replace("\n", '', $smiles);
+# Prepare search, if in SMILES format.
+$search = str_replace(" ", "%20", $search);
+$search = str_replace("[", "%5B", $search);
+$search = str_replace("]", "%5D", $search);
+$search = str_replace("@", "%40", $search);
+//$search = str_replace(")", "", $search);
+//$search = str_replace("(", "", $search);
+$search = str_replace("=", "%3D", $search); #double bond
+$search = str_replace("#", "%23", $search); #triple bond
 
-if($smiles == "0")
+$cactus_inchi  = "http://cactus.nci.nih.gov/chemical/structure/".$search."/iupac_name";
+$cactus_smiles = "http://cactus.nci.nih.gov/chemical/structure/".$search."/smiles";
+
+// IF 404
+function get_http_response_code($url) {
+  $headers = get_headers($url);
+  return substr($headers[0], 9, 3);
+}
+
+if(get_http_response_code($cactus_smiles) != "404")
 {
+  $smiles = file_get_contents($cactus_smiles);
+  $smiles = str_replace("\n",'',$smiles);
+}else{
   print "0";
   die();
 }

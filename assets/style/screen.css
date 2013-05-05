@@ -175,9 +175,10 @@ table tr td.center {text-align:center;}
 		
 		border-width:1px 0;
 		border-style:solid;
-		border-color:#999;
+		border-color:#aaa;
 		
-		box-shadow:0 0 20px rgb(255,255,255);
+		/*box-shadow:0 0 20px rgb(255,255,255);*/
+		box-shadow:0 5px 25px rgb(255,255,255);
 		
 		position:relative;
 		
@@ -209,40 +210,49 @@ table tr td.center {text-align:center;}
 	header .logo h1 {
 		
 		display:block;
-		width:230px;
+		width:110px;
 		
 		font-weight:bold;
 		letter-spacing:1px;
 		padding:0;
 		margin:8px 0 0 0;
+
+
+    text-align:center;
 		
 	}
 	header .logo h1 .sep {
 		font-family:'Oxygen', sans-serif;
 		font-size:26px;
+    line-height:25px;
 		color:#333;
+		display:block;
 	}
 	header .logo h1 .ret {
 		font-family:georgia, sans-serif;
-		font-style:italic;
 		font-size:9px;
 		color:#555;
 		display:block;
+    width:135px;
+    margin:0 0 0 -10px;
 	}
 	header .navigation {
-		float:right;
-		margin:0px 0px 0 0;
+    position:absolute;
+    right:0;
+    bottom:0;
 	}
-	header .navigation ul {}
+	header .navigation ul {
+  }
 	header .navigation ul li {
-		float:left;margin:0 0 0 10px;
-		height:64px;}
+		float:left;
+    margin:0 0 0 10px;
+		}
 	header .navigation ul li a {
 		
 		color:#333;
 		
 		display:block;
-		padding:0 8px 3px 8px;
+		padding:8px 8px 3px 8px;
 		margin-top:40px;
 		
 		border-width:0 0 2px 0;
@@ -252,6 +262,7 @@ table tr td.center {text-align:center;}
 	header .navigation ul li a.active,
 	header .navigation ul li a:hover {
 		border-color:#0373BB;
+    background:#fff;
 	}
 
 /* BODY */
@@ -262,11 +273,11 @@ table tr td.center {text-align:center;}
   .column_editor {}
   .column_editor .column {}
   .column_editor .column.alpha {
-    width:320px;
+    width:340px;
     float:left;
   }
   .column_editor .column.gamma {
-    width:640px;
+    width:620px;
     min-height:640px;
     float:right;
 
@@ -276,8 +287,8 @@ table tr td.center {text-align:center;}
 	.column .canvas {
   }
   .column .canvas_jsmol {
-    width: 640px;
-    height: 640px;
+    width: 620px;
+    height: 630px;
   }
 
 
@@ -331,9 +342,20 @@ table tr td.center {text-align:center;}
 	
 }
 .editor .category .note {margin:20px;}
-.editor .category .actions {margin:20px 10px 20px 20px;}
+.editor .category .actions {margin:20px 0px 20px 20px;}
 .editor .category .actions li {float:left;margin:0 10px 10px 0}
-.editor .category .actions li {}
+.editor .category .actions li.seperator {
+  clear:left;
+  width:0px;
+  height:0px;
+  margin:0;
+}
+.editor .category .actions li.placeholder {
+  width:29px;
+  height:23px;
+}
+.editor .category .actions li.action {}
+.editor .category .actions.atoms {}
 .editor .category .actions.atoms li .button {	width:17px;}
 
 
@@ -552,14 +574,22 @@ table tr td.center {text-align:center;}
 input[type=text] {
   border-width:1px;
   border-style:solid;
-  border-color:#bbb;
+  border-color:#bbb #aaa #aaa #bbb;
   border-radius:2px;
-  box-shadow:inset 1px 1px 1px rgba(0,0,0,0.1);
+  box-shadow:
+    inset 0px 1px 3px rgba(0,0,0,0.1),
+    1px 1px 1px rgba(0,0,0,0.1);
 
-  padding:6px;
+  /* dropshadow */
+  /* */
+
+  padding:8px 6px;
   background-image:;
   background-repeat:no-repeat;
   background-position:95% 50%;
+}
+input[type=text]:focus {
+  border-color:#0373BB;
 }
 input[type=text].loading {
   background-image:url('../images/loading.gif');
@@ -704,7 +734,7 @@ input:focus {
 
 
 		width:120px;
-		/**/font-size:10px; /*MORE READABLE PLEASE*/
+		/**/font-size:11px; /*MORE READABLE PLEASE*/
 		font-weight:bold;
 		line-height:140%;
 		padding:8px 8px 0px 8px;
@@ -752,7 +782,7 @@ input:focus {
 
     margin:0 auto;
     position:relative;
-    bottom:-4px;
+    bottom:-5px;
 
     box-shadow:1px 1px 2px rgba(0,0,0,0.5);
     box-shadow:1px 1px 0px #fff;
@@ -780,7 +810,7 @@ input:focus {
 			0 0 1px rgba(0,0,0,0.2),
 			1px 1px 3px rgba(0,0,0,0.3);
 			
-		text-shadow:1px 1px 0 #fff;
+		/*text-shadow:1px 1px 0 #fff;*/
 		
 		line-height:100%;
 		
@@ -811,6 +841,11 @@ input:focus {
 		color:#222;
     cursor:default;
 	}
+
+  .button.inactive {
+    color:#aaa;
+    cursor:default;
+  }
 
   .button.green {
     font-size:14px;
@@ -926,6 +961,12 @@ input:focus {
 		.prompt-box ul li.fail {
       list-style:none;
       background:url('../images/pixelated/pixelated-dark/x.gif') 1px 50% no-repeat;
+    }
+
+    /* prompt form */
+    .prompt-box .form  {}
+    .prompt-box .form input[type=text] {
+      width:348px;
     }
 
 

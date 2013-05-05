@@ -98,16 +98,17 @@ $(function(){
       var askuser = new $.Prompt();
       askuser.setTitle('Load Structure');
 
-      var message = $('<div></div>');
+      var message = $('<div class="form"></div>');
 
       // Search Field
-      var field = $('<input placeholder="Search" type="text" style="width:50%;" />');
+      var field = $('<input placeholder="fx. Ethanol" type="text" />');
       message.append(field);
-      message.append('<p>Large molecules will be ignored.</p>');
+      message.append('<span><br />Large molecules will be ignored.</span>');
 
       askuser.setMessage(message);
 
-      askuser.addResponseBtn('Load', function() {
+      var load_button = askuser.addResponseBtn('Load', function()
+      {
         var state = field.attr('class');
         if (state != 'success') return false;
         var val = field.val().replace(/\s/g,"%20");
@@ -120,11 +121,17 @@ $(function(){
       askuser.show();
       field.focus();
 
+      load_button.addClass('inactive');
 
       /* AJAX Search */
       var min_length = 2; // min length before searching
       var req = null; // init ajax request
-      field.keyup(function() {
+
+      field.keyup(function()
+      {
+          load_button.removeClass('inactive');
+          load_button.addClass('inactive');
+
           var that = $(this);
           value = that.val();
           if(req != null) req.abort();
@@ -146,6 +153,7 @@ $(function(){
                     }
                     else
                     {
+                      load_button.removeClass('inactive')
                       that.addClass('success');
                     }
                 }
@@ -314,6 +322,7 @@ $(function(){
         partial_charge = atominfo[i].partialCharge;
         elem_no = atominfo[i].elemno;
 
+        mole_charges += formal_charge;
         mole_charges += partial_charge;
         core_charges += elem_no;
       }

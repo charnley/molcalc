@@ -65,7 +65,7 @@ var myInfo1 = {
 								<!--<li class="action load"><a rel="" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Load molecule structure</span></span><span class="text">Load</span></a></li>-->
 								<li class="action save"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Temporarily save state </span></span>	<span class="text">Save</span></a></li>
 								<li class="action restore"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Restore saved state</span></span>	<span class="text">Restore</span></a></li>
-								<li class="action minimise"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimize geometry using MMFF forcefield</span></span><span class="text">Minimize</span></a></li>
+								<li class="action minimise"><a rel="" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Minimise geometry using MMFF forcefield</span></span><span class="text">Minimise</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>
@@ -83,15 +83,15 @@ var myInfo1 = {
 						</div>
 						<div class="actions atoms">
 							<ul>
-								<li class="action atom"><a rel="H"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Hydrogen</span></span><span class="text">H</span></a></li>
+                <li class="action atom"><a rel="H"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Hydrogen</span></span><span class="text">H</span></a></li>
 								<li class="action atom"><a rel="Li" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Lithium</span></span><span class="text">Li</span></a></li>
 								<li class="action atom"><a rel="Be" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Beryllium</span></span><span class="text">Be</span></a></li>
-								<!--<li class="action atom"><a rel="B"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Boron</span></span><span class="text">B</span></a></li> --><!-- not in pm3 -->
+                <!--<li class="action atom"><a rel="B"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Boron</span></span><span class="text">B</span></a></li> --><!-- not in pm3 -->
 								<li class="action atom"><a rel="C"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Carbon</span></span><span class="text">C</span></a></li>
 								<li class="action atom"><a rel="N"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Nitrogen</span></span><span class="text">N</span></a></li>
 								<li class="action atom"><a rel="O"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Oxygen</span></span><span class="text">O</span></a></li>
 								<li class="action atom"><a rel="F"  class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Fluorine</span></span><span class="text">F</span></a></li>
-								<li class="action atom"><a rel="Ne" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Neon</span></span><span class="text">Ne</span></a></li>
+                <li class="action atom"><a rel="Ne" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Neon</span></span><span class="text">Ne</span></a></li>
 								<li class="action atom"><a rel="Na" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Sodium</span></span><span class="text">Na</span></a></li>
 								<li class="action atom"><a rel="Mg" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Magnesium</span></span><span class="text">Mg</span></a></li>
 								<li class="action atom"><a rel="Al" class="button"><span class="hvrHlpCnt"><span class="hvrHlp">Aluminium</span></span><span class="text">Al</span></a></li>

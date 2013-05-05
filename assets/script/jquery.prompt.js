@@ -27,6 +27,14 @@ $(function()
   // this could be java applets like Jmol
 	var hideElements = $('.canvas');
 
+
+  // Center Div plugin
+  jQuery.fn.center = function () 
+  {
+    var top_margin = Math.max(($(window).height() - $(this).outerHeight() )/ 2);
+    this.css('margin-top',top_margin+'px');
+    return this;
+  }
 	
 	/**
 	 * Prompt gives the user a prompt message to respond too.
@@ -35,6 +43,7 @@ $(function()
 	{
     // Define the parent block
     var stamp = new Date().getTime();
+    this.stamp = stamp;
     this.parentblock = $('<div></div>');
     this.parentblock.attr('id', stamp);
     this.parentblock.hide();
@@ -77,6 +86,7 @@ $(function()
       var btn = $('<a class="button">'+msg+'</a>');
       btn.click(action);
       this.responselist.append($('<li></li>').append(btn));
+      return btn;
     }
 
     this.addCancelBtn = function addCancelBtn(msg)
@@ -86,6 +96,11 @@ $(function()
       {
         hide();
       });
+    }
+
+    this.getStamp = function getStamp()
+    {
+      return this.stamp;
     }
 
     this.show = function show()
@@ -115,14 +130,23 @@ $(function()
       this.parentblock.html(html);
       this.parentblock.show();
 
+      box.center();
+
+      $(window).resize(function() {
+        box.center();
+      });
+
     }
 
     function hide()
     {
-      $('#'+stamp).fadeOut(100, function() 
+      $('#'+stamp).fadeOut(100, function()
       {
         hideElements.show();
       });
+
+      // Unbind window resize
+      $(window).unbind('resize');
     }
 
     this.cancel = function cancel()
