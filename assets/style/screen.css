@@ -233,7 +233,8 @@ table tr td.center {text-align:center;}
 		font-size:9px;
 		color:#555;
 		display:block;
-    width:135px;
+    text-align:center;
+    width:140px;
     margin:0 0 0 -10px;
 	}
 	header .navigation {
@@ -897,7 +898,7 @@ input:focus {
 	.prompt-container {
 		background:#000;
 		background:rgba(0,0,0,0.5);
-		background:rgba(255,255,255,0.8);
+		background:rgba(255,255,255,0.5);
     /*background:-webkit-radial-gradient(rgba(127, 127, 127, 0.5), rgba(127, 127, 127, 0.5) 35%, rgba(0, 0, 0, 0.7));*/
 		
     display: block;

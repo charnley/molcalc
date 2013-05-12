@@ -2,6 +2,11 @@ RewriteEngine On
 
 # TODO Rewrtie people from tools folder
 # TODO Rewrite away from everything but the assets folder
+#      and application folder (need check.php)
+
+# Redirect editor to home
+# TODO More General to this folder
+RewriteRule ^editor /molcalc [R=301,L]
 
 # Rewrite url for parameters, and keep GET query string
 RewriteRule ^calculation/([^/\.]+)$ application/index.php?p=calculation&m=$1&%{QUERY_STRING} [L]
