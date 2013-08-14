@@ -28,29 +28,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
 
 $(function(){
-	
+
   /**
   * Functions
   */
 
-  function runMolCmd(cmd) 
+  function runMolCmd(cmd)
   {
     // Define Jmol object
     var editorJsmol = myJmol1;
     Jmol.script(myJmol1, cmd);
   }
 
-  // Settings for WebGL:
+  // NOTE Settings for WebGL:
   // seems not to matter with html5
   // set antialiasDisplay false
   // set antialiasDisplay true
-
-  function checkMolCharge()
-  {
-    // Use runMolCmd()
-
-
-  }
 
   function truncate(_value)
   {
@@ -265,7 +258,7 @@ $(function(){
 		$('.action.minimise .button').click(function ()
 		{
       runMolCmd('set forcefield "MMFF"');
-			runMolCmd('minimize');
+      runMolCmd('minimize');
 
       // TODO
       // Faster minimisation
@@ -323,7 +316,7 @@ $(function(){
         elem_no = atominfo[i].elemno;
 
         mole_charges += formal_charge;
-        mole_charges += partial_charge;
+        // mole_charges += partial_charge;
         core_charges += elem_no;
       }
 
@@ -333,11 +326,15 @@ $(function(){
       if(odd)
       {
         var tellUser = new $.Prompt;
-        var odd_message = "Your current molecule has an odd number of electrons. ";
-        odd_message += "With core charge of <strong>"+core_charges+"</strong> and a molecule charge of <strong>"+mole_charges+"</strong>. ";
+        var odd_message = "";
         odd_message += "MolCalc only works for molecules with all doubly occupied orbitals. ";
         odd_message += "<br /><br /> ";
-        odd_message += "Did you remmeber to minimise the molecule? ";
+        odd_message += "Your current molecule has an odd number of electrons. ";
+        odd_message += "With core charge of <strong>"+core_charges+"</strong> and a molecule charge of <strong>"+mole_charges+"</strong>. ";
+        odd_message += "<br /><br />";
+        odd_message += "Did you remmeber to minimise the molecule? <br >";
+        odd_message += "Try to add charges to the molecule. <br />";
+        tellUser.setTitle('Odd Electrons')
         tellUser.setMessage(odd_message);
         tellUser.addCancelBtn("Okay");
         tellUser.show();
