@@ -97,6 +97,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
       <p>
       For example, one might now ask students to compute the effect of a substituent on a particular vibration, and then rationalize it using molecular orbitals.  Or one might ask more open ended questions such as “build a molecule with an unusually long C-C single bond”.
       </p>
+      <p>
+      For further examples and more information see supplementary information and reference:<br />
+      Jan H. Jensen and Jimmy C. Kromann,<br />
+      The Molecule Calculator: A Web Application for Fast Quantum Mechanics-Based Estimation of Molecular Properties,<br />
+      Journal of Chemical Education, 2013, <a href="http://pubs.acs.org/doi/abs/10.1021/ed400164n">DOI: 10.1021/ed400164n</a>
+      </p>
     </div>
 
 
@@ -125,14 +131,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
       <p><strong>Who is involved with MolCalc?</strong>
       <br />
-        MolCalc 1.1 is written by <a href="http://jimmy.charnley.dk">Jimmy Charnley Kromann</a>
-        based on an idea by <a href="http://molecularmodelingbasics.blogspot.dk/">Jan Jensen</a>.
-        Toke Fritzemeier wrote an early prototype.
+        MolCalc 1.1 is written by <a href="http://jimmy.charnley.dk">Jimmy Charnley Kromann</a> and Maher Channir,
+        based on an idea by <a href="http://molecularmodelingbasics.blogspot.dk/">Jan Jensen</a>.<br />
         The development of MolCalc is supported by the University of Copenhagen through the Education 
         at its Best initiative (Den gode uddannelse).
       </p>
 
-      <p><strong>Feedback</strong>
+      <p><strong>Feedback and bugs</strong>
       <br />
       Bug reports and feature requests can be given here: 
       <a href="https://github.com/jensengroup/molcalc/issues?state=open">github.com/jensengroup/molcalc/issues</a>
