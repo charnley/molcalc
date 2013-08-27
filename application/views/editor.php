@@ -106,7 +106,7 @@ var myInfo1 = {
 						<div class="actions">
 							<ul>
 								<li class="action atom remove"><a rel="Pl" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Increase charge of selected atom</span></span>	<span class="text">+1</span></a></li>
-								<li class="action atom remove"><a rel="Mi" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Descrease charge of selected atom</span></span>	<span class="text">-1</span></a></li>
+								<li class="action atom remove"><a rel="Mi" class="button"><span class="hvrHlpCnt "><span class="hvrHlp">Decrease charge of selected atom</span></span>	<span class="text">-1</span></a></li>
 							</ul>
 							<div class="clean"></div>
 						</div>

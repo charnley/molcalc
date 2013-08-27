@@ -57,6 +57,7 @@ foreach(preg_split("/\n/", $thermodata) as $line)
 $entropy_total = $table[6][7];
 $enthalpy_total = $table[6][3];
 $g_total = $table[6][4]; # Free Energy
+$cp_total = $table[6][6]; # Heat Cap. at const. pressure
 
 $entropy_tra = $table[3][7];
 $entropy_rot = $table[4][7];
@@ -70,6 +71,11 @@ $enthalpy_vib = $table[5][3];
 $g_tra = $table[3][4];
 $g_rot = $table[4][4];
 $g_vib = $table[5][4];
+
+# Heat Cap. at const. pressure
+$cp_tra = $table[3][6];
+$cp_rot = $table[4][6];
+$cp_vib = $table[5][6];
 
 # cal to joule conversion
 $c2j = 4.18;
@@ -88,6 +94,7 @@ $c2j = 4.18;
     <tr><td>Heat of Formation</td><td class="right"><?php print format($hof*$c2j) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
     <tr><td>Enthalpy</td><td class="right"><?php print format($enthalpy_total) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
     <tr><td>Entropy</td><td class="right"><?php print format($entropy_total) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
+    <tr><td>Heat Capacity at Constant Pressure</td><td class="right"><?php print format($cp_total) ?></td><td class="right">J mol <sup>-1</sup> K<sup>-1</sup></td><tr>
    <!-- <tr><td>Free Energy</td><td class="right"><?php print format($g_total) ?></td><td class="right">kJ mol <sup>-1</sup> </td><tr>-->
   </table>
 
@@ -103,8 +110,18 @@ $c2j = 4.18;
 
 <div style="width:445px;float:right;">
 
+  <table>
+    <tr><td class="center" colspan="3">Heat Capacity Contributions</td></tr>
+    <tr><td class="center">Property</td><td class="center">Value</td><td class="center">Unit</td></tr>
+    <tr><td>Translational</td><td class="right"><?php print format($cp_tra) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
+    <tr><td>Rotational</td><td class="right"><?php print format($cp_rot) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
+    <tr><td>Vibrational</td><td class="right"><?php print format($cp_vib) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
+  </table>
+
+<!--
   <div style="width:445px;height:180px;margin:0 0 20px 0;">
 
+-->
 <!--
     <script type="text/javascript">
     jmol_thermo = Jmol.getApplet("jmol_thermo", myInfo1);
@@ -113,8 +130,10 @@ $c2j = 4.18;
     </script>
 -->
 
+<!--
   </div>
 
+-->
 
 <!--
   <table>

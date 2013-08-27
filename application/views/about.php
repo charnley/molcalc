@@ -63,6 +63,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
 
     <div class="section teacher">
+      <!-- http://pubs.acs.org/doi/abs/10.1021/ed400164n -->
       <h2>For the Teacher</h2>
       <br />
       <p><strong>What is MolCalc?</strong>

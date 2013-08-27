@@ -93,8 +93,9 @@ rungms($hash);
 
 // Check output for abnormally
 $pattern = "EXECUTION OF GAMESS TERMINATED -ABNORMALLY-";
+$pattern2 = "TOO MANY ITERATIONS";
 $min = file_get_contents($hash.'.log');
-if(strpos($min, $pattern))
+if(strpos($min, $pattern) or strpos($min, $pattern2))
 {
   // Delete and die
   chdir('../');
@@ -104,9 +105,10 @@ if(strpos($min, $pattern))
   exit();
 }
 
-
 // Save XYZ
 shell_exec('babel -igamess '.$hash.'.log -oxyz coordinates.xyz');
+
+// TODO Check if XYZ file length is larger than 0
 
 // Get Common name and Inchi code
 // Sometimes inchi didnt work with this search, sometimes not with smiles

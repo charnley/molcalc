@@ -37,11 +37,12 @@ chdir('../data/'.$hash);
 // $hash - $molid
 // $molInfo - array of molecule info
 
-$calculationnames = array('thermo', 'orbitals', 'vibrations');
+$calculationnames = array('thermo', 'orbitals', 'vibrations','solvation');
 $calculationbtns  = array(
   'thermo' => 'Thermodynamics',
   'orbitals' => 'Molecular Orbitals',
-  'vibrations' => 'Vibrational Frequencies'
+  'vibrations' => 'Vibrational Frequencies',
+  'solvation' => 'Polarity and Solvation'
 );
 $calculationtypes = array();
 

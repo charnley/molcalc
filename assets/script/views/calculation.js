@@ -250,9 +250,9 @@ $(function(){
     
 		var respond = $('<a class="button cancel">Cancel</a>');
 		
-		respond.click(function()
+		respond.click(function() 
     {
-      // TODO Kill Process
+      // TODO Kill Process 
       // TODO Cleanup Script
 
 			$.promptCancel();
@@ -264,7 +264,7 @@ $(function(){
       usrCheck = $('<li class="check">Checking data&hellip;</li>');
       message.find('ul').append(usrCheck);
 
-      $.post('gamess/check',
+      $.post('gamess/check', 
       {
         c:caltype,
         m:molid,
@@ -272,7 +272,7 @@ $(function(){
       },function(data)
       {
           usrCheck.removeClass('loading');
-
+          
           if(data != 1)
           {
             usrCheck.addClass('fail');
@@ -448,7 +448,7 @@ $(function(){
 				
 				imgStr = 'http://cactus.nci.nih.gov/chemical/structure?string=';
 				imgStr = imgStr + jmolSmiles;
-				imgStr = imgStr + '&representation=image';
+				imgStr = imgStr + '&representation=image';					
 			}
 
 			$imgCnt.prepend('<a class="picture" href="'+imgStr+'" target="_blank"><img src="'+imgStr+'" /></a>');
@@ -469,6 +469,6 @@ isosurface [user-defined functions]
 isosurface JVXL file creation/reading
 
 */
-
-
+	
+	
 });
