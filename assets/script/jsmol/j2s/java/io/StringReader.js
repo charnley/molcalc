@@ -1,95 +1,71 @@
-$_L(["java.io.Reader"],"java.io.StringReader",["java.io.IOException","java.lang.ArrayIndexOutOfBoundsException","$.IllegalArgumentException",null],function(){
-c$=$_C(function(){
-this.str=null;
-this.markpos=-1;
-this.pos=0;
-this.count=0;
-$_Z(this,arguments);
-},java.io,"StringReader",java.io.Reader);
-$_K(c$,
-function(str){
-$_R(this,java.io.StringReader,[str]);
-this.str=str;
-this.count=str.length;
-},"~S");
-$_V(c$,"close",
-function(){
+Clazz.load (["java.io.Reader"], "java.io.StringReader", ["java.io.IOException", "java.lang.IllegalArgumentException", "$.IndexOutOfBoundsException"], function () {
+c$ = Clazz.decorateAsClass (function () {
+this.str = null;
+this.length = 0;
+this.next = 0;
+this.$mark = 0;
+Clazz.instantialize (this, arguments);
+}, java.io, "StringReader", java.io.Reader);
+Clazz.makeConstructor (c$, 
+function (s) {
+Clazz.superConstructor (this, java.io.StringReader, [s]);
+this.str = s;
+this.length = s.length;
+}, "~S");
+$_M(c$, "ensureOpen", 
+($fz = function () {
+if (this.str == null) throw  new java.io.IOException ("Stream closed");
+}, $fz.isPrivate = true, $fz));
+Clazz.overrideMethod (c$, "read", 
+function (cbuf, off, len) {
 {
-if(this.isOpen()){
-this.str=null;
-}}});
-$_M(c$,"isOpen",
-($fz=function(){
-return this.str!=null;
-},$fz.isPrivate=true,$fz));
-$_V(c$,"mark",
-function(readLimit){
-if(readLimit>=0){
+this.ensureOpen ();
+if ((off < 0) || (off > cbuf.length) || (len < 0) || ((off + len) > cbuf.length) || ((off + len) < 0)) {
+throw  new IndexOutOfBoundsException ();
+} else if (len == 0) {
+return 0;
+}if (this.next >= this.length) return -1;
+var n = Math.min (this.length - this.next, len);
+this.str.getChars (this.next, this.next + n, cbuf, off);
+this.next += n;
+return n;
+}}, "~A,~N,~N");
+Clazz.overrideMethod (c$, "skip", 
+function (ns) {
 {
-if(this.isOpen()){
-this.markpos=this.pos;
-}else{
-throw new java.io.IOException(("K0083"));
-}}}else{
-throw new IllegalArgumentException();
-}},"~N");
-$_V(c$,"markSupported",
-function(){
+this.ensureOpen ();
+if (this.next >= this.length) return 0;
+var n = Math.min (this.length - this.next, ns);
+n = Math.max (-this.next, n);
+this.next += n;
+return n;
+}}, "~N");
+Clazz.overrideMethod (c$, "ready", 
+function () {
+{
+this.ensureOpen ();
+return true;
+}});
+Clazz.overrideMethod (c$, "markSupported", 
+function () {
 return true;
 });
-$_M(c$,"read",
-function(){
+Clazz.overrideMethod (c$, "mark", 
+function (readAheadLimit) {
+if (readAheadLimit < 0) {
+throw  new IllegalArgumentException ("Read-ahead limit < 0");
+}{
+this.ensureOpen ();
+this.$mark = this.next;
+}}, "~N");
+Clazz.overrideMethod (c$, "reset", 
+function () {
 {
-if(this.isOpen()){
-if(this.pos!=this.count){
-return this.str.charAt(this.pos++);
-}return-1;
-}throw new java.io.IOException(("K0083"));
+this.ensureOpen ();
+this.next = this.$mark;
 }});
-$_M(c$,"read",
-function(buf,offset,len){
-if(0<=offset&&offset<=buf.length&&0<=len&&len<=buf.length-offset){
-{
-if(this.isOpen()){
-if(this.pos==this.count){
-return-1;
-}var end=this.pos+len>this.count?this.count:this.pos+len;
-this.str.getChars(this.pos,end,buf,offset);
-var read=end-this.pos;
-this.pos=end;
-return read;
-}throw new java.io.IOException(("K0083"));
-}}throw new ArrayIndexOutOfBoundsException();
-},"~A,~N,~N");
-$_V(c$,"ready",
-function(){
-{
-if(this.isOpen()){
-return true;
-}throw new java.io.IOException(("K0083"));
-}});
-$_V(c$,"reset",
-function(){
-{
-if(this.isOpen()){
-this.pos=this.markpos!=-1?this.markpos:0;
-}else{
-throw new java.io.IOException(("K0083"));
-}}});
-$_V(c$,"skip",
-function(ns){
-{
-if(this.isOpen()){
-if(ns<=0){
-return 0;
-}var skipped=0;
-if(ns<this.count-this.pos){
-this.pos=this.pos+ns;
-skipped=ns;
-}else{
-skipped=this.count-this.pos;
-this.pos=this.count;
-}return skipped;
-}throw new java.io.IOException(("K0083"));
-}},"~N");
+Clazz.overrideMethod (c$, "close", 
+function () {
+this.str = null;
+});
 });

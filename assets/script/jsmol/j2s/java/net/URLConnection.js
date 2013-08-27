@@ -1,5 +1,5 @@
 Clazz.declarePackage ("java.net");
-Clazz.load (null, "java.net.URLConnection", ["java.lang.IllegalStateException", "$.NullPointerException", "java.net.UnknownServiceException", "java.util.ArrayList"], function () {
+Clazz.load (null, "java.net.URLConnection", ["java.lang.IllegalStateException", "$.NullPointerException", "java.net.UnknownServiceException", "J.util.JmolList"], function () {
 c$ = Clazz.decorateAsClass (function () {
 this.url = null;
 this.doInput = true;
@@ -8,21 +8,21 @@ this.connected = false;
 this.requests = null;
 Clazz.instantialize (this, arguments);
 }, java.net, "URLConnection");
-Clazz.defineMethod (c$, "setDoInput", 
+$_M(c$, "setDoInput", 
 function (doinput) {
 if (this.connected) throw  new IllegalStateException ("Already connected");
 this.doInput = doinput;
 }, "~B");
-Clazz.defineMethod (c$, "getDoInput", 
+$_M(c$, "getDoInput", 
 function () {
 return this.doInput;
 });
-Clazz.defineMethod (c$, "setDoOutput", 
+$_M(c$, "setDoOutput", 
 function (dooutput) {
 if (this.connected) throw  new IllegalStateException ("Already connected");
 this.doOutput = dooutput;
 }, "~B");
-Clazz.defineMethod (c$, "getDoOutput", 
+$_M(c$, "getDoOutput", 
 function () {
 return this.doOutput;
 });
@@ -30,27 +30,27 @@ Clazz.makeConstructor (c$,
 function (url) {
 this.url = url;
 }, "java.net.URL");
-Clazz.defineMethod (c$, "getURL", 
+$_M(c$, "getURL", 
 function () {
 return this.url;
 });
-Clazz.defineMethod (c$, "getInputStream", 
+$_M(c$, "getInputStream", 
 function () {
 throw  new java.net.UnknownServiceException ("protocol doesn't support input");
 });
-Clazz.defineMethod (c$, "getOutputStream", 
+$_M(c$, "getOutputStream", 
 function () {
 throw  new java.net.UnknownServiceException ("protocol doesn't support output");
 });
-Clazz.defineMethod (c$, "setRequestProperty", 
+$_M(c$, "setRequestProperty", 
 function (key, value) {
 if (this.connected) throw  new IllegalStateException ("Already connected");
 if (key == null) throw  new NullPointerException ("key is null");
-if (this.requests == null) this.requests =  new java.util.ArrayList ();
+if (this.requests == null) this.requests =  new J.util.JmolList ();
 for (var i = this.requests.size (); --i >= 0; ) if (this.requests.get (i)[0].equals (key)) {
 this.requests.get (i)[1] = value;
 return;
 }
-this.requests.add ([key, value]);
+this.requests.addLast ([key, value]);
 }, "~S,~S");
 });

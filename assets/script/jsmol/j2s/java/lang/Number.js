@@ -14,37 +14,37 @@ Number.getName = Clazz.innerFunctions.getName;
 
 Number.serialVersionUID = Number.prototype.serialVersionUID = -8742448824652078965;
 
-Clazz.defineMethod (Number, "shortValue", 
+$_M(Number, "shortValue", 
 function () {
 return Math.round (this) & 0xffff;
 });
 
-Clazz.defineMethod (Number, "byteValue", 
+$_M(Number, "byteValue", 
 function () {
 return Math.round (this) & 0xff;
 });
 
-Clazz.defineMethod (Number, "intValue", 
+$_M(Number, "intValue", 
 function () {
 return Math.round (this) & 0xffffffff;
 });
 
-Clazz.defineMethod (Number, "longValue", 
+$_M(Number, "longValue", 
 function () {
 return Math.round (this);
 });
 
-Clazz.defineMethod (Number, "floatValue", 
+$_M(Number, "floatValue", 
 function () {
 return this.valueOf();
 });
 
-Clazz.defineMethod (Number, "doubleValue", 
+$_M(Number, "doubleValue", 
 function () {
 return this.valueOf();
 });
 
-Clazz.defineMethod (Number, "hashCode", 
+$_V (Number, "hashCode", 
 function () {
 return this.valueOf ();
 });

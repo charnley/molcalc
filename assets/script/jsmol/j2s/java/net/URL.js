@@ -94,7 +94,7 @@ throw e$$;
 }
 }
 }, "java.net.URL,~S,java.net.URLStreamHandler");
-Clazz.defineMethod (c$, "isValidProtocol", 
+$_M(c$, "isValidProtocol", 
 ($fz = function (protocol) {
 var len = protocol.length;
 if (len < 1) return false;
@@ -107,10 +107,10 @@ return false;
 }}
 return true;
 }, $fz.isPrivate = true, $fz), "~S");
-Clazz.defineMethod (c$, "checkSpecifyHandler", 
+$_M(c$, "checkSpecifyHandler", 
 ($fz = function (sm) {
 }, $fz.isPrivate = true, $fz), "SecurityManager");
-Clazz.defineMethod (c$, "set5", 
+$_M(c$, "set5", 
 function (protocol, host, port, file, ref) {
 {
 this.protocol = protocol;
@@ -126,7 +126,7 @@ this.query = file.substring (q + 1);
 this.path = file.substring (0, q);
 } else this.path = file;
 }}, "~S,~S,~N,~S,~S");
-Clazz.defineMethod (c$, "set", 
+$_M(c$, "set", 
 function (protocol, host, port, authority, userInfo, path, query, ref) {
 {
 this.protocol = protocol;
@@ -140,43 +140,43 @@ this.$hashCode = -1;
 this.query = query;
 this.authority = authority;
 }}, "~S,~S,~N,~S,~S,~S,~S,~S");
-Clazz.defineMethod (c$, "getQuery", 
+$_M(c$, "getQuery", 
 function () {
 return this.query;
 });
-Clazz.defineMethod (c$, "getPath", 
+$_M(c$, "getPath", 
 function () {
 return this.path;
 });
-Clazz.defineMethod (c$, "getUserInfo", 
+$_M(c$, "getUserInfo", 
 function () {
 return this.userInfo;
 });
-Clazz.defineMethod (c$, "getAuthority", 
+$_M(c$, "getAuthority", 
 function () {
 return this.authority;
 });
-Clazz.defineMethod (c$, "getPort", 
+$_M(c$, "getPort", 
 function () {
 return this.port;
 });
-Clazz.defineMethod (c$, "getDefaultPort", 
+$_M(c$, "getDefaultPort", 
 function () {
 return this.handler.getDefaultPort ();
 });
-Clazz.defineMethod (c$, "getProtocol", 
+$_M(c$, "getProtocol", 
 function () {
 return this.protocol;
 });
-Clazz.defineMethod (c$, "getHost", 
+$_M(c$, "getHost", 
 function () {
 return this.host;
 });
-Clazz.defineMethod (c$, "getFile", 
+$_M(c$, "getFile", 
 function () {
 return this.file;
 });
-Clazz.defineMethod (c$, "getRef", 
+$_M(c$, "getRef", 
 function () {
 return this.ref;
 });
@@ -184,7 +184,7 @@ Clazz.overrideMethod (c$, "equals",
 function (obj) {
 if (!(Clazz.instanceOf (obj, java.net.URL))) return false;
 var u2 = obj;
-return this.handler.equals (this, u2);
+return this.handler.equals2 (this, u2);
 }, "~O");
 Clazz.overrideMethod (c$, "hashCode", 
 function () {
@@ -192,7 +192,7 @@ if (this.$hashCode != -1) return this.$hashCode;
 this.$hashCode = this.handler.hashCode (this);
 return this.$hashCode;
 });
-Clazz.defineMethod (c$, "sameFile", 
+$_M(c$, "sameFile", 
 function (other) {
 return this.handler.sameFile (this, other);
 }, "java.net.URL");
@@ -200,23 +200,23 @@ Clazz.overrideMethod (c$, "toString",
 function () {
 return this.toExternalForm ();
 });
-Clazz.defineMethod (c$, "toExternalForm", 
+$_M(c$, "toExternalForm", 
 function () {
 return this.handler.toExternalForm (this);
 });
-Clazz.defineMethod (c$, "openConnection", 
+$_M(c$, "openConnection", 
 function () {
 return this.handler.openConnection (this);
 });
-Clazz.defineMethod (c$, "openStream", 
+$_M(c$, "openStream", 
 function () {
 return this.openConnection ().getInputStream ();
 });
-Clazz.defineMethod (c$, "getContent", 
+$_M(c$, "getContent", 
 function () {
 return this.openConnection ().getInputStream ();
 });
-c$.setURLStreamHandlerFactory = Clazz.defineMethod (c$, "setURLStreamHandlerFactory", 
+c$.setURLStreamHandlerFactory = $_M(c$, "setURLStreamHandlerFactory", 
 function (fac) {
 {
 if (java.net.URL.factory != null) {
@@ -227,7 +227,7 @@ security.checkSetFactory ();
 }java.net.URL.handlers.clear ();
 ($t$ = java.net.URL.factory = fac, java.net.URL.prototype.factory = java.net.URL.factory, $t$);
 }}, "java.net.URLStreamHandlerFactory");
-c$.getURLStreamHandler = Clazz.defineMethod (c$, "getURLStreamHandler", 
+c$.getURLStreamHandler = $_M(c$, "getURLStreamHandler", 
 function (protocol) {
 var handler = java.net.URL.handlers.get (protocol);
 if (handler == null) {

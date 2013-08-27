@@ -1,67 +1,76 @@
+// BH adjusted to have only one sort method.
+
 $_L(["java.util.AbstractList","$.RandomAccess"],"java.util.Arrays",["java.lang.ArrayIndexOutOfBoundsException","$.IllegalArgumentException","$.NullPointerException"],function(){
 c$=$_T(java.util,"Arrays");
-c$.sort=$_M(c$,"sort",
-function(a){
-var aux=a.sort(function(o1,o2){
-if(typeof o1=="string"||o1 instanceof Comparable){
-return o1.compareTo(o2);
-}
-return o1-o2;
+
+c$.sort=$_V(c$,"sort",
+function(a,c,d,e){
+  switch (arguments.length) {
+  case 1:
+    var aux=a.sort(function(o1,o2){
+      if(typeof o1=="string"||o1 instanceof Comparable){
+        return o1.compareTo(o2);
+      }
+      return o1-o2;
+      });
+    for(var i=0;i<a.length;i++){
+      a[i]=aux[i];
+    }
+    return;
+  case 2:
+    var aux=a.sort(function(o1,o2){
+      if(c!=null){
+        return c.compare(o1,o2);
+      }else if(typeof o1=="string"||o1 instanceof Comparable){
+        return o1.compareTo(o2);
+      }
+      return o1-o2;
+      });
+    for(var i=0;i<a.length;i++){
+      a[i]=aux[i];
+    }
+    return;
+  case 3:
+    var fromIndex = c;
+    var toIndex = d;
+    this.rangeCheck(a.length,fromIndex,toIndex);
+    var aux=new Array();
+    for(var i=fromIndex;i<toIndex;i++){
+      aux[i-fromIndex]=a[i];
+    }
+    aux=aux.sort(function(o1,o2){
+      if(typeof o1=="string"||o1 instanceof Comparable){
+        return o1.compareTo(o2);
+      }
+      return o1-o2;
+      });
+    for(var i=fromIndex;i<toIndex;i++){
+      a[i]=aux[i-fromIndex];
+    }
+    return;
+  case 4:  
+    var fromIndex = c;
+    var toIndex = d;
+    c = e;
+    this.rangeCheck(a.length,fromIndex,toIndex);
+    var aux=new Array();
+    for(var i=fromIndex;i<toIndex;i++){
+      aux[i-fromIndex]=a[i];
+    }
+    aux=aux.sort(function(o1,o2){
+      if(c!=null){
+        return c.compare(o1,o2);
+      }else if(typeof o1=="string"||o1 instanceof Comparable){
+        return o1.compareTo(o2);
+      }
+      return o1-o2;
+      });
+    for(var i=fromIndex;i<toIndex;i++){
+      a[i]=aux[i-fromIndex];
+    }
+  }
 });
-for(var i=0;i<a.length;i++){
-a[i]=aux[i];
-}
-},"~A");
-c$.sort=$_M(c$,"sort",
-function(a,fromIndex,toIndex){
-this.rangeCheck(a.length,fromIndex,toIndex);
-var aux=new Array();
-for(var i=fromIndex;i<toIndex;i++){
-aux[i-fromIndex]=a[i];
-}
-aux=aux.sort(function(o1,o2){
-if(typeof o1=="string"||o1 instanceof Comparable){
-return o1.compareTo(o2);
-}
-return o1-o2;
-});
-for(var i=fromIndex;i<toIndex;i++){
-a[i]=aux[i-fromIndex];
-}
-},"~A,~N,~N");
-c$.sort=$_M(c$,"sort",
-function(a,c){
-var aux=a.sort(function(o1,o2){
-if(c!=null){
-return c.compare(o1,o2);
-}else if(typeof o1=="string"||o1 instanceof Comparable){
-return o1.compareTo(o2);
-}
-return o1-o2;
-});
-for(var i=0;i<a.length;i++){
-a[i]=aux[i];
-}
-},"~A,java.util.Comparator");
-c$.sort=$_M(c$,"sort",
-function(a,fromIndex,toIndex,c){
-this.rangeCheck(a.length,fromIndex,toIndex);
-var aux=new Array();
-for(var i=fromIndex;i<toIndex;i++){
-aux[i-fromIndex]=a[i];
-}
-aux=aux.sort(function(o1,o2){
-if(c!=null){
-return c.compare(o1,o2);
-}else if(typeof o1=="string"||o1 instanceof Comparable){
-return o1.compareTo(o2);
-}
-return o1-o2;
-});
-for(var i=fromIndex;i<toIndex;i++){
-a[i]=aux[i-fromIndex];
-}
-},"~A,~N,~N,java.util.Comparator");
+
 c$.rangeCheck=$_M(c$,"rangeCheck",
 ($fz=function(arrayLen,fromIndex,toIndex){
 if(fromIndex>toIndex)throw new IllegalArgumentException("fromIndex("+fromIndex+") > toIndex("+toIndex+")");
@@ -124,16 +133,18 @@ if(!(o1==null?o2==null:(o1.equals==null?o1==o2:o1.equals(o2))))return false;
 }}
 return true;
 },"~A,~A");
-c$.fill=$_M(c$,"fill",
-function(a,val){
-java.util.Arrays.fill(a,0,a.length,val);
-},"~A,~O");
-c$.fill=$_M(c$,"fill",
-function(a,fromIndex,toIndex,val){
-java.util.Arrays.rangeCheck(a.length,fromIndex,toIndex);
-for(var i=fromIndex;i<toIndex;i++)a[i]=val;
 
-},"~A,~N,~N,~O");
+c$.fill=$_V(c$,"fill",
+function(a,fromIndex,toIndex,val){
+if (arguments.length == 2) {
+		val = fromIndex;
+		fromIndex = 0;
+		toIndex = a.length;
+	}	
+	java.util.Arrays.rangeCheck(a.length,fromIndex,toIndex);
+	for(var i=fromIndex;i<toIndex;i++)a[i]=val;
+});
+
 c$.asList=$_M(c$,"asList",
 function(a){
 return new java.util.Arrays.ArrayList(a);

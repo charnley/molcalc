@@ -44,7 +44,7 @@ Float.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
 Float.NaN = Number.NaN;
 Float.TYPE = Float.prototype.TYPE = Float;
 
-Clazz.defineMethod (Float, "parseFloat", 
+$_M(Float, "parseFloat", 
 function (s) {
 if (s == null) {
 throw  new NumberFormatException ("null");
@@ -57,29 +57,29 @@ return floatVal;
 }, "String");
 Float.parseFloat = Float.prototype.parseFloat;
 
-Clazz.defineMethod (Float, "$valueOf", 
+$_M(Float, "$valueOf", 
 function (s) {
 return new Float(Float.parseFloat (s, 10));
 }, "String");
 
-Clazz.defineMethod (Float, "$valueOf", 
+$_M(Float, "$valueOf", 
 function (s) {
 return new Float(s);
 }, "Number");
 
 Float.$valueOf = Float.prototype.$valueOf;
-Clazz.defineMethod (Float, "isNaN", 
+$_M(Float, "isNaN", 
 function (num) {
 return isNaN (num);
 }, "Number");
 Float.isNaN = Float.prototype.isNaN;
-Clazz.defineMethod (Float, "isInfinite", 
+$_M(Float, "isInfinite", 
 function (num) {
 return !isFinite (num);
 }, "Number");
 Float.isInfinite = Float.prototype.isInfinite;
 
-Clazz.defineMethod (Float, "equals", 
+$_V (Float, "equals", 
 function (s) {
 if(s == null || ! Clazz.instanceOf(s, Float) ){
 	return false;

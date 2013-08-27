@@ -24,41 +24,41 @@ this.valueOf = function () {
 	return Boolean.toBoolean (s);
 };
 }, "~S");
-Boolean.parseBoolean = Clazz.defineMethod (Boolean, "parseBoolean", 
+Boolean.parseBoolean = $_M(Boolean, "parseBoolean", 
 function (s) {
 return Boolean.toBoolean (s);
 }, "~S");
-Clazz.defineMethod (Boolean, "booleanValue", 
+$_M(Boolean, "booleanValue", 
 function () {
 return this.value;
 });
-Boolean.$valueOf = Clazz.defineMethod (Boolean, "$valueOf", 
+Boolean.$valueOf = $_M(Boolean, "$valueOf", 
 function (b) {
 return (b ? Boolean.TRUE : Boolean.FALSE);
 }, "~B");
-Boolean.$valueOf = Clazz.defineMethod (Boolean, "$valueOf", 
+Boolean.$valueOf = $_M(Boolean, "$valueOf", 
 function (s) {
 return Boolean.toBoolean (s) ? Boolean.TRUE : Boolean.FALSE;
 }, "~S");
-Boolean.toString = Clazz.defineMethod (Boolean, "toString", 
+Boolean.toString = $_M(Boolean, "toString", 
 function (b) {
 return b ? "true" : "false";
 }, "~B");
-Clazz.defineMethod (Boolean, "toString", 
+$_M(Boolean, "toString", 
 function () {
 return this.valueOf () ? "true" : "false";
 });
-Clazz.overrideMethod (Boolean, "hashCode", 
+$_V (Boolean, "hashCode", 
 function () {
 return this.valueOf () ? 1231 : 1237;
 });
-Clazz.overrideMethod (Boolean, "equals", 
+$_V (Boolean, "equals", 
 function (obj) {
 if (Clazz.instanceOf (obj, Boolean)) {
 return this.value == (obj).booleanValue ();
 }return false;
 }, "~O");
-Boolean.getBoolean = Clazz.defineMethod (Boolean, "getBoolean", 
+Boolean.getBoolean = $_M(Boolean, "getBoolean", 
 function (name) {
 var result = false;
 try {
@@ -72,11 +72,11 @@ throw e;
 }
 return result;
 }, "~S");
-Clazz.overrideMethod (Boolean, "compareTo", 
+$_V (Boolean, "compareTo", 
 function (b) {
 return (b.value == this.value ? 0 : (this.value ? 1 : -1));
 }, "Boolean");
-Boolean.toBoolean = Clazz.defineMethod (Boolean, "toBoolean", 
+Boolean.toBoolean = $_M(Boolean, "toBoolean", 
 ($fz = function (name) {
 return ((name != null) && name.equalsIgnoreCase ("true"));
 }, $fz.isPrivate = true, $fz), "~S");

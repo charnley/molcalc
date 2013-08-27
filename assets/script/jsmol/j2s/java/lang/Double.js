@@ -40,18 +40,18 @@ Double.POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
 Double.NaN = Number.NaN;
 Double.TYPE = Double.prototype.TYPE = Double;
 
-Clazz.defineMethod (Double, "isNaN", 
+$_M(Double, "isNaN", 
 function (num) {
 return isNaN (num);
 }, "Number");
 Double.isNaN = Double.prototype.isNaN;
-Clazz.defineMethod (Double, "isInfinite", 
+$_M(Double, "isInfinite", 
 function (num) {
 return !isFinite (num);
 }, "Number");
 Double.isInfinite = Double.prototype.isInfinite;
 
-Clazz.defineMethod (Double, "parseDouble", 
+$_M(Double, "parseDouble", 
 function (s) {
 if (s == null) {
 throw  new NumberFormatException ("null");
@@ -64,19 +64,19 @@ return doubleVal;
 }, "String");
 Double.parseDouble = Double.prototype.parseDouble;
 
-Clazz.defineMethod (Double, "$valueOf", 
+$_M(Double, "$valueOf", 
 function (s) {
 return new Double(this.parseDouble(s));
 }, "String");
 
-Clazz.defineMethod (Double, "$valueOf", 
+$_M(Double, "$valueOf", 
 function (v) {
 return new Double(v);
 }, "Number");
 
 Double.$valueOf = Double.prototype.$valueOf;
 
-Clazz.defineMethod (Double, "equals", 
+$_V(Double, "equals", 
 function (s) {
 if(s == null || ! Clazz.instanceOf(s, Double) ){
 	return false;

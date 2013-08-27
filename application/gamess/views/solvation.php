@@ -55,7 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
   $charge = preg_split("/\s+/", $chargelines);
   $charge = $charge[5]; # Charge of Molecule
-  
+
   $elec = $solvtable[9][1]; # Electrostatic Interaction
   $cav = $solvtable[1][5]; # Pierotti Cavitation Energy
   $disp = $solvtable[2][5]; # Dispersion Energy
@@ -68,10 +68,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
   $dipoley = $dipoletable[4][2];
   $dipolez = $dipoletable[4][3];
 
-  $areatable = preg_split("/[(]/",$areatable[0][3]); 
+  $areatable = preg_split("/[(]/",$areatable[0][3]);
   $surfarea = $areatable[0]; # Surface Area
 
-  $c2j = 4.18; # cal to joule 
+  $c2j = 4.18; # cal to joule
 
 ?>
 
@@ -133,7 +133,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
   Jmol.script(jmol_surf, 'set solventProbe 1.4; isosurface molecular map mep');
   Jmol.script(jmol_surf, 'color isosurface translucent 0.5');
   Jmol.script(jmol_surf, 'color $isosurface1 "roygb" range -0.05 0.05');
-  Jmol.script(jmol_surf, 'hover q_%e%i = %.2P');
+  Jmol.script(jmol_surf, 'hover q_%e%i = %.2P'); // Particle charge
 
   // Get center of mass
   Jmol.script(jmol_surf, 'atomSet = {*}; n = atomSet.size; \

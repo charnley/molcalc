@@ -21,75 +21,75 @@ throw  new NullPointerException ();
 throw  new IllegalArgumentException ("entry name too long");
 }this.name = name;
 }, "~S");
-Clazz.defineMethod (c$, "getName", 
+$_M(c$, "getName", 
 function () {
 return this.name;
 });
-Clazz.defineMethod (c$, "setTime", 
+$_M(c$, "setTime", 
 function (time) {
 this.time = java.util.zip.ZipEntry.javaToDosTime (time);
 }, "~N");
-Clazz.defineMethod (c$, "getTime", 
+$_M(c$, "getTime", 
 function () {
 return this.time != -1 ? java.util.zip.ZipEntry.dosToJavaTime (this.time) : -1;
 });
-Clazz.defineMethod (c$, "setSize", 
+$_M(c$, "setSize", 
 function (size) {
 if (size < 0) {
 throw  new IllegalArgumentException ("invalid entry size");
 }this.size = size;
 }, "~N");
-Clazz.defineMethod (c$, "getSize", 
+$_M(c$, "getSize", 
 function () {
 return this.size;
 });
-Clazz.defineMethod (c$, "getCompressedSize", 
+$_M(c$, "getCompressedSize", 
 function () {
 return this.csize;
 });
-Clazz.defineMethod (c$, "setCompressedSize", 
+$_M(c$, "setCompressedSize", 
 function (csize) {
 this.csize = csize;
 }, "~N");
-Clazz.defineMethod (c$, "setCrc", 
+$_M(c$, "setCrc", 
 function (crc) {
 if (crc < 0 || crc > 0xFFFFFFFF) {
 throw  new IllegalArgumentException ("invalid entry crc-32");
 }this.crc = crc;
 }, "~N");
-Clazz.defineMethod (c$, "getCrc", 
+$_M(c$, "getCrc", 
 function () {
 return this.crc;
 });
-Clazz.defineMethod (c$, "setMethod", 
+$_M(c$, "setMethod", 
 function (method) {
 if (method != 0 && method != 8) {
 throw  new IllegalArgumentException ("invalid compression method");
 }this.method = method;
 }, "~N");
-Clazz.defineMethod (c$, "getMethod", 
+$_M(c$, "getMethod", 
 function () {
 return this.method;
 });
-Clazz.defineMethod (c$, "setExtra", 
+$_M(c$, "setExtra", 
 function (extra) {
 if (extra != null && extra.length > 0xFFFF) {
 throw  new IllegalArgumentException ("invalid extra field length");
 }this.extra = extra;
 }, "~A");
-Clazz.defineMethod (c$, "getExtra", 
+$_M(c$, "getExtra", 
 function () {
 return this.extra;
 });
-Clazz.defineMethod (c$, "setComment", 
+$_M(c$, "setComment", 
 function (comment) {
 this.comment = comment;
 }, "~S");
-Clazz.defineMethod (c$, "getComment", 
+$_M(c$, "getComment", 
 function () {
 return this.comment;
 });
-Clazz.defineMethod (c$, "isDirectory", 
+$_M(c$, "isDirectory", 
 function () {
 return this.name.endsWith ("/");
 });
@@ -97,12 +97,12 @@ Clazz.overrideMethod (c$, "toString",
 function () {
 return this.getName ();
 });
-c$.dosToJavaTime = Clazz.defineMethod (c$, "dosToJavaTime", 
+c$.dosToJavaTime = $_M(c$, "dosToJavaTime", 
 ($fz = function (dtime) {
 var d =  new java.util.Date ((((dtime >> 25) & 0x7f) + 80), (((dtime >> 21) & 0x0f) - 1), ((dtime >> 16) & 0x1f), ((dtime >> 11) & 0x1f), ((dtime >> 5) & 0x3f), ((dtime << 1) & 0x3e));
 return d.getTime ();
 }, $fz.isPrivate = true, $fz), "~N");
-c$.javaToDosTime = Clazz.defineMethod (c$, "javaToDosTime", 
+c$.javaToDosTime = $_M(c$, "javaToDosTime", 
 ($fz = function (time) {
 var d =  new java.util.Date (time);
 var year = d.getYear () + 1900;
@@ -114,7 +114,7 @@ Clazz.overrideMethod (c$, "hashCode",
 function () {
 return this.name.hashCode ();
 });
-Clazz.defineMethod (c$, "clone", 
+$_M(c$, "clone", 
 function () {
 try {
 var e = Clazz.superCall (this, java.util.zip.ZipEntry, "clone", []);

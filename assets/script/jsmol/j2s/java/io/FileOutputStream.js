@@ -1,4 +1,4 @@
-$_L(["java.io.Closeable","$.OutputStream"],"java.io.FileOutputStream",["java.lang.IndexOutOfBoundsException","$.NullPointerException",null],function(){
+$_L(["java.io.Closeable","$.OutputStream"],"java.io.FileOutputStream",["java.lang.IndexOutOfBoundsException","$.NullPointerException"],function(){
 c$=$_C(function(){
 this.fd=null;
 this.innerFD=false;

@@ -15,7 +15,7 @@ Clazz.overrideMethod (c$, "read",
 function (b, off, len) {
 return this.$in.read (b, off, len);
 }, "~A,~N,~N");
-Clazz.defineMethod (c$, "readFully", 
+$_M(c$, "readFully", 
 function (b, off, len) {
 if (len < 0) throw  new IndexOutOfBoundsException ();
 var n = 0;
@@ -59,7 +59,7 @@ var ch2 = this.$in.readByteAsInt ();
 if ((ch1 | ch2) < 0) throw  new java.io.EOFException ();
 return ((ch1 << 8) + (ch2 << 0));
 });
-Clazz.defineMethod (c$, "readUnsignedShort", 
+$_M(c$, "readUnsignedShort", 
 function () {
 var ch1 = this.$in.readByteAsInt ();
 var ch2 = this.$in.readByteAsInt ();
@@ -133,7 +133,7 @@ Clazz.overrideMethod (c$, "readUTF",
 function () {
 return java.io.DataInputStream.readUTFBytes (this, -1);
 });
-c$.readUTFBytes = Clazz.defineMethod (c$, "readUTFBytes", 
+c$.readUTFBytes = $_M(c$, "readUTFBytes", 
 function ($in, utflen) {
 var isByteArray = (utflen >= 0);
 if (!isByteArray) utflen = $in.readUnsignedShort ();

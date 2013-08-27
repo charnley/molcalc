@@ -19,39 +19,16 @@ c$.newEntry=$_M(c$,"newEntry",
 ($fz=function(key,value,hash){
 return new java.util.Hashtable.Entry(key,value);
 },$fz.isPrivate=true,$fz),"~O,~O,~N");
-$_K(c$,
+
+$_k(c$,
 function(){
-this.construct(11);
-});
-$_K(c$,
-function(capacity){
-$_R(this,java.util.Hashtable,[]);
-if(capacity>=0){
 this.elementCount=0;
-this.elementData=this.newElementArray(capacity==0?1:capacity);
+this.elementData=this.newElementArray(11);
 this.firstSlot=this.elementData.length;
 this.loadFactor=0.75;
 this.computeMaxSize();
-}else{
-throw new IllegalArgumentException();
-}},"~N");
-$_K(c$,
-function(capacity,loadFactor){
-$_R(this,java.util.Hashtable,[]);
-if(capacity>=0&&loadFactor>0){
-this.elementCount=0;
-this.firstSlot=capacity;
-this.elementData=this.newElementArray(capacity==0?1:capacity);
-this.loadFactor=loadFactor;
-this.computeMaxSize();
-}else{
-throw new IllegalArgumentException();
-}},"~N,~N");
-$_K(c$,
-function(map){
-this.construct(map.size()<6?11:(Math.floor(map.size()*4/3))+11);
-this.putAll(map);
-},"java.util.Map");
+});
+
 $_M(c$,"newElementArray",
 ($fz=function(size){
 return new Array(size);
@@ -59,7 +36,8 @@ return new Array(size);
 $_V(c$,"clear",
 function(){
 this.elementCount=0;
-java.util.Arrays.fill(this.elementData,null);
+for (var i = this.elementData.length; --i >= 0;)
+	  this.elementData[i] = null;
 this.modCount++;
 });
 $_M(c$,"clone",
@@ -540,11 +518,14 @@ this.next=null;
 this.hashcode=0;
 $_Z(this,arguments);
 },java.util.Hashtable,"Entry",java.util.MapEntry);
-$_K(c$,
+$_k(c$,
 function(a,b){
-$_R(this,java.util.Hashtable.Entry,[a,b]);
+	// _k for @j2sOverride
+this.key = a;
+this.value = b;
+//$_R(this,java.util.Hashtable.Entry,[a,b]);
 this.hashcode=a.hashCode();
-},"~O,~O");
+});
 $_M(c$,"clone",
 function(){
 var a=$_U(this,java.util.Hashtable.Entry,"clone",[]);

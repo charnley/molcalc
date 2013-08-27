@@ -1,4 +1,4 @@
-Clazz.load (["java.io.Reader"], "java.io.BufferedReader", ["java.io.IOException", "java.lang.IllegalArgumentException", "$.IndexOutOfBoundsException", "org.jmol.util.StringXBuilder"], function () {
+Clazz.load (["java.io.Reader"], "java.io.BufferedReader", ["java.io.IOException", "java.lang.IllegalArgumentException", "$.IndexOutOfBoundsException", "J.util.SB"], function () {
 c$ = Clazz.decorateAsClass (function () {
 this.$in = null;
 this.cb = null;
@@ -10,7 +10,7 @@ this.skipLF = false;
 this.markedSkipLF = false;
 Clazz.instantialize (this, arguments);
 }, java.io, "BufferedReader", java.io.Reader);
-Clazz.defineMethod (c$, "setSize", 
+$_M(c$, "setSize", 
 ($fz = function (sz) {
 if (sz <= 0) throw  new IllegalArgumentException ("Buffer size <= 0");
 this.cb =  Clazz.newCharArray (sz, '\0');
@@ -22,11 +22,11 @@ Clazz.superConstructor (this, java.io.BufferedReader, [$in]);
 this.$in = $in;
 this.setSize (java.io.BufferedReader.defaultCharBufferSize);
 }, "java.io.Reader");
-Clazz.defineMethod (c$, "ensureOpen", 
+$_M(c$, "ensureOpen", 
 ($fz = function () {
 if (this.$in == null) throw  new java.io.IOException ("Stream closed");
 }, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "fill", 
+$_M(c$, "fill", 
 ($fz = function () {
 var dst;
 if (this.markedChar <= -1) {
@@ -57,7 +57,7 @@ if (n > 0) {
 this.nChars = dst + n;
 this.nextChar = dst;
 }}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "read1", 
+$_M(c$, "read1", 
 ($fz = function (cbuf, off, len) {
 if (this.nextChar >= this.nChars) {
 if (len >= this.cb.length && this.markedChar <= -1 && !this.skipLF) {
@@ -75,7 +75,7 @@ System.arraycopy (this.cb, this.nextChar, cbuf, off, n);
 this.nextChar += n;
 return n;
 }, $fz.isPrivate = true, $fz), "~A,~N,~N");
-Clazz.defineMethod (c$, "read", 
+$_M(c$, "read", 
 function (cbuf, off, len) {
 {
 this.ensureOpen ();
@@ -92,7 +92,7 @@ n += n1;
 }
 return n;
 }}, "~A,~N,~N");
-Clazz.defineMethod (c$, "readLine1", 
+$_M(c$, "readLine1", 
 ($fz = function (ignoreLF) {
 var s = null;
 var startChar;
@@ -129,11 +129,11 @@ str = s.toString ();
 if (c == '\r') {
 this.skipLF = true;
 }return str;
-}if (s == null) s = org.jmol.util.StringXBuilder.newN (java.io.BufferedReader.defaultExpectedLineLength);
+}if (s == null) s = J.util.SB.newN (java.io.BufferedReader.defaultExpectedLineLength);
 s.appendCB (this.cb, startChar, i - startChar);
 }
 }}, $fz.isPrivate = true, $fz), "~B");
-Clazz.defineMethod (c$, "readLine", 
+$_M(c$, "readLine", 
 function () {
 return this.readLine1 (false);
 });
@@ -161,7 +161,7 @@ this.nextChar = this.nChars;
 }
 return n - r;
 }}, "~N");
-Clazz.defineMethod (c$, "ready", 
+$_M(c$, "ready", 
 function () {
 {
 this.ensureOpen ();
@@ -195,7 +195,7 @@ if (this.markedChar < 0) throw  new java.io.IOException ((this.markedChar == -2)
 this.nextChar = this.markedChar;
 this.skipLF = this.markedSkipLF;
 }});
-Clazz.defineMethod (c$, "close", 
+$_M(c$, "close", 
 function () {
 {
 if (this.$in == null) return;

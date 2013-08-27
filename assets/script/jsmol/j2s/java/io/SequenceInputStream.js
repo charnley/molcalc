@@ -1,4 +1,4 @@
-Clazz.load (["java.io.InputStream"], "java.io.SequenceInputStream", ["java.lang.Error", "$.IndexOutOfBoundsException", "$.NullPointerException", "java.util.Vector"], function () {
+﻿Clazz.load (["java.io.InputStream"], "java.io.SequenceInputStream", ["java.lang.Error", "$.IndexOutOfBoundsException", "$.NullPointerException", "java.util.Vector"], function () {
 c$ = Clazz.decorateAsClass (function () {
 this.e = null;
 this.$in = null;
@@ -35,7 +35,7 @@ throw ex;
 }
 }
 }, "java.io.InputStream,java.io.InputStream");
-Clazz.defineMethod (c$, "nextStream", 
+$_M(c$, "nextStream", 
 function () {
 if (this.$in != null) {
 this.$in.close ();
@@ -44,13 +44,13 @@ this.$in = this.e.nextElement ();
 if (this.$in == null) throw  new NullPointerException ();
 } else this.$in = null;
 });
-Clazz.defineMethod (c$, "available", 
+$_M(c$, "available", 
 function () {
 if (this.$in == null) {
 return 0;
 }return this.$in.available ();
 });
-Clazz.defineMethod (c$, "readByteAsInt", 
+$_M(c$, "readByteAsInt", 
 function () {
 if (this.$in == null) {
 return -1;
@@ -60,7 +60,7 @@ this.nextStream ();
 return this.readByteAsInt ();
 }return c;
 });
-Clazz.defineMethod (c$, "read", 
+$_M(c$, "read", 
 function (b, off, len) {
 if (this.$in == null) {
 return -1;
@@ -76,7 +76,7 @@ this.nextStream ();
 return this.read (b, off, len);
 }return n;
 }, "~A,~N,~N");
-Clazz.defineMethod (c$, "close", 
+$_M(c$, "close", 
 function () {
 do {
 this.nextStream ();

@@ -5,11 +5,13 @@ this.lastIndex=0;
 this.array=null;
 $_Z(this,arguments);
 },java.util,"ArrayList",java.util.AbstractList,[java.util.List,Cloneable,java.io.Serializable,java.util.RandomAccess]);
-$_K(c$,
+
+$_k(c$,
 function(){
-this.construct(0);
+this.setup(0);
 });
-$_K(c$,
+
+$_M(c$, "setup",
 function(capacity){
 $_R(this,java.util.ArrayList,[]);
 this.firstIndex=this.lastIndex=0;
@@ -23,6 +25,7 @@ throw e;
 }
 }
 },"~N");
+/*
 $_K(c$,
 function(collection){
 $_R(this,java.util.ArrayList,[]);
@@ -31,12 +34,22 @@ this.firstIndex=this.lastIndex=0;
 this.array=this.newElementArray(size+(Math.floor(size/10)));
 this.addAll(collection);
 },"java.util.Collection");
+
+*/
+
 $_M(c$,"newElementArray",
 ($fz=function(size){
 return new Array(size);
 },$fz.isPrivate=true,$fz),"~N");
-$_M(c$,"add",
+
+$_V(c$,"add",
 function(location,object){
+
+if (arguments.length == 1) {
+	// coming from Java methods, e.g. Collections.list()
+	// location is actually the object
+	return this.add1(location);
+}
 var size=this.size();
 if(0<location&&location<size){
 if(this.firstIndex==0&&this.lastIndex==this.array.length){
@@ -60,7 +73,8 @@ this.growAtEnd(1);
 throw new IndexOutOfBoundsException();
 }this.modCount++;
 },"~N,~O");
-$_M(c$,"add",
+
+$_V(c$,"add1",
 function(object){
 if(this.lastIndex==this.array.length){
 this.growAtEnd(1);
@@ -68,6 +82,9 @@ this.growAtEnd(1);
 this.modCount++;
 return true;
 },"~O");
+
+/* BH disallow addAll(int,List)
+ * 
 $_M(c$,"addAll",
 function(location,collection){
 var size=this.size();
@@ -108,28 +125,39 @@ this.modCount++;
 return true;
 }return false;
 },"~N,java.util.Collection");
-$_M(c$,"addAll",
+
+ */
+
+$_V(c$,"addAll",
 function(collection){
 var growSize=collection.size();
 if(growSize>0){
-if(this.lastIndex>this.array.length-growSize){
-this.growAtEnd(growSize);
-}var it=collection.iterator();
+	if(this.lastIndex>this.array.length-growSize){
+		this.growAtEnd(growSize);
+}
+var it=collection.iterator();
 var end=this.lastIndex+growSize;
 while(this.lastIndex<end){
-this.array[this.lastIndex++]=it.next();
+	this.array[this.lastIndex++]=it.next();
 }
 this.modCount++;
 return true;
 }return false;
 },"java.util.Collection");
+
 $_V(c$,"clear",
 function(){
 if(this.firstIndex!=this.lastIndex){
-java.util.Arrays.fill(this.array,this.firstIndex,this.lastIndex,null);
+this.fill(this.firstIndex,this.lastIndex);
 this.firstIndex=this.lastIndex=0;
 this.modCount++;
 }});
+
+$_M(c$,"fill", function(i1, i2) { // BH
+for (var i = i2; --i >= i1;)
+this.array[i] = null;
+},"~N,~N");
+
 $_M(c$,"clone",
 function(){
 try{
@@ -172,28 +200,36 @@ if(0<=location&&location<this.size()){
 return this.array[this.firstIndex+location];
 }throw new IndexOutOfBoundsException();
 },"~N");
+
+
 $_M(c$,"growAtEnd",
 ($fz=function(required){
 var size=this.size();
 if(this.firstIndex>=required-(this.array.length-this.lastIndex)){
-var newLast=this.lastIndex-this.firstIndex;
-if(size>0){
-System.arraycopy(this.array,this.firstIndex,this.array,0,size);
-var start=newLast<this.firstIndex?this.firstIndex:newLast;
-java.util.Arrays.fill(this.array,start,this.array.length,null);
-}this.firstIndex=0;
-this.lastIndex=newLast;
+	var newLast=this.lastIndex-this.firstIndex;
+	if(size>0){
+		System.arraycopy(this.array,this.firstIndex,this.array,0,size);
+		var start=newLast<this.firstIndex?this.firstIndex:newLast;
+		this.fill(start,this.array.length);
+	}
+	this.firstIndex=0;
+	this.lastIndex=newLast;
 }else{
-var increment=Math.floor(size/2);
-if(required>increment){
-increment=required;
-}if(increment<12){
-increment=12;
-}var newArray=this.newElementArray(size+increment);
-if(size>0){
-System.arraycopy(this.array,this.firstIndex,newArray,this.firstIndex,size);
-}this.array=newArray;
-}},$fz.isPrivate=true,$fz),"~N");
+	var increment=Math.floor(size/2);
+	if(required>increment){
+		increment=required;
+	}
+	if(increment<12){
+		increment=12;
+	}
+	var newArray=this.newElementArray(size+increment);
+	if(size>0){
+		System.arraycopy(this.array,this.firstIndex,newArray,this.firstIndex,size);
+	}
+	this.array=newArray;
+}
+
+},$fz.isPrivate=true,$fz),"~N");
 $_M(c$,"growAtFront",
 ($fz=function(required){
 var size=this.size();
@@ -202,7 +238,7 @@ var newFirst=this.array.length-size;
 if(size>0){
 System.arraycopy(this.array,this.firstIndex,this.array,newFirst,size);
 var length=this.firstIndex+size>newFirst?newFirst:this.firstIndex+size;
-java.util.Arrays.fill(this.array,this.firstIndex,length,null);
+this.fill(this.firstIndex,length);
 }this.firstIndex=newFirst;
 this.lastIndex=this.array.length;
 }else{
@@ -272,7 +308,7 @@ return i-this.firstIndex;
 }}
 }return-1;
 },"~O");
-$_M(c$,"remove",
+$_V(c$,"remove",
 function(location){
 var result;
 var size=this.size();
@@ -296,7 +332,9 @@ this.array[--this.lastIndex]=null;
 throw new IndexOutOfBoundsException();
 }this.modCount++;
 return result;
-},"~N");
+},"~N"); 
+
+//$_M(c$, "removeObject")
 $_V(c$,"removeRange",
 function(start,end){
 if(start>=0&&start<=end&&end<=this.size()){
@@ -304,15 +342,15 @@ if(start==end){
 return;
 }var size=this.size();
 if(end==size){
-java.util.Arrays.fill(this.array,this.firstIndex+start,this.lastIndex,null);
+	this.fill(this.firstIndex+start,this.lastIndex);
 this.lastIndex=this.firstIndex+start;
 }else if(start==0){
-java.util.Arrays.fill(this.array,this.firstIndex,this.firstIndex+end,null);
+	this.fill(this.firstIndex,this.firstIndex+end);
 this.firstIndex+=end;
 }else{
 System.arraycopy(this.array,this.firstIndex+end,this.array,this.firstIndex+start,size-end);
 var newLast=this.lastIndex+start-end;
-java.util.Arrays.fill(this.array,newLast,this.lastIndex,null);
+this.fill(newLast,this.lastIndex);
 this.lastIndex=newLast;
 }this.modCount++;
 }else{
@@ -330,6 +368,7 @@ $_V(c$,"size",
 function(){
 return this.lastIndex-this.firstIndex;
 });
+/*
 $_M(c$,"toArray",
 function(){
 var size=this.size();
@@ -337,7 +376,9 @@ var result=new Array(size);
 System.arraycopy(this.array,this.firstIndex,result,0,size);
 return result;
 });
-$_M(c$,"toArray",
+*/
+
+$_V(c$,"toArray",
 function(contents){
 var size=this.size();
 if(size>contents.length){
@@ -347,7 +388,7 @@ contents=java.lang.reflect.Array.newInstance(ct,size);
 if(size<contents.length){
 contents[size]=null;
 }return contents;
-},"~A");
+},"~O");
 $_M(c$,"trimToSize",
 function(){
 var size=this.size();

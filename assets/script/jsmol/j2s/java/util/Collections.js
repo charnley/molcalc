@@ -83,7 +83,13 @@ destIt.set(srcIt.next());
 c$.enumeration=$_M(c$,"enumeration",
 function(collection){
 var c=collection;
-return(($_D("java.util.Collections$1")?0:java.util.Collections.$Collections$1$(c)),$_N(java.util.Collections$1,this,null));
+
+if (!$_D("java.util.Collections$1"))
+	java.util.Collections.$Collections$1$(c);
+
+var x = $_N(java.util.Collections$1,this,null);
+
+return x;
 },"java.util.Collection");
 
 c$.fill=$_M(c$,"fill",
@@ -951,7 +957,7 @@ function(a,b){
 {
 return this.list.addAll(a,b);
 }},"~N,java.util.Collection");
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 {
 return this.list.equals(a);
@@ -961,7 +967,7 @@ function(a){
 {
 return this.list.get(a);
 }},"~N");
-$_M(c$,"hashCode",
+$_V(c$,"hashCode",
 function(){
 {
 return this.list.hashCode();
@@ -1038,7 +1044,7 @@ function(){
 {
 return new java.util.Collections.SynchronizedSet(this.m.entrySet(),this.mutex);
 }});
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 {
 return this.m.equals(a);
@@ -1048,7 +1054,7 @@ function(a){
 {
 return this.m.get(a);
 }},"~O");
-$_M(c$,"hashCode",
+$_V(c$,"hashCode",
 function(){
 {
 return this.m.hashCode();
@@ -1314,7 +1320,7 @@ $_M(c$,"addAll",
 function(a,b){
 throw new UnsupportedOperationException();
 },"~N,java.util.Collection");
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 return this.list.equals(a);
 },"~O");
@@ -1322,7 +1328,7 @@ $_M(c$,"get",
 function(a){
 return this.list.get(a);
 },"~N");
-$_M(c$,"hashCode",
+$_V(c$,"hashcode",
 function(){
 return this.list.hashCode();
 });
@@ -1428,7 +1434,7 @@ $_M(c$,"entrySet",
 function(){
 return new java.util.Collections.UnmodifiableMap.UnmodifiableEntrySet(this.m.entrySet());
 });
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 return this.m.equals(a);
 },"~O");
@@ -1436,7 +1442,7 @@ $_M(c$,"get",
 function(a){
 return this.m.get(a);
 },"~O");
-$_M(c$,"hashCode",
+$_V(c$,"hashcode",
 function(){
 return this.m.hashCode();
 });
@@ -1536,7 +1542,7 @@ $_K(c$,
 function(a){
 this.mapEntry=a;
 },"java.util.Map.Entry");
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 return this.mapEntry.equals(a);
 },"~O");
@@ -1548,7 +1554,7 @@ $_M(c$,"getValue",
 function(){
 return this.mapEntry.getValue();
 });
-$_M(c$,"hashCode",
+$_V(c$,"hashcode",
 function(){
 return this.mapEntry.hashCode();
 });
@@ -1835,11 +1841,11 @@ $_M(c$,"subList",
 function(a,b){
 return java.util.Collections.checkedList(this.l.subList(a,b),this.type);
 },"~N,~N");
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 return this.l.equals(a);
 },"~O");
-$_M(c$,"hashCode",
+$_V(c$,"hashcode",
 function(){
 return this.l.hashCode();
 });
@@ -1934,11 +1940,11 @@ $_M(c$,"entrySet",
 function(){
 return new java.util.Collections.CheckedMap.CheckedEntrySet(this.m.entrySet(),this.valueType);
 });
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 return this.m.equals(a);
 },"~O");
-$_M(c$,"hashCode",
+$_V(c$,"hashcode",
 function(){
 return this.m.hashCode();
 });
@@ -1971,11 +1977,11 @@ $_M(c$,"setValue",
 function(a){
 return this.e.setValue(java.util.Collections.checkType(a,this.valueType));
 },"~O");
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 return this.e.equals(a);
 },"~O");
-$_M(c$,"hashCode",
+$_V(c$,"hashcode",
 function(){
 return this.e.hashCode();
 });
@@ -2059,11 +2065,11 @@ $_M(c$,"size",
 function(){
 return this.s.size();
 });
-$_M(c$,"hashCode",
+$_V(c$,"hashcode",
 function(){
 return this.s.hashCode();
 });
-$_M(c$,"equals",
+$_V(c$,"equals",
 function(a){
 return this.s.equals(a);
 },"~O");

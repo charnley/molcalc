@@ -1,4 +1,4 @@
-Clazz.declarePackage ("java.util.zip");
+﻿Clazz.declarePackage ("java.util.zip");
 c$ = Clazz.decorateAsClass (function () {
 this.$address = 0;
 Clazz.instantialize (this, arguments);
@@ -7,11 +7,11 @@ Clazz.makeConstructor (c$,
 function (address) {
 this.$address = address;
 }, "~N");
-Clazz.defineMethod (c$, "address", 
+$_M(c$, "address", 
 function () {
 return this.$address;
 });
-Clazz.defineMethod (c$, "clear", 
+$_M(c$, "clear", 
 function () {
 this.$address = 0;
 });

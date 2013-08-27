@@ -52,24 +52,24 @@ Clazz.makeConstructor (c$,
 function (target, id, arg) {
 this.construct (target, 0, id, 0, 0, 0, 0, arg);
 }, "~O,~N,~O");
-Clazz.defineMethod (c$, "translate", 
+$_M(c$, "translate", 
 function (dx, dy) {
 this.x += dx;
 this.y += dy;
 }, "~N,~N");
-Clazz.defineMethod (c$, "shiftDown", 
+$_M(c$, "shiftDown", 
 function () {
 return (this.modifiers & 1) != 0;
 });
-Clazz.defineMethod (c$, "controlDown", 
+$_M(c$, "controlDown", 
 function () {
 return (this.modifiers & 2) != 0;
 });
-Clazz.defineMethod (c$, "metaDown", 
+$_M(c$, "metaDown", 
 function () {
 return (this.modifiers & 4) != 0;
 });
-Clazz.defineMethod (c$, "consume", 
+$_M(c$, "consume", 
 function () {
 switch (this.id) {
 case 401:
@@ -81,11 +81,11 @@ break;
 default:
 }
 });
-Clazz.defineMethod (c$, "isConsumed", 
+$_M(c$, "isConsumed", 
 function () {
 return this.consumed;
 });
-c$.getOldEventKey = Clazz.defineMethod (c$, "getOldEventKey", 
+c$.getOldEventKey = $_M(c$, "getOldEventKey", 
 function (e) {
 var keyCode = e.getKeyCode ();
 for (var i = 0; i < java.awt.Event.actionKeyCodes.length; i++) {
@@ -94,7 +94,7 @@ return java.awt.Event.actionKeyCodes[i][1];
 }}
 return e.getKeyChar ();
 }, "java.awt.event.KeyEvent");
-Clazz.defineMethod (c$, "getKeyEventChar", 
+$_M(c$, "getKeyEventChar", 
 function () {
 for (var i = 0; i < java.awt.Event.actionKeyCodes.length; i++) {
 if (java.awt.Event.actionKeyCodes[i][1] == this.key) {
@@ -102,7 +102,7 @@ return '\uffff';
 }}
 return String.fromCharCode (this.key);
 });
-Clazz.defineMethod (c$, "paramString", 
+$_M(c$, "paramString", 
 function () {
 var str = "id=" + this.id + ",x=" + this.x + ",y=" + this.y;
 if (this.key != 0) {

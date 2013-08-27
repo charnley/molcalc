@@ -2,6 +2,8 @@ Clazz.load (["java.io.Reader"], "java.io.InputStreamReader", ["java.lang.NullPoi
 c$ = Clazz.decorateAsClass (function () {
 this.$in = null;
 this.isOpen = true;
+this.charsetName = null;
+this.isUTF8 = false;
 this.bytearr = null;
 this.pos = 0;
 Clazz.instantialize (this, arguments);
@@ -10,11 +12,12 @@ Clazz.makeConstructor (c$,
 function ($in, charsetName) {
 Clazz.superConstructor (this, java.io.InputStreamReader, [$in]);
 this.$in = $in;
-if (!"UTF-8".equals (charsetName)) throw  new NullPointerException ("charsetName");
+this.charsetName = charsetName;
+if (!(this.isUTF8 = "UTF-8".equals (charsetName)) && !"ISO-8859-1".equals (charsetName)) throw  new NullPointerException ("charsetName");
 }, "java.io.InputStream,~S");
-Clazz.defineMethod (c$, "getEncoding", 
+$_M(c$, "getEncoding", 
 function () {
-return "UTF-8";
+return this.charsetName;
 });
 Clazz.overrideMethod (c$, "read", 
 function (cbuf, offset, length) {
@@ -29,7 +32,7 @@ if (len < 0) return -1;
 this.pos = 0;
 while (count < len) {
 c = this.bytearr[count] & 0xff;
-switch (c >> 4) {
+if (this.isUTF8) switch (c >> 4) {
 case 0xC:
 case 0xD:
 if (count > len - 2) continue;

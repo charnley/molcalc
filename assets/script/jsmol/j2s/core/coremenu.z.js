@@ -1,1573 +1,204 @@
-// coremenu.z.js includes  jquery.ui, Jmol.Menu, and (at least) org.jmol.popup.GenericPopup 
-
-/*! jQuery UI - v1.9.2 - 2012-12-17
-* http://jqueryui.com
-* Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.mouse.js, jquery.ui.position.js, jquery.ui.menu.js
-* Copyright (c) 2012 jQuery Foundation and other contributors Licensed MIT */
-
-(function(e,t){function i(t,n){var r,i,o,u=t.nodeName.toLowerCase();return"area"===u?(r=t.parentNode,i=r.name,!t.href||!i||r.nodeName.toLowerCase()!=="map"?!1:(o=e("img[usemap=#"+i+"]")[0],!!o&&s(o))):(/input|select|textarea|button|object/.test(u)?!t.disabled:"a"===u?t.href||n:n)&&s(t)}function s(t){return e.expr.filters.visible(t)&&!e(t).parents().andSelf().filter(function(){return e.css(this,"visibility")==="hidden"}).length}var n=0,r=/^ui-id-\d+$/;e.ui=e.ui||{};if(e.ui.version)return;e.extend(e.ui,{version:"1.9.2",keyCode:{BACKSPACE:8,COMMA:188,DELETE:46,DOWN:40,END:35,ENTER:13,ESCAPE:27,HOME:36,LEFT:37,NUMPAD_ADD:107,NUMPAD_DECIMAL:110,NUMPAD_DIVIDE:111,NUMPAD_ENTER:108,NUMPAD_MULTIPLY:106,NUMPAD_SUBTRACT:109,PAGE_DOWN:34,PAGE_UP:33,PERIOD:190,RIGHT:39,SPACE:32,TAB:9,UP:38}}),e.fn.extend({_focus:e.fn.focus,focus:function(t,n){return typeof t=="number"?this.each(function(){var r=this;setTimeout(function(){e(r).focus(),n&&n.call(r)},t)}):this._focus.apply(this,arguments)},scrollParent:function(){var t;return e.ui.ie&&/(static|relative)/.test(this.css("position"))||/absolute/.test(this.css("position"))?t=this.parents().filter(function(){return/(relative|absolute|fixed)/.test(e.css(this,"position"))&&/(auto|scroll)/.test(e.css(this,"overflow")+e.css(this,"overflow-y")+e.css(this,"overflow-x"))}).eq(0):t=this.parents().filter(function(){return/(auto|scroll)/.test(e.css(this,"overflow")+e.css(this,"overflow-y")+e.css(this,"overflow-x"))}).eq(0),/fixed/.test(this.css("position"))||!t.length?e(document):t},zIndex:function(n){if(n!==t)return this.css("zIndex",n);if(this.length){var r=e(this[0]),i,s;while(r.length&&r[0]!==document){i=r.css("position");if(i==="absolute"||i==="relative"||i==="fixed"){s=parseInt(r.css("zIndex"),10);if(!isNaN(s)&&s!==0)return s}r=r.parent()}}return 0},uniqueId:function(){return this.each(function(){this.id||(this.id="ui-id-"+ ++n)})},removeUniqueId:function(){return this.each(function(){r.test(this.id)&&e(this).removeAttr("id")})}}),e.extend(e.expr[":"],{data:e.expr.createPseudo?e.expr.createPseudo(function(t){return function(n){return!!e.data(n,t)}}):function(t,n,r){return!!e.data(t,r[3])},focusable:function(t){return i(t,!isNaN(e.attr(t,"tabindex")))},tabbable:function(t){var n=e.attr(t,"tabindex"),r=isNaN(n);return(r||n>=0)&&i(t,!r)}}),e(function(){var t=document.body,n=t.appendChild(n=document.createElement("div"));n.offsetHeight,e.extend(n.style,{minHeight:"100px",height:"auto",padding:0,borderWidth:0}),e.support.minHeight=n.offsetHeight===100,e.support.selectstart="onselectstart"in n,t.removeChild(n).style.display="none"}),e("<a>").outerWidth(1).jquery||e.each(["Width","Height"],function(n,r){function u(t,n,r,s){return e.each(i,function(){n-=parseFloat(e.css(t,"padding"+this))||0,r&&(n-=parseFloat(e.css(t,"border"+this+"Width"))||0),s&&(n-=parseFloat(e.css(t,"margin"+this))||0)}),n}var i=r==="Width"?["Left","Right"]:["Top","Bottom"],s=r.toLowerCase(),o={innerWidth:e.fn.innerWidth,innerHeight:e.fn.innerHeight,outerWidth:e.fn.outerWidth,outerHeight:e.fn.outerHeight};e.fn["inner"+r]=function(n){return n===t?o["inner"+r].call(this):this.each(function(){e(this).css(s,u(this,n)+"px")})},e.fn["outer"+r]=function(t,n){return typeof t!="number"?o["outer"+r].call(this,t):this.each(function(){e(this).css(s,u(this,t,!0,n)+"px")})}}),e("<a>").data("a-b","a").removeData("a-b").data("a-b")&&(e.fn.removeData=function(t){return function(n){return arguments.length?t.call(this,e.camelCase(n)):t.call(this)}}(e.fn.removeData)),function(){var t=/msie ([\w.]+)/.exec(navigator.userAgent.toLowerCase())||[];e.ui.ie=t.length?!0:!1,e.ui.ie6=parseFloat(t[1],10)===6}(),e.fn.extend({disableSelection:function(){return this.bind((e.support.selectstart?"selectstart":"mousedown")+".ui-disableSelection",function(e){e.preventDefault()})},enableSelection:function(){return this.unbind(".ui-disableSelection")}}),e.extend(e.ui,{plugin:{add:function(t,n,r){var i,s=e.ui[t].prototype;for(i in r)s.plugins[i]=s.plugins[i]||[],s.plugins[i].push([n,r[i]])},call:function(e,t,n){var r,i=e.plugins[t];if(!i||!e.element[0].parentNode||e.element[0].parentNode.nodeType===11)return;for(r=0;r<i.length;r++)e.options[i[r][0]]&&i[r][1].apply(e.element,n)}},contains:e.contains,hasScroll:function(t,n){if(e(t).css("overflow")==="hidden")return!1;var r=n&&n==="left"?"scrollLeft":"scrollTop",i=!1;return t[r]>0?!0:(t[r]=1,i=t[r]>0,t[r]=0,i)},isOverAxis:function(e,t,n){return e>t&&e<t+n},isOver:function(t,n,r,i,s,o){return e.ui.isOverAxis(t,r,s)&&e.ui.isOverAxis(n,i,o)}})})(jQuery);(function(e,t){var n=0,r=Array.prototype.slice,i=e.cleanData;e.cleanData=function(t){for(var n=0,r;(r=t[n])!=null;n++)try{e(r).triggerHandler("remove")}catch(s){}i(t)},e.widget=function(t,n,r){var i,s,o,u,a=t.split(".")[0];t=t.split(".")[1],i=a+"-"+t,r||(r=n,n=e.Widget),e.expr[":"][i.toLowerCase()]=function(t){return!!e.data(t,i)},e[a]=e[a]||{},s=e[a][t],o=e[a][t]=function(e,t){if(!this._createWidget)return new o(e,t);arguments.length&&this._createWidget(e,t)},e.extend(o,s,{version:r.version,_proto:e.extend({},r),_childConstructors:[]}),u=new n,u.options=e.widget.extend({},u.options),e.each(r,function(t,i){e.isFunction(i)&&(r[t]=function(){var e=function(){return n.prototype[t].apply(this,arguments)},r=function(e){return n.prototype[t].apply(this,e)};return function(){var t=this._super,n=this._superApply,s;return this._super=e,this._superApply=r,s=i.apply(this,arguments),this._super=t,this._superApply=n,s}}())}),o.prototype=e.widget.extend(u,{widgetEventPrefix:s?u.widgetEventPrefix:t},r,{constructor:o,namespace:a,widgetName:t,widgetBaseClass:i,widgetFullName:i}),s?(e.each(s._childConstructors,function(t,n){var r=n.prototype;e.widget(r.namespace+"."+r.widgetName,o,n._proto)}),delete s._childConstructors):n._childConstructors.push(o),e.widget.bridge(t,o)},e.widget.extend=function(n){var i=r.call(arguments,1),s=0,o=i.length,u,a;for(;s<o;s++)for(u in i[s])a=i[s][u],i[s].hasOwnProperty(u)&&a!==t&&(e.isPlainObject(a)?n[u]=e.isPlainObject(n[u])?e.widget.extend({},n[u],a):e.widget.extend({},a):n[u]=a);return n},e.widget.bridge=function(n,i){var s=i.prototype.widgetFullName||n;e.fn[n]=function(o){var u=typeof o=="string",a=r.call(arguments,1),f=this;return o=!u&&a.length?e.widget.extend.apply(null,[o].concat(a)):o,u?this.each(function(){var r,i=e.data(this,s);if(!i)return e.error("cannot call methods on "+n+" prior to initialization; "+"attempted to call method '"+o+"'");if(!e.isFunction(i[o])||o.charAt(0)==="_")return e.error("no such method '"+o+"' for "+n+" widget instance");r=i[o].apply(i,a);if(r!==i&&r!==t)return f=r&&r.jquery?f.pushStack(r.get()):r,!1}):this.each(function(){var t=e.data(this,s);t?t.option(o||{})._init():e.data(this,s,new i(o,this))}),f}},e.Widget=function(){},e.Widget._childConstructors=[],e.Widget.prototype={widgetName:"widget",widgetEventPrefix:"",defaultElement:"<div>",options:{disabled:!1,create:null},_createWidget:function(t,r){r=e(r||this.defaultElement||this)[0],this.element=e(r),this.uuid=n++,this.eventNamespace="."+this.widgetName+this.uuid,this.options=e.widget.extend({},this.options,this._getCreateOptions(),t),this.bindings=e(),this.hoverable=e(),this.focusable=e(),r!==this&&(e.data(r,this.widgetName,this),e.data(r,this.widgetFullName,this),this._on(!0,this.element,{remove:function(e){e.target===r&&this.destroy()}}),this.document=e(r.style?r.ownerDocument:r.document||r),this.window=e(this.document[0].defaultView||this.document[0].parentWindow)),this._create(),this._trigger("create",null,this._getCreateEventData()),this._init()},_getCreateOptions:e.noop,_getCreateEventData:e.noop,_create:e.noop,_init:e.noop,destroy:function(){this._destroy(),this.element.unbind(this.eventNamespace).removeData(this.widgetName).removeData(this.widgetFullName).removeData(e.camelCase(this.widgetFullName)),this.widget().unbind(this.eventNamespace).removeAttr("aria-disabled").removeClass(this.widgetFullName+"-disabled "+"ui-state-disabled"),this.bindings.unbind(this.eventNamespace),this.hoverable.removeClass("ui-state-hover"),this.focusable.removeClass("ui-state-focus")},_destroy:e.noop,widget:function(){return this.element},option:function(n,r){var i=n,s,o,u;if(arguments.length===0)return e.widget.extend({},this.options);if(typeof n=="string"){i={},s=n.split("."),n=s.shift();if(s.length){o=i[n]=e.widget.extend({},this.options[n]);for(u=0;u<s.length-1;u++)o[s[u]]=o[s[u]]||{},o=o[s[u]];n=s.pop();if(r===t)return o[n]===t?null:o[n];o[n]=r}else{if(r===t)return this.options[n]===t?null:this.options[n];i[n]=r}}return this._setOptions(i),this},_setOptions:function(e){var t;for(t in e)this._setOption(t,e[t]);return this},_setOption:function(e,t){return this.options[e]=t,e==="disabled"&&(this.widget().toggleClass(this.widgetFullName+"-disabled ui-state-disabled",!!t).attr("aria-disabled",t),this.hoverable.removeClass("ui-state-hover"),this.focusable.removeClass("ui-state-focus")),this},enable:function(){return this._setOption("disabled",!1)},disable:function(){return this._setOption("disabled",!0)},_on:function(t,n,r){var i,s=this;typeof t!="boolean"&&(r=n,n=t,t=!1),r?(n=i=e(n),this.bindings=this.bindings.add(n)):(r=n,n=this.element,i=this.widget()),e.each(r,function(r,o){function u(){if(!t&&(s.options.disabled===!0||e(this).hasClass("ui-state-disabled")))return;return(typeof o=="string"?s[o]:o).apply(s,arguments)}typeof o!="string"&&(u.guid=o.guid=o.guid||u.guid||e.guid++);var a=r.match(/^(\w+)\s*(.*)$/),f=a[1]+s.eventNamespace,l=a[2];l?i.delegate(l,f,u):n.bind(f,u)})},_off:function(e,t){t=(t||"").split(" ").join(this.eventNamespace+" ")+this.eventNamespace,e.unbind(t).undelegate(t)},_delay:function(e,t){function n(){return(typeof e=="string"?r[e]:e).apply(r,arguments)}var r=this;return setTimeout(n,t||0)},_hoverable:function(t){this.hoverable=this.hoverable.add(t),this._on(t,{mouseenter:function(t){e(t.currentTarget).addClass("ui-state-hover")},mouseleave:function(t){e(t.currentTarget).removeClass("ui-state-hover")}})},_focusable:function(t){this.focusable=this.focusable.add(t),this._on(t,{focusin:function(t){e(t.currentTarget).addClass("ui-state-focus")},focusout:function(t){e(t.currentTarget).removeClass("ui-state-focus")}})},_trigger:function(t,n,r){var i,s,o=this.options[t];r=r||{},n=e.Event(n),n.type=(t===this.widgetEventPrefix?t:this.widgetEventPrefix+t).toLowerCase(),n.target=this.element[0],s=n.originalEvent;if(s)for(i in s)i in n||(n[i]=s[i]);return this.element.trigger(n,r),!(e.isFunction(o)&&o.apply(this.element[0],[n].concat(r))===!1||n.isDefaultPrevented())}},e.each({show:"fadeIn",hide:"fadeOut"},function(t,n){e.Widget.prototype["_"+t]=function(r,i,s){typeof i=="string"&&(i={effect:i});var o,u=i?i===!0||typeof i=="number"?n:i.effect||n:t;i=i||{},typeof i=="number"&&(i={duration:i}),o=!e.isEmptyObject(i),i.complete=s,i.delay&&r.delay(i.delay),o&&e.effects&&(e.effects.effect[u]||e.uiBackCompat!==!1&&e.effects[u])?r[t](i):u!==t&&r[u]?r[u](i.duration,i.easing,s):r.queue(function(n){e(this)[t](),s&&s.call(r[0]),n()})}}),e.uiBackCompat!==!1&&(e.Widget.prototype._getCreateOptions=function(){return e.metadata&&e.metadata.get(this.element[0])[this.widgetName]})})(jQuery);(function(e,t){var n=!1;e(document).mouseup(function(e){n=!1}),e.widget("ui.mouse",{version:"1.9.2",options:{cancel:"input,textarea,button,select,option",distance:1,delay:0},_mouseInit:function(){var t=this;this.element.bind("mousedown."+this.widgetName,function(e){return t._mouseDown(e)}).bind("click."+this.widgetName,function(n){if(!0===e.data(n.target,t.widgetName+".preventClickEvent"))return e.removeData(n.target,t.widgetName+".preventClickEvent"),n.stopImmediatePropagation(),!1}),this.started=!1},_mouseDestroy:function(){this.element.unbind("."+this.widgetName),this._mouseMoveDelegate&&e(document).unbind("mousemove."+this.widgetName,this._mouseMoveDelegate).unbind("mouseup."+this.widgetName,this._mouseUpDelegate)},_mouseDown:function(t){if(n)return;this._mouseStarted&&this._mouseUp(t),this._mouseDownEvent=t;var r=this,i=t.which===1,s=typeof this.options.cancel=="string"&&t.target.nodeName?e(t.target).closest(this.options.cancel).length:!1;if(!i||s||!this._mouseCapture(t))return!0;this.mouseDelayMet=!this.options.delay,this.mouseDelayMet||(this._mouseDelayTimer=setTimeout(function(){r.mouseDelayMet=!0},this.options.delay));if(this._mouseDistanceMet(t)&&this._mouseDelayMet(t)){this._mouseStarted=this._mouseStart(t)!==!1;if(!this._mouseStarted)return t.preventDefault(),!0}return!0===e.data(t.target,this.widgetName+".preventClickEvent")&&e.removeData(t.target,this.widgetName+".preventClickEvent"),this._mouseMoveDelegate=function(e){return r._mouseMove(e)},this._mouseUpDelegate=function(e){return r._mouseUp(e)},e(document).bind("mousemove."+this.widgetName,this._mouseMoveDelegate).bind("mouseup."+this.widgetName,this._mouseUpDelegate),t.preventDefault(),n=!0,!0},_mouseMove:function(t){return!e.ui.ie||document.documentMode>=9||!!t.button?this._mouseStarted?(this._mouseDrag(t),t.preventDefault()):(this._mouseDistanceMet(t)&&this._mouseDelayMet(t)&&(this._mouseStarted=this._mouseStart(this._mouseDownEvent,t)!==!1,this._mouseStarted?this._mouseDrag(t):this._mouseUp(t)),!this._mouseStarted):this._mouseUp(t)},_mouseUp:function(t){return e(document).unbind("mousemove."+this.widgetName,this._mouseMoveDelegate).unbind("mouseup."+this.widgetName,this._mouseUpDelegate),this._mouseStarted&&(this._mouseStarted=!1,t.target===this._mouseDownEvent.target&&e.data(t.target,this.widgetName+".preventClickEvent",!0),this._mouseStop(t)),!1},_mouseDistanceMet:function(e){return Math.max(Math.abs(this._mouseDownEvent.pageX-e.pageX),Math.abs(this._mouseDownEvent.pageY-e.pageY))>=this.options.distance},_mouseDelayMet:function(e){return this.mouseDelayMet},_mouseStart:function(e){},_mouseDrag:function(e){},_mouseStop:function(e){},_mouseCapture:function(e){return!0}})})(jQuery);(function(e,t){function h(e,t,n){return[parseInt(e[0],10)*(l.test(e[0])?t/100:1),parseInt(e[1],10)*(l.test(e[1])?n/100:1)]}function p(t,n){return parseInt(e.css(t,n),10)||0}e.ui=e.ui||{};var n,r=Math.max,i=Math.abs,s=Math.round,o=/left|center|right/,u=/top|center|bottom/,a=/[\+\-]\d+%?/,f=/^\w+/,l=/%$/,c=e.fn.position;e.position={scrollbarWidth:function(){if(n!==t)return n;var r,i,s=e("<div style='display:block;width:50px;height:50px;overflow:hidden;'><div style='height:100px;width:auto;'></div></div>"),o=s.children()[0];return e("body").append(s),r=o.offsetWidth,s.css("overflow","scroll"),i=o.offsetWidth,r===i&&(i=s[0].clientWidth),s.remove(),n=r-i},getScrollInfo:function(t){var n=t.isWindow?"":t.element.css("overflow-x"),r=t.isWindow?"":t.element.css("overflow-y"),i=n==="scroll"||n==="auto"&&t.width<t.element[0].scrollWidth,s=r==="scroll"||r==="auto"&&t.height<t.element[0].scrollHeight;return{width:i?e.position.scrollbarWidth():0,height:s?e.position.scrollbarWidth():0}},getWithinInfo:function(t){var n=e(t||window),r=e.isWindow(n[0]);return{element:n,isWindow:r,offset:n.offset()||{left:0,top:0},scrollLeft:n.scrollLeft(),scrollTop:n.scrollTop(),width:r?n.width():n.outerWidth(),height:r?n.height():n.outerHeight()}}},e.fn.position=function(t){if(!t||!t.of)return c.apply(this,arguments);t=e.extend({},t);var n,l,d,v,m,g=e(t.of),y=e.position.getWithinInfo(t.within),b=e.position.getScrollInfo(y),w=g[0],E=(t.collision||"flip").split(" "),S={};return w.nodeType===9?(l=g.width(),d=g.height(),v={top:0,left:0}):e.isWindow(w)?(l=g.width(),d=g.height(),v={top:g.scrollTop(),left:g.scrollLeft()}):w.preventDefault?(t.at="left top",l=d=0,v={top:w.pageY,left:w.pageX}):(l=g.outerWidth(),d=g.outerHeight(),v=g.offset()),m=e.extend({},v),e.each(["my","at"],function(){var e=(t[this]||"").split(" "),n,r;e.length===1&&(e=o.test(e[0])?e.concat(["center"]):u.test(e[0])?["center"].concat(e):["center","center"]),e[0]=o.test(e[0])?e[0]:"center",e[1]=u.test(e[1])?e[1]:"center",n=a.exec(e[0]),r=a.exec(e[1]),S[this]=[n?n[0]:0,r?r[0]:0],t[this]=[f.exec(e[0])[0],f.exec(e[1])[0]]}),E.length===1&&(E[1]=E[0]),t.at[0]==="right"?m.left+=l:t.at[0]==="center"&&(m.left+=l/2),t.at[1]==="bottom"?m.top+=d:t.at[1]==="center"&&(m.top+=d/2),n=h(S.at,l,d),m.left+=n[0],m.top+=n[1],this.each(function(){var o,u,a=e(this),f=a.outerWidth(),c=a.outerHeight(),w=p(this,"marginLeft"),x=p(this,"marginTop"),T=f+w+p(this,"marginRight")+b.width,N=c+x+p(this,"marginBottom")+b.height,C=e.extend({},m),k=h(S.my,a.outerWidth(),a.outerHeight());t.my[0]==="right"?C.left-=f:t.my[0]==="center"&&(C.left-=f/2),t.my[1]==="bottom"?C.top-=c:t.my[1]==="center"&&(C.top-=c/2),C.left+=k[0],C.top+=k[1],e.support.offsetFractions||(C.left=s(C.left),C.top=s(C.top)),o={marginLeft:w,marginTop:x},e.each(["left","top"],function(r,i){e.ui.position[E[r]]&&e.ui.position[E[r]][i](C,{targetWidth:l,targetHeight:d,elemWidth:f,elemHeight:c,collisionPosition:o,collisionWidth:T,collisionHeight:N,offset:[n[0]+k[0],n[1]+k[1]],my:t.my,at:t.at,within:y,elem:a})}),e.fn.bgiframe&&a.bgiframe(),t.using&&(u=function(e){var n=v.left-C.left,s=n+l-f,o=v.top-C.top,u=o+d-c,h={target:{element:g,left:v.left,top:v.top,width:l,height:d},element:{element:a,left:C.left,top:C.top,width:f,height:c},horizontal:s<0?"left":n>0?"right":"center",vertical:u<0?"top":o>0?"bottom":"middle"};l<f&&i(n+s)<l&&(h.horizontal="center"),d<c&&i(o+u)<d&&(h.vertical="middle"),r(i(n),i(s))>r(i(o),i(u))?h.important="horizontal":h.important="vertical",t.using.call(this,e,h)}),a.offset(e.extend(C,{using:u}))})},e.ui.position={fit:{left:function(e,t){var n=t.within,i=n.isWindow?n.scrollLeft:n.offset.left,s=n.width,o=e.left-t.collisionPosition.marginLeft,u=i-o,a=o+t.collisionWidth-s-i,f;t.collisionWidth>s?u>0&&a<=0?(f=e.left+u+t.collisionWidth-s-i,e.left+=u-f):a>0&&u<=0?e.left=i:u>a?e.left=i+s-t.collisionWidth:e.left=i:u>0?e.left+=u:a>0?e.left-=a:e.left=r(e.left-o,e.left)},top:function(e,t){var n=t.within,i=n.isWindow?n.scrollTop:n.offset.top,s=t.within.height,o=e.top-t.collisionPosition.marginTop,u=i-o,a=o+t.collisionHeight-s-i,f;t.collisionHeight>s?u>0&&a<=0?(f=e.top+u+t.collisionHeight-s-i,e.top+=u-f):a>0&&u<=0?e.top=i:u>a?e.top=i+s-t.collisionHeight:e.top=i:u>0?e.top+=u:a>0?e.top-=a:e.top=r(e.top-o,e.top)}},flip:{left:function(e,t){var n=t.within,r=n.offset.left+n.scrollLeft,s=n.width,o=n.isWindow?n.scrollLeft:n.offset.left,u=e.left-t.collisionPosition.marginLeft,a=u-o,f=u+t.collisionWidth-s-o,l=t.my[0]==="left"?-t.elemWidth:t.my[0]==="right"?t.elemWidth:0,c=t.at[0]==="left"?t.targetWidth:t.at[0]==="right"?-t.targetWidth:0,h=-2*t.offset[0],p,d;if(a<0){p=e.left+l+c+h+t.collisionWidth-s-r;if(p<0||p<i(a))e.left+=l+c+h}else if(f>0){d=e.left-t.collisionPosition.marginLeft+l+c+h-o;if(d>0||i(d)<f)e.left+=l+c+h}},top:function(e,t){var n=t.within,r=n.offset.top+n.scrollTop,s=n.height,o=n.isWindow?n.scrollTop:n.offset.top,u=e.top-t.collisionPosition.marginTop,a=u-o,f=u+t.collisionHeight-s-o,l=t.my[1]==="top",c=l?-t.elemHeight:t.my[1]==="bottom"?t.elemHeight:0,h=t.at[1]==="top"?t.targetHeight:t.at[1]==="bottom"?-t.targetHeight:0,p=-2*t.offset[1],d,v;a<0?(v=e.top+c+h+p+t.collisionHeight-s-r,e.top+c+h+p>a&&(v<0||v<i(a))&&(e.top+=c+h+p)):f>0&&(d=e.top-t.collisionPosition.marginTop+c+h+p-o,e.top+c+h+p>f&&(d>0||i(d)<f)&&(e.top+=c+h+p))}},flipfit:{left:function(){e.ui.position.flip.left.apply(this,arguments),e.ui.position.fit.left.apply(this,arguments)},top:function(){e.ui.position.flip.top.apply(this,arguments),e.ui.position.fit.top.apply(this,arguments)}}},function(){var t,n,r,i,s,o=document.getElementsByTagName("body")[0],u=document.createElement("div");t=document.createElement(o?"div":"body"),r={visibility:"hidden",width:0,height:0,border:0,margin:0,background:"none"},o&&e.extend(r,{position:"absolute",left:"-1000px",top:"-1000px"});for(s in r)t.style[s]=r[s];t.appendChild(u),n=o||document.documentElement,n.insertBefore(t,n.firstChild),u.style.cssText="position: absolute; left: 10.7432222px;",i=e(u).offset().left,e.support.offsetFractions=i>10&&i<11,t.innerHTML="",n.removeChild(t)}(),e.uiBackCompat!==!1&&function(e){var n=e.fn.position;e.fn.position=function(r){if(!r||!r.offset)return n.call(this,r);var i=r.offset.split(" "),s=r.at.split(" ");return i.length===1&&(i[1]=i[0]),/^\d/.test(i[0])&&(i[0]="+"+i[0]),/^\d/.test(i[1])&&(i[1]="+"+i[1]),s.length===1&&(/left|center|right/.test(s[0])?s[1]="center":(s[1]=s[0],s[0]="center")),n.call(this,e.extend(r,{at:s[0]+i[0]+" "+s[1]+i[1],offset:t}))}}(jQuery)})(jQuery);(function(e,t){var n=!1;e.widget("ui.menu",{version:"1.9.2",defaultElement:"<ul>",delay:300,options:{icons:{submenu:"ui-icon-carat-1-e"},menus:"ul",position:{my:"left top",at:"right top"},role:"menu",blur:null,focus:null,select:null},_create:function(){this.activeMenu=this.element,this.element.uniqueId().addClass("ui-menu ui-widget ui-widget-content ui-corner-all").toggleClass("ui-menu-icons",!!this.element.find(".ui-icon").length).attr({role:this.options.role,tabIndex:0}).bind("click"+this.eventNamespace,e.proxy(function(e){this.options.disabled&&e.preventDefault()},this)),this.options.disabled&&this.element.addClass("ui-state-disabled").attr("aria-disabled","true"),this._on({"mousedown .ui-menu-item > a":function(e){e.preventDefault()},"click .ui-state-disabled > a":function(e){e.preventDefault()},"click .ui-menu-item:has(a)":function(t){var r=e(t.target).closest(".ui-menu-item");!n&&r.not(".ui-state-disabled").length&&(n=!0,this.select(t),r.has(".ui-menu").length?this.expand(t):this.element.is(":focus")||(this.element.trigger("focus",[!0]),this.active&&this.active.parents(".ui-menu").length===1&&clearTimeout(this.timer)))},"mouseenter .ui-menu-item":function(t){var n=e(t.currentTarget);n.siblings().children(".ui-state-active").removeClass("ui-state-active"),this.focus(t,n)},mouseleave:"collapseAll","mouseleave .ui-menu":"collapseAll",focus:function(e,t){var n=this.active||this.element.children(".ui-menu-item").eq(0);t||this.focus(e,n)},blur:function(t){this._delay(function(){e.contains(this.element[0],this.document[0].activeElement)||this.collapseAll(t)})},keydown:"_keydown"}),this.refresh(),this._on(this.document,{click:function(t){e(t.target).closest(".ui-menu").length||this.collapseAll(t),n=!1}})},_destroy:function(){this.element.removeAttr("aria-activedescendant").find(".ui-menu").andSelf().removeClass("ui-menu ui-widget ui-widget-content ui-corner-all ui-menu-icons").removeAttr("role").removeAttr("tabIndex").removeAttr("aria-labelledby").removeAttr("aria-expanded").removeAttr("aria-hidden").removeAttr("aria-disabled").removeUniqueId().show(),this.element.find(".ui-menu-item").removeClass("ui-menu-item").removeAttr("role").removeAttr("aria-disabled").children("a").removeUniqueId().removeClass("ui-corner-all ui-state-hover").removeAttr("tabIndex").removeAttr("role").removeAttr("aria-haspopup").children().each(function(){var t=e(this);t.data("ui-menu-submenu-carat")&&t.remove()}),this.element.find(".ui-menu-divider").removeClass("ui-menu-divider ui-widget-content")},_keydown:function(t){function a(e){return e.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g,"\\$&")}var n,r,i,s,o,u=!0;switch(t.keyCode){case e.ui.keyCode.PAGE_UP:this.previousPage(t);break;case e.ui.keyCode.PAGE_DOWN:this.nextPage(t);break;case e.ui.keyCode.HOME:this._move("first","first",t);break;case e.ui.keyCode.END:this._move("last","last",t);break;case e.ui.keyCode.UP:this.previous(t);break;case e.ui.keyCode.DOWN:this.next(t);break;case e.ui.keyCode.LEFT:this.collapse(t);break;case e.ui.keyCode.RIGHT:this.active&&!this.active.is(".ui-state-disabled")&&this.expand(t);break;case e.ui.keyCode.ENTER:case e.ui.keyCode.SPACE:this._activate(t);break;case e.ui.keyCode.ESCAPE:this.collapse(t);break;default:u=!1,r=this.previousFilter||"",i=String.fromCharCode(t.keyCode),s=!1,clearTimeout(this.filterTimer),i===r?s=!0:i=r+i,o=new RegExp("^"+a(i),"i"),n=this.activeMenu.children(".ui-menu-item").filter(function(){return o.test(e(this).children("a").text())}),n=s&&n.index(this.active.next())!==-1?this.active.nextAll(".ui-menu-item"):n,n.length||(i=String.fromCharCode(t.keyCode),o=new RegExp("^"+a(i),"i"),n=this.activeMenu.children(".ui-menu-item").filter(function(){return o.test(e(this).children("a").text())})),n.length?(this.focus(t,n),n.length>1?(this.previousFilter=i,this.filterTimer=this._delay(function(){delete this.previousFilter},1e3)):delete this.previousFilter):delete this.previousFilter}u&&t.preventDefault()},_activate:function(e){this.active.is(".ui-state-disabled")||(this.active.children("a[aria-haspopup='true']").length?this.expand(e):this.select(e))},refresh:function(){var t,n=this.options.icons.submenu,r=this.element.find(this.options.menus);r.filter(":not(.ui-menu)").addClass("ui-menu ui-widget ui-widget-content ui-corner-all").hide().attr({role:this.options.role,"aria-hidden":"true","aria-expanded":"false"}).each(function(){var t=e(this),r=t.prev("a"),i=e("<span>").addClass("ui-menu-icon ui-icon "+n).data("ui-menu-submenu-carat",!0);r.attr("aria-haspopup","true").prepend(i),t.attr("aria-labelledby",r.attr("id"))}),t=r.add(this.element),t.children(":not(.ui-menu-item):has(a)").addClass("ui-menu-item").attr("role","presentation").children("a").uniqueId().addClass("ui-corner-all").attr({tabIndex:-1,role:this._itemRole()}),t.children(":not(.ui-menu-item)").each(function(){var t=e(this);/[^\-â€”â€“\s]/.test(t.text())||t.addClass("ui-widget-content ui-menu-divider")}),t.children(".ui-state-disabled").attr("aria-disabled","true"),this.active&&!e.contains(this.element[0],this.active[0])&&this.blur()},_itemRole:function(){return{menu:"menuitem",listbox:"option"}[this.options.role]},focus:function(e,t){var n,r;this.blur(e,e&&e.type==="focus"),this._scrollIntoView(t),this.active=t.first(),r=this.active.children("a").addClass("ui-state-focus"),this.options.role&&this.element.attr("aria-activedescendant",r.attr("id")),this.active.parent().closest(".ui-menu-item").children("a:first").addClass("ui-state-active"),e&&e.type==="keydown"?this._close():this.timer=this._delay(function(){this._close()},this.delay),n=t.children(".ui-menu"),n.length&&/^mouse/.test(e.type)&&this._startOpening(n),this.activeMenu=t.parent(),this._trigger("focus",e,{item:t})},_scrollIntoView:function(t){var n,r,i,s,o,u;this._hasScroll()&&(n=parseFloat(e.css(this.activeMenu[0],"borderTopWidth"))||0,r=parseFloat(e.css(this.activeMenu[0],"paddingTop"))||0,i=t.offset().top-this.activeMenu.offset().top-n-r,s=this.activeMenu.scrollTop(),o=this.activeMenu.height(),u=t.height(),i<0?this.activeMenu.scrollTop(s+i):i+u>o&&this.activeMenu.scrollTop(s+i-o+u))},blur:function(e,t){t||clearTimeout(this.timer);if(!this.active)return;this.active.children("a").removeClass("ui-state-focus"),this.active=null,this._trigger("blur",e,{item:this.active})},_startOpening:function(e){clearTimeout(this.timer);if(e.attr("aria-hidden")!=="true")return;this.timer=this._delay(function(){this._close(),this._open(e)},this.delay)},_open:function(t){var n=e.extend({of:this.active},this.options.position);clearTimeout(this.timer),this.element.find(".ui-menu").not(t.parents(".ui-menu")).hide().attr("aria-hidden","true"),t.show().removeAttr("aria-hidden").attr("aria-expanded","true").position(n)},collapseAll:function(t,n){clearTimeout(this.timer),this.timer=this._delay(function(){var r=n?this.element:e(t&&t.target).closest(this.element.find(".ui-menu"));r.length||(r=this.element),this._close(r),this.blur(t),this.activeMenu=r},this.delay)},_close:function(e){e||(e=this.active?this.active.parent():this.element),e.find(".ui-menu").hide().attr("aria-hidden","true").attr("aria-expanded","false").end().find("a.ui-state-active").removeClass("ui-state-active")},collapse:function(e){var t=this.active&&this.active.parent().closest(".ui-menu-item",this.element);t&&t.length&&(this._close(),this.focus(e,t))},expand:function(e){var t=this.active&&this.active.children(".ui-menu ").children(".ui-menu-item").first();t&&t.length&&(this._open(t.parent()),this._delay(function(){this.focus(e,t)}))},next:function(e){this._move("next","first",e)},previous:function(e){this._move("prev","last",e)},isFirstItem:function(){return this.active&&!this.active.prevAll(".ui-menu-item").length},isLastItem:function(){return this.active&&!this.active.nextAll(".ui-menu-item").length},_move:function(e,t,n){var r;this.active&&(e==="first"||e==="last"?r=this.active[e==="first"?"prevAll":"nextAll"](".ui-menu-item").eq(-1):r=this.active[e+"All"](".ui-menu-item").eq(0));if(!r||!r.length||!this.active)r=this.activeMenu.children(".ui-menu-item")[t]();this.focus(n,r)},nextPage:function(t){var n,r,i;if(!this.active){this.next(t);return}if(this.isLastItem())return;this._hasScroll()?(r=this.active.offset().top,i=this.element.height(),this.active.nextAll(".ui-menu-item").each(function(){return n=e(this),n.offset().top-r-i<0}),this.focus(t,n)):this.focus(t,this.activeMenu.children(".ui-menu-item")[this.active?"last":"first"]())},previousPage:function(t){var n,r,i;if(!this.active){this.next(t);return}if(this.isFirstItem())return;this._hasScroll()?(r=this.active.offset().top,i=this.element.height(),this.active.prevAll(".ui-menu-item").each(function(){return n=e(this),n.offset().top-r+i>0}),this.focus(t,n)):this.focus(t,this.activeMenu.children(".ui-menu-item").first())},_hasScroll:function(){return this.element.outerHeight()<this.element.prop("scrollHeight")},select:function(t){this.active=this.active||e(t.target).closest(".ui-menu-item");var n={item:this.active};this.active.has(".ui-menu").length||this.collapseAll(t,!0),this._trigger("select",t,n)}})})(jQuery);
-
-
-/*! jQuery UI - v1.9.2 - 2012-12-17
-* http://jqueryui.com
-* Includes: jquery.ui.core.css, jquery.ui.menu.css
-* To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Lucida%20Grande%2CLucida%20Sans%2CArial%2Csans-serif&fwDefault=bold&fsDefault=1.1em&cornerRadius=5px&bgColorHeader=5c9ccc&bgTextureHeader=12_gloss_wave.png&bgImgOpacityHeader=55&borderColorHeader=4297d7&fcHeader=ffffff&iconColorHeader=d8e7f3&bgColorContent=fcfdfd&bgTextureContent=06_inset_hard.png&bgImgOpacityContent=100&borderColorContent=a6c9e2&fcContent=222222&iconColorContent=469bdd&bgColorDefault=dfeffc&bgTextureDefault=03_highlight_soft.png&bgImgOpacityDefault=85&borderColorDefault=c5dbec&fcDefault=2e6e9e&iconColorDefault=6da8d5&bgColorHover=d0e5f5&bgTextureHover=03_highlight_soft.png&bgImgOpacityHover=75&borderColorHover=79b7e7&fcHover=1d5987&iconColorHover=217bc0&bgColorActive=f5f8f9&bgTextureActive=06_inset_hard.png&bgImgOpacityActive=100&borderColorActive=79b7e7&fcActive=e17009&iconColorActive=f9bd01&bgColorHighlight=fbec88&bgTextureHighlight=01_flat.png&bgImgOpacityHighlight=55&borderColorHighlight=fad42e&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=02_glass.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
-* Copyright (c) 2012 jQuery Foundation and other contributors Licensed MIT */
-
-(function(){
-	var s = '<style>\
-	.jmolPopupMenu { position: absolute;min-width: 200px;background-color: rgb(220, 220, 220);\
-	 font-family:Arial,sans-serif;font-size:8px;padding:2px;-webkit-box-shadow:1px 1px 5px rgba(50, 50, 50, 0.75);\
-	 -moz-box-shadow:1px 1px 5px rgba(50, 50, 50, 0.75);box-shadow:1px 1px 5px rgba(50, 50, 50, 0.75);}\
-	.ui-menu .ui-menu-item {font-size:10px}\
-	.ui-state-disabled{cursor:default!important}\
-	.ui-icon{display:block;text-indent:-99999px;overflow:hidden;background-repeat:no-repeat}\
-	.ui-widget-overlay{position:absolute;top:0;left:0;width:100%;height:100%}\
-	.ui-menu{list-style:none;padding:2px;margin:0;display:block;outline:none}\
-	.ui-menu .ui-menu{margin-top:-3px;position:absolute}\
-	.ui-menu .ui-menu-item{min-width: 200px;width: 200px;cursor:pointer;margin:0;padding:0;zoom:1;width:100%}\
-	.ui-menu .ui-menu-divider{margin:5px -2px 5px -2px;height:0;font-size:0;line-height:0;border-width:1px 0 0 0}\
-	.ui-menu .ui-menu-item a{text-decoration:none;display:block;padding:2px .4em;line-height:1.5;zoom:1;font-weight:normal}\
-	.ui-menu .ui-menu-item a.ui-state-focus,.ui-menu .ui-menu-item a.ui-state-active{font-weight:normal;margin:-1px}\
-	.ui-menu .ui-state-disabled{font-weight:normal;margin:.4em 0 .2em;line-height:1.5}\
-	.ui-menu .ui-state-disabled a{cursor:default}.ui-menu-icons{position:relative}\
-	.ui-menu-icons .ui-menu-item a{position:relative;padding-left:2em}\
-	.ui-menu .ui-icon{position:absolute;top:.2em;left:.2em}\
-	.ui-menu .ui-menu-icon{position:static;float:right}\
-	.ui-widget{font-family:Arial,sans-serif;font-size:1.1em}\
-	.ui-widget .ui-widget{font-size:1em}\
-	.ui-widget input,.ui-widget select,.ui-widget textarea,.ui-widget button{font-family:Arial,sans-serif;font-size:1em}\
-	.ui-widget-content{border:1px solid #a6c9e2;background:#fcfdfd bottom repeat-x;color:#222}\
-	.ui-widget-content a{color:#222}.ui-widget-header{border:1px solid #4297d7;background:#5c9ccc;color:#fff;font-weight:bold}.ui-widget-header a{color:#fff}\
-	.ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default{border:1px solid #c5dbec;background:#dfeffc;font-weight:bold;color:#2e6e9e}\
-	.ui-state-default a,.ui-state-default a:link,.ui-state-default a:visited{color:#2e6e9e;text-decoration:none}\
-	.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-widget-header .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus,.ui-widget-header .ui-state-focus{border:1px solid #79b7e7;background:#d0e5f5;font-weight:bold;color:#1d5987}\
-	.ui-state-hover a,.ui-state-hover a:hover,.ui-state-hover a:link,.ui-state-hover a:visited{color:#1d5987;text-decoration:none}\
-	.ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active{border:1px solid #79b7e7;background:#f5f8f9;font-weight:bold;color:#e17009}\
-	.ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited{color:#e17009;text-decoration:none}\
-	.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight{border:1px solid #fad42e;background:#fbec88;color:#363636}\
-	.ui-state-highlight a,.ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a{color:#363636}\
-	.ui-state-error,.ui-widget-content .ui-state-error,.ui-widget-header .ui-state-error{border:1px solid #cd0a0a;background:#fef1ec;color:#cd0a0a}\
-	.ui-state-error a,.ui-widget-content .ui-state-error a,.ui-widget-header .ui-state-error a{color:#cd0a0a}\
-	.ui-state-error-text,.ui-widget-content .ui-state-error-text,.ui-widget-header .ui-state-error-text{color:#cd0a0a}\
-	.ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary{font-weight:bold}\
-	.ui-priority-secondary,.ui-widget-content .ui-priority-secondary,.ui-widget-header .ui-priority-secondary{opacity:.7;filter:Alpha(Opacity=70);font-weight:normal}\
-	.ui-state-disabled,.ui-widget-content .ui-state-disabled,.ui-widget-header .ui-state-disabled{opacity:.35;filter:Alpha(Opacity=35);background-image:none}\
-	.ui-state-disabled .ui-icon{filter:Alpha(Opacity=35)}\
-	.ui-corner-all,.ui-corner-top,.ui-corner-left,.ui-corner-tl{-moz-border-radius-topleft:5px;-webkit-border-top-left-radius:5px;-khtml-border-top-left-radius:5px;border-top-left-radius:5px}\
-	.ui-corner-all,.ui-corner-top,.ui-corner-right,.ui-corner-tr{-moz-border-radius-topright:5px;-webkit-border-top-right-radius:5px;-khtml-border-top-right-radius:5px;border-top-right-radius:5px}\
-	.ui-corner-all,.ui-corner-bottom,.ui-corner-left,.ui-corner-bl{-moz-border-radius-bottomleft:5px;-webkit-border-bottom-left-radius:5px;-khtml-border-bottom-left-radius:5px;border-bottom-left-radius:5px}\
-	.ui-corner-all,.ui-corner-bottom,.ui-corner-right,.ui-corner-br{-moz-border-radius-bottomright:5px;-webkit-border-bottom-right-radius:5px;-khtml-border-bottom-right-radius:5px;border-bottom-right-radius:5px}\
-	.ui-widget-overlay{background:#aaa;opacity:.3;filter:Alpha(Opacity=30)}\
-	.ui-widget-shadow{margin:-8px 0 0 -8px;padding:8px;background:#aaa;opacity:.3;filter:Alpha(Opacity=30);-moz-border-radius:8px;-khtml-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}\
-	</style>'
-	$(s).appendTo("head");
-})();
-
-Jmol.Menu = {
-	_menuCounter: 0
-}
-
-;(function(M) {
-
-M._getID = function(applet, name) {
-	return applet._id + '_' + name + '_' + (++M._menuCounter);
-}
-
-M.PopupMenu = function(applet, name) {
-	this.applet = applet;
-	this.id = M._getID(applet, name + "_top");
-	this.name = name;
-	this.items = [];
-	this.enabled = true;
-	this.tainted = true;	
-
-	applet._popups || (applet._popups = {});
-	applet._popups[name] = this;
-	$("body").after('<ul id="' + this.id + '" class="jmolPopupMenu"></ul>');
-	this.setContainer($('#' + this.id));
-}
-
-M.PopupMenu.prototype.hide = function() {
-	if (!this.visible)return;
-	this.container.unbind('clickoutjsmol');
-	this.dragBind(false);
-	this.container.hide();
-	this.visible = this.isDragging = false;
-};
-		  
-M.PopupMenu.prototype.menuShowPopup = function(x,y){
-	if (this.tainted) {
-		var s = this.html();
-		this.container.html(s);
-		this.tainted = false;
-		this.bindActionCommands();
-	}
-	this.setPosition();
-	this.container.hide().menu().menu('refresh').show();
-	this.visible = true;
-	this.timestamp = System.currentTimeMillis();
-	this.container.unbind('clickoutjsmol');
-	this.dragBind(true);
-	var me = this;
-	this.container.bind('clickoutjsmol', function(evspecial, target, ev) {
-		if (System.currentTimeMillis() - me.timestamp > 100)
-			me.hide();
-	});
-	this.container.bind("contextmenu", function() {return false;})
-};
-
-Jmol._setDraggable(M.PopupMenu);
-
-M.SubMenu = function(popupMenu, entry) {
-	this.applet = popupMenu.applet;
-	this.text = entry;
-	this.enabled = true;
-	this.id = M._getID(popupMenu.applet, popupMenu.name + "m");
-	this.popupMenu = popupMenu;
-	this.isMenu = true;
-	this.items = [];
-}
-
-M.MenuItem = function(popupMenu, entry, isCheckBox, isRadio) {
-	this.applet = popupMenu.applet;
-	this.text = entry; // separator is entry=null
-	this.enabled = true;
-	this.id = M._getID(popupMenu.applet, popupMenu.name + (isCheckBox ? "cb" : isRadio ? "rb" : "i"));
-	this.popupMenu = popupMenu;
-	this.isCheckBox = isCheckBox;
-	this.isRadio = isRadio;
-}
-
-M.ButtonGroup = function(popupMenu) {
-	this.id = M._getID(popupMenu.applet, popupMenu.name + "bg");
-	this.add = function(item) {
-		item.htmlName = this.id
-	};
-}
-
-M.setItemProto = function(proto){
-
-	proto.setSelected = function(selected) {
-		this.selected = selected;
-	};
-	
-	proto.isSelected = function() {
-		return this.selected;
-	};
-	
-	proto.setName = function(name) {
-		this.name = name;
-	};
-
-	proto.getName = function() {
-		return this.name;
-	};
-
-	proto.addActionListener = function(jspopup) {
-  //  (on mouse up)       
-		this.actionListener = jspopup;
-	};
-
-	proto.addItemListener = function(jspopup) {
-  //  (on checkbox/radio click) 
-		this.itemListener = jspopup;
-	};
-
-	proto.addMouseListener = function(jspopup) {
-	// not yet implemented in Jmol, I think.
-  //  (on entry)          this.actionlistener.checkMenuFocus(this.id, this.actionCommand, true);
-  //  (on exit)           this.actionlistener.checkMenuFocus(this.id, this.actionCommand, false);
-		this.mouseListener = jspopup;
-	};
-	
-	proto.bindActionCommands = function() {
-		var me = this;
-		$(document).off('click', '#' + this.id);
-		$(document).on('click', '#' + this.id, function() {
-			if (me.actionListener) {
-				me.popupMenu.hide();
-				me.actionListener.checkMenuClick(me, me.script);
-			}	else if (me.itemListener) {
-				me.selected = (me.isCheckBox ? $("#" + me.id + "-cb").prop('checked') : true); 
-				me.itemListener.checkBoxStateChanged(me);
-			}
-		});
-	};
-
-
-	proto.setEnabled = function(enable) {
-		this.enabled = enable;
-	};	
-
-	proto.setIcon = function(icon) {
-		this.icon = icon;
-	};
-	
-	proto.setText = function(entry) {
-		this.text = entry;
-	};	
-	
-	proto.setActionCommand = function(script) {
-		this.script = script;
-	};
-
-	proto.getActionCommand = function() {
-		return this.script;
-	};
-
-	proto.html = function() {		
-		var s = '<li id="' + this.id + '" class="' + (this.enabled ? '' : 'ui-state-disabled') + '"><a href="#">';
-		if (this.icon){
-			s += '<img src="' + this.applet.j2sPath + '/' + this.icon + '" style="max-height: 20px;" />';
-		}
-		if (this.isCheckBox) {
-			s += '<label><input id="' + this.id + '-cb" type="checkbox" ' + (this.selected ? 'checked' : '') + ' />' + this.text + '</label>';
-		} else if (this.isRadio) {
-			s += '<label><input id="' + this.id + '-rb" type="radio" name="' + this.htmlName + '" ' 
-				+ (this.selected ? 'checked' : '') + ' />' + this.text + '</label>';
-		} else if (this.text){
-			s += this.text;
-		} else if (!this.icon) {
-			s += '<hr>';
-		}
-		s += '</a></li>';
-		return s;
-	};
-}
-
-M.setMenuProto = function(proto){
-
-	M.setItemProto(proto);
-				
-	proto.add = function(item) {
-		this.items.push(item);
-		item.parent = this;
-	};
-
-	proto.removeAll = function(indexFrom) {
-		if (indexFrom == 0) {
-			this.items = [];
-		} else {
-			var I = [];
-			for (var i = 0; i <indexFrom; i++) {
-				var item = this.items[i];
-				I.push(item);
-				item.parent = this;
-			}
-			this.items = I;
-		}
-	};
-
-	proto.setAutoscrolls = function() {
-		//Sets the autoscrolls property. If true mouse dragged events will be synthetically generated when the mouse 
-		// is dragged outside of the component's bounds and mouse motion has paused (while the button continues to be 
-		// held down). The synthetic events make it appear that the drag gesture has resumed in the direction 
-		// established when the component's boundary was crossed. 
-		//
-		// I have no idea how to implement this!
-		return;
-	};
-		
-	proto.getComponents = function() {
-		return this.items;
-	};
-
-	proto.getItemCount = function() {
-		return this.items.length;
-	};
-	
-	proto.html = function() {	
-		var s = (this.text ? '<li><a>' + this.text + '</a>'
-			+ '<ul id="' + this.id + '" class="' + (this.enabled ? '' : 'ui-state-disabled') + '">' : '');
-		for(var i = 0; i < this.items.length; i++)
-			if(this.items[i].html) 
-				s += this.items[i].html();
-		if (this.text)
-			s += '</ul></li>';
-		return s;
-	};
-	
-	proto.bindActionCommands = function() {
-		for(var i = 0; i < this.items.length; i++)
-			if(this.items[i].bindActionCommands) this.items[i].bindActionCommands();
-	};
-
-}
-
-M.setMenuProto(M.PopupMenu.prototype);
-M.setMenuProto(M.SubMenu.prototype);
-M.setItemProto(M.MenuItem.prototype);
-
-M.hidePopups = function(a) {
-	for (var i in a)
-		a[i].hide();
-}
-
-})(Jmol.Menu);
-// 
-//// org\jmol\api\JmolPopupInterface.js 
-// 
-Clazz.declarePackage ("org.jmol.api");
-Clazz.declareInterface (org.jmol.api, "JmolPopupInterface");
-// 
-//// org\jmol\popup\JmolAbstractMenu.js 
-// 
-Clazz.declarePackage ("org.jmol.popup");
-Clazz.declareInterface (org.jmol.popup, "JmolAbstractMenu");
-// 
-//// org\jmol\popup\GenericPopup.js 
-// 
-Clazz.declarePackage ("org.jmol.popup");
-Clazz.load (["org.jmol.api.JmolPopupInterface", "org.jmol.popup.JmolAbstractMenu", "java.util.ArrayList", "$.Hashtable", "$.Properties"], "org.jmol.popup.GenericPopup", ["java.lang.Boolean", "$.Long", "java.util.StringTokenizer", "org.jmol.i18n.GT", "org.jmol.popup.MainPopupResourceBundle", "org.jmol.util.Elements", "$.Logger", "$.Parser", "$.StringXBuilder", "$.TextFormat", "org.jmol.viewer.JmolConstants"], function () {
-c$ = Clazz.decorateAsClass (function () {
-this.viewer = null;
-this.htCheckbox = null;
-this.menuText = null;
-this.buttonGroup = null;
-this.currentMenuItemId = null;
-this.strMenuStructure = null;
-this.updateMode = 0;
-this.menuName = null;
-this.frankPopup = null;
-this.popupMenu = null;
-this.thisPopup = null;
-this.nFrankList = 0;
-this.itemMax = 25;
-this.titleWidthMax = 20;
-this.thisx = 0;
-this.thisy = 0;
-this.nullModelSetName = null;
-this.modelSetName = null;
-this.modelSetFileName = null;
-this.modelSetRoot = null;
-this.currentFrankId = null;
-this.configurationSelected = "";
-this.altlocs = null;
-this.frankList = null;
-this.modelSetInfo = null;
-this.modelInfo = null;
-this.htMenus = null;
-this.NotPDB = null;
-this.PDBOnly = null;
-this.FileUnitOnly = null;
-this.FileMolOnly = null;
-this.UnitcellOnly = null;
-this.SingleModelOnly = null;
-this.FramesOnly = null;
-this.VibrationOnly = null;
-this.SymmetryOnly = null;
-this.SignedOnly = null;
-this.AppletOnly = null;
-this.ChargesOnly = null;
-this.TemperatureOnly = null;
-this.allowSignedFeatures = false;
-this.fileHasUnitCell = false;
-this.haveBFactors = false;
-this.haveCharges = false;
-this.isApplet = false;
-this.isLastFrame = false;
-this.isMultiConfiguration = false;
-this.isMultiFrame = false;
-this.isPDB = false;
-this.isSigned = false;
-this.isSymmetry = false;
-this.isUnitCell = false;
-this.isVibration = false;
-this.isZapped = false;
-this.modelIndex = 0;
-this.modelCount = 0;
-this.atomCount = 0;
-this.aboutComputedMenuBaseCount = 0;
-this.group3List = null;
-this.group3Counts = null;
-this.cnmrPeaks = null;
-this.hnmrPeaks = null;
-Clazz.instantialize (this, arguments);
-}, org.jmol.popup, "GenericPopup", null, [org.jmol.api.JmolPopupInterface, org.jmol.popup.JmolAbstractMenu]);
-Clazz.prepareFields (c$, function () {
-this.htCheckbox =  new java.util.Hashtable ();
-this.menuText =  new java.util.Properties ();
-this.frankList =  new Array (10);
-this.htMenus =  new java.util.Hashtable ();
-this.NotPDB =  new java.util.ArrayList ();
-this.PDBOnly =  new java.util.ArrayList ();
-this.FileUnitOnly =  new java.util.ArrayList ();
-this.FileMolOnly =  new java.util.ArrayList ();
-this.UnitcellOnly =  new java.util.ArrayList ();
-this.SingleModelOnly =  new java.util.ArrayList ();
-this.FramesOnly =  new java.util.ArrayList ();
-this.VibrationOnly =  new java.util.ArrayList ();
-this.SymmetryOnly =  new java.util.ArrayList ();
-this.SignedOnly =  new java.util.ArrayList ();
-this.AppletOnly =  new java.util.ArrayList ();
-this.ChargesOnly =  new java.util.ArrayList ();
-this.TemperatureOnly =  new java.util.ArrayList ();
-});
-Clazz.makeConstructor (c$, 
-function () {
-});
-Clazz.overrideMethod (c$, "jpiDispose", 
-function () {
-this.menuClearListeners (this.popupMenu);
-this.menuClearListeners (this.frankPopup);
-this.popupMenu = this.frankPopup = this.thisPopup = null;
-});
-Clazz.overrideMethod (c$, "jpiGetMenuAsObject", 
-function () {
-return this.popupMenu;
-});
-Clazz.overrideMethod (c$, "jpiGetMenuAsString", 
-function (title) {
-this.updateForShow ();
-var pt = title.indexOf ("|");
-if (pt >= 0) {
-var type = title.substring (pt);
-title = title.substring (0, pt);
-if (type.indexOf ("current") >= 0) {
-var sb =  new org.jmol.util.StringXBuilder ();
-var menu = this.htMenus.get (this.menuName);
-this.menuGetAsText (sb, 0, menu, "PopupMenu");
-return sb.toString ();
-}}return ( new org.jmol.popup.MainPopupResourceBundle (this.strMenuStructure, null)).getMenuAsText (title);
-}, "~S");
-Clazz.overrideMethod (c$, "jpiShow", 
-function (x, y) {
-if (!this.viewer.haveDisplay) return;
-this.show (x, y, false);
-if (x < 0) {
-this.getViewerData ();
-this.setFrankMenu (this.currentMenuItemId);
-this.thisx = -x - 50;
-if (this.nFrankList > 1) {
-this.thisy = y - this.nFrankList * 20;
-this.menuShowPopup (this.frankPopup, this.thisx, this.thisy);
-return;
-}}this.restorePopupMenu ();
-this.menuShowPopup (this.popupMenu, this.thisx, this.thisy);
-}, "~N,~N");
-Clazz.overrideMethod (c$, "jpiUpdateComputedMenus", 
-function () {
-if (this.updateMode == -1) return;
-this.updateMode = 0;
-this.getViewerData ();
-this.updateSelectMenu ();
-this.updateFileMenu ();
-this.updateElementsComputedMenu (this.viewer.getElementsPresentBitSet (this.modelIndex));
-this.updateHeteroComputedMenu (this.viewer.getHeteroList (this.modelIndex));
-this.updateSurfMoComputedMenu (this.modelInfo.get ("moData"));
-this.updateFileTypeDependentMenus ();
-this.updatePDBComputedMenus ();
-this.updateMode = 1;
-this.updateConfigurationComputedMenu ();
-this.updateSYMMETRYComputedMenus ();
-this.updateFRAMESbyModelComputedMenu ();
-this.updateModelSetComputedMenu ();
-this.updateLanguageSubmenu ();
-this.updateAboutSubmenu ();
-});
-Clazz.defineMethod (c$, "getEntryIcon", 
-function (ret) {
-return null;
-}, "~A");
-Clazz.defineMethod (c$, "checkMenuFocus", 
-function (name, cmd, isFocus) {
-if (name.indexOf ("Focus") < 0) return;
-if (isFocus) {
-this.viewer.script ("selectionHalos ON;" + cmd);
-} else {
-this.viewer.script ("selectionHalos OFF");
-}}, "~S,~S,~B");
-Clazz.defineMethod (c$, "checkBoxStateChanged", 
-function (source) {
-this.restorePopupMenu ();
-this.menuSetCheckBoxValue (source);
-var id = this.menuGetId (source);
-if (id != null) {
-this.currentMenuItemId = id;
-}}, "~O");
-c$.addItemText = Clazz.defineMethod (c$, "addItemText", 
-function (sb, type, level, name, label, script, flags) {
-sb.appendC (type).appendI (level).appendC ('\t').append (name);
-if (label == null) {
-sb.append (".\n");
-return;
-}sb.append ("\t").append (label).append ("\t").append (script == null || script.length == 0 ? "-" : script).append ("\t").append (flags).append ("\n");
-}, "org.jmol.util.StringXBuilder,~S,~N,~S,~S,~S,~S");
-Clazz.defineMethod (c$, "fixScript", 
-function (id, script) {
-var pt;
-if (script === "" || id.endsWith ("Checkbox")) return script;
-if (script.indexOf ("SELECT") == 0) {
-return "select thisModel and (" + script.substring (6) + ")";
-}if ((pt = id.lastIndexOf ("[")) >= 0) {
-id = id.substring (pt + 1);
-if ((pt = id.indexOf ("]")) >= 0) id = id.substring (0, pt);
-id = id.$replace ('_', ' ');
-if (script.indexOf ("[]") < 0) script = "[] " + script;
-return org.jmol.util.TextFormat.simpleReplace (script, "[]", id);
-} else if (script.indexOf ("?FILEROOT?") >= 0) {
-script = org.jmol.util.TextFormat.simpleReplace (script, "FILEROOT?", this.modelSetRoot);
-} else if (script.indexOf ("?FILE?") >= 0) {
-script = org.jmol.util.TextFormat.simpleReplace (script, "FILE?", this.modelSetFileName);
-} else if (script.indexOf ("?PdbId?") >= 0) {
-script = org.jmol.util.TextFormat.simpleReplace (script, "PdbId?", "=xxxx");
-}return script;
-}, "~S,~S");
-Clazz.defineMethod (c$, "initialize", 
-function (viewer, bundle, title) {
-this.viewer = viewer;
-this.menuName = title;
-this.popupMenu = this.menuCreatePopup (title);
-this.thisPopup = this.popupMenu;
-this.menuSetListeners ();
-this.htMenus.put (title, this.popupMenu);
-this.allowSignedFeatures = (!viewer.isApplet () || viewer.getBooleanProperty ("_signedApplet"));
-this.addMenuItems ("", title, this.popupMenu, bundle);
-try {
-this.jpiUpdateComputedMenus ();
-} catch (e) {
-if (Clazz.exceptionOf (e, NullPointerException)) {
-} else {
-throw e;
-}
-}
-}, "org.jmol.viewer.Viewer,org.jmol.popup.PopupResource,~S");
-Clazz.defineMethod (c$, "restorePopupMenu", 
-function () {
-this.thisPopup = this.popupMenu;
-if (this.nFrankList < 2) return;
-for (var i = this.nFrankList; --i > 0; ) {
-var f = this.frankList[i];
-{
-f[1].parent = f[0];
-}}
-this.nFrankList = 1;
-});
-Clazz.defineMethod (c$, "setCheckBoxValue", 
-function (item, what, TF) {
-this.checkForCheckBoxScript (item, what, TF);
-if (what.indexOf ("#CONFIG") >= 0) {
-this.configurationSelected = what;
-this.updateConfigurationComputedMenu ();
-this.updateModelSetComputedMenu ();
-return;
-}}, "~O,~S,~B");
-c$.checkBoolean = Clazz.defineMethod (c$, "checkBoolean", 
-($fz = function (info, key) {
-return (info != null && info.get (key) === Boolean.TRUE);
-}, $fz.isPrivate = true, $fz), "java.util.Map,~S");
-Clazz.defineMethod (c$, "getViewerData", 
-($fz = function () {
-this.isApplet = this.viewer.isApplet ();
-this.isSigned = (this.viewer.getBooleanProperty ("_signedApplet"));
-this.modelSetName = this.viewer.getModelSetName ();
-this.modelSetFileName = this.viewer.getModelSetFileName ();
-var i = this.modelSetFileName.lastIndexOf (".");
-this.isZapped = ("zapped".equals (this.modelSetName));
-if (this.isZapped || "string".equals (this.modelSetFileName) || "files".equals (this.modelSetFileName) || "string[]".equals (this.modelSetFileName)) this.modelSetFileName = "";
-this.modelSetRoot = this.modelSetFileName.substring (0, i < 0 ? this.modelSetFileName.length : i);
-if (this.modelSetRoot.length == 0) this.modelSetRoot = "Jmol";
-this.modelIndex = this.viewer.getDisplayModelIndex ();
-this.modelCount = this.viewer.getModelCount ();
-this.atomCount = this.viewer.getAtomCountInModel (this.modelIndex);
-this.modelSetInfo = this.viewer.getModelSetAuxiliaryInfo ();
-this.modelInfo = this.viewer.getModelAuxiliaryInfo (this.modelIndex);
-if (this.modelInfo == null) this.modelInfo =  new java.util.Hashtable ();
-this.isPDB = org.jmol.popup.GenericPopup.checkBoolean (this.modelSetInfo, "isPDB");
-this.isMultiFrame = (this.modelCount > 1);
-this.isSymmetry = org.jmol.popup.GenericPopup.checkBoolean (this.modelInfo, "hasSymmetry");
-this.isUnitCell = org.jmol.popup.GenericPopup.checkBoolean (this.modelInfo, "notionalUnitcell");
-this.fileHasUnitCell = (this.isPDB && this.isUnitCell || org.jmol.popup.GenericPopup.checkBoolean (this.modelInfo, "fileHasUnitCell"));
-this.isLastFrame = (this.modelIndex == this.modelCount - 1);
-this.altlocs = this.viewer.getAltLocListInModel (this.modelIndex);
-this.isMultiConfiguration = (this.altlocs.length > 0);
-this.isVibration = (this.viewer.modelHasVibrationVectors (this.modelIndex));
-this.haveCharges = (this.viewer.havePartialCharges ());
-this.haveBFactors = (this.viewer.getBooleanProperty ("haveBFactors"));
-this.cnmrPeaks = this.modelInfo.get ("jdxAtomSelect_13CNMR");
-this.hnmrPeaks = this.modelInfo.get ("jdxAtomSelect_1HNMR");
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateFileTypeDependentMenus", 
-($fz = function () {
-for (var i = 0; i < this.NotPDB.size (); i++) this.menuEnable (this.NotPDB.get (i), !this.isPDB);
-
-for (var i = 0; i < this.PDBOnly.size (); i++) this.menuEnable (this.PDBOnly.get (i), this.isPDB);
-
-for (var i = 0; i < this.UnitcellOnly.size (); i++) this.menuEnable (this.UnitcellOnly.get (i), this.isUnitCell);
-
-for (var i = 0; i < this.FileUnitOnly.size (); i++) this.menuEnable (this.FileUnitOnly.get (i), this.isUnitCell || this.fileHasUnitCell);
-
-for (var i = 0; i < this.FileMolOnly.size (); i++) this.menuEnable (this.FileMolOnly.get (i), this.isUnitCell || this.fileHasUnitCell);
-
-for (var i = 0; i < this.SingleModelOnly.size (); i++) this.menuEnable (this.SingleModelOnly.get (i), this.isLastFrame);
-
-for (var i = 0; i < this.FramesOnly.size (); i++) this.menuEnable (this.FramesOnly.get (i), this.isMultiFrame);
-
-for (var i = 0; i < this.VibrationOnly.size (); i++) this.menuEnable (this.VibrationOnly.get (i), this.isVibration);
-
-for (var i = 0; i < this.SymmetryOnly.size (); i++) this.menuEnable (this.SymmetryOnly.get (i), this.isSymmetry && this.isUnitCell);
-
-for (var i = 0; i < this.SignedOnly.size (); i++) this.menuEnable (this.SignedOnly.get (i), this.isSigned || !this.isApplet);
-
-for (var i = 0; i < this.AppletOnly.size (); i++) this.menuEnable (this.AppletOnly.get (i), this.isApplet);
-
-for (var i = 0; i < this.ChargesOnly.size (); i++) this.menuEnable (this.ChargesOnly.get (i), this.haveCharges);
-
-for (var i = 0; i < this.TemperatureOnly.size (); i++) this.menuEnable (this.TemperatureOnly.get (i), this.haveBFactors);
-
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "addMenuItems", 
-($fz = function (parentId, key, menu, popupResourceBundle) {
-var id = parentId + "." + key;
-var value = popupResourceBundle.getStructure (key);
-if (value == null) {
-this.menuCreateItem (menu, "#" + key, "", "");
-return;
-}var st =  new java.util.StringTokenizer (value);
-var item;
-while (value.indexOf ("@") >= 0) {
-var s = "";
-while (st.hasMoreTokens ()) s += " " + ((item = st.nextToken ()).startsWith ("@") ? popupResourceBundle.getStructure (item) : item);
-
-value = s.substring (1);
-st =  new java.util.StringTokenizer (value);
-}
-while (st.hasMoreTokens ()) {
-item = st.nextToken ();
-if (!this.checkKey (item)) continue;
-var label = popupResourceBundle.getWord (item);
-var newMenu = null;
-var script = "";
-var isCB = false;
-if (label.equals ("null")) {
-continue;
-} else if (item.indexOf ("Menu") >= 0) {
-if (item.indexOf ("more") < 0) this.buttonGroup = null;
-var subMenu = this.menuNewSubMenu (label, id + "." + item);
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put (item, subMenu);
-if (item.indexOf ("Computed") < 0) this.addMenuItems (id, item, subMenu, popupResourceBundle);
-this.checkSpecialMenu (item, subMenu, label);
-newMenu = subMenu;
-} else if ("-".equals (item)) {
-this.menuAddSeparator (menu);
-continue;
-} else if (item.endsWith ("Checkbox") || (isCB = (item.endsWith ("CB") || item.endsWith ("RD")))) {
-script = popupResourceBundle.getStructure (item);
-var basename = item.substring (0, item.length - (!isCB ? 8 : 2));
-var isRadio = (isCB && item.endsWith ("RD"));
-if (script == null || script.length == 0 && !isRadio) script = "set " + basename + " T/F";
-newMenu = this.menuCreateCheckboxItem (menu, label, basename + ":" + script, id + "." + item, false, isRadio);
-this.rememberCheckbox (basename, newMenu);
-if (isRadio) this.menuAddButtonGroup (newMenu);
-} else {
-script = popupResourceBundle.getStructure (item);
-if (script == null) script = item;
-newMenu = this.menuCreateItem (menu, label, script, id + "." + item);
-}if (!this.allowSignedFeatures && item.startsWith ("SIGNED")) this.menuEnable (newMenu, false);
-if (item.indexOf ("VARIABLE") >= 0) this.htMenus.put (item, newMenu);
-if (item.indexOf ("!PDB") >= 0) {
-this.NotPDB.add (newMenu);
-} else if (item.indexOf ("PDB") >= 0) {
-this.PDBOnly.add (newMenu);
-}if (item.indexOf ("URL") >= 0) {
-this.AppletOnly.add (newMenu);
-} else if (item.indexOf ("CHARGE") >= 0) {
-this.ChargesOnly.add (newMenu);
-} else if (item.indexOf ("BFACTORS") >= 0) {
-this.TemperatureOnly.add (newMenu);
-} else if (item.indexOf ("UNITCELL") >= 0) {
-this.UnitcellOnly.add (newMenu);
-} else if (item.indexOf ("FILEUNIT") >= 0) {
-this.FileUnitOnly.add (newMenu);
-} else if (item.indexOf ("FILEMOL") >= 0) {
-this.FileMolOnly.add (newMenu);
-}if (item.indexOf ("!FRAMES") >= 0) {
-this.SingleModelOnly.add (newMenu);
-} else if (item.indexOf ("FRAMES") >= 0) {
-this.FramesOnly.add (newMenu);
-}if (item.indexOf ("VIBRATION") >= 0) {
-this.VibrationOnly.add (newMenu);
-} else if (item.indexOf ("SYMMETRY") >= 0) {
-this.SymmetryOnly.add (newMenu);
-}if (item.startsWith ("SIGNED")) this.SignedOnly.add (newMenu);
-if (false) {
-var str = item.endsWith ("Menu") ? "----" : id + "." + item + "\t" + label + "\t" + this.fixScript (id + "." + item, script);
-str = "addMenuItem('\t" + str + "\t')";
-org.jmol.util.Logger.info (str);
-}}
-}, $fz.isPrivate = true, $fz), "~S,~S,~O,org.jmol.popup.PopupResource");
-Clazz.defineMethod (c$, "checkKey", 
-($fz = function (key) {
-{
-return (key.indexOf("JAVA") < 0 && !(key.indexOf("NOGL") && this.viewer.isJS3D));
-}}, $fz.isPrivate = true, $fz), "~S");
-Clazz.defineMethod (c$, "rememberCheckbox", 
-($fz = function (key, checkboxMenuItem) {
-this.htCheckbox.put (key + "::" + this.htCheckbox.size (), checkboxMenuItem);
-}, $fz.isPrivate = true, $fz), "~S,~O");
-Clazz.defineMethod (c$, "checkForCheckBoxScript", 
-($fz = function (item, what, TF) {
-if (what.indexOf ("##") < 0) {
-var pt = what.indexOf (":");
-if (pt < 0) {
-org.jmol.util.Logger.error ("check box " + item + " IS " + what);
-return;
-}var basename = what.substring (0, pt);
-if (this.viewer.getBooleanProperty (basename) == TF) return;
-if (basename.endsWith ("P!")) {
-if (basename.indexOf ("??") >= 0) {
-what = this.menuSetCheckBoxOption (item, basename, what);
-} else {
-if (!TF) return;
-what = "set picking " + basename.substring (0, basename.length - 2);
-}} else {
-what = what.substring (pt + 1);
-if ((pt = what.indexOf ("|")) >= 0) what = (TF ? what.substring (0, pt) : what.substring (pt + 1)).trim ();
-what = org.jmol.util.TextFormat.simpleReplace (what, "T/F", (TF ? " TRUE" : " FALSE"));
-}}this.viewer.evalStringQuiet (what);
-}, $fz.isPrivate = true, $fz), "~O,~S,~B");
-Clazz.overrideMethod (c$, "checkMenuClick", 
-function (source, script) {
-this.restorePopupMenu ();
-if (script == null || script.length == 0) return;
-if (script.equals ("MAIN")) {
-this.show (this.thisx, this.thisy, true);
-return;
-}var id = this.menuGetId (source);
-if (id != null) {
-script = this.fixScript (id, script);
-this.currentMenuItemId = id;
-}this.viewer.evalStringQuiet (script);
-}, "~O,~S");
-Clazz.defineMethod (c$, "addMenuItem", 
-($fz = function (menuItem, entry) {
-return this.menuCreateItem (menuItem, entry, "", null);
-}, $fz.isPrivate = true, $fz), "~O,~S");
-Clazz.defineMethod (c$, "checkSpecialMenu", 
-($fz = function (item, subMenu, word) {
-if ("aboutComputedMenu".equals (item)) {
-this.aboutComputedMenuBaseCount = this.menuGetItemCount (subMenu);
-} else if ("modelSetMenu".equals (item)) {
-this.nullModelSetName = word;
-this.menuEnable (subMenu, false);
-}}, $fz.isPrivate = true, $fz), "~S,~O,~S");
-Clazz.defineMethod (c$, "updateFileMenu", 
-($fz = function () {
-var menu = this.htMenus.get ("fileMenu");
-if (menu == null) return;
-var text = this.getMenuText ("writeFileTextVARIABLE");
-menu = this.htMenus.get ("writeFileTextVARIABLE");
-if (this.modelSetFileName.equals ("zapped") || this.modelSetFileName.equals ("")) {
-this.menuSetLabel (menu, org.jmol.i18n.GT._ ("No atoms loaded"));
-this.menuEnableItem (menu, false);
-} else {
-this.menuSetLabel (menu, org.jmol.i18n.GT._ (text, this.modelSetFileName));
-this.menuEnableItem (menu, true);
-}}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "getMenuText", 
-($fz = function (key) {
-var str = this.menuText.getProperty (key);
-return (str == null ? key : str);
-}, $fz.isPrivate = true, $fz), "~S");
-Clazz.defineMethod (c$, "updateSelectMenu", 
-($fz = function () {
-var menu = this.htMenus.get ("selectMenuText");
-if (menu == null) return;
-this.menuEnable (menu, this.atomCount != 0);
-this.menuSetLabel (menu, org.jmol.i18n.GT._ (this.getMenuText ("selectMenuText"), this.viewer.getSelectionCount ()));
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateElementsComputedMenu", 
-($fz = function (elementsPresentBitSet) {
-var menu = this.htMenus.get ("elementsComputedMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-this.menuEnable (menu, false);
-if (elementsPresentBitSet == null) return;
-for (var i = elementsPresentBitSet.nextSetBit (0); i >= 0; i = elementsPresentBitSet.nextSetBit (i + 1)) {
-var elementName = org.jmol.util.Elements.elementNameFromNumber (i);
-var elementSymbol = org.jmol.util.Elements.elementSymbolFromNumber (i);
-var entryName = elementSymbol + " - " + elementName;
-this.menuCreateItem (menu, entryName, "SELECT " + elementName, null);
-}
-for (var i = 4; i < org.jmol.util.Elements.altElementMax; ++i) {
-var n = org.jmol.util.Elements.elementNumberMax + i;
-if (elementsPresentBitSet.get (n)) {
-n = org.jmol.util.Elements.altElementNumberFromIndex (i);
-var elementName = org.jmol.util.Elements.elementNameFromNumber (n);
-var elementSymbol = org.jmol.util.Elements.elementSymbolFromNumber (n);
-var entryName = elementSymbol + " - " + elementName;
-this.menuCreateItem (menu, entryName, "SELECT " + elementName, null);
-}}
-this.menuEnable (menu, true);
-}, $fz.isPrivate = true, $fz), "org.jmol.util.BitSet");
-Clazz.defineMethod (c$, "updateSpectraMenu", 
-($fz = function () {
-var menuh = this.htMenus.get ("hnmrMenu");
-var menuc = this.htMenus.get ("cnmrMenu");
-if (menuh != null) this.menuRemoveAll (menuh, 0);
-if (menuc != null) this.menuRemoveAll (menuc, 0);
-var menu = this.htMenus.get ("spectraMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-var isOK =  new Boolean (this.setSpectraMenu (menuh, this.hnmrPeaks) | this.setSpectraMenu (menuc, this.cnmrPeaks)).valueOf ();
-if (isOK) {
-if (menuh != null) this.menuAddSubMenu (menu, menuh);
-if (menuc != null) this.menuAddSubMenu (menu, menuc);
-}this.menuEnable (menu, isOK);
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "setSpectraMenu", 
-($fz = function (menu, peaks) {
-if (menu == null) return false;
-this.menuEnable (menu, false);
-var n = (peaks == null ? 0 : peaks.size ());
-if (n == 0) return false;
-for (var i = 0; i < n; i++) {
-var peak = peaks.get (i);
-var title = org.jmol.util.Parser.getQuotedAttribute (peak, "title");
-var atoms = org.jmol.util.Parser.getQuotedAttribute (peak, "atoms");
-if (atoms != null) this.menuCreateItem (menu, title, "select visible & (@" + org.jmol.util.TextFormat.simpleReplace (atoms, ",", " or @") + ")", "Focus" + i);
-}
-this.menuEnable (menu, true);
-return true;
-}, $fz.isPrivate = true, $fz), "~O,java.util.List");
-Clazz.defineMethod (c$, "updateHeteroComputedMenu", 
-($fz = function (htHetero) {
-var menu = this.htMenus.get ("PDBheteroComputedMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-this.menuEnable (menu, false);
-if (htHetero == null) return;
-var n = 0;
-for (var hetero, $hetero = htHetero.entrySet ().iterator (); $hetero.hasNext () && ((hetero = $hetero.next ()) || true);) {
-var heteroCode = hetero.getKey ();
-var heteroName = hetero.getValue ();
-if (heteroName.length > 20) heteroName = heteroName.substring (0, 20) + "...";
-var entryName = heteroCode + " - " + heteroName;
-this.menuCreateItem (menu, entryName, "SELECT [" + heteroCode + "]", null);
-n++;
-}
-this.menuEnable (menu, (n > 0));
-}, $fz.isPrivate = true, $fz), "java.util.Map");
-Clazz.defineMethod (c$, "updateSurfMoComputedMenu", 
-($fz = function (moData) {
-var menu = this.htMenus.get ("surfMoComputedMenuText");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-var mos = (moData == null ? null : (moData.get ("mos")));
-var nOrb = (mos == null ? 0 : mos.size ());
-var text = this.getMenuText ("surfMoComputedMenuText");
-if (nOrb == 0) {
-this.menuSetLabel (menu, org.jmol.i18n.GT._ (text, ""));
-this.menuEnable (menu, false);
-return;
-}this.menuSetLabel (menu, org.jmol.i18n.GT._ (text, nOrb));
-this.menuEnable (menu, true);
-var subMenu = menu;
-var nmod = (nOrb % this.itemMax);
-if (nmod == 0) nmod = this.itemMax;
-var pt = (nOrb > this.itemMax ? 0 : -2147483648);
-for (var i = nOrb; --i >= 0; ) {
-if (pt >= 0 && (pt++ % nmod) == 0) {
-if (pt == nmod + 1) nmod = this.itemMax;
-var id = "mo" + pt + "Menu";
-subMenu = this.menuNewSubMenu (Math.max (i + 2 - nmod, 1) + "..." + (i + 1), this.menuGetId (menu) + "." + id);
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put (id, subMenu);
-pt = 1;
-}var mo = mos.get (i);
-var entryName = "#" + (i + 1) + " " + (mo.containsKey ("type") ? mo.get ("type") + " " : "") + (mo.containsKey ("symmetry") ? mo.get ("symmetry") + " " : "") + (mo.containsKey ("energy") ? mo.get ("energy") : "");
-var script = "mo " + (i + 1);
-this.menuCreateItem (subMenu, entryName, script, null);
-}
-}, $fz.isPrivate = true, $fz), "java.util.Map");
-Clazz.defineMethod (c$, "updatePDBComputedMenus", 
-($fz = function () {
-var menu = this.htMenus.get ("PDBaaResiduesComputedMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-this.menuEnable (menu, false);
-var menu1 = this.htMenus.get ("PDBnucleicResiduesComputedMenu");
-if (menu1 == null) return;
-this.menuRemoveAll (menu1, 0);
-this.menuEnable (menu1, false);
-var menu2 = this.htMenus.get ("PDBcarboResiduesComputedMenu");
-if (menu2 == null) return;
-this.menuRemoveAll (menu2, 0);
-this.menuEnable (menu2, false);
-if (this.modelSetInfo == null) return;
-var n = (this.modelIndex < 0 ? 0 : this.modelIndex + 1);
-var lists = (this.modelSetInfo.get ("group3Lists"));
-this.group3List = (lists == null ? null : lists[n]);
-this.group3Counts = (lists == null ? null : (this.modelSetInfo.get ("group3Counts"))[n]);
-if (this.group3List == null) return;
-var nItems = 0;
-for (var i = 1; i < 24; ++i) nItems += this.updateGroup3List (menu, org.jmol.viewer.JmolConstants.predefinedGroup3Names[i]);
-
-nItems += this.augmentGroup3List (menu, "p>", true);
-this.menuEnable (menu, (nItems > 0));
-this.menuEnable (this.htMenus.get ("PDBproteinMenu"), (nItems > 0));
-nItems = this.augmentGroup3List (menu1, "n>", false);
-this.menuEnable (menu1, nItems > 0);
-this.menuEnable (this.htMenus.get ("PDBnucleicMenu"), (nItems > 0));
-nItems = this.augmentGroup3List (menu2, "c>", false);
-this.menuEnable (menu2, nItems > 0);
-this.menuEnable (this.htMenus.get ("PDBcarboMenu"), (nItems > 0));
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateGroup3List", 
-($fz = function (menu, name) {
-var nItems = 0;
-var n = this.group3Counts[Clazz.doubleToInt (this.group3List.indexOf (name) / 6)];
-var script = null;
-if (n > 0) {
-script = "SELECT " + name;
-name += "  (" + n + ")";
-nItems++;
-}var item = this.menuCreateItem (menu, name, script, this.menuGetId (menu) + "." + name);
-if (n == 0) this.menuEnableItem (item, false);
-return nItems;
-}, $fz.isPrivate = true, $fz), "~O,~S");
-Clazz.defineMethod (c$, "augmentGroup3List", 
-($fz = function (menu, type, addSeparator) {
-var pt = 138;
-var nItems = 0;
-while (true) {
-pt = this.group3List.indexOf (type, pt);
-if (pt < 0) break;
-if (nItems++ == 0 && addSeparator) this.menuAddSeparator (menu);
-var n = this.group3Counts[Clazz.doubleToInt (pt / 6)];
-var heteroCode = this.group3List.substring (pt + 2, pt + 5);
-var name = heteroCode + "  (" + n + ")";
-this.menuCreateItem (menu, name, "SELECT [" + heteroCode + "]", this.menuGetId (menu) + "." + name);
-pt++;
-}
-return nItems;
-}, $fz.isPrivate = true, $fz), "~O,~S,~B");
-Clazz.defineMethod (c$, "updateSYMMETRYComputedMenus", 
-($fz = function () {
-this.updateSYMMETRYSelectComputedMenu ();
-this.updateSYMMETRYShowComputedMenu ();
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateSYMMETRYShowComputedMenu", 
-($fz = function () {
-var menu = this.htMenus.get ("SYMMETRYShowComputedMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-this.menuEnable (menu, false);
-if (!this.isSymmetry || this.modelIndex < 0) return;
-var info = this.viewer.getProperty ("DATA_API", "spaceGroupInfo", null);
-if (info == null) return;
-var infolist = info.get ("operations");
-if (infolist == null) return;
-var name = info.get ("spaceGroupName");
-this.menuSetLabel (menu, name == null ? org.jmol.i18n.GT._ ("Space Group") : name);
-var subMenu = menu;
-var nmod = this.itemMax;
-var pt = (infolist.length > this.itemMax ? 0 : -2147483648);
-for (var i = 0; i < infolist.length; i++) {
-if (pt >= 0 && (pt++ % nmod) == 0) {
-var id = "drawsymop" + pt + "Menu";
-subMenu = this.menuNewSubMenu ((i + 1) + "..." + Math.min (i + this.itemMax, infolist.length), this.menuGetId (menu) + "." + id);
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put (id, subMenu);
-pt = 1;
-}var entryName = (i + 1) + " " + infolist[i][2] + " (" + infolist[i][0] + ")";
-this.menuEnableItem (this.menuCreateItem (subMenu, entryName, "draw SYMOP " + (i + 1), null), true);
-}
-this.menuEnable (menu, true);
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateSYMMETRYSelectComputedMenu", 
-($fz = function () {
-var menu = this.htMenus.get ("SYMMETRYSelectComputedMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-this.menuEnable (menu, false);
-if (!this.isSymmetry || this.modelIndex < 0) return;
-var list = this.modelInfo.get ("symmetryOperations");
-if (list == null) return;
-var cellRange = this.modelInfo.get ("unitCellRange");
-var haveUnitCellRange = (cellRange != null);
-var subMenu = menu;
-var nmod = this.itemMax;
-var pt = (list.length > this.itemMax ? 0 : -2147483648);
-for (var i = 0; i < list.length; i++) {
-if (pt >= 0 && (pt++ % nmod) == 0) {
-var id = "symop" + pt + "Menu";
-subMenu = this.menuNewSubMenu ((i + 1) + "..." + Math.min (i + this.itemMax, list.length), this.menuGetId (menu) + "." + id);
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put (id, subMenu);
-pt = 1;
-}var entryName = "symop=" + (i + 1) + " # " + list[i];
-this.menuEnableItem (this.menuCreateItem (subMenu, entryName, "SELECT symop=" + (i + 1), null), haveUnitCellRange);
-}
-this.menuEnable (menu, true);
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateFRAMESbyModelComputedMenu", 
-($fz = function () {
-var menu = this.htMenus.get ("FRAMESbyModelComputedMenu");
-if (menu == null) return;
-this.menuEnable (menu, (this.modelCount > 0));
-this.menuSetLabel (menu, (this.modelIndex < 0 ? org.jmol.i18n.GT._ (this.getMenuText ("allModelsText"), this.modelCount) : this.getModelLabel ()));
-this.menuRemoveAll (menu, 0);
-if (this.modelCount < 1) return;
-if (this.modelCount > 1) this.menuCreateCheckboxItem (menu, org.jmol.i18n.GT._ ("All"), "frame 0 ##", null, (this.modelIndex < 0), false);
-var subMenu = menu;
-var nmod = this.itemMax;
-var pt = (this.modelCount > this.itemMax ? 0 : -2147483648);
-for (var i = 0; i < this.modelCount; i++) {
-if (pt >= 0 && (pt++ % nmod) == 0) {
-var id = "model" + pt + "Menu";
-subMenu = this.menuNewSubMenu ((i + 1) + "..." + Math.min (i + this.itemMax, this.modelCount), this.menuGetId (menu) + "." + id);
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put (id, subMenu);
-pt = 1;
-}var script = "" + this.viewer.getModelNumberDotted (i);
-var entryName = this.viewer.getModelName (i);
-var spectrumTypes = this.viewer.getModelAuxiliaryInfoValue (i, "spectrumTypes");
-if (spectrumTypes != null && entryName.startsWith (spectrumTypes)) spectrumTypes = null;
-if (!entryName.equals (script)) {
-var ipt = entryName.indexOf (";PATH");
-if (ipt >= 0) entryName = entryName.substring (0, ipt);
-if (entryName.indexOf ("Model[") == 0 && (ipt = entryName.indexOf ("]:")) >= 0) entryName = entryName.substring (ipt + 2);
-entryName = script + ": " + entryName;
-}if (entryName.length > 60) entryName = entryName.substring (0, 55) + "...";
-if (spectrumTypes != null) entryName += " (" + spectrumTypes + ")";
-this.menuCreateCheckboxItem (subMenu, entryName, "model " + script + " ##", null, (this.modelIndex == i), false);
-}
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateConfigurationComputedMenu", 
-($fz = function () {
-var menu = this.htMenus.get ("configurationComputedMenu");
-if (menu == null) return;
-this.menuEnable (menu, this.isMultiConfiguration);
-if (!this.isMultiConfiguration) return;
-var nAltLocs = this.altlocs.length;
-this.menuSetLabel (menu, org.jmol.i18n.GT._ (this.getMenuText ("configurationMenuText"), nAltLocs));
-this.menuRemoveAll (menu, 0);
-var script = "hide none ##CONFIG";
-this.menuCreateCheckboxItem (menu, org.jmol.i18n.GT._ ("All"), script, null, (this.updateMode == 1 && this.configurationSelected.equals (script)), false);
-for (var i = 0; i < nAltLocs; i++) {
-script = "configuration " + (i + 1) + "; hide thisModel and not selected ##CONFIG";
-var entryName = "" + (i + 1) + " -- \"" + this.altlocs.charAt (i) + "\"";
-this.menuCreateCheckboxItem (menu, entryName, script, null, (this.updateMode == 1 && this.configurationSelected.equals (script)), false);
-}
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateModelSetComputedMenu", 
-($fz = function () {
-var menu = this.htMenus.get ("modelSetMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-this.menuSetLabel (menu, this.nullModelSetName);
-this.menuEnable (menu, false);
-this.menuEnable (this.htMenus.get ("surfaceMenu"), !this.isZapped);
-this.menuEnable (this.htMenus.get ("measureMenu"), !this.isZapped);
-this.menuEnable (this.htMenus.get ("pickingMenu"), !this.isZapped);
-this.menuEnable (this.htMenus.get ("computationMenu"), !this.isZapped);
-if (this.modelSetName == null || this.isZapped) return;
-if (this.isMultiFrame) {
-this.modelSetName = org.jmol.i18n.GT._ (this.getMenuText ("modelSetCollectionText"), this.modelCount);
-if (this.modelSetName.length > this.titleWidthMax) this.modelSetName = this.modelSetName.substring (0, this.titleWidthMax) + "...";
-} else if (this.viewer.getBooleanProperty ("hideNameInPopup")) {
-this.modelSetName = this.getMenuText ("hiddenModelSetText");
-} else if (this.modelSetName.length > this.titleWidthMax) {
-this.modelSetName = this.modelSetName.substring (0, this.titleWidthMax) + "...";
-}this.menuSetLabel (menu, this.modelSetName);
-this.menuEnable (menu, true);
-this.menuEnable (this.htMenus.get ("computationMenu"), this.atomCount <= 100);
-this.addMenuItem (menu, org.jmol.i18n.GT._ (this.getMenuText ("atomsText"), this.atomCount));
-this.addMenuItem (menu, org.jmol.i18n.GT._ (this.getMenuText ("bondsText"), this.viewer.getBondCountInModel (this.modelIndex)));
-if (this.isPDB) {
-this.menuAddSeparator (menu);
-this.addMenuItem (menu, org.jmol.i18n.GT._ (this.getMenuText ("groupsText"), this.viewer.getGroupCountInModel (this.modelIndex)));
-this.addMenuItem (menu, org.jmol.i18n.GT._ (this.getMenuText ("chainsText"), this.viewer.getChainCountInModel (this.modelIndex)));
-this.addMenuItem (menu, org.jmol.i18n.GT._ (this.getMenuText ("polymersText"), this.viewer.getPolymerCountInModel (this.modelIndex)));
-var submenu = this.htMenus.get ("BiomoleculesMenu");
-if (submenu == null) {
-submenu = this.menuNewSubMenu (org.jmol.i18n.GT._ (this.getMenuText ("biomoleculesMenuText")), this.menuGetId (menu) + ".biomolecules");
-this.menuAddSubMenu (menu, submenu);
-}this.menuRemoveAll (submenu, 0);
-this.menuEnable (submenu, false);
-var biomolecules;
-if (this.modelIndex >= 0 && (biomolecules = this.viewer.getModelAuxiliaryInfoValue (this.modelIndex, "biomolecules")) != null) {
-this.menuEnable (submenu, true);
-var nBiomolecules = biomolecules.size ();
-for (var i = 0; i < nBiomolecules; i++) {
-var script = (this.isMultiFrame ? "" : "save orientation;load \"\" FILTER \"biomolecule " + (i + 1) + "\";restore orientation;");
-var nAtoms = (biomolecules.get (i).get ("atomCount")).intValue ();
-var entryName = org.jmol.i18n.GT._ (this.getMenuText (this.isMultiFrame ? "biomoleculeText" : "loadBiomoleculeText"), [Integer.$valueOf (i + 1), Integer.$valueOf (nAtoms)]);
-this.menuCreateItem (submenu, entryName, script, null);
-}
-}}if (this.isApplet && this.viewer.showModelSetDownload () && !this.viewer.getBooleanProperty ("hideNameInPopup")) {
-this.menuAddSeparator (menu);
-this.menuCreateItem (menu, org.jmol.i18n.GT._ (this.getMenuText ("viewMenuText"), this.modelSetFileName), "show url", null);
-}}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "getModelLabel", 
-($fz = function () {
-return org.jmol.i18n.GT._ (this.getMenuText ("modelMenuText"), (this.modelIndex + 1) + "/" + this.modelCount);
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateAboutSubmenu", 
-($fz = function () {
-var menu = this.htMenus.get ("aboutComputedMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, this.aboutComputedMenuBaseCount);
-var subMenu = this.menuNewSubMenu ("About molecule", "modelSetMenu");
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put ("modelSetMenu", subMenu);
-this.updateModelSetComputedMenu ();
-subMenu = this.menuNewSubMenu ("Jmol " + org.jmol.viewer.JmolConstants.version + (this.isSigned ? " (signed)" : ""), "aboutJmolMenu");
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put ("aboutJmolMenu", subMenu);
-this.addMenuItem (subMenu, org.jmol.viewer.JmolConstants.date);
-this.menuCreateItem (subMenu, "http://www.jmol.org", "show url \"http://www.jmol.org\"", null);
-this.menuCreateItem (subMenu, org.jmol.i18n.GT._ ("Mouse Manual"), "show url \"http://wiki.jmol.org/index.php/Mouse_Manual\"", null);
-this.menuCreateItem (subMenu, org.jmol.i18n.GT._ ("Translations"), "show url \"http://wiki.jmol.org/index.php/Internationalisation\"", null);
-subMenu = this.menuNewSubMenu (org.jmol.i18n.GT._ ("System"), "systemMenu");
-this.menuAddSubMenu (menu, subMenu);
-this.htMenus.put ("systemMenu", subMenu);
-this.addMenuItem (subMenu, this.viewer.getOperatingSystemName ());
-this.menuAddSeparator (subMenu);
-this.addMenuItem (subMenu, org.jmol.i18n.GT._ ("Java version:"));
-this.addMenuItem (subMenu, this.viewer.getJavaVendor ());
-this.addMenuItem (subMenu, this.viewer.getJavaVersion ());
-var runtime = null;
-{
-}if (runtime != null) {
-var availableProcessors = runtime.availableProcessors ();
-if (availableProcessors > 0) this.addMenuItem (subMenu, (availableProcessors == 1) ? org.jmol.i18n.GT._ ("1 processor") : org.jmol.i18n.GT._ ("{0} processors", availableProcessors));
- else this.addMenuItem (subMenu, org.jmol.i18n.GT._ ("unknown processor count"));
-this.addMenuItem (subMenu, org.jmol.i18n.GT._ ("Java memory usage:"));
-var mbTotal = this.convertToMegabytes (runtime.totalMemory ());
-var mbFree = this.convertToMegabytes (runtime.freeMemory ());
-var mbMax = this.convertToMegabytes (runtime.maxMemory ());
-this.addMenuItem (subMenu, org.jmol.i18n.GT._ ("{0} MB total", [ new Long (mbTotal)]));
-this.addMenuItem (subMenu, org.jmol.i18n.GT._ ("{0} MB free", [ new Long (mbFree)]));
-if (mbMax > 0) this.addMenuItem (subMenu, org.jmol.i18n.GT._ ("{0} MB maximum", [ new Long (mbMax)]));
- else this.addMenuItem (subMenu, org.jmol.i18n.GT._ ("unknown maximum"));
-}}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "updateLanguageSubmenu", 
-($fz = function () {
-var menu = this.htMenus.get ("languageComputedMenu");
-if (menu == null) return;
-this.menuRemoveAll (menu, 0);
-var language = org.jmol.i18n.GT.getLanguage ();
-var id = this.menuGetId (menu);
-var languages = org.jmol.i18n.GT.getLanguageList (null);
-for (var i = 0; i < languages.length; i++) {
-if (language.equals (languages[i].code)) languages[i].display = true;
-if (languages[i].display) {
-var code = languages[i].code;
-var name = languages[i].language;
-var nativeName = languages[i].nativeLanguage;
-var menuLabel = code + " - " + org.jmol.i18n.GT._ (name);
-if ((nativeName != null) && (!nativeName.equals (org.jmol.i18n.GT._ (name)))) {
-menuLabel += " - " + nativeName;
-}this.menuCreateCheckboxItem (menu, menuLabel, "language = \"" + code + "\" ##" + name, id + "." + code, language.equals (code), false);
-}}
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "convertToMegabytes", 
-($fz = function (num) {
-if (num <= 9223372036854251519) num += 524288;
-return Clazz.doubleToInt (num / (1048576));
-}, $fz.isPrivate = true, $fz), "~N");
-Clazz.defineMethod (c$, "updateForShow", 
-($fz = function () {
-if (this.updateMode == -1) return;
-this.getViewerData ();
-this.updateMode = 2;
-this.updateSelectMenu ();
-this.updateSpectraMenu ();
-this.updateFRAMESbyModelComputedMenu ();
-this.updateModelSetComputedMenu ();
-this.updateAboutSubmenu ();
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "setFrankMenu", 
-($fz = function (id) {
-if (this.currentFrankId != null && this.currentFrankId === id && this.nFrankList > 0) return;
-if (this.frankPopup == null) this.frankPopup = this.menuCreatePopup ("Frank");
-this.thisPopup = this.frankPopup;
-this.menuRemoveAll (this.frankPopup, 0);
-if (id == null) return;
-this.currentFrankId = id;
-this.nFrankList = 0;
-this.frankList[this.nFrankList++] = [null, null, null];
-this.menuCreateItem (this.frankPopup, this.getMenuText ("mainMenuText"), "MAIN", "");
-for (var i = id.indexOf (".", 2) + 1; ; ) {
-var iNew = id.indexOf (".", i);
-if (iNew < 0) break;
-var strMenu = id.substring (i, iNew);
-var menu = this.htMenus.get (strMenu);
-this.frankList[this.nFrankList++] = [this.menuGetParent (menu), menu, Integer.$valueOf (this.menuGetPosition (menu))];
-this.menuAddSubMenu (this.frankPopup, menu);
-i = iNew + 1;
-}
-this.thisPopup = this.popupMenu;
-}, $fz.isPrivate = true, $fz), "~S");
-Clazz.defineMethod (c$, "show", 
-($fz = function (x, y, doPopup) {
-this.thisx = x;
-this.thisy = y;
-this.updateForShow ();
-for (var entry, $entry = this.htCheckbox.entrySet ().iterator (); $entry.hasNext () && ((entry = $entry.next ()) || true);) {
-var key = entry.getKey ();
-var item = entry.getValue ();
-var basename = key.substring (0, key.indexOf (":"));
-var b = this.viewer.getBooleanProperty (basename);
-this.menuSetCheckBoxState (item, b);
-}
-if (doPopup) this.menuShowPopup (this.popupMenu, this.thisx, this.thisy);
-}, $fz.isPrivate = true, $fz), "~N,~N,~B");
-Clazz.defineStatics (c$,
-"dumpList", false,
-"UPDATE_NEVER", -1,
-"UPDATE_ALL", 0,
-"UPDATE_CONFIG", 1,
-"UPDATE_SHOW", 2,
-"MENUITEM_HEIGHT", 20);
-});
-// 
-//// org\jmol\awtjs2d\JSPopup.js 
-// 
-Clazz.declarePackage ("org.jmol.awtjs2d");
-Clazz.load (["org.jmol.popup.GenericPopup"], "org.jmol.awtjs2d.JSPopup", null, function () {
-c$ = Clazz.declareType (org.jmol.awtjs2d, "JSPopup", org.jmol.popup.GenericPopup);
-Clazz.makeConstructor (c$, 
-function () {
-Clazz.superConstructor (this, org.jmol.awtjs2d.JSPopup, []);
-});
-Clazz.defineMethod (c$, "updateButton", 
-function (b, entry, script) {
-var ret = [entry];
-var icon = this.getEntryIcon (ret);
-entry = ret[0];
-{
-if (icon != null) b.setIcon(icon); if (entry != null)
-b.setText(entry); if (script != null)
-b.setActionCommand(script); this.thisPopup.tainted = true;
-}}, "~O,~S,~S");
-Clazz.defineMethod (c$, "newMenuItem", 
-($fz = function (menu, item, text, script, id) {
-this.updateButton (item, text, script);
-{
-if (id != null && id.startsWith("Focus")) {
-item.addMouseListener(this); id = menu.getName() + "." + id; }
-item.setName(id == null ? menu.getName() + "." : id);
-}this.menuAddItem (menu, item);
-return item;
-}, $fz.isPrivate = true, $fz), "~O,~O,~S,~S,~S");
-Clazz.overrideMethod (c$, "menuAddButtonGroup", 
-function (newMenu) {
-{
-if (this.buttonGroup == null) this.buttonGroup = new
-Jmol.Menu.ButtonGroup(this.thisPopup);
-this.buttonGroup.add(newMenu);
-}}, "~O");
-Clazz.overrideMethod (c$, "menuAddItem", 
-function (menu, item) {
-{
-menu.add(item); this.thisPopup.tainted = true;
-}}, "~O,~O");
-Clazz.overrideMethod (c$, "menuAddSeparator", 
-function (menu) {
-{
-menu.add(new Jmol.Menu.MenuItem(this.thisPopup, null, false,
-false)); this.thisPopup.tainted = true;
-}}, "~O");
-Clazz.overrideMethod (c$, "menuAddSubMenu", 
-function (menu, subMenu) {
-this.menuAddItem (menu, subMenu);
-}, "~O,~O");
-Clazz.overrideMethod (c$, "menuClearListeners", 
-function (menu) {
-}, "~O");
-Clazz.overrideMethod (c$, "menuCreateCheckboxItem", 
-function (menu, entry, basename, id, state, isRadio) {
-var item = null;
-{
-item = new Jmol.Menu.MenuItem(this.thisPopup, entry, !isRadio,
-isRadio); item.setSelected(state); item.addItemListener(this);
-}return this.newMenuItem (menu, item, entry, basename, id);
-}, "~O,~S,~S,~S,~B,~B");
-Clazz.overrideMethod (c$, "menuCreateItem", 
-function (menu, entry, script, id) {
-var item = null;
-{
-item = new Jmol.Menu.MenuItem(this.thisPopup, entry);
-item.addActionListener(this);
-}return this.newMenuItem (menu, item, entry, script, id);
-}, "~O,~S,~S,~S");
-Clazz.overrideMethod (c$, "menuCreatePopup", 
-function (name) {
-{
-return new Jmol.Menu.PopupMenu(this.viewer.applet, name);
-}}, "~S");
-Clazz.overrideMethod (c$, "menuEnable", 
-function (menu, enable) {
-{
-if (menu.isItem) { this.menuEnableItem(menu, enable); return;
-} try { menu.setEnabled(enable); } catch (e) {
-}
-this.thisPopup.tainted = true;
-}}, "~O,~B");
-Clazz.overrideMethod (c$, "menuEnableItem", 
-function (item, enable) {
-{
-try { item.setEnabled(enable); } catch (e) { }
-this.thisPopup.tainted = true;
-}}, "~O,~B");
-Clazz.overrideMethod (c$, "menuGetAsText", 
-function (sb, level, menu, menuName) {
-{
-var name = menuName; var subMenus = menu.getComponents(); for
-(var i = 0; i < subMenus.length; i++) { var m = subMenus[i];
-var flags = null; if (m.isMenu) { name = m.getName(); flags =
-"enabled:" + m.isEnabled(); this.addItemText(sb, 'M', level,
-name, m.getText(), null, flags); this.menuGetAsText(sb, level
-+ 1, m.getPopupMenu(), name); } else if (m.isItem) { flags =
-"enabled:" + m.isEnabled(); if (m.isCheckBox) flags +=
-";checked:" + m.getState(); var script =
-this.fixScript(m.getName(), m.getActionCommand());
-this.addItemText(sb, 'I', level, m.getName(), m.getText(),
-script, flags); } else { this.addItemText(sb, 'S', level,
-name, null, null, null); } }
-}}, "org.jmol.util.StringXBuilder,~N,~O,~S");
-Clazz.overrideMethod (c$, "menuGetId", 
-function (menu) {
-{
-return menu.getName();
-}}, "~O");
-Clazz.overrideMethod (c$, "menuGetItemCount", 
-function (menu) {
-{
-return menu.getItemCount();
-}}, "~O");
-Clazz.overrideMethod (c$, "menuGetParent", 
-function (menu) {
-{
-return menu.getParent();
-}}, "~O");
-Clazz.overrideMethod (c$, "menuGetPosition", 
-function (menu) {
-{
-var p = menuGetParent(menu); if (p != null) for (var i =
-p.getItemCount(); --i >= 0;) if (p.getItem(i) == menu) return
-i;
-}return -1;
-}, "~O");
-Clazz.overrideMethod (c$, "menuInsertSubMenu", 
-function (menu, subMenu, index) {
-}, "~O,~O,~N");
-Clazz.overrideMethod (c$, "menuNewSubMenu", 
-function (entry, id) {
-{
-var menu = new Jmol.Menu.SubMenu(this.thisPopup, entry);
-this.updateButton(menu, entry, null); menu.setName(id);
-menu.setAutoscrolls(true); return menu;
-}}, "~S,~S");
-Clazz.overrideMethod (c$, "menuRemoveAll", 
-function (menu, indexFrom) {
-{
-menu.removeAll(indexFrom); this.thisPopup.tainted = true;
-}}, "~O,~N");
-Clazz.overrideMethod (c$, "menuSetAutoscrolls", 
-function (menu) {
-{
-menu.setAutoscrolls(true); this.thisPopup.tainted = true;
-}}, "~O");
-Clazz.overrideMethod (c$, "menuSetCheckBoxState", 
-function (item, state) {
-{
-item.setSelected(state); this.thisPopup.tainted = true;
-}}, "~O,~B");
-Clazz.overrideMethod (c$, "menuSetCheckBoxOption", 
-function (item, name, what) {
-return null;
-}, "~O,~S,~S");
-Clazz.overrideMethod (c$, "menuSetCheckBoxValue", 
-function (source) {
-{
-this.setCheckBoxValue(source, source.getActionCommand(),
-source.isSelected()); this.thisPopup.tainted = true;
-}}, "~O");
-Clazz.overrideMethod (c$, "menuSetLabel", 
-function (menu, entry) {
-{
-menu.setText(entry); this.thisPopup.tainted = true;
-}}, "~O,~S");
-Clazz.overrideMethod (c$, "menuSetListeners", 
-function () {
-});
-Clazz.overrideMethod (c$, "menuShowPopup", 
-function (popup, x, y) {
-{
-popup.menuShowPopup(x, y);
-}}, "~O,~N,~N");
-});
-// 
-//// org\jmol\awtjs2d\JSmolPopup.js 
-// 
-Clazz.declarePackage ("org.jmol.awtjs2d");
-Clazz.load (["org.jmol.awtjs2d.JSPopup"], "org.jmol.awtjs2d.JSmolPopup", ["org.jmol.i18n.GT", "org.jmol.popup.MainPopupResourceBundle"], function () {
-c$ = Clazz.declareType (org.jmol.awtjs2d, "JSmolPopup", org.jmol.awtjs2d.JSPopup);
-Clazz.makeConstructor (c$, 
-function () {
-Clazz.superConstructor (this, org.jmol.awtjs2d.JSmolPopup, []);
-});
-Clazz.overrideMethod (c$, "jpiInitialize", 
-function (viewer, menu) {
-var doTranslate = org.jmol.i18n.GT.getDoTranslate ();
-org.jmol.i18n.GT.setDoTranslate (true);
-var bundle =  new org.jmol.popup.MainPopupResourceBundle (this.strMenuStructure = menu, this.menuText);
-this.initialize (viewer, bundle, bundle.getMenuName ());
-org.jmol.i18n.GT.setDoTranslate (doTranslate);
-}, "org.jmol.viewer.Viewer,~S");
-});
-// 
-//// org\jmol\popup\PopupResource.js 
-// 
-Clazz.declarePackage ("org.jmol.popup");
-Clazz.load (null, "org.jmol.popup.PopupResource", ["java.io.BufferedReader", "$.StringReader", "java.util.Properties", "org.jmol.i18n.GT"], function () {
-c$ = Clazz.decorateAsClass (function () {
-this.structure = null;
-this.words = null;
-Clazz.instantialize (this, arguments);
-}, org.jmol.popup, "PopupResource");
-Clazz.makeConstructor (c$, 
-function (menuStructure, menuText) {
-this.structure =  new java.util.Properties ();
-this.words =  new java.util.Properties ();
-this.buildStructure (menuStructure);
-this.localize (menuStructure != null, menuText);
-}, "~S,java.util.Properties");
-Clazz.defineMethod (c$, "getMenuAsText", 
-function (title) {
-return null;
-}, "~S");
-Clazz.defineMethod (c$, "getStructure", 
-function (key) {
-return this.structure.getProperty (key);
-}, "~S");
-Clazz.defineMethod (c$, "getWord", 
-function (key) {
-var str = this.words.getProperty (key);
-return (str == null ? key : str);
-}, "~S");
-Clazz.defineMethod (c$, "setStructure", 
-function (slist) {
-if (slist == null) return;
-var br =  new java.io.BufferedReader ( new java.io.StringReader (slist));
-var line;
-var pt;
-try {
-while ((line = br.readLine ()) != null) {
-if (line.length == 0 || line.charAt (0) == '#') continue;
-pt = line.indexOf ("=");
-if (pt < 0) {
-pt = line.length;
-line += "=";
-}var name = line.substring (0, pt).trim ();
-var value = line.substring (pt + 1).trim ();
-var label = null;
-if ((pt = name.indexOf ("|")) >= 0) {
-label = name.substring (pt + 1).trim ();
-name = name.substring (0, pt).trim ();
-}if (name.length == 0) continue;
-if (value.length > 0) this.structure.setProperty (name, value);
-if (label != null && label.length > 0) this.words.setProperty (name, org.jmol.i18n.GT._ (label));
-}
-} catch (e) {
-if (Clazz.exceptionOf (e, Exception)) {
-} else {
-throw e;
-}
-}
-try {
-br.close ();
-} catch (e) {
-if (Clazz.exceptionOf (e, Exception)) {
-} else {
-throw e;
-}
-}
-}, "~S");
-Clazz.defineMethod (c$, "addItems", 
-function (itemPairs) {
-var previous = "";
-for (var i = 0; i < itemPairs.length; i++) {
-var str = itemPairs[i][1];
-if (str == null) str = previous;
-previous = str;
-this.structure.setProperty (itemPairs[i][0], str);
-}
-}, "~A");
-Clazz.defineMethod (c$, "localize", 
-($fz = function (haveUserMenu, menuText) {
-var wordContents = this.getWordContents ();
-for (var i = 0; i < wordContents.length; i++) {
-var item = wordContents[i++];
-var word = this.words.getProperty (item);
-if (word == null) word = wordContents[i];
-this.words.setProperty (item, word);
-if (menuText != null && item.indexOf ("Text") >= 0) menuText.setProperty (item, word);
-}
-}, $fz.isPrivate = true, $fz), "~B,java.util.Properties");
-});
-// 
-//// org\jmol\popup\MainPopupResourceBundle.js 
-// 
-Clazz.declarePackage ("org.jmol.popup");
-Clazz.load (["org.jmol.popup.PopupResource"], "org.jmol.popup.MainPopupResourceBundle", ["org.jmol.i18n.GT", "org.jmol.util.StringXBuilder", "$.TextFormat"], function () {
-c$ = Clazz.declareType (org.jmol.popup, "MainPopupResourceBundle", org.jmol.popup.PopupResource);
-Clazz.overrideMethod (c$, "getMenuName", 
-function () {
-return "popupMenu";
-});
-Clazz.overrideMethod (c$, "buildStructure", 
-function (menuStructure) {
-this.addItems (org.jmol.popup.MainPopupResourceBundle.menuContents);
-this.addItems (org.jmol.popup.MainPopupResourceBundle.structureContents);
-this.setStructure (menuStructure);
-}, "~S");
-c$.Box = Clazz.defineMethod (c$, "Box", 
-($fz = function (cmd) {
-return "if (showBoundBox or showUnitcell) {" + cmd + "} else {boundbox on;" + cmd + ";boundbox off}";
-}, $fz.isPrivate = true, $fz), "~S");
-Clazz.overrideMethod (c$, "getWordContents", 
-function () {
-var wasTranslating = org.jmol.i18n.GT.getDoTranslate ();
-org.jmol.i18n.GT.setDoTranslate (true);
-var words = ["modelSetMenu", org.jmol.i18n.GT._ ("No atoms loaded"), "configurationComputedMenu", org.jmol.i18n.GT._ ("Configurations"), "elementsComputedMenu", org.jmol.i18n.GT._ ("Element"), "FRAMESbyModelComputedMenu", org.jmol.i18n.GT._ ("Model/Frame"), "languageComputedMenu", org.jmol.i18n.GT._ ("Language"), "PDBaaResiduesComputedMenu", org.jmol.i18n.GT._ ("By Residue Name"), "PDBnucleicResiduesComputedMenu", org.jmol.i18n.GT._ ("By Residue Name"), "PDBcarboResiduesComputedMenu", org.jmol.i18n.GT._ ("By Residue Name"), "PDBheteroComputedMenu", org.jmol.i18n.GT._ ("By HETATM"), "surfMoComputedMenuText", org.jmol.i18n.GT._ ("Molecular Orbitals ({0})"), "SYMMETRYSelectComputedMenu", org.jmol.i18n.GT._ ("Symmetry"), "SYMMETRYShowComputedMenu", org.jmol.i18n.GT._ ("Space Group"), "SYMMETRYhide", org.jmol.i18n.GT._ ("Hide Symmetry"), "hiddenModelSetText", org.jmol.i18n.GT._ ("Model information"), "selectMenuText", org.jmol.i18n.GT._ ("Select ({0})"), "allModelsText", org.jmol.i18n.GT._ ("All {0} models"), "configurationMenuText", org.jmol.i18n.GT._ ("Configurations ({0})"), "modelSetCollectionText", org.jmol.i18n.GT._ ("Collection of {0} models"), "atomsText", org.jmol.i18n.GT._ ("atoms: {0}"), "bondsText", org.jmol.i18n.GT._ ("bonds: {0}"), "groupsText", org.jmol.i18n.GT._ ("groups: {0}"), "chainsText", org.jmol.i18n.GT._ ("chains: {0}"), "polymersText", org.jmol.i18n.GT._ ("polymers: {0}"), "modelMenuText", org.jmol.i18n.GT._ ("model {0}"), "viewMenuText", org.jmol.i18n.GT._ ("View {0}"), "mainMenuText", org.jmol.i18n.GT._ ("Main Menu"), "biomoleculesMenuText", org.jmol.i18n.GT._ ("Biomolecules"), "biomoleculeText", org.jmol.i18n.GT._ ("biomolecule {0} ({1} atoms)"), "loadBiomoleculeText", org.jmol.i18n.GT._ ("load biomolecule {0} ({1} atoms)"), "selectAll", org.jmol.i18n.GT._ ("All"), "selectNone", org.jmol.i18n.GT._ ("None"), "hideNotSelectedCB", org.jmol.i18n.GT._ ("Display Selected Only"), "invertSelection", org.jmol.i18n.GT._ ("Invert Selection"), "viewMenu", org.jmol.i18n.GT._ ("View"), "front", org.jmol.i18n.GT._ ("Front"), "left", org.jmol.i18n.GT._ ("Left"), "right", org.jmol.i18n.GT._ ("Right"), "top", org.jmol.util.TextFormat.split (org.jmol.i18n.GT._ ("Top[as in \"view from the top, from above\" - (translators: remove this bracketed part]"), '[')[0], "bottom", org.jmol.i18n.GT._ ("Bottom"), "back", org.jmol.i18n.GT._ ("Back"), "PDBproteinMenu", org.jmol.i18n.GT._ ("Protein"), "allProtein", org.jmol.i18n.GT._ ("All"), "proteinBackbone", org.jmol.i18n.GT._ ("Backbone"), "proteinSideChains", org.jmol.i18n.GT._ ("Side Chains"), "polar", org.jmol.i18n.GT._ ("Polar Residues"), "nonpolar", org.jmol.i18n.GT._ ("Nonpolar Residues"), "positiveCharge", org.jmol.i18n.GT._ ("Basic Residues (+)"), "negativeCharge", org.jmol.i18n.GT._ ("Acidic Residues (-)"), "noCharge", org.jmol.i18n.GT._ ("Uncharged Residues"), "PDBnucleicMenu", org.jmol.i18n.GT._ ("Nucleic"), "allNucleic", org.jmol.i18n.GT._ ("All"), "DNA", org.jmol.i18n.GT._ ("DNA"), "RNA", org.jmol.i18n.GT._ ("RNA"), "nucleicBackbone", org.jmol.i18n.GT._ ("Backbone"), "nucleicBases", org.jmol.i18n.GT._ ("Bases"), "atPairs", org.jmol.i18n.GT._ ("AT pairs"), "gcPairs", org.jmol.i18n.GT._ ("GC pairs"), "auPairs", org.jmol.i18n.GT._ ("AU pairs"), "PDBheteroMenu", org.jmol.i18n.GT._ ("Hetero"), "allHetero", org.jmol.i18n.GT._ ("All PDB \"HETATM\""), "Solvent", org.jmol.i18n.GT._ ("All Solvent"), "Water", org.jmol.i18n.GT._ ("All Water"), "nonWaterSolvent", org.jmol.i18n.GT._ ("Nonaqueous Solvent") + " (solvent and not water)", "exceptWater", org.jmol.i18n.GT._ ("Nonaqueous HETATM") + " (hetero and not water)", "Ligand", org.jmol.i18n.GT._ ("Ligand"), "allCarbo", org.jmol.i18n.GT._ ("All"), "PDBcarboMenu", org.jmol.i18n.GT._ ("Carbohydrate"), "PDBnoneOfTheAbove", org.jmol.i18n.GT._ ("None of the above"), "renderMenu", org.jmol.i18n.GT._ ("Style"), "renderSchemeMenu", org.jmol.i18n.GT._ ("Scheme"), "renderCpkSpacefill", org.jmol.i18n.GT._ ("CPK Spacefill"), "renderBallAndStick", org.jmol.i18n.GT._ ("Ball and Stick"), "renderSticks", org.jmol.i18n.GT._ ("Sticks"), "renderWireframe", org.jmol.i18n.GT._ ("Wireframe"), "PDBrenderCartoonsOnly", org.jmol.i18n.GT._ ("Cartoon"), "PDBrenderTraceOnly", org.jmol.i18n.GT._ ("Trace"), "atomMenu", org.jmol.i18n.GT._ ("Atoms"), "atomNone", org.jmol.i18n.GT._ ("Off"), "atom15", org.jmol.i18n.GT._ ("{0}% van der Waals", "15"), "atom20", org.jmol.i18n.GT._ ("{0}% van der Waals", "20"), "atom25", org.jmol.i18n.GT._ ("{0}% van der Waals", "25"), "atom50", org.jmol.i18n.GT._ ("{0}% van der Waals", "50"), "atom75", org.jmol.i18n.GT._ ("{0}% van der Waals", "75"), "atom100", org.jmol.i18n.GT._ ("{0}% van der Waals", "100"), "bondMenu", org.jmol.i18n.GT._ ("Bonds"), "bondNone", org.jmol.i18n.GT._ ("Off"), "bondWireframe", org.jmol.i18n.GT._ ("On"), "bond100", org.jmol.i18n.GT._ ("{0} \u00C5", "0.10"), "bond150", org.jmol.i18n.GT._ ("{0} \u00C5", "0.15"), "bond200", org.jmol.i18n.GT._ ("{0} \u00C5", "0.20"), "bond250", org.jmol.i18n.GT._ ("{0} \u00C5", "0.25"), "bond300", org.jmol.i18n.GT._ ("{0} \u00C5", "0.30"), "hbondMenu", org.jmol.i18n.GT._ ("Hydrogen Bonds"), "hbondNone", org.jmol.i18n.GT._ ("Off"), "hbondCalc", org.jmol.i18n.GT._ ("Calculate"), "hbondWireframe", org.jmol.i18n.GT._ ("On"), "PDBhbondSidechain", org.jmol.i18n.GT._ ("Set H-Bonds Side Chain"), "PDBhbondBackbone", org.jmol.i18n.GT._ ("Set H-Bonds Backbone"), "hbond100", org.jmol.i18n.GT._ ("{0} \u00C5", "0.10"), "hbond150", org.jmol.i18n.GT._ ("{0} \u00C5", "0.15"), "hbond200", org.jmol.i18n.GT._ ("{0} \u00C5", "0.20"), "hbond250", org.jmol.i18n.GT._ ("{0} \u00C5", "0.25"), "hbond300", org.jmol.i18n.GT._ ("{0} \u00C5", "0.30"), "ssbondMenu", org.jmol.i18n.GT._ ("Disulfide Bonds"), "ssbondNone", org.jmol.i18n.GT._ ("Off"), "ssbondWireframe", org.jmol.i18n.GT._ ("On"), "PDBssbondSidechain", org.jmol.i18n.GT._ ("Set SS-Bonds Side Chain"), "PDBssbondBackbone", org.jmol.i18n.GT._ ("Set SS-Bonds Backbone"), "ssbond100", org.jmol.i18n.GT._ ("{0} \u00C5", "0.10"), "ssbond150", org.jmol.i18n.GT._ ("{0} \u00C5", "0.15"), "ssbond200", org.jmol.i18n.GT._ ("{0} \u00C5", "0.20"), "ssbond250", org.jmol.i18n.GT._ ("{0} \u00C5", "0.25"), "ssbond300", org.jmol.i18n.GT._ ("{0} \u00C5", "0.30"), "PDBstructureMenu", org.jmol.i18n.GT._ ("Structures"), "structureNone", org.jmol.i18n.GT._ ("Off"), "backbone", org.jmol.i18n.GT._ ("Backbone"), "cartoon", org.jmol.i18n.GT._ ("Cartoon"), "cartoonRockets", org.jmol.i18n.GT._ ("Cartoon Rockets"), "ribbons", org.jmol.i18n.GT._ ("Ribbons"), "rockets", org.jmol.i18n.GT._ ("Rockets"), "strands", org.jmol.i18n.GT._ ("Strands"), "trace", org.jmol.i18n.GT._ ("Trace"), "VIBRATIONMenu", org.jmol.i18n.GT._ ("Vibration"), "vibrationOff", org.jmol.i18n.GT._ ("Off"), "vibrationOn", org.jmol.i18n.GT._ ("On"), "vibration20", "*2", "vibration05", "/2", "VIBRATIONvectorMenu", org.jmol.i18n.GT._ ("Vectors"), "spectraMenu", org.jmol.i18n.GT._ ("Spectra"), "hnmrMenu", org.jmol.i18n.GT._ ("1H-NMR"), "cnmrMenu", org.jmol.i18n.GT._ ("13C-NMR"), "vectorOff", org.jmol.i18n.GT._ ("Off"), "vectorOn", org.jmol.i18n.GT._ ("On"), "vector3", org.jmol.i18n.GT._ ("{0} pixels", "3"), "vector005", org.jmol.i18n.GT._ ("{0} \u00C5", "0.05"), "vector01", org.jmol.i18n.GT._ ("{0} \u00C5", "0.10"), "vectorScale02", org.jmol.i18n.GT._ ("Scale {0}", "0.2"), "vectorScale05", org.jmol.i18n.GT._ ("Scale {0}", "0.5"), "vectorScale1", org.jmol.i18n.GT._ ("Scale {0}", "1"), "vectorScale2", org.jmol.i18n.GT._ ("Scale {0}", "2"), "vectorScale5", org.jmol.i18n.GT._ ("Scale {0}", "5"), "stereoMenu", org.jmol.i18n.GT._ ("Stereographic"), "stereoNone", org.jmol.i18n.GT._ ("None"), "stereoRedCyan", org.jmol.i18n.GT._ ("Red+Cyan glasses"), "stereoRedBlue", org.jmol.i18n.GT._ ("Red+Blue glasses"), "stereoRedGreen", org.jmol.i18n.GT._ ("Red+Green glasses"), "stereoCrossEyed", org.jmol.i18n.GT._ ("Cross-eyed viewing"), "stereoWallEyed", org.jmol.i18n.GT._ ("Wall-eyed viewing"), "labelMenu", org.jmol.i18n.GT._ ("Labels"), "labelNone", org.jmol.i18n.GT._ ("None"), "labelSymbol", org.jmol.i18n.GT._ ("With Element Symbol"), "labelName", org.jmol.i18n.GT._ ("With Atom Name"), "labelNumber", org.jmol.i18n.GT._ ("With Atom Number"), "labelPositionMenu", org.jmol.i18n.GT._ ("Position Label on Atom"), "labelCentered", org.jmol.i18n.GT._ ("Centered"), "labelUpperRight", org.jmol.i18n.GT._ ("Upper Right"), "labelLowerRight", org.jmol.i18n.GT._ ("Lower Right"), "labelUpperLeft", org.jmol.i18n.GT._ ("Upper Left"), "labelLowerLeft", org.jmol.i18n.GT._ ("Lower Left"), "colorMenu", org.jmol.i18n.GT._ ("Color"), "[color_atoms]Menu", org.jmol.i18n.GT._ ("Atoms"), "schemeMenu", org.jmol.i18n.GT._ ("By Scheme"), "cpk", org.jmol.i18n.GT._ ("Element (CPK)"), "altloc#PDB", org.jmol.i18n.GT._ ("Alternative Location"), "molecule", org.jmol.i18n.GT._ ("Molecule"), "formalcharge", org.jmol.i18n.GT._ ("Formal Charge"), "partialcharge#CHARGE", org.jmol.i18n.GT._ ("Partial Charge"), "relativeTemperature#BFACTORS", org.jmol.i18n.GT._ ("Temperature (Relative)"), "fixedTemperature#BFACTORS", org.jmol.i18n.GT._ ("Temperature (Fixed)"), "amino#PDB", org.jmol.i18n.GT._ ("Amino Acid"), "structure#PDB", org.jmol.i18n.GT._ ("Secondary Structure"), "chain#PDB", org.jmol.i18n.GT._ ("Chain"), "group#PDB", org.jmol.i18n.GT._ ("Group"), "monomer#PDB", org.jmol.i18n.GT._ ("Monomer"), "shapely#PDB", org.jmol.i18n.GT._ ("Shapely"), "none", org.jmol.i18n.GT._ ("Inherit"), "black", org.jmol.i18n.GT._ ("Black"), "white", org.jmol.i18n.GT._ ("White"), "cyan", org.jmol.i18n.GT._ ("Cyan"), "red", org.jmol.i18n.GT._ ("Red"), "orange", org.jmol.i18n.GT._ ("Orange"), "yellow", org.jmol.i18n.GT._ ("Yellow"), "green", org.jmol.i18n.GT._ ("Green"), "blue", org.jmol.i18n.GT._ ("Blue"), "indigo", org.jmol.i18n.GT._ ("Indigo"), "violet", org.jmol.i18n.GT._ ("Violet"), "salmon", org.jmol.i18n.GT._ ("Salmon"), "olive", org.jmol.i18n.GT._ ("Olive"), "maroon", org.jmol.i18n.GT._ ("Maroon"), "gray", org.jmol.i18n.GT._ ("Gray"), "slateblue", org.jmol.i18n.GT._ ("Slate Blue"), "gold", org.jmol.i18n.GT._ ("Gold"), "orchid", org.jmol.i18n.GT._ ("Orchid"), "opaque", org.jmol.i18n.GT._ ("Make Opaque"), "translucent", org.jmol.i18n.GT._ ("Make Translucent"), "[color_bonds]Menu", org.jmol.i18n.GT._ ("Bonds"), "[color_hbonds]Menu", org.jmol.i18n.GT._ ("Hydrogen Bonds"), "[color_ssbonds]Menu", org.jmol.i18n.GT._ ("Disulfide Bonds"), "colorPDBStructuresMenu", org.jmol.i18n.GT._ ("Structures"), "[color_backbone]Menu", org.jmol.i18n.GT._ ("Backbone"), "[color_trace]Menu", org.jmol.i18n.GT._ ("Trace"), "[color_cartoon]sMenu", org.jmol.i18n.GT._ ("Cartoon"), "[color_ribbon]sMenu", org.jmol.i18n.GT._ ("Ribbons"), "[color_rockets]Menu", org.jmol.i18n.GT._ ("Rockets"), "[color_strands]Menu", org.jmol.i18n.GT._ ("Strands"), "[color_labels]Menu", org.jmol.i18n.GT._ ("Labels"), "[color_background]Menu", org.jmol.i18n.GT._ ("Background"), "[color_isosurface]Menu", org.jmol.i18n.GT._ ("Surfaces"), "[color_vectors]Menu", org.jmol.i18n.GT._ ("Vectors"), "[color_axes]Menu", org.jmol.i18n.GT._ ("Axes"), "[color_boundbox]Menu", org.jmol.i18n.GT._ ("Boundbox"), "[color_UNITCELL]Menu", org.jmol.i18n.GT._ ("Unit cell"), "zoomMenu", org.jmol.i18n.GT._ ("Zoom"), "zoom50", "50%", "zoom100", "100%", "zoom150", "150%", "zoom200", "200%", "zoom400", "400%", "zoom800", "800%", "zoomIn", org.jmol.i18n.GT._ ("Zoom In"), "zoomOut", org.jmol.i18n.GT._ ("Zoom Out"), "spinMenu", org.jmol.i18n.GT._ ("Spin"), "spinOn", org.jmol.i18n.GT._ ("On"), "spinOff", org.jmol.i18n.GT._ ("Off"), "[set_spin_X]Menu", org.jmol.i18n.GT._ ("Set X Rate"), "[set_spin_Y]Menu", org.jmol.i18n.GT._ ("Set Y Rate"), "[set_spin_Z]Menu", org.jmol.i18n.GT._ ("Set Z Rate"), "[set_spin_FPS]Menu", org.jmol.i18n.GT._ ("Set FPS"), "s0", "0", "s5", "5", "s10", "10", "s20", "20", "s30", "30", "s40", "40", "s50", "50", "FRAMESanimateMenu", org.jmol.i18n.GT._ ("Animation"), "animModeMenu", org.jmol.i18n.GT._ ("Animation Mode"), "onceThrough", org.jmol.i18n.GT._ ("Play Once"), "palindrome", org.jmol.i18n.GT._ ("Palindrome"), "loop", org.jmol.i18n.GT._ ("Loop"), "play", org.jmol.i18n.GT._ ("Play"), "pause", org.jmol.i18n.GT._ ("Pause"), "resume", org.jmol.i18n.GT._ ("Resume"), "stop", org.jmol.i18n.GT._ ("Stop"), "nextframe", org.jmol.i18n.GT._ ("Next Frame"), "prevframe", org.jmol.i18n.GT._ ("Previous Frame"), "rewind", org.jmol.i18n.GT._ ("Rewind"), "playrev", org.jmol.i18n.GT._ ("Reverse"), "restart", org.jmol.i18n.GT._ ("Restart"), "FRAMESanimFpsMenu", org.jmol.i18n.GT._ ("Set FPS"), "animfps5", "5", "animfps10", "10", "animfps20", "20", "animfps30", "30", "animfps50", "50", "measureMenu", org.jmol.i18n.GT._ ("Measurements"), "measureOff", org.jmol.i18n.GT._ ("Double-Click begins and ends all measurements"), "measureDistance", org.jmol.i18n.GT._ ("Click for distance measurement"), "measureAngle", org.jmol.i18n.GT._ ("Click for angle measurement"), "measureTorsion", org.jmol.i18n.GT._ ("Click for torsion (dihedral) measurement"), "PDBmeasureSequence", org.jmol.i18n.GT._ ("Click two atoms to display a sequence in the console"), "measureDelete", org.jmol.i18n.GT._ ("Delete measurements"), "measureList", org.jmol.i18n.GT._ ("List measurements"), "distanceNanometers", org.jmol.i18n.GT._ ("Distance units nanometers"), "distanceAngstroms", org.jmol.i18n.GT._ ("Distance units Angstroms"), "distancePicometers", org.jmol.i18n.GT._ ("Distance units picometers"), "pickingMenu", org.jmol.i18n.GT._ ("Set picking"), "pickOff", org.jmol.i18n.GT._ ("Off"), "pickCenter", org.jmol.i18n.GT._ ("Center"), "pickIdent", org.jmol.i18n.GT._ ("Identity"), "pickLabel", org.jmol.i18n.GT._ ("Label"), "pickAtom", org.jmol.i18n.GT._ ("Select atom"), "PDBpickChain", org.jmol.i18n.GT._ ("Select chain"), "pickElement", org.jmol.i18n.GT._ ("Select element"), "PDBpickGroup", org.jmol.i18n.GT._ ("Select group"), "pickMolecule", org.jmol.i18n.GT._ ("Select molecule"), "SYMMETRYpickSite", org.jmol.i18n.GT._ ("Select site"), "SYMMETRYpickSymmetry", org.jmol.i18n.GT._ ("Show symmetry operation"), "pickSpin", org.jmol.i18n.GT._ ("Spin"), "showMenu", org.jmol.i18n.GT._ ("Show"), "showConsole", org.jmol.i18n.GT._ ("Console"), "showFile", org.jmol.i18n.GT._ ("File Contents"), "showFileHeader", org.jmol.i18n.GT._ ("File Header"), "showHistory", org.jmol.i18n.GT._ ("History"), "showIsosurface", org.jmol.i18n.GT._ ("Isosurface JVXL data"), "showMeasure", org.jmol.i18n.GT._ ("Measurements"), "showMo", org.jmol.i18n.GT._ ("Molecular orbital JVXL data"), "showModel", org.jmol.i18n.GT._ ("Model"), "showOrient", org.jmol.i18n.GT._ ("Orientation"), "showSpacegroup", org.jmol.i18n.GT._ ("Space group"), "SYMMETRYshowSymmetry", org.jmol.i18n.GT._ ("Symmetry"), "showState", org.jmol.i18n.GT._ ("Current state"), "fileMenu", org.jmol.i18n.GT._ ("File"), "reload", org.jmol.i18n.GT._ ("Reload"), "SIGNEDloadPdb", org.jmol.i18n.GT._ ("Open from PDB"), "SIGNEDloadFileOrUrl", org.jmol.i18n.GT._ ("Open file or URL"), "SIGNEDloadFileUnitCell", org.jmol.i18n.GT._ ("Load full unit cell"), "SIGNEDloadScript", org.jmol.i18n.GT._ ("Open script"), "writeFileTextVARIABLE", org.jmol.i18n.GT._ ("Save a copy of {0}"), "writeState", org.jmol.i18n.GT._ ("Save script with state"), "writeHistory", org.jmol.i18n.GT._ ("Save script with history"), "SIGNEDwriteJpg", org.jmol.i18n.GT._ ("Export {0} image", "JPG"), "SIGNEDwritePng", org.jmol.i18n.GT._ ("Export {0} image", "PNG"), "SIGNEDwritePngJmol", org.jmol.i18n.GT._ ("Export {0} image", "PNG+JMOL"), "SIGNEDwriteGif", org.jmol.i18n.GT._ ("Export {0} image", "GIF"), "SIGNEDwritePovray", org.jmol.i18n.GT._ ("Export {0} image", "POV-Ray"), "SIGNEDwriteJmol", org.jmol.i18n.GT._ ("Save all as JMOL file (zip)"), "SIGNEDwriteIsosurface", org.jmol.i18n.GT._ ("Save JVXL isosurface"), "SIGNEDwriteVrml", org.jmol.i18n.GT._ ("Export {0} 3D model", "VRML"), "SIGNEDwriteX3d", org.jmol.i18n.GT._ ("Export {0} 3D model", "X3D"), "SIGNEDwriteIdtf", org.jmol.i18n.GT._ ("Export {0} 3D model", "IDTF"), "SIGNEDwriteMaya", org.jmol.i18n.GT._ ("Export {0} 3D model", "Maya"), "computationMenu", org.jmol.i18n.GT._ ("Computation"), "minimize", org.jmol.i18n.GT._ ("Optimize structure"), "modelkit", org.jmol.i18n.GT._ ("Model kit"), "UNITCELLshow", org.jmol.i18n.GT._ ("Unit cell"), "extractMOL", org.jmol.i18n.GT._ ("Extract MOL data"), "surfaceMenu", org.jmol.i18n.GT._ ("Surfaces"), "surfDots", org.jmol.i18n.GT._ ("Dot Surface"), "surfVDW", org.jmol.i18n.GT._ ("van der Waals Surface"), "surfMolecular", org.jmol.i18n.GT._ ("Molecular Surface"), "surfSolvent14", org.jmol.i18n.GT._ ("Solvent Surface ({0}-Angstrom probe)", "1.4"), "surfSolventAccessible14", org.jmol.i18n.GT._ ("Solvent-Accessible Surface (VDW + {0} Angstrom)", "1.4"), "CHARGEsurfMEP", org.jmol.i18n.GT._ ("Molecular Electrostatic Potential"), "surfOpaque", org.jmol.i18n.GT._ ("Make Opaque"), "surfTranslucent", org.jmol.i18n.GT._ ("Make Translucent"), "surfOff", org.jmol.i18n.GT._ ("Off"), "FILEUNITMenu", org.jmol.i18n.GT._ ("Symmetry"), "FILEMOLload", org.jmol.i18n.GT._ ("Reload {0}", "(molecular)"), "FILEUNITone", org.jmol.i18n.GT._ ("Reload {0}", "{1 1 1}"), "FILEUNITnine", org.jmol.i18n.GT._ ("Reload {0}", "{444 666 1}"), "FILEUNITnineRestricted", org.jmol.i18n.GT._ ("Reload {0} + Display {1}", ["{444 666 1}", "555"]), "FILEUNITninePoly", org.jmol.i18n.GT._ ("Reload + Polyhedra"), "[set_axes]Menu", org.jmol.i18n.GT._ ("Axes"), "[set_boundbox]Menu", org.jmol.i18n.GT._ ("Boundbox"), "[set_UNITCELL]Menu", org.jmol.i18n.GT._ ("Unit cell"), "off#axes", org.jmol.i18n.GT._ ("Hide"), "dotted", org.jmol.i18n.GT._ ("Dotted"), "byPixelMenu", org.jmol.i18n.GT._ ("Pixel Width"), "1p", org.jmol.i18n.GT._ ("{0} px", "1"), "3p", org.jmol.i18n.GT._ ("{0} px", "3"), "5p", org.jmol.i18n.GT._ ("{0} px", "5"), "10p", org.jmol.i18n.GT._ ("{0} px", "10"), "byAngstromMenu", org.jmol.i18n.GT._ ("Angstrom Width"), "10a", org.jmol.i18n.GT._ ("{0} \u00C5", "0.10"), "20a", org.jmol.i18n.GT._ ("{0} \u00C5", "0.20"), "25a", org.jmol.i18n.GT._ ("{0} \u00C5", "0.25"), "50a", org.jmol.i18n.GT._ ("{0} \u00C5", "0.50"), "100a", org.jmol.i18n.GT._ ("{0} \u00C5", "1.0"), "showSelectionsCB", org.jmol.i18n.GT._ ("Selection Halos"), "showHydrogensCB", org.jmol.i18n.GT._ ("Show Hydrogens"), "showMeasurementsCB", org.jmol.i18n.GT._ ("Show Measurements"), "perspectiveDepthCB", org.jmol.i18n.GT._ ("Perspective Depth"), "showBoundBoxCB", org.jmol.i18n.GT._ ("Boundbox"), "showAxesCB", org.jmol.i18n.GT._ ("Axes"), "showUNITCELLCB", org.jmol.i18n.GT._ ("Unit cell"), "colorrasmolCB", org.jmol.i18n.GT._ ("RasMol Colors"), "aboutComputedMenu", org.jmol.i18n.GT._ ("About..."), "APPLETjmolUrl", "http://www.jmol.org", "APPLETmouseManualUrl", org.jmol.i18n.GT._ ("Mouse Manual"), "APPLETtranslationUrl", org.jmol.i18n.GT._ ("Translations")];
-org.jmol.i18n.GT.setDoTranslate (wasTranslating);
-return words;
-});
-Clazz.overrideMethod (c$, "getMenuAsText", 
-function (title) {
-return "# Jmol.mnu " + title + "\n\n" + "# Part I -- Menu Structure\n" + "# ------------------------\n\n" + this.dumpStructure (org.jmol.popup.MainPopupResourceBundle.menuContents) + "\n\n" + "# Part II -- Key Definitions\n" + "# --------------------------\n\n" + this.dumpStructure (org.jmol.popup.MainPopupResourceBundle.structureContents) + "\n\n" + "# Part III -- Word Translations\n" + "# -----------------------------\n\n" + this.dumpWords ();
-}, "~S");
-Clazz.defineMethod (c$, "dumpWords", 
-($fz = function () {
-var wordContents = this.getWordContents ();
-var s =  new org.jmol.util.StringXBuilder ();
-for (var i = 0; i < wordContents.length; i++) {
-var key = wordContents[i++];
-if (this.structure.getProperty (key) == null) s.append (key).append (" | ").append (wordContents[i]).appendC ('\n');
-}
-return s.toString ();
-}, $fz.isPrivate = true, $fz));
-Clazz.defineMethod (c$, "dumpStructure", 
-($fz = function (items) {
-var previous = "";
-var s =  new org.jmol.util.StringXBuilder ();
-for (var i = 0; i < items.length; i++) {
-var key = items[i][0];
-var label = this.words.getProperty (key);
-if (label != null) key += " | " + label;
-s.append (key).append (" = ").append (items[i][1] == null ? previous : (previous = items[i][1])).appendC ('\n');
-}
-return s.toString ();
-}, $fz.isPrivate = true, $fz), "~A");
-Clazz.defineStatics (c$,
-"MENU_NAME", "popupMenu");
-c$.menuContents = c$.prototype.menuContents = [["@COLOR", "black white red orange yellow green cyan blue indigo violet"], ["@AXESCOLOR", "gray salmon maroon olive slateblue gold orchid"], ["popupMenu", "FRAMESbyModelComputedMenu configurationComputedMenu - selectMenuText viewMenu renderMenu colorMenu - surfaceMenu FILEUNITMenu - zoomMenu spinMenu VIBRATIONMenu spectraMenu FRAMESanimateMenu - measureMenu pickingMenu - showConsole showMenu fileMenu computationMenu - languageComputedMenu aboutComputedMenu"], ["selectMenuText", "hideNotSelectedCB showSelectionsCB - selectAll selectNone invertSelection - elementsComputedMenu SYMMETRYSelectComputedMenu - PDBproteinMenu PDBnucleicMenu PDBheteroMenu PDBcarboMenu PDBnoneOfTheAbove"], ["PDBproteinMenu", "PDBaaResiduesComputedMenu - allProtein proteinBackbone proteinSideChains - polar nonpolar - positiveCharge negativeCharge noCharge"], ["PDBcarboMenu", "PDBcarboResiduesComputedMenu - allCarbo"], ["PDBnucleicMenu", "PDBnucleicResiduesComputedMenu - allNucleic nucleicBackbone nucleicBases - DNA RNA - atPairs auPairs gcPairs"], ["PDBheteroMenu", "PDBheteroComputedMenu - allHetero Solvent Water - Ligand exceptWater nonWaterSolvent"], ["viewMenu", "front left right top bottom back"], ["renderMenu", "perspectiveDepthCB showBoundBoxCB showUNITCELLCB showAxesCB stereoMenu - renderSchemeMenu - atomMenu labelMenu bondMenu hbondMenu ssbondMenu - PDBstructureMenu [set_axes]Menu [set_boundbox]Menu [set_UNITCELL]Menu"], ["renderSchemeMenu", "renderCpkSpacefill renderBallAndStick renderSticks renderWireframe PDBrenderCartoonsOnly PDBrenderTraceOnly"], ["atomMenu", "showHydrogensCB - atomNone - atom15 atom20 atom25 atom50 atom75 atom100"], ["bondMenu", "bondNone bondWireframe - bond100 bond150 bond200 bond250 bond300"], ["hbondMenu", "hbondCalc hbondNone hbondWireframe - PDBhbondSidechain PDBhbondBackbone - hbond100 hbond150 hbond200 hbond250 hbond300"], ["ssbondMenu", "ssbondNone ssbondWireframe - PDBssbondSidechain PDBssbondBackbone - ssbond100 ssbond150 ssbond200 ssbond250 ssbond300"], ["PDBstructureMenu", "structureNone - backbone cartoon cartoonRockets ribbons rockets strands trace"], ["VIBRATIONvectorMenu", "vectorOff vectorOn vibScale20 vibScale05 vector3 vector005 vector01 - vectorScale02 vectorScale05 vectorScale1 vectorScale2 vectorScale5"], ["stereoMenu", "stereoNone stereoRedCyan stereoRedBlue stereoRedGreen stereoCrossEyed stereoWallEyed"], ["labelMenu", "labelNone - labelSymbol labelName labelNumber - labelPositionMenu"], ["labelPositionMenu", "labelCentered labelUpperRight labelLowerRight labelUpperLeft labelLowerLeft"], ["colorMenu", "colorrasmolCB - [color_atoms]Menu [color_bonds]Menu [color_hbonds]Menu [color_ssbonds]Menu colorPDBStructuresMenu [color_isosurface]Menu - [color_labels]Menu [color_vectors]Menu - [color_axes]Menu [color_boundbox]Menu [color_UNITCELL]Menu [color_background]Menu"], ["[color_atoms]Menu", "schemeMenu - @COLOR - opaque translucent"], ["[color_bonds]Menu", "none - @COLOR - opaque translucent"], ["[color_hbonds]Menu", null], ["[color_ssbonds]Menu", null], ["[color_labels]Menu", null], ["[color_vectors]Menu", null], ["[color_backbone]Menu", "none - schemeMenu - @COLOR - opaque translucent"], ["[color_cartoon]sMenu", null], ["[color_ribbon]sMenu", null], ["[color_rockets]Menu", null], ["[color_strands]Menu", null], ["[color_trace]Menu", null], ["[color_background]Menu", "@COLOR"], ["[color_isosurface]Menu", "@COLOR - opaque translucent"], ["[color_axes]Menu", "@AXESCOLOR"], ["[color_boundbox]Menu", null], ["[color_UNITCELL]Menu", null], ["colorPDBStructuresMenu", "[color_backbone]Menu [color_cartoon]sMenu [color_ribbon]sMenu [color_rockets]Menu [color_strands]Menu [color_trace]Menu"], ["schemeMenu", "cpk - formalcharge partialcharge#CHARGE - altloc#PDB amino#PDB chain#PDB group#PDB molecule monomer#PDB shapely#PDB structure#PDB relativeTemperature#BFACTORS fixedTemperature#BFACTORS"], ["zoomMenu", "zoom50 zoom100 zoom150 zoom200 zoom400 zoom800 - zoomIn zoomOut"], ["spinMenu", "spinOn spinOff - [set_spin_X]Menu [set_spin_Y]Menu [set_spin_Z]Menu - [set_spin_FPS]Menu"], ["VIBRATIONMenu", "vibrationOff vibrationOn vibration20 vibration05 VIBRATIONvectorMenu"], ["spectraMenu", "hnmrMenu cnmrMenu"], ["FRAMESanimateMenu", "animModeMenu - play pause resume stop - nextframe prevframe rewind - playrev restart - FRAMESanimFpsMenu"], ["FRAMESanimFpsMenu", "animfps5 animfps10 animfps20 animfps30 animfps50"], ["measureMenu", "showMeasurementsCB - measureOff measureDistance measureAngle measureTorsion PDBmeasureSequence - measureDelete measureList - distanceNanometers distanceAngstroms distancePicometers"], ["pickingMenu", "pickOff pickCenter pickIdent pickLabel pickAtom pickMolecule pickElement PDBpickChain PDBpickGroup SYMMETRYpickSite pickSpin"], ["computationMenu", "minimize modelkit"], ["showMenu", "showHistory showFile showFileHeader - showOrient showMeasure - showSpacegroup showState SYMMETRYshowSymmetry UNITCELLshow - showIsosurface showMo - extractMOL"], ["fileMenu", "SIGNEDloadFileOrUrl SIGNEDloadPdb SIGNEDloadScript - reload SIGNEDloadFileUnitCell - writeFileTextVARIABLE writeState writeHistory SIGNEDwriteJmol SIGNEDwriteIsosurface - SIGNEDJAVAwriteGif SIGNEDNOGLwriteJpg SIGNEDNOGLwritePng SIGNEDNOGLwritePngJmol SIGNEDJAVAwritePovray - SIGNEDJAVAwriteVrml SIGNEDJAVAwriteX3d SIGNEDJAVAwriteIdtf SIGNEDJAVAwriteMaya"], ["[set_spin_X]Menu", "s0 s5 s10 s20 s30 s40 s50"], ["[set_spin_Y]Menu", null], ["[set_spin_Z]Menu", null], ["[set_spin_FPS]Menu", null], ["animModeMenu", "onceThrough palindrome loop"], ["surfaceMenu", "surfDots surfVDW surfSolventAccessible14 surfSolvent14 surfMolecular CHARGEsurfMEP surfMoComputedMenuText - surfOpaque surfTranslucent surfOff"], ["FILEUNITMenu", "SYMMETRYShowComputedMenu SYMMETRYhide FILEMOLload FILEUNITone FILEUNITnine FILEUNITnineRestricted FILEUNITninePoly"], ["[set_axes]Menu", "off#axes dotted - byPixelMenu byAngstromMenu"], ["[set_boundbox]Menu", null], ["[set_UNITCELL]Menu", null], ["byPixelMenu", "1p 3p 5p 10p"], ["byAngstromMenu", "10a 20a 25a 50a 100a"], ["aboutComputedMenu", "- "]];
-c$.structureContents = c$.prototype.structureContents = [["colorrasmolCB", ""], ["hideNotSelectedCB", "set hideNotSelected true | set hideNotSelected false; hide(none)"], ["perspectiveDepthCB", ""], ["showAxesCB", "set showAxes true | set showAxes false;set axesMolecular"], ["showBoundBoxCB", ""], ["showHydrogensCB", ""], ["showMeasurementsCB", ""], ["showSelectionsCB", ""], ["showUNITCELLCB", ""], ["selectAll", "SELECT all"], ["selectNone", "SELECT none"], ["invertSelection", "SELECT not selected"], ["allProtein", "SELECT protein"], ["proteinBackbone", "SELECT protein and backbone"], ["proteinSideChains", "SELECT protein and not backbone"], ["polar", "SELECT protein and polar"], ["nonpolar", "SELECT protein and not polar"], ["positiveCharge", "SELECT protein and basic"], ["negativeCharge", "SELECT protein and acidic"], ["noCharge", "SELECT protein and not (acidic,basic)"], ["allCarbo", "SELECT carbohydrate"], ["allNucleic", "SELECT nucleic"], ["DNA", "SELECT dna"], ["RNA", "SELECT rna"], ["nucleicBackbone", "SELECT nucleic and backbone"], ["nucleicBases", "SELECT nucleic and not backbone"], ["atPairs", "SELECT a,t"], ["gcPairs", "SELECT g,c"], ["auPairs", "SELECT a,u"], ["A", "SELECT a"], ["C", "SELECT c"], ["G", "SELECT g"], ["T", "SELECT t"], ["U", "SELECT u"], ["allHetero", "SELECT hetero"], ["Solvent", "SELECT solvent"], ["Water", "SELECT water"], ["nonWaterSolvent", "SELECT solvent and not water"], ["exceptWater", "SELECT hetero and not water"], ["Ligand", "SELECT ligand"], ["PDBnoneOfTheAbove", "SELECT not(hetero,protein,nucleic,carbohydrate)"], ["front", org.jmol.popup.MainPopupResourceBundle.Box ("moveto 2.0 front;delay 1")], ["left", org.jmol.popup.MainPopupResourceBundle.Box ("moveto 1.0 front;moveto 2.0 left;delay 1")], ["right", org.jmol.popup.MainPopupResourceBundle.Box ("moveto 1.0 front;moveto 2.0 right;delay 1")], ["top", org.jmol.popup.MainPopupResourceBundle.Box ("moveto 1.0 front;moveto 2.0 top;delay 1")], ["bottom", org.jmol.popup.MainPopupResourceBundle.Box ("moveto 1.0 front;moveto 2.0 bottom;delay 1")], ["back", org.jmol.popup.MainPopupResourceBundle.Box ("moveto 1.0 front;moveto 2.0 back;delay 1")], ["renderCpkSpacefill", "restrict bonds not selected;select not selected;spacefill 100%;color cpk"], ["renderBallAndStick", "restrict bonds not selected;select not selected;spacefill 23%AUTO;wireframe 0.15;color cpk"], ["renderSticks", "restrict bonds not selected;select not selected;wireframe 0.3;color cpk"], ["renderWireframe", "restrict bonds not selected;select not selected;wireframe on;color cpk"], ["PDBrenderCartoonsOnly", "restrict bonds not selected;select not selected;cartoons on;color structure"], ["PDBrenderTraceOnly", "restrict bonds not selected;select not selected;trace on;color structure"], ["atomNone", "cpk off"], ["atom15", "cpk 15%"], ["atom20", "cpk 20%"], ["atom25", "cpk 25%"], ["atom50", "cpk 50%"], ["atom75", "cpk 75%"], ["atom100", "cpk on"], ["bondNone", "wireframe off"], ["bondWireframe", "wireframe on"], ["bond100", "wireframe .1"], ["bond150", "wireframe .15"], ["bond200", "wireframe .2"], ["bond250", "wireframe .25"], ["bond300", "wireframe .3"], ["hbondCalc", "hbonds calculate"], ["hbondNone", "hbonds off"], ["hbondWireframe", "hbonds on"], ["PDBhbondSidechain", "set hbonds sidechain"], ["PDBhbondBackbone", "set hbonds backbone"], ["hbond100", "hbonds .1"], ["hbond150", "hbonds .15"], ["hbond200", "hbonds .2"], ["hbond250", "hbonds .25"], ["hbond300", "hbonds .3"], ["ssbondNone", "ssbonds off"], ["ssbondWireframe", "ssbonds on"], ["PDBssbondSidechain", "set ssbonds sidechain"], ["PDBssbondBackbone", "set ssbonds backbone"], ["ssbond100", "ssbonds .1"], ["ssbond150", "ssbonds .15"], ["ssbond200", "ssbonds .2"], ["ssbond250", "ssbonds .25"], ["ssbond300", "ssbonds .3"], ["structureNone", "backbone off;cartoons off;ribbons off;rockets off;strands off;trace off;"], ["backbone", "restrict not selected;select not selected;backbone 0.3"], ["cartoon", "restrict not selected;select not selected;set cartoonRockets false;cartoons on"], ["cartoonRockets", "restrict not selected;select not selected;set cartoonRockets;cartoons on"], ["ribbons", "restrict not selected;select not selected;ribbons on"], ["rockets", "restrict not selected;select not selected;rockets on"], ["strands", "restrict not selected;select not selected;strands on"], ["trace", "restrict not selected;select not selected;trace 0.3"], ["vibrationOff", "vibration off"], ["vibrationOn", "vibration on"], ["vibration20", "vibrationScale *= 2"], ["vibration05", "vibrationScale /= 2"], ["vectorOff", "vectors off"], ["vectorOn", "vectors on"], ["vector3", "vectors 3"], ["vector005", "vectors 0.05"], ["vector01", "vectors 0.1"], ["vectorScale02", "vector scale 0.2"], ["vectorScale05", "vector scale 0.5"], ["vectorScale1", "vector scale 1"], ["vectorScale2", "vector scale 2"], ["vectorScale5", "vector scale 5"], ["stereoNone", "stereo off"], ["stereoRedCyan", "stereo redcyan 3"], ["stereoRedBlue", "stereo redblue 3"], ["stereoRedGreen", "stereo redgreen 3"], ["stereoCrossEyed", "stereo -5"], ["stereoWallEyed", "stereo 5"], ["labelNone", "label off"], ["labelSymbol", "label %e"], ["labelName", "label %a"], ["labelNumber", "label %i"], ["labelCentered", "set labeloffset 0 0"], ["labelUpperRight", "set labeloffset 4 4"], ["labelLowerRight", "set labeloffset 4 -4"], ["labelUpperLeft", "set labeloffset -4 4"], ["labelLowerLeft", "set labeloffset -4 -4"], ["zoom50", "zoom 50"], ["zoom100", "zoom 100"], ["zoom150", "zoom 150"], ["zoom200", "zoom 200"], ["zoom400", "zoom 400"], ["zoom800", "zoom 800"], ["zoomIn", "move 0 0 0 40 0 0 0 0 1"], ["zoomOut", "move 0 0 0 -40 0 0 0 0 1"], ["spinOn", "spin on"], ["spinOff", "spin off"], ["s0", "0"], ["s5", "5"], ["s10", "10"], ["s20", "20"], ["s30", "30"], ["s40", "40"], ["s50", "50"], ["onceThrough", "anim mode once#"], ["palindrome", "anim mode palindrome#"], ["loop", "anim mode loop#"], ["play", "anim play#"], ["pause", "anim pause#"], ["resume", "anim resume#"], ["stop", "anim off#"], ["nextframe", "frame next#"], ["prevframe", "frame prev#"], ["playrev", "anim playrev#"], ["rewind", "anim rewind#"], ["restart", "anim on#"], ["animfps5", "anim fps 5#"], ["animfps10", "anim fps 10#"], ["animfps20", "anim fps 20#"], ["animfps30", "anim fps 30#"], ["animfps50", "anim fps 50#"], ["measureOff", "set pickingstyle MEASURE OFF; set picking OFF"], ["measureDistance", "set pickingstyle MEASURE; set picking MEASURE DISTANCE"], ["measureAngle", "set pickingstyle MEASURE; set picking MEASURE ANGLE"], ["measureTorsion", "set pickingstyle MEASURE; set picking MEASURE TORSION"], ["PDBmeasureSequence", "set pickingstyle MEASURE; set picking MEASURE SEQUENCE"], ["measureDelete", "measure delete"], ["measureList", "console on;show measurements"], ["distanceNanometers", "select *; set measure nanometers"], ["distanceAngstroms", "select *; set measure angstroms"], ["distancePicometers", "select *; set measure picometers"], ["pickOff", "set picking off"], ["pickCenter", "set picking center"], ["pickIdent", "set picking ident"], ["pickLabel", "set picking label"], ["pickAtom", "set picking atom"], ["PDBpickChain", "set picking chain"], ["pickElement", "set picking element"], ["PDBpickGroup", "set picking group"], ["pickMolecule", "set picking molecule"], ["SYMMETRYpickSite", "set picking site"], ["pickSpin", "set picking spin"], ["SYMMETRYpickSymmetry", "set picking symmetry"], ["showConsole", "console"], ["showFile", "console on;show file"], ["showFileHeader", "console on;getProperty FileHeader"], ["showHistory", "console on;show history"], ["showIsosurface", "console on;show isosurface"], ["showMeasure", "console on;show measure"], ["showMo", "console on;show mo"], ["showModel", "console on;show model"], ["showOrient", "console on;show orientation"], ["showSpacegroup", "console on;show spacegroup"], ["showState", "console on;show state"], ["reload", "load \"\""], ["SIGNEDloadPdb", "load ?PdbId?"], ["SIGNEDloadFileOrUrl", "load ?"], ["SIGNEDloadFileUnitCell", "load ? {1 1 1}"], ["SIGNEDloadScript", "script ?.spt"], ["writeFileTextVARIABLE", "if (_applet && !_signedApplet) { console;show file } else { write file \"?FILE?\"}"], ["writeState", "if (_applet && !_signedApplet) { console;show state } else { write state \"?FILEROOT?.spt\"}"], ["writeHistory", "if (_applet && !_signedApplet) { console;show history } else { write history \"?FILEROOT?.his\"}"], ["SIGNEDwriteJmol", "write \"?FILEROOT?.jmol\""], ["SIGNEDwriteIsosurface", "write isosurface \"?FILEROOT?.jvxl\""], ["SIGNEDJAVAwriteGif", "write image \"?FILEROOT?.gif\""], ["SIGNEDNOGLwriteJpg", "write image \"?FILEROOT?.jpg\""], ["SIGNEDNOGLwritePng", "write image \"?FILEROOT?.png\""], ["SIGNEDNOGLwritePngJmol", "write PNGJ \"?FILEROOT?.png\""], ["SIGNEDJAVAwritePovray", "write POVRAY \"?FILEROOT?.pov\""], ["SIGNEDJAVAwriteVrml", "write VRML \"?FILEROOT?.wrl\""], ["SIGNEDJAVAwriteX3d", "write X3D \"?FILEROOT?.x3d\""], ["SIGNEDJAVAwriteIdtf", "write IDTF \"?FILEROOT?.idtf\""], ["SIGNEDJAVAwriteMaya", "write MAYA \"?FILEROOT?.ma\""], ["SYMMETRYshowSymmetry", "console on;show symmetry"], ["UNITCELLshow", "console on;show unitcell"], ["extractMOL", "console on;getproperty extractModel \"visible\" "], ["minimize", "minimize"], ["modelkit", "set modelkitmode"], ["surfDots", "dots on"], ["surfVDW", "isosurface delete resolution 0 solvent 0 translucent"], ["surfMolecular", "isosurface delete resolution 0 molecular translucent"], ["surfSolvent14", "isosurface delete resolution 0 solvent 1.4 translucent"], ["surfSolventAccessible14", "isosurface delete resolution 0 sasurface 1.4 translucent"], ["CHARGEsurfMEP", "isosurface delete resolution 0 vdw color range all map MEP translucent"], ["surfOpaque", "mo opaque;isosurface opaque"], ["surfTranslucent", "mo translucent;isosurface translucent"], ["surfOff", "mo delete;isosurface delete;select *;dots off"], ["SYMMETRYhide", "draw sym_* delete"], ["FILEMOLload", "save orientation;load \"\";restore orientation;center"], ["FILEUNITone", "save orientation;load \"\" {1 1 1} ;restore orientation;center"], ["FILEUNITnine", "save orientation;load \"\" {444 666 1} ;restore orientation;center"], ["FILEUNITnineRestricted", "save orientation;load \"\" {444 666 1} ;restore orientation; unitcell on; display cell=555;center visible;zoom 200"], ["FILEUNITninePoly", "save orientation;load \"\" {444 666 1} ;restore orientation; unitcell on; display cell=555; polyhedra 4,6 (displayed);center (visible);zoom 200"], ["1p", "on"], ["3p", "3"], ["5p", "5"], ["10p", "10"], ["10a", "0.1"], ["20a", "0.20"], ["25a", "0.25"], ["50a", "0.50"], ["100a", "1.0"]];
-});
+if(!jQuery.ui)try{(function(a,b){function c(c,b){var f,e,g,h=c.nodeName.toLowerCase();return"area"===h?(f=c.parentNode,e=f.name,!c.href||!e||"map"!==f.nodeName.toLowerCase()?!1:(g=a("img[usemap=#"+e+"]")[0],!!g&&d(g))):(/input|select|textarea|button|object/.test(h)?!c.disabled:"a"===h?c.href||b:b)&&d(c)}function d(c){return a.expr.filters.visible(c)&&!a(c).parents().andSelf().filter(function(){return"hidden"===a.css(this,"visibility")}).length}var e=0,f=/^ui-id-\d+$/;a.ui=a.ui||{};if(!a.ui.version){a.extend(a.ui,
+{version:"1.9.2",keyCode:{BACKSPACE:8,COMMA:188,DELETE:46,DOWN:40,END:35,ENTER:13,ESCAPE:27,HOME:36,LEFT:37,NUMPAD_ADD:107,NUMPAD_DECIMAL:110,NUMPAD_DIVIDE:111,NUMPAD_ENTER:108,NUMPAD_MULTIPLY:106,NUMPAD_SUBTRACT:109,PAGE_DOWN:34,PAGE_UP:33,PERIOD:190,RIGHT:39,SPACE:32,TAB:9,UP:38}});a.fn.extend({_focus:a.fn.focus,focus:function(c,b){return"number"==typeof c?this.each(function(){var f=this;setTimeout(function(){a(f).focus();b&&b.call(f)},c)}):this._focus.apply(this,arguments)},scrollParent:function(){var c;
+return a.ui.ie&&/(static|relative)/.test(this.css("position"))||/absolute/.test(this.css("position"))?c=this.parents().filter(function(){return/(relative|absolute|fixed)/.test(a.css(this,"position"))&&/(auto|scroll)/.test(a.css(this,"overflow")+a.css(this,"overflow-y")+a.css(this,"overflow-x"))}).eq(0):c=this.parents().filter(function(){return/(auto|scroll)/.test(a.css(this,"overflow")+a.css(this,"overflow-y")+a.css(this,"overflow-x"))}).eq(0),/fixed/.test(this.css("position"))||!c.length?a(document):
+c},zIndex:function(c){if(c!==b)return this.css("zIndex",c);if(this.length){c=a(this[0]);for(var f;c.length&&c[0]!==document;){f=c.css("position");if("absolute"===f||"relative"===f||"fixed"===f)if(f=parseInt(c.css("zIndex"),10),!isNaN(f)&&0!==f)return f;c=c.parent()}}return 0},uniqueId:function(){return this.each(function(){this.id||(this.id="ui-id-"+ ++e)})},removeUniqueId:function(){return this.each(function(){f.test(this.id)&&a(this).removeAttr("id")})}});a.extend(a.expr[":"],{data:a.expr.createPseudo?
+a.expr.createPseudo(function(c){return function(b){return!!a.data(b,c)}}):function(c,b,f){return!!a.data(c,f[3])},focusable:function(b){return c(b,!isNaN(a.attr(b,"tabindex")))},tabbable:function(b){var f=a.attr(b,"tabindex"),d=isNaN(f);return(d||0<=f)&&c(b,!d)}});a(function(){var c=document.body,b=c.appendChild(b=document.createElement("div"));b.offsetHeight;a.extend(b.style,{minHeight:"100px",height:"auto",padding:0,borderWidth:0});a.support.minHeight=100===b.offsetHeight;a.support.selectstart=
+"onselectstart"in b;c.removeChild(b).style.display="none"});a("<a>").outerWidth(1).jquery||a.each(["Width","Height"],function(c,f){function d(c,b,f,g){return a.each(e,function(){b-=parseFloat(a.css(c,"padding"+this))||0;f&&(b-=parseFloat(a.css(c,"border"+this+"Width"))||0);g&&(b-=parseFloat(a.css(c,"margin"+this))||0)}),b}var e="Width"===f?["Left","Right"]:["Top","Bottom"],g=f.toLowerCase(),h={innerWidth:a.fn.innerWidth,innerHeight:a.fn.innerHeight,outerWidth:a.fn.outerWidth,outerHeight:a.fn.outerHeight};
+a.fn["inner"+f]=function(c){return c===b?h["inner"+f].call(this):this.each(function(){a(this).css(g,d(this,c)+"px")})};a.fn["outer"+f]=function(c,b){return"number"!=typeof c?h["outer"+f].call(this,c):this.each(function(){a(this).css(g,d(this,c,!0,b)+"px")})}});if(a("<a>").data("a-b","a").removeData("a-b").data("a-b")){var g=a.fn.removeData;a.fn.removeData=function(c){return arguments.length?g.call(this,a.camelCase(c)):g.call(this)}}var h=/msie ([\w.]+)/.exec(navigator.userAgent.toLowerCase())||[];
+a.ui.ie=h.length?!0:!1;a.ui.ie6=6===parseFloat(h[1],10);a.fn.extend({disableSelection:function(){return this.bind((a.support.selectstart?"selectstart":"mousedown")+".ui-disableSelection",function(a){a.preventDefault()})},enableSelection:function(){return this.unbind(".ui-disableSelection")}});a.extend(a.ui,{plugin:{add:function(c,b,f){var d;c=a.ui[c].prototype;for(d in f)c.plugins[d]=c.plugins[d]||[],c.plugins[d].push([b,f[d]])},call:function(a,c,b){var f=a.plugins[c];if(f&&a.element[0].parentNode&&
+11!==a.element[0].parentNode.nodeType)for(c=0;c<f.length;c++)a.options[f[c][0]]&&f[c][1].apply(a.element,b)}},contains:a.contains,hasScroll:function(c,b){if("hidden"===a(c).css("overflow"))return!1;var f=b&&"left"===b?"scrollLeft":"scrollTop";return 0<c[f]?!0:(c[f]=1,c[f]=0,!1)},isOverAxis:function(a,c,b){return a>c&&a<c+b},isOver:function(c,b,f,d,e,g){return a.ui.isOverAxis(c,f,e)&&a.ui.isOverAxis(b,d,g)}})}})(jQuery)}catch(e$$16){System.out.println("coremenu failed to load jQuery.ui.core -- jQuery version conflict?")}
+if(!jQuery.ui.widget)try{(function(a,b){var c=0,d=Array.prototype.slice,e=a.cleanData;a.cleanData=function(c){for(var b=0,d;null!=(d=c[b]);b++)try{a(d).triggerHandler("remove")}catch(j){}e(c)};a.widget=function(c,b,d){var e,k,l,m,q=c.split(".")[0];c=c.split(".")[1];e=q+"-"+c;d||(d=b,b=a.Widget);a.expr[":"][e.toLowerCase()]=function(c){return!!a.data(c,e)};a[q]=a[q]||{};k=a[q][c];l=a[q][c]=function(a,c){if(!this._createWidget)return new l(a,c);arguments.length&&this._createWidget(a,c)};a.extend(l,
+k,{version:d.version,_proto:a.extend({},d),_childConstructors:[]});m=new b;m.options=a.widget.extend({},m.options);a.each(d,function(c,f){if(a.isFunction(f)){var e=function(){return b.prototype[c].apply(this,arguments)},j=function(a){return b.prototype[c].apply(this,a)};d[c]=function(){var a=this._super,c=this._superApply,b;return this._super=e,this._superApply=j,b=f.apply(this,arguments),this._super=a,this._superApply=c,b}}});l.prototype=a.widget.extend(m,{widgetEventPrefix:k?m.widgetEventPrefix:
+c},d,{constructor:l,namespace:q,widgetName:c,widgetBaseClass:e,widgetFullName:e});k?(a.each(k._childConstructors,function(c,b){var f=b.prototype;a.widget(f.namespace+"."+f.widgetName,l,b._proto)}),delete k._childConstructors):b._childConstructors.push(l);a.widget.bridge(c,l)};a.widget.extend=function(c){for(var e=d.call(arguments,1),h=0,j=e.length,k,l;h<j;h++)for(k in e[h])l=e[h][k],e[h].hasOwnProperty(k)&&l!==b&&(a.isPlainObject(l)?c[k]=a.isPlainObject(c[k])?a.widget.extend({},c[k],l):a.widget.extend({},
+l):c[k]=l);return c};a.widget.bridge=function(c,e){var h=e.prototype.widgetFullName||c;a.fn[c]=function(j){var k="string"==typeof j,l=d.call(arguments,1),m=this;return j=!k&&l.length?a.widget.extend.apply(null,[j].concat(l)):j,k?this.each(function(){var d,e=a.data(this,h);if(!e)return a.error("cannot call methods on "+c+" prior to initialization; attempted to call method '"+j+"'");if(!a.isFunction(e[j])||"_"===j.charAt(0))return a.error("no such method '"+j+"' for "+c+" widget instance");d=e[j].apply(e,
+l);if(d!==e&&d!==b)return m=d&&d.jquery?m.pushStack(d.get()):d,!1}):this.each(function(){var c=a.data(this,h);c?c.option(j||{})._init():a.data(this,h,new e(j,this))}),m}};a.Widget=function(){};a.Widget._childConstructors=[];a.Widget.prototype={widgetName:"widget",widgetEventPrefix:"",defaultElement:"<div>",options:{disabled:!1,create:null},_createWidget:function(b,d){d=a(d||this.defaultElement||this)[0];this.element=a(d);this.uuid=c++;this.eventNamespace="."+this.widgetName+this.uuid;this.options=
+a.widget.extend({},this.options,this._getCreateOptions(),b);this.bindings=a();this.hoverable=a();this.focusable=a();d!==this&&(a.data(d,this.widgetName,this),a.data(d,this.widgetFullName,this),this._on(!0,this.element,{remove:function(a){a.target===d&&this.destroy()}}),this.document=a(d.style?d.ownerDocument:d.document||d),this.window=a(this.document[0].defaultView||this.document[0].parentWindow));this._create();this._trigger("create",null,this._getCreateEventData());this._init()},_getCreateOptions:a.noop,
+_getCreateEventData:a.noop,_create:a.noop,_init:a.noop,destroy:function(){this._destroy();this.element.unbind(this.eventNamespace).removeData(this.widgetName).removeData(this.widgetFullName).removeData(a.camelCase(this.widgetFullName));this.widget().unbind(this.eventNamespace).removeAttr("aria-disabled").removeClass(this.widgetFullName+"-disabled ui-state-disabled");this.bindings.unbind(this.eventNamespace);this.hoverable.removeClass("ui-state-hover");this.focusable.removeClass("ui-state-focus")},
+_destroy:a.noop,widget:function(){return this.element},option:function(c,d){var e=c,j,k,l;if(0===arguments.length)return a.widget.extend({},this.options);if("string"==typeof c)if(e={},j=c.split("."),c=j.shift(),j.length){k=e[c]=a.widget.extend({},this.options[c]);for(l=0;l<j.length-1;l++)k[j[l]]=k[j[l]]||{},k=k[j[l]];c=j.pop();if(d===b)return k[c]===b?null:k[c];k[c]=d}else{if(d===b)return this.options[c]===b?null:this.options[c];e[c]=d}return this._setOptions(e),this},_setOptions:function(a){for(var c in a)this._setOption(c,
+a[c]);return this},_setOption:function(a,c){return this.options[a]=c,"disabled"===a&&(this.widget().toggleClass(this.widgetFullName+"-disabled ui-state-disabled",!!c).attr("aria-disabled",c),this.hoverable.removeClass("ui-state-hover"),this.focusable.removeClass("ui-state-focus")),this},enable:function(){return this._setOption("disabled",!1)},disable:function(){return this._setOption("disabled",!0)},_on:function(c,b,d){var e,k=this;"boolean"!=typeof c&&(d=b,b=c,c=!1);d?(b=e=a(b),this.bindings=this.bindings.add(b)):
+(d=b,b=this.element,e=this.widget());a.each(d,function(d,h){function q(){if(c||!(!0===k.options.disabled||a(this).hasClass("ui-state-disabled")))return("string"==typeof h?k[h]:h).apply(k,arguments)}"string"!=typeof h&&(q.guid=h.guid=h.guid||q.guid||a.guid++);var p=d.match(/^(\w+)\s*(.*)$/),r=p[1]+k.eventNamespace;(p=p[2])?e.delegate(p,r,q):b.bind(r,q)})},_off:function(a,c){c=(c||"").split(" ").join(this.eventNamespace+" ")+this.eventNamespace;a.unbind(c).undelegate(c)},_delay:function(a,c){var b=
+this;return setTimeout(function(){return("string"==typeof a?b[a]:a).apply(b,arguments)},c||0)},_hoverable:function(c){this.hoverable=this.hoverable.add(c);this._on(c,{mouseenter:function(c){a(c.currentTarget).addClass("ui-state-hover")},mouseleave:function(c){a(c.currentTarget).removeClass("ui-state-hover")}})},_focusable:function(c){this.focusable=this.focusable.add(c);this._on(c,{focusin:function(c){a(c.currentTarget).addClass("ui-state-focus")},focusout:function(c){a(c.currentTarget).removeClass("ui-state-focus")}})},
+_trigger:function(c,b,d){var e,k=this.options[c];d=d||{};b=a.Event(b);b.type=(c===this.widgetEventPrefix?c:this.widgetEventPrefix+c).toLowerCase();b.target=this.element[0];if(c=b.originalEvent)for(e in c)e in b||(b[e]=c[e]);return this.element.trigger(b,d),!(a.isFunction(k)&&!1===k.apply(this.element[0],[b].concat(d))||b.isDefaultPrevented())}};a.each({show:"fadeIn",hide:"fadeOut"},function(c,b){a.Widget.prototype["_"+c]=function(d,e,k){"string"==typeof e&&(e={effect:e});var l,m=e?!0===e||"number"==
+typeof e?b:e.effect||b:c;e=e||{};"number"==typeof e&&(e={duration:e});l=!a.isEmptyObject(e);e.complete=k;e.delay&&d.delay(e.delay);l&&a.effects&&(a.effects.effect[m]||!1!==a.uiBackCompat&&a.effects[m])?d[c](e):m!==c&&d[m]?d[m](e.duration,e.easing,k):d.queue(function(b){a(this)[c]();k&&k.call(d[0]);b()})}});!1!==a.uiBackCompat&&(a.Widget.prototype._getCreateOptions=function(){return a.metadata&&a.metadata.get(this.element[0])[this.widgetName]})})(jQuery)}catch(e$$26){System.out.println("coremenu failed to load jQuery.ui.widget -- jQuery version conflict?")}
+if(!jQuery.ui.mouse)try{(function(a){var b=!1;a(document).mouseup(function(){b=!1});a.widget("ui.mouse",{version:"1.9.2",options:{cancel:"input,textarea,button,select,option",distance:1,delay:0},_mouseInit:function(){var c=this;this.element.bind("mousedown."+this.widgetName,function(a){return c._mouseDown(a)}).bind("click."+this.widgetName,function(b){if(!0===a.data(b.target,c.widgetName+".preventClickEvent"))return a.removeData(b.target,c.widgetName+".preventClickEvent"),b.stopImmediatePropagation(),
+!1});this.started=!1},_mouseDestroy:function(){this.element.unbind("."+this.widgetName);this._mouseMoveDelegate&&a(document).unbind("mousemove."+this.widgetName,this._mouseMoveDelegate).unbind("mouseup."+this.widgetName,this._mouseUpDelegate)},_mouseDown:function(c){if(!b){this._mouseStarted&&this._mouseUp(c);this._mouseDownEvent=c;var d=this,e=1===c.which,f="string"==typeof this.options.cancel&&c.target.nodeName?a(c.target).closest(this.options.cancel).length:!1;if(!e||f||!this._mouseCapture(c))return!0;
+(this.mouseDelayMet=!this.options.delay)||(this._mouseDelayTimer=setTimeout(function(){d.mouseDelayMet=!0},this.options.delay));return this._mouseDistanceMet(c)&&this._mouseDelayMet(c)&&(this._mouseStarted=!1!==this._mouseStart(c),!this._mouseStarted)?(c.preventDefault(),!0):(!0===a.data(c.target,this.widgetName+".preventClickEvent")&&a.removeData(c.target,this.widgetName+".preventClickEvent"),this._mouseMoveDelegate=function(a){return d._mouseMove(a)},this._mouseUpDelegate=function(a){return d._mouseUp(a)},
+a(document).bind("mousemove."+this.widgetName,this._mouseMoveDelegate).bind("mouseup."+this.widgetName,this._mouseUpDelegate),c.preventDefault(),b=!0,!0)}},_mouseMove:function(c){return!a.ui.ie||9<=document.documentMode||c.button?this._mouseStarted?(this._mouseDrag(c),c.preventDefault()):(this._mouseDistanceMet(c)&&this._mouseDelayMet(c)&&(this._mouseStarted=!1!==this._mouseStart(this._mouseDownEvent,c),this._mouseStarted?this._mouseDrag(c):this._mouseUp(c)),!this._mouseStarted):this._mouseUp(c)},
+_mouseUp:function(c){return a(document).unbind("mousemove."+this.widgetName,this._mouseMoveDelegate).unbind("mouseup."+this.widgetName,this._mouseUpDelegate),this._mouseStarted&&(this._mouseStarted=!1,c.target===this._mouseDownEvent.target&&a.data(c.target,this.widgetName+".preventClickEvent",!0),this._mouseStop(c)),!1},_mouseDistanceMet:function(a){return Math.max(Math.abs(this._mouseDownEvent.pageX-a.pageX),Math.abs(this._mouseDownEvent.pageY-a.pageY))>=this.options.distance},_mouseDelayMet:function(){return this.mouseDelayMet},
+_mouseStart:function(){},_mouseDrag:function(){},_mouseStop:function(){},_mouseCapture:function(){return!0}})})(jQuery)}catch(e$$38){System.out.println("coremenu failed to load jQuery.ui.mouse -- jQuery version conflict?")}
+if(!jQuery.ui.position)try{(function(a,b){function c(a,c,b){return[parseInt(a[0],10)*(m.test(a[0])?c/100:1),parseInt(a[1],10)*(m.test(a[1])?b/100:1)]}a.ui=a.ui||{};var d,e=Math.max,f=Math.abs,g=Math.round,h=/left|center|right/,j=/top|center|bottom/,k=/[\+\-]\d+%?/,l=/^\w+/,m=/%$/,q=a.fn.position;a.position={scrollbarWidth:function(){if(d!==b)return d;var c,e,f=a("<div style='display:block;width:50px;height:50px;overflow:hidden;'><div style='height:100px;width:auto;'></div></div>"),g=f.children()[0];
+return a("body").append(f),c=g.offsetWidth,f.css("overflow","scroll"),e=g.offsetWidth,c===e&&(e=f[0].clientWidth),f.remove(),d=c-e},getScrollInfo:function(c){var b=c.isWindow?"":c.element.css("overflow-x"),d=c.isWindow?"":c.element.css("overflow-y"),d="scroll"===d||"auto"===d&&c.height<c.element[0].scrollHeight;return{width:"scroll"===b||"auto"===b&&c.width<c.element[0].scrollWidth?a.position.scrollbarWidth():0,height:d?a.position.scrollbarWidth():0}},getWithinInfo:function(c){c=a(c||window);var b=
+a.isWindow(c[0]);return{element:c,isWindow:b,offset:c.offset()||{left:0,top:0},scrollLeft:c.scrollLeft(),scrollTop:c.scrollTop(),width:b?c.width():c.outerWidth(),height:b?c.height():c.outerHeight()}}};a.fn.position=function(b){if(!b||!b.of)return q.apply(this,arguments);b=a.extend({},b);var d,u,v,y,s,w=a(b.of),m=a.position.getWithinInfo(b.within),E=a.position.getScrollInfo(m),t=w[0],p=(b.collision||"flip").split(" "),r={};return 9===t.nodeType?(u=w.width(),v=w.height(),y={top:0,left:0}):a.isWindow(t)?
+(u=w.width(),v=w.height(),y={top:w.scrollTop(),left:w.scrollLeft()}):t.preventDefault?(b.at="left top",u=v=0,y={top:t.pageY,left:t.pageX}):(u=w.outerWidth(),v=w.outerHeight(),y=w.offset()),s=a.extend({},y),a.each(["my","at"],function(){var a=(b[this]||"").split(" "),c,d;1===a.length&&(a=h.test(a[0])?a.concat(["center"]):j.test(a[0])?["center"].concat(a):["center","center"]);a[0]=h.test(a[0])?a[0]:"center";a[1]=j.test(a[1])?a[1]:"center";c=k.exec(a[0]);d=k.exec(a[1]);r[this]=[c?c[0]:0,d?d[0]:0];b[this]=
+[l.exec(a[0])[0],l.exec(a[1])[0]]}),1===p.length&&(p[1]=p[0]),"right"===b.at[0]?s.left+=u:"center"===b.at[0]&&(s.left+=u/2),"bottom"===b.at[1]?s.top+=v:"center"===b.at[1]&&(s.top+=v/2),d=c(r.at,u,v),s.left+=d[0],s.top+=d[1],this.each(function(){var h,j,k=a(this),l=k.outerWidth(),t=k.outerHeight(),q=parseInt(a.css(this,"marginLeft"),10)||0,x=parseInt(a.css(this,"marginTop"),10)||0,z=l+q+(parseInt(a.css(this,"marginRight"),10)||0)+E.width,A=t+x+(parseInt(a.css(this,"marginBottom"),10)||0)+E.height,
+n=a.extend({},s),B=c(r.my,k.outerWidth(),k.outerHeight());"right"===b.my[0]?n.left-=l:"center"===b.my[0]&&(n.left-=l/2);"bottom"===b.my[1]?n.top-=t:"center"===b.my[1]&&(n.top-=t/2);n.left+=B[0];n.top+=B[1];a.support.offsetFractions||(n.left=g(n.left),n.top=g(n.top));h={marginLeft:q,marginTop:x};a.each(["left","top"],function(c,e){a.ui.position[p[c]]&&a.ui.position[p[c]][e](n,{targetWidth:u,targetHeight:v,elemWidth:l,elemHeight:t,collisionPosition:h,collisionWidth:z,collisionHeight:A,offset:[d[0]+
+B[0],d[1]+B[1]],my:b.my,at:b.at,within:m,elem:k})});a.fn.bgiframe&&k.bgiframe();b.using&&(j=function(a){var c=y.left-n.left,d=c+u-l,g=y.top-n.top,h=g+v-t,j={target:{element:w,left:y.left,top:y.top,width:u,height:v},element:{element:k,left:n.left,top:n.top,width:l,height:t},horizontal:0>d?"left":0<c?"right":"center",vertical:0>h?"top":0<g?"bottom":"middle"};u<l&&f(c+d)<u&&(j.horizontal="center");v<t&&f(g+h)<v&&(j.vertical="middle");e(f(c),f(d))>e(f(g),f(h))?j.important="horizontal":j.important="vertical";
+b.using.call(this,a,j)});k.offset(a.extend(n,{using:j}))})};a.ui.position={fit:{left:function(a,c){var b=c.within,d=b.isWindow?b.scrollLeft:b.offset.left,b=b.width,f=a.left-c.collisionPosition.marginLeft,g=d-f,h=f+c.collisionWidth-b-d,j;c.collisionWidth>b?0<g&&0>=h?(j=a.left+g+c.collisionWidth-b-d,a.left+=g-j):0<h&&0>=g?a.left=d:g>h?a.left=d+b-c.collisionWidth:a.left=d:0<g?a.left+=g:0<h?a.left-=h:a.left=e(a.left-f,a.left)},top:function(a,c){var b=c.within,b=b.isWindow?b.scrollTop:b.offset.top,d=c.within.height,
+f=a.top-c.collisionPosition.marginTop,g=b-f,h=f+c.collisionHeight-d-b,j;c.collisionHeight>d?0<g&&0>=h?(j=a.top+g+c.collisionHeight-d-b,a.top+=g-j):0<h&&0>=g?a.top=b:g>h?a.top=b+d-c.collisionHeight:a.top=b:0<g?a.top+=g:0<h?a.top-=h:a.top=e(a.top-f,a.top)}},flip:{left:function(a,c){var b=c.within,d=b.offset.left+b.scrollLeft,e=b.width,g=b.isWindow?b.scrollLeft:b.offset.left,h=a.left-c.collisionPosition.marginLeft,b=h-g,j=h+c.collisionWidth-e-g,h="left"===c.my[0]?-c.elemWidth:"right"===c.my[0]?c.elemWidth:
+0,k="left"===c.at[0]?c.targetWidth:"right"===c.at[0]?-c.targetWidth:0,l=-2*c.offset[0];if(0>b){if(d=a.left+h+k+l+c.collisionWidth-e-d,0>d||d<f(b))a.left+=h+k+l}else if(0<j&&(d=a.left-c.collisionPosition.marginLeft+h+k+l-g,0<d||f(d)<j))a.left+=h+k+l},top:function(a,c){var b=c.within,d=b.offset.top+b.scrollTop,e=b.height,b=b.isWindow?b.scrollTop:b.offset.top,g=a.top-c.collisionPosition.marginTop,h=g-b,g=g+c.collisionHeight-e-b,j="top"===c.my[1]?-c.elemHeight:"bottom"===c.my[1]?c.elemHeight:0,k="top"===
+c.at[1]?c.targetHeight:"bottom"===c.at[1]?-c.targetHeight:0,l=-2*c.offset[1],m,p;0>h?(p=a.top+j+k+l+c.collisionHeight-e-d,a.top+j+k+l>h&&(0>p||p<f(h))&&(a.top+=j+k+l)):0<g&&(m=a.top-c.collisionPosition.marginTop+j+k+l-b,a.top+j+k+l>g&&(0<m||f(m)<g)&&(a.top+=j+k+l))}},flipfit:{left:function(){a.ui.position.flip.left.apply(this,arguments);a.ui.position.fit.left.apply(this,arguments)},top:function(){a.ui.position.flip.top.apply(this,arguments);a.ui.position.fit.top.apply(this,arguments)}}};var p,r,x,
+z,A=document.getElementsByTagName("body")[0];x=document.createElement("div");p=document.createElement(A?"div":"body");r={visibility:"hidden",width:0,height:0,border:0,margin:0,background:"none"};A&&a.extend(r,{position:"absolute",left:"-1000px",top:"-1000px"});for(z in r)p.style[z]=r[z];p.appendChild(x);r=A||document.documentElement;r.insertBefore(p,r.firstChild);x.style.cssText="position: absolute; left: 10.7432222px;";x=a(x).offset().left;a.support.offsetFractions=10<x&&11>x;p.innerHTML="";r.removeChild(p);
+if(!1!==a.uiBackCompat){var C=jQuery,D=C.fn.position;C.fn.position=function(a){if(!a||!a.offset)return D.call(this,a);var c=a.offset.split(" "),d=a.at.split(" ");return 1===c.length&&(c[1]=c[0]),/^\d/.test(c[0])&&(c[0]="+"+c[0]),/^\d/.test(c[1])&&(c[1]="+"+c[1]),1===d.length&&(/left|center|right/.test(d[0])?d[1]="center":(d[1]=d[0],d[0]="center")),D.call(this,C.extend(a,{at:d[0]+c[0]+" "+d[1]+c[1],offset:b}))}}})(jQuery)}catch(e$$48){System.out.println("coremenu failed to load jQuery.ui.position -- jQuery version conflict?")}
+if(!jQuery.ui.menu)try{(function(a){var b=!1;a.widget("ui.menu",{version:"1.9.2",defaultElement:"<ul>",delay:300,options:{icons:{submenu:"ui-icon-carat-1-e"},menus:"ul",position:{my:"left top",at:"right top"},role:"menu",blur:null,focus:null,select:null},_create:function(){this.activeMenu=this.element;this.element.uniqueId().addClass("ui-menu ui-widget ui-widget-content ui-corner-all").toggleClass("ui-menu-icons",!!this.element.find(".ui-icon").length).attr({role:this.options.role,tabIndex:0}).bind("click"+
+this.eventNamespace,a.proxy(function(a){this.options.disabled&&a.preventDefault()},this));this.options.disabled&&this.element.addClass("ui-state-disabled").attr("aria-disabled","true");this._on({"mousedown .ui-menu-item > a":function(a){a.preventDefault()},"click .ui-state-disabled > a":function(a){a.preventDefault()},"click .ui-menu-item:has(a)":function(c){var d=a(c.target).closest(".ui-menu-item");!b&&d.not(".ui-state-disabled").length&&(b=!0,this.select(c),d.has(".ui-menu").length?this.expand(c):
+this.element.is(":focus")||(this.element.trigger("focus",[!0]),this.active&&1===this.active.parents(".ui-menu").length&&clearTimeout(this.timer)))},"mouseenter .ui-menu-item":function(c){var b=a(c.currentTarget);b.siblings().children(".ui-state-active").removeClass("ui-state-active");this.focus(c,b)},mouseleave:"collapseAll","mouseleave .ui-menu":"collapseAll",focus:function(a,b){var e=this.active||this.element.children(".ui-menu-item").eq(0);b||this.focus(a,e)},blur:function(c){this._delay(function(){a.contains(this.element[0],
+this.document[0].activeElement)||this.collapseAll(c)})},keydown:"_keydown"});this.refresh();this._on(this.document,{click:function(c){a(c.target).closest(".ui-menu").length||this.collapseAll(c);b=!1}})},_destroy:function(){this.element.removeAttr("aria-activedescendant").find(".ui-menu").andSelf().removeClass("ui-menu ui-widget ui-widget-content ui-corner-all ui-menu-icons").removeAttr("role").removeAttr("tabIndex").removeAttr("aria-labelledby").removeAttr("aria-expanded").removeAttr("aria-hidden").removeAttr("aria-disabled").removeUniqueId().show();
+this.element.find(".ui-menu-item").removeClass("ui-menu-item").removeAttr("role").removeAttr("aria-disabled").children("a").removeUniqueId().removeClass("ui-corner-all ui-state-hover").removeAttr("tabIndex").removeAttr("role").removeAttr("aria-haspopup").children().each(function(){var c=a(this);c.data("ui-menu-submenu-carat")&&c.remove()});this.element.find(".ui-menu-divider").removeClass("ui-menu-divider ui-widget-content")},_keydown:function(c){function b(a){return a.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g,
+"\\$&")}var e,f,g,h,j=!0;switch(c.keyCode){case a.ui.keyCode.PAGE_UP:this.previousPage(c);break;case a.ui.keyCode.PAGE_DOWN:this.nextPage(c);break;case a.ui.keyCode.HOME:this._move("first","first",c);break;case a.ui.keyCode.END:this._move("last","last",c);break;case a.ui.keyCode.UP:this.previous(c);break;case a.ui.keyCode.DOWN:this.next(c);break;case a.ui.keyCode.LEFT:this.collapse(c);break;case a.ui.keyCode.RIGHT:this.active&&!this.active.is(".ui-state-disabled")&&this.expand(c);break;case a.ui.keyCode.ENTER:case a.ui.keyCode.SPACE:this._activate(c);
+break;case a.ui.keyCode.ESCAPE:this.collapse(c);break;default:j=!1,e=this.previousFilter||"",f=String.fromCharCode(c.keyCode),g=!1,clearTimeout(this.filterTimer),f===e?g=!0:f=e+f,h=RegExp("^"+b(f),"i"),e=this.activeMenu.children(".ui-menu-item").filter(function(){return h.test(a(this).children("a").text())}),e=g&&-1!==e.index(this.active.next())?this.active.nextAll(".ui-menu-item"):e,e.length||(f=String.fromCharCode(c.keyCode),h=RegExp("^"+b(f),"i"),e=this.activeMenu.children(".ui-menu-item").filter(function(){return h.test(a(this).children("a").text())})),
+e.length?(this.focus(c,e),1<e.length?(this.previousFilter=f,this.filterTimer=this._delay(function(){delete this.previousFilter},1E3)):delete this.previousFilter):delete this.previousFilter}j&&c.preventDefault()},_activate:function(a){this.active.is(".ui-state-disabled")||(this.active.children("a[aria-haspopup='true']").length?this.expand(a):this.select(a))},refresh:function(){var c,b=this.options.icons.submenu;c=this.element.find(this.options.menus);c.filter(":not(.ui-menu)").addClass("ui-menu ui-widget ui-widget-content ui-corner-all").hide().attr({role:this.options.role,
+"aria-hidden":"true","aria-expanded":"false"}).each(function(){var c=a(this),f=c.prev("a"),g=a("<span>").addClass("ui-menu-icon ui-icon "+b).data("ui-menu-submenu-carat",!0);f.attr("aria-haspopup","true").prepend(g);c.attr("aria-labelledby",f.attr("id"))});c=c.add(this.element);c.children(":not(.ui-menu-item):has(a)").addClass("ui-menu-item").attr("role","presentation").children("a").uniqueId().addClass("ui-corner-all").attr({tabIndex:-1,role:this._itemRole()});c.children(":not(.ui-menu-item)").each(function(){var c=
+a(this);/[^\-\u00e2\u20ac\u201d\u00e2\u20ac\u201c\s]/.test(c.text())||c.addClass("ui-widget-content ui-menu-divider")});c.children(".ui-state-disabled").attr("aria-disabled","true");this.active&&!a.contains(this.element[0],this.active[0])&&this.blur()},_itemRole:function(){return{menu:"menuitem",listbox:"option"}[this.options.role]},focus:function(a,b){var e;this.blur(a,a&&"focus"===a.type);this._scrollIntoView(b);this.active=b.first();e=this.active.children("a").addClass("ui-state-focus");this.options.role&&
+this.element.attr("aria-activedescendant",e.attr("id"));this.active.parent().closest(".ui-menu-item").children("a:first").addClass("ui-state-active");a&&"keydown"===a.type?this._close():this.timer=this._delay(function(){this._close()},this.delay);e=b.children(".ui-menu");e.length&&/^mouse/.test(a.type)&&this._startOpening(e);this.activeMenu=b.parent();this._trigger("focus",a,{item:b})},_scrollIntoView:function(c){var b,e,f,g,h,j;this._hasScroll()&&(b=parseFloat(a.css(this.activeMenu[0],"borderTopWidth"))||
+0,e=parseFloat(a.css(this.activeMenu[0],"paddingTop"))||0,f=c.offset().top-this.activeMenu.offset().top-b-e,g=this.activeMenu.scrollTop(),h=this.activeMenu.height(),j=c.height(),0>f?this.activeMenu.scrollTop(g+f):f+j>h&&this.activeMenu.scrollTop(g+f-h+j))},blur:function(a,b){b||clearTimeout(this.timer);this.active&&(this.active.children("a").removeClass("ui-state-focus"),this.active=null,this._trigger("blur",a,{item:this.active}))},_startOpening:function(a){clearTimeout(this.timer);"true"===a.attr("aria-hidden")&&
+(this.timer=this._delay(function(){this._close();this._open(a)},this.delay))},_open:function(c){var b=a.extend({of:this.active},this.options.position);clearTimeout(this.timer);this.element.find(".ui-menu").not(c.parents(".ui-menu")).hide().attr("aria-hidden","true");c.show().removeAttr("aria-hidden").attr("aria-expanded","true").position(b)},collapseAll:function(c,b){clearTimeout(this.timer);this.timer=this._delay(function(){var e=b?this.element:a(c&&c.target).closest(this.element.find(".ui-menu"));
+e.length||(e=this.element);this._close(e);this.blur(c);this.activeMenu=e},this.delay)},_close:function(a){a||(a=this.active?this.active.parent():this.element);a.find(".ui-menu").hide().attr("aria-hidden","true").attr("aria-expanded","false").end().find("a.ui-state-active").removeClass("ui-state-active")},collapse:function(a){var b=this.active&&this.active.parent().closest(".ui-menu-item",this.element);b&&b.length&&(this._close(),this.focus(a,b))},expand:function(a){var b=this.active&&this.active.children(".ui-menu ").children(".ui-menu-item").first();
+b&&b.length&&(this._open(b.parent()),this._delay(function(){this.focus(a,b)}))},next:function(a){this._move("next","first",a)},previous:function(a){this._move("prev","last",a)},isFirstItem:function(){return this.active&&!this.active.prevAll(".ui-menu-item").length},isLastItem:function(){return this.active&&!this.active.nextAll(".ui-menu-item").length},_move:function(a,b,e){var f;this.active&&("first"===a||"last"===a?f=this.active["first"===a?"prevAll":"nextAll"](".ui-menu-item").eq(-1):f=this.active[a+
+"All"](".ui-menu-item").eq(0));if(!f||!f.length||!this.active)f=this.activeMenu.children(".ui-menu-item")[b]();this.focus(e,f)},nextPage:function(c){var b,e,f;this.active?this.isLastItem()||(this._hasScroll()?(e=this.active.offset().top,f=this.element.height(),this.active.nextAll(".ui-menu-item").each(function(){return b=a(this),0>b.offset().top-e-f}),this.focus(c,b)):this.focus(c,this.activeMenu.children(".ui-menu-item")[this.active?"last":"first"]())):this.next(c)},previousPage:function(c){var b,
+e,f;this.active?this.isFirstItem()||(this._hasScroll()?(e=this.active.offset().top,f=this.element.height(),this.active.prevAll(".ui-menu-item").each(function(){return b=a(this),0<b.offset().top-e+f}),this.focus(c,b)):this.focus(c,this.activeMenu.children(".ui-menu-item").first())):this.next(c)},_hasScroll:function(){return this.element.outerHeight()<this.element.prop("scrollHeight")},select:function(c){this.active=this.active||a(c.target).closest(".ui-menu-item");var b={item:this.active};this.active.has(".ui-menu").length||
+this.collapseAll(c,!0);this._trigger("select",c,b)}})})(jQuery)}catch(e$$65){System.out.println("coremenu failed to load jQuery.ui.menu -- jQuery version conflict?")}(function(){Jmol.$after("head","<style>\t.jmolPopupMenu { position: absolute;min-width: 200px;background-color: rgb(220, 220, 220); z-order:10000;\t font-family:Arial,sans-serif;font-size:8px;padding:2px;-webkit-box-shadow:1px 1px 5px rgba(50, 50, 50, 0.75);\t -moz-box-shadow:1px 1px 5px rgba(50, 50, 50, 0.75);box-shadow:1px 1px 5px rgba(50, 50, 50, 0.75);}\t.ui-menu .ui-menu-item {font-size:10px}\t.ui-state-disabled{cursor:default!important}\t.ui-icon{display:block;text-indent:-99999px;overflow:hidden;background-repeat:no-repeat}\t.ui-widget-overlay{position:absolute;top:0;left:0;width:100%;height:100%}\t.ui-menu{list-style:none;padding:2px;margin:0;display:block;outline:none}\t.ui-menu .ui-menu{margin-top:-3px;position:absolute}\t.ui-menu .ui-menu-item{min-width: 200px;width: 200px;cursor:pointer;margin:0;padding:0;zoom:1;width:100%}\t.ui-menu .ui-menu-divider{margin:5px -2px 5px -2px;height:0;font-size:0;line-height:0;border-width:1px 0 0 0}\t.ui-menu .ui-menu-item a{text-decoration:none;display:block;padding:2px .4em;line-height:1.5;zoom:1;font-weight:normal}\t.ui-menu .ui-menu-item a.ui-state-focus,.ui-menu .ui-menu-item a.ui-state-active{font-weight:normal;margin:-1px}\t.ui-menu .ui-state-disabled{font-weight:normal;margin:.4em 0 .2em;line-height:1.5}\t.ui-menu .ui-state-disabled a{cursor:default}.ui-menu-icons{position:relative}\t.ui-menu-icons .ui-menu-item a{position:relative;padding-left:2em}\t.ui-menu .ui-icon{position:absolute;top:.2em;left:.2em}\t.ui-menu .ui-menu-icon{position:static;float:right}\t.ui-widget{font-family:Arial,sans-serif;font-size:1.1em}\t.ui-widget .ui-widget{font-size:1em}\t.ui-widget input,.ui-widget select,.ui-widget textarea,.ui-widget button{font-family:Arial,sans-serif;font-size:1em}\t.ui-widget-content{border:1px solid #a6c9e2;background:#fcfdfd bottom repeat-x;color:#222}\t.ui-widget-content a{color:#222}.ui-widget-header{border:1px solid #4297d7;background:#5c9ccc;color:#fff;font-weight:bold}.ui-widget-header a{color:#fff}\t.ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default{border:1px solid #c5dbec;background:#dfeffc;font-weight:bold;color:#2e6e9e}\t.ui-state-default a,.ui-state-default a:link,.ui-state-default a:visited{color:#2e6e9e;text-decoration:none}\t.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-widget-header .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus,.ui-widget-header .ui-state-focus{border:1px solid #79b7e7;background:#d0e5f5;font-weight:bold;color:#1d5987}\t.ui-state-hover a,.ui-state-hover a:hover,.ui-state-hover a:link,.ui-state-hover a:visited{color:#1d5987;text-decoration:none}\t.ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active{border:1px solid #79b7e7;background:#f5f8f9;font-weight:bold;color:#e17009}\t.ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited{color:#e17009;text-decoration:none}\t.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight{border:1px solid #fad42e;background:#fbec88;color:#363636}\t.ui-state-highlight a,.ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a{color:#363636}\t.ui-state-error,.ui-widget-content .ui-state-error,.ui-widget-header .ui-state-error{border:1px solid #cd0a0a;background:#fef1ec;color:#cd0a0a}\t.ui-state-error a,.ui-widget-content .ui-state-error a,.ui-widget-header .ui-state-error a{color:#cd0a0a}\t.ui-state-error-text,.ui-widget-content .ui-state-error-text,.ui-widget-header .ui-state-error-text{color:#cd0a0a}\t.ui-priority-primary,.ui-widget-content .ui-priority-primary,.ui-widget-header .ui-priority-primary{font-weight:bold}\t.ui-priority-secondary,.ui-widget-content .ui-priority-secondary,.ui-widget-header .ui-priority-secondary{opacity:.7;filter:Alpha(Opacity=70);font-weight:normal}\t.ui-state-disabled,.ui-widget-content .ui-state-disabled,.ui-widget-header .ui-state-disabled{opacity:.35;filter:Alpha(Opacity=35);background-image:none}\t.ui-state-disabled .ui-icon{filter:Alpha(Opacity=35)}\t.ui-corner-all,.ui-corner-top,.ui-corner-left,.ui-corner-tl{-moz-border-radius-topleft:5px;-webkit-border-top-left-radius:5px;-khtml-border-top-left-radius:5px;border-top-left-radius:5px}\t.ui-corner-all,.ui-corner-top,.ui-corner-right,.ui-corner-tr{-moz-border-radius-topright:5px;-webkit-border-top-right-radius:5px;-khtml-border-top-right-radius:5px;border-top-right-radius:5px}\t.ui-corner-all,.ui-corner-bottom,.ui-corner-left,.ui-corner-bl{-moz-border-radius-bottomleft:5px;-webkit-border-bottom-left-radius:5px;-khtml-border-bottom-left-radius:5px;border-bottom-left-radius:5px}\t.ui-corner-all,.ui-corner-bottom,.ui-corner-right,.ui-corner-br{-moz-border-radius-bottomright:5px;-webkit-border-bottom-right-radius:5px;-khtml-border-bottom-right-radius:5px;border-bottom-right-radius:5px}\t.ui-widget-overlay{background:#aaa;opacity:.3;filter:Alpha(Opacity=30)}\t.ui-widget-shadow{margin:-8px 0 0 -8px;padding:8px;background:#aaa;opacity:.3;filter:Alpha(Opacity=30);-moz-border-radius:8px;-khtml-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}\t</style>")})(jQuery);
+Jmol.Menu={_menuCounter:0};
+(function(a){a._getID=function(b,c){return b._id+"_"+c+"_"+ ++a._menuCounter};a.PopupMenu=function(b,c){this.applet=b;this.id=a._getID(b,c+"_top");this.name=c;this.items=[];this.tainted=this.enabled=!0;b._popups||(b._popups={});b._popups[c]=this;Jmol.$after("body",'<ul id="'+this.id+'" class="jmolPopupMenu"></ul>');this.setContainer(Jmol.$("#"+this.id))};a.PopupMenu.prototype.hide=function(){this.visible&&(this.container.unbind("clickoutjsmol"),this.dragBind(!1),this.container.hide(),this.visible=
+this.isDragging=!1)};a.PopupMenu.prototype.menuShowPopup=function(){if(this.tainted){var a=this.html();this.container.html(a);this.tainted=!1;this.bindActionCommands()}this.setPosition();this.container.hide().menu().menu("refresh").show();this.visible=!0;this.timestamp=System.currentTimeMillis();this.container.unbind("clickoutjsmol");this.dragBind(!0);var c=this;this.container.bind("clickoutjsmol",function(){100<System.currentTimeMillis()-c.timestamp&&c.hide()});this.container.bind("contextmenu",
+function(){return!1})};Jmol._setDraggable(a.PopupMenu);a.SubMenu=function(b,c){this.applet=b.applet;this.text=c;this.enabled=!0;this.id=a._getID(b.applet,b.name+"m");this.popupMenu=b;this.isMenu=!0;this.items=[]};a.MenuItem=function(b,c,d,e){this.applet=b.applet;this.text=c;this.enabled=!0;this.id=a._getID(b.applet,b.name+(d?"cb":e?"rb":"i"));this.popupMenu=b;this.isCheckBox=d;this.isRadio=e};a.ButtonGroup=function(b){this.id=a._getID(b.applet,b.name+"bg");this.add=function(a){a.htmlName=this.id}};
+a.setItemProto=function(a){a.setSelected=function(a){this.selected=a};a.isSelected=function(){return this.selected};a.setName=function(a){this.name=a};a.getName=function(){return this.name};a.addActionListener=function(a){this.actionListener=a};a.addItemListener=function(a){this.itemListener=a};a.addMouseListener=function(a){this.mouseListener=a};a.bindActionCommands=function(){var a=this;Jmol.$documentOff("click",this.id);Jmol.$documentOn("click",this.id,function(){a.actionListener?(a.popupMenu.hide(),
+a.actionListener.checkMenuClick(a,a.script)):a.itemListener&&(a.selected=a.isCheckBox?Jmol.$prop(a.id+"-cb","checked"):!0,a.itemListener.checkBoxStateChanged(a))})};a.setEnabled=function(a){this.enabled=a};a.setIcon=function(a){this.icon=a};a.setText=function(a){this.text=a};a.setActionCommand=function(a){this.script=a};a.getActionCommand=function(){return this.script};a.html=function(){var a='<li id="'+this.id+'" class="'+(this.enabled?"":"ui-state-disabled")+'"><a href="#">';this.isCheckBox?a+=
+'<label><input id="'+this.id+'-cb" type="checkbox" '+(this.selected?"checked":"")+" />"+this.text+"</label>":this.isRadio?a+='<label><input id="'+this.id+'-rb" type="radio" name="'+this.htmlName+'" '+(this.selected?"checked":"")+" />"+this.text+"</label>":this.text?a+=this.text:this.icon||(a+="<hr>");return a+"</a></li>"}};a.setMenuProto=function(b){a.setItemProto(b);b.add=function(a){this.items.push(a);a.parent=this};b.removeAll=function(a){if(0==a)this.items=[];else{for(var b=[],e=0;e<a;e++){var f=
+this.items[e];b.push(f);f.parent=this}this.items=b}};b.setAutoscrolls=function(){};b.getComponents=function(){return this.items};b.getItemCount=function(){return this.items.length};b.html=function(){for(var a=this.text?this.text:this.icon?'<img src="'+this.applet._j2sPath+"/"+this.icon+'" style="max-height: 20px;" />':null,b=a?"<li><a>"+a+'</a><ul id="'+this.id+'" class="'+(this.enabled?"":"ui-state-disabled")+'">':"",e=0;e<this.items.length;e++)this.items[e].html&&(b+=this.items[e].html());a&&(b+=
+"</ul></li>");return b};b.bindActionCommands=function(){for(var a=0;a<this.items.length;a++)this.items[a].bindActionCommands&&this.items[a].bindActionCommands()}};a.setMenuProto(a.PopupMenu.prototype);a.setMenuProto(a.SubMenu.prototype);a.setItemProto(a.MenuItem.prototype);a.hidePopups=function(a){for(var c in a)a[c].hide()}})(Jmol.Menu,jQuery);Clazz.declarePackage("J.api");Clazz.declareInterface(J.api,"JmolPopupInterface");Clazz.declarePackage("J.popup");Clazz.declareInterface(J.popup,"JmolAbstractMenu");
+Clazz.declarePackage("J.popup");
+Clazz.load(["J.api.JmolPopupInterface","J.popup.JmolAbstractMenu","java.util.Hashtable","$.Properties","J.util.JmolList"],"J.popup.GenericPopup","java.lang.Boolean $.Long java.util.StringTokenizer J.i18n.GT J.popup.MainPopupResourceBundle J.util.Elements $.Escape $.Logger $.Parser $.SB $.TextFormat J.viewer.JC".split(" "),function(){c$=Clazz.decorateAsClass(function(){this.strMenuStructure=this.currentMenuItemId=this.buttonGroup=this.menuText=this.htCheckbox=this.viewer=null;this.updateMode=0;this.thisPopup=
+this.popupMenu=this.frankPopup=this.menuName=null;this.nFrankList=0;this.itemMax=25;this.titleWidthMax=20;this.thisy=this.thisx=0;this.currentFrankId=this.modelSetRoot=this.modelSetFileName=this.modelSetName=this.nullModelSetName=null;this.configurationSelected="";this.TemperatureOnly=this.ChargesOnly=this.AppletOnly=this.SignedOnly=this.SymmetryOnly=this.VibrationOnly=this.FramesOnly=this.SingleModelOnly=this.UnitcellOnly=this.FileMolOnly=this.FileUnitOnly=this.PDBOnly=this.NotPDB=this.htMenus=this.modelInfo=
+this.modelSetInfo=this.frankList=this.altlocs=null;this.isZapped=this.isVibration=this.isUnitCell=this.isSymmetry=this.isSigned=this.isPDB=this.isMultiFrame=this.isMultiConfiguration=this.isLastFrame=this.isApplet=this.haveCharges=this.haveBFactors=this.fileHasUnitCell=this.isJS=this.allowSignedFeatures=!1;this.aboutComputedMenuBaseCount=this.atomCount=this.modelCount=this.modelIndex=0;this.hnmrPeaks=this.cnmrPeaks=this.group3Counts=this.group3List=null;Clazz.instantialize(this,arguments)},J.popup,
+"GenericPopup",null,[J.api.JmolPopupInterface,J.popup.JmolAbstractMenu]);Clazz.prepareFields(c$,function(){this.htCheckbox=new java.util.Hashtable;this.menuText=new java.util.Properties;this.frankList=Array(10);this.htMenus=new java.util.Hashtable;this.NotPDB=new J.util.JmolList;this.PDBOnly=new J.util.JmolList;this.FileUnitOnly=new J.util.JmolList;this.FileMolOnly=new J.util.JmolList;this.UnitcellOnly=new J.util.JmolList;this.SingleModelOnly=new J.util.JmolList;this.FramesOnly=new J.util.JmolList;
+this.VibrationOnly=new J.util.JmolList;this.SymmetryOnly=new J.util.JmolList;this.SignedOnly=new J.util.JmolList;this.AppletOnly=new J.util.JmolList;this.ChargesOnly=new J.util.JmolList;this.TemperatureOnly=new J.util.JmolList});Clazz.makeConstructor(c$,function(){});Clazz.overrideMethod(c$,"jpiDispose",function(){this.menuClearListeners(this.popupMenu);this.menuClearListeners(this.frankPopup);this.popupMenu=this.frankPopup=this.thisPopup=null});Clazz.overrideMethod(c$,"jpiGetMenuAsObject",function(){return this.popupMenu});
+Clazz.overrideMethod(c$,"jpiGetMenuAsString",function(a){this.updateForShow();var b=a.indexOf("|");if(0<=b){var c=a.substring(b);a=a.substring(0,b);if(0<=c.indexOf("current"))return a=new J.util.SB,b=this.htMenus.get(this.menuName),this.menuGetAsText(a,0,b,"PopupMenu"),a.toString()}return(new J.popup.MainPopupResourceBundle(this.strMenuStructure,null)).getMenuAsText(a)},"~S");Clazz.overrideMethod(c$,"jpiShow",function(a,b){if(this.viewer.haveDisplay){this.show(a,b,!1);if(0>a&&(this.getViewerData(),
+this.setFrankMenu(this.currentMenuItemId),this.thisx=-a-50,1<this.nFrankList)){this.thisy=b-20*this.nFrankList;this.menuShowPopup(this.frankPopup,this.thisx,this.thisy);return}this.restorePopupMenu();this.menuShowPopup(this.popupMenu,this.thisx,this.thisy)}},"~N,~N");Clazz.overrideMethod(c$,"jpiUpdateComputedMenus",function(){-1!=this.updateMode&&(this.updateMode=0,this.getViewerData(),this.updateSelectMenu(),this.updateFileMenu(),this.updateElementsComputedMenu(this.viewer.getElementsPresentBitSet(this.modelIndex)),
+this.updateHeteroComputedMenu(this.viewer.getHeteroList(this.modelIndex)),this.updateSurfMoComputedMenu(this.modelInfo.get("moData")),this.updateFileTypeDependentMenus(),this.updatePDBComputedMenus(),this.updateMode=1,this.updateConfigurationComputedMenu(),this.updateSYMMETRYComputedMenus(),this.updateFRAMESbyModelComputedMenu(),this.updateModelSetComputedMenu(),this.updateLanguageSubmenu(),this.updateAboutSubmenu())});$_M(c$,"getEntryIcon",function(a){var b=a[0];if(!b.startsWith("<"))return null;
+var c=b.indexOf(">");a[0]=b.substring(c+1);a=b.substring(1,c);return this.getImageIcon(a)},"~A");$_M(c$,"getImageIcon",function(){return null},"~S");$_M(c$,"checkMenuFocus",function(a,b,c){0>a.indexOf("Focus")||(c?this.viewer.script("selectionHalos ON;"+b):this.viewer.script("selectionHalos OFF"))},"~S,~S,~B");$_M(c$,"checkBoxStateChanged",function(a){this.restorePopupMenu();this.menuSetCheckBoxValue(a);a=this.menuGetId(a);null!=a&&(this.currentMenuItemId=a)},"~O");c$.addItemText=$_M(c$,"addItemText",
+function(a,b,c,d,e,f,g){a.appendC(b).appendI(c).appendC("\t").append(d);null==e?a.append(".\n"):a.append("\t").append(e).append("\t").append(null==f||0==f.length?"-":f).append("\t").append(g).append("\n")},"J.util.SB,~S,~N,~S,~S,~S,~S");$_M(c$,"fixScript",function(a,b){var c;if(""===b||a.endsWith("Checkbox"))return b;if(0==b.indexOf("SELECT"))return"select thisModel and ("+b.substring(6)+")";if(0<=(c=a.lastIndexOf("["))){a=a.substring(c+1);if(0<=(c=a.indexOf("]")))a=a.substring(0,c);a=a.$replace("_",
+" ");0>b.indexOf("[]")&&(b="[] "+b);return J.util.TextFormat.simpleReplace(b,"[]",a)}0<=b.indexOf("?FILEROOT?")?b=J.util.TextFormat.simpleReplace(b,"FILEROOT?",this.modelSetRoot):0<=b.indexOf("?FILE?")?b=J.util.TextFormat.simpleReplace(b,"FILE?",this.modelSetFileName):0<=b.indexOf("?PdbId?")&&(b=J.util.TextFormat.simpleReplace(b,"PdbId?","=xxxx"));return b},"~S,~S");$_M(c$,"initialize",function(a,b,c){this.viewer=a;this.menuName=c;this.thisPopup=this.popupMenu=this.menuCreatePopup(c);this.menuSetListeners();
+this.htMenus.put(c,this.popupMenu);this.isJS=a.$isJS;this.allowSignedFeatures=!a.isApplet()||a.getBooleanProperty("_signedApplet");this.addMenuItems("",c,this.popupMenu,b);try{this.jpiUpdateComputedMenus()}catch(d){if(!Clazz.exceptionOf(d,NullPointerException))throw d;}},"J.viewer.Viewer,J.popup.PopupResource,~S");$_M(c$,"restorePopupMenu",function(){this.thisPopup=this.popupMenu;if(!(2>this.nFrankList)){for(var a=this.nFrankList;0<--a;){var b=this.frankList[a];b[1].parent=b[0]}this.nFrankList=1}});
+$_M(c$,"setCheckBoxValue",function(a,b,c){this.checkForCheckBoxScript(a,b,c);0<=b.indexOf("#CONFIG")&&(this.configurationSelected=b,this.updateConfigurationComputedMenu(),this.updateModelSetComputedMenu())},"~O,~S,~B");c$.checkBoolean=$_M(c$,"checkBoolean",($fz=function(a,b){return null!=a&&a.get(b)===Boolean.TRUE},$fz.isPrivate=!0,$fz),"java.util.Map,~S");$_M(c$,"getViewerData",($fz=function(){this.isApplet=this.viewer.isApplet();this.isSigned=this.viewer.getBooleanProperty("_signedApplet");this.modelSetName=
+this.viewer.getModelSetName();this.modelSetFileName=this.viewer.getModelSetFileName();var a=this.modelSetFileName.lastIndexOf(".");if((this.isZapped="zapped".equals(this.modelSetName))||"string".equals(this.modelSetFileName)||"files".equals(this.modelSetFileName)||"string[]".equals(this.modelSetFileName))this.modelSetFileName="";this.modelSetRoot=this.modelSetFileName.substring(0,0>a?this.modelSetFileName.length:a);0==this.modelSetRoot.length&&(this.modelSetRoot="Jmol");this.modelIndex=this.viewer.getDisplayModelIndex();
+this.modelCount=this.viewer.getModelCount();this.atomCount=this.viewer.getAtomCountInModel(this.modelIndex);this.modelSetInfo=this.viewer.getModelSetAuxiliaryInfo();this.modelInfo=this.viewer.getModelAuxiliaryInfo(this.modelIndex);null==this.modelInfo&&(this.modelInfo=new java.util.Hashtable);this.isPDB=J.popup.GenericPopup.checkBoolean(this.modelSetInfo,"isPDB");this.isMultiFrame=1<this.modelCount;this.isSymmetry=J.popup.GenericPopup.checkBoolean(this.modelInfo,"hasSymmetry");this.isUnitCell=J.popup.GenericPopup.checkBoolean(this.modelInfo,
+"notionalUnitcell");this.fileHasUnitCell=this.isPDB&&this.isUnitCell||J.popup.GenericPopup.checkBoolean(this.modelInfo,"fileHasUnitCell");this.isLastFrame=this.modelIndex==this.modelCount-1;this.altlocs=this.viewer.getAltLocListInModel(this.modelIndex);this.isMultiConfiguration=0<this.altlocs.length;this.isVibration=this.viewer.modelHasVibrationVectors(this.modelIndex);this.haveCharges=this.viewer.havePartialCharges();this.haveBFactors=this.viewer.getBooleanProperty("haveBFactors");this.cnmrPeaks=
+this.modelInfo.get("jdxAtomSelect_13CNMR");this.hnmrPeaks=this.modelInfo.get("jdxAtomSelect_1HNMR")},$fz.isPrivate=!0,$fz));$_M(c$,"updateFileTypeDependentMenus",($fz=function(){for(var a=0;a<this.NotPDB.size();a++)this.menuEnable(this.NotPDB.get(a),!this.isPDB);for(a=0;a<this.PDBOnly.size();a++)this.menuEnable(this.PDBOnly.get(a),this.isPDB);for(a=0;a<this.UnitcellOnly.size();a++)this.menuEnable(this.UnitcellOnly.get(a),this.isUnitCell);for(a=0;a<this.FileUnitOnly.size();a++)this.menuEnable(this.FileUnitOnly.get(a),
+this.isUnitCell||this.fileHasUnitCell);for(a=0;a<this.FileMolOnly.size();a++)this.menuEnable(this.FileMolOnly.get(a),this.isUnitCell||this.fileHasUnitCell);for(a=0;a<this.SingleModelOnly.size();a++)this.menuEnable(this.SingleModelOnly.get(a),this.isLastFrame);for(a=0;a<this.FramesOnly.size();a++)this.menuEnable(this.FramesOnly.get(a),this.isMultiFrame);for(a=0;a<this.VibrationOnly.size();a++)this.menuEnable(this.VibrationOnly.get(a),this.isVibration);for(a=0;a<this.SymmetryOnly.size();a++)this.menuEnable(this.SymmetryOnly.get(a),
+this.isSymmetry&&this.isUnitCell);for(a=0;a<this.SignedOnly.size();a++)this.menuEnable(this.SignedOnly.get(a),this.isSigned||!this.isApplet);for(a=0;a<this.AppletOnly.size();a++)this.menuEnable(this.AppletOnly.get(a),this.isApplet);for(a=0;a<this.ChargesOnly.size();a++)this.menuEnable(this.ChargesOnly.get(a),this.haveCharges);for(a=0;a<this.TemperatureOnly.size();a++)this.menuEnable(this.TemperatureOnly.get(a),this.haveBFactors)},$fz.isPrivate=!0,$fz));$_M(c$,"addMenuItems",($fz=function(a,b,c,d){a=
+a+"."+b;var e=d.getStructure(b);J.util.Logger.debugging&&J.util.Logger.debug(a+" --- "+e);if(null==e)this.menuCreateItem(c,"#"+b,"","");else{b=new java.util.StringTokenizer(e);for(var f;0<=e.indexOf("@");){for(e="";b.hasMoreTokens();)e+=" "+((f=b.nextToken()).startsWith("@")?d.getStructure(f):f);e=e.substring(1);b=new java.util.StringTokenizer(e)}for(;b.hasMoreTokens();)if(f=b.nextToken(),this.checkKey(f)){var e=d.getWord(f),g=null,g="",h=!1;if(!e.equals("null")){if(0<=f.indexOf("Menu")){0>f.indexOf("more")&&
+(this.buttonGroup=null);var j=this.menuNewSubMenu(e,a+"."+f);this.menuAddSubMenu(c,j);this.htMenus.put(f,j);0>f.indexOf("Computed")&&this.addMenuItems(a,f,j,d);this.checkSpecialMenu(f,j,e);g=j}else if("-".equals(f)){this.menuAddSeparator(c);continue}else if(f.endsWith("Checkbox")||(h=f.endsWith("CB")||f.endsWith("RD"))){g=d.getStructure(f);j=f.substring(0,f.length-(!h?8:2));h=h&&f.endsWith("RD");if(null==g||0==g.length&&!h)g="set "+j+" T/F";g=this.menuCreateCheckboxItem(c,e,j+":"+g,a+"."+f,!1,h);
+this.rememberCheckbox(j,g);h&&this.menuAddButtonGroup(g)}else{g=d.getStructure(f);null==g&&(g=f);if(!this.isJS&&f.startsWith("JS"))continue;g=this.menuCreateItem(c,e,g,a+"."+f)}!this.allowSignedFeatures&&f.startsWith("SIGNED")&&this.menuEnable(g,!1);0<=f.indexOf("VARIABLE")&&this.htMenus.put(f,g);0<=f.indexOf("!PDB")?this.NotPDB.addLast(g):0<=f.indexOf("PDB")&&this.PDBOnly.addLast(g);0<=f.indexOf("URL")?this.AppletOnly.addLast(g):0<=f.indexOf("CHARGE")?this.ChargesOnly.addLast(g):0<=f.indexOf("BFACTORS")?
+this.TemperatureOnly.addLast(g):0<=f.indexOf("UNITCELL")?this.UnitcellOnly.addLast(g):0<=f.indexOf("FILEUNIT")?this.FileUnitOnly.addLast(g):0<=f.indexOf("FILEMOL")&&this.FileMolOnly.addLast(g);0<=f.indexOf("!FRAMES")?this.SingleModelOnly.addLast(g):0<=f.indexOf("FRAMES")&&this.FramesOnly.addLast(g);0<=f.indexOf("VIBRATION")?this.VibrationOnly.addLast(g):0<=f.indexOf("SYMMETRY")&&this.SymmetryOnly.addLast(g);f.startsWith("SIGNED")&&this.SignedOnly.addLast(g)}}}},$fz.isPrivate=!0,$fz),"~S,~S,~O,J.popup.PopupResource");
+$_M(c$,"checkKey",($fz=function(a){return 0>a.indexOf("JAVA")&&!(a.indexOf("NOGL")&&this.viewer.isWebGL)},$fz.isPrivate=!0,$fz),"~S");$_M(c$,"rememberCheckbox",($fz=function(a,b){this.htCheckbox.put(a+"::"+this.htCheckbox.size(),b)},$fz.isPrivate=!0,$fz),"~S,~O");$_M(c$,"checkForCheckBoxScript",($fz=function(a,b,c){if(0>b.indexOf("##")){var d=b.indexOf(":");if(0>d){J.util.Logger.error("check box "+a+" IS "+b);return}var e=b.substring(0,d);if(this.viewer.getBooleanProperty(e)==c)return;if(e.endsWith("P!"))if(0<=
+e.indexOf("??"))b=this.menuSetCheckBoxOption(a,e,b);else{if(!c)return;b="set picking "+e.substring(0,e.length-2)}else{b=b.substring(d+1);if(0<=(d=b.indexOf("|")))b=(c?b.substring(0,d):b.substring(d+1)).trim();b=J.util.TextFormat.simpleReplace(b,"T/F",c?" TRUE":" FALSE")}}this.viewer.evalStringQuiet(b)},$fz.isPrivate=!0,$fz),"~O,~S,~B");Clazz.overrideMethod(c$,"checkMenuClick",function(a,b){this.checkMenuClickGP(a,b)},"~O,~S");$_M(c$,"checkMenuClickGP",function(a,b){this.restorePopupMenu();if(!(null==
+b||0==b.length))if(b.equals("MAIN"))this.show(this.thisx,this.thisy,!0);else{var c=this.menuGetId(a);null!=c&&(b=this.fixScript(c,b),this.currentMenuItemId=c);this.viewer.evalStringQuiet(b)}},"~O,~S");$_M(c$,"addMenuItem",($fz=function(a,b){return this.menuCreateItem(a,b,"",null)},$fz.isPrivate=!0,$fz),"~O,~S");$_M(c$,"checkSpecialMenu",($fz=function(a,b,c){"aboutComputedMenu".equals(a)?this.aboutComputedMenuBaseCount=this.menuGetItemCount(b):"modelSetMenu".equals(a)&&(this.nullModelSetName=c,this.menuEnable(b,
+!1))},$fz.isPrivate=!0,$fz),"~S,~O,~S");$_M(c$,"updateFileMenu",($fz=function(){var a=this.htMenus.get("fileMenu");if(null!=a){var b=this.getMenuText("writeFileTextVARIABLE"),a=this.htMenus.get("writeFileTextVARIABLE");this.modelSetFileName.equals("zapped")||this.modelSetFileName.equals("")?(this.menuSetLabel(a,J.i18n.GT._("No atoms loaded")),this.menuEnableItem(a,!1)):(this.menuSetLabel(a,J.i18n.GT._(b,this.modelSetFileName)),this.menuEnableItem(a,!0))}},$fz.isPrivate=!0,$fz));$_M(c$,"getMenuText",
+($fz=function(a){var b=this.menuText.getProperty(a);return null==b?a:b},$fz.isPrivate=!0,$fz),"~S");$_M(c$,"updateSelectMenu",($fz=function(){var a=this.htMenus.get("selectMenuText");null!=a&&(this.menuEnable(a,0!=this.atomCount),this.menuSetLabel(a,J.i18n.GT._(this.getMenuText("selectMenuText"),this.viewer.getSelectionCount())))},$fz.isPrivate=!0,$fz));$_M(c$,"updateElementsComputedMenu",($fz=function(a){var b=this.htMenus.get("elementsComputedMenu");if(null!=b&&(this.menuRemoveAll(b,0),this.menuEnable(b,
+!1),null!=a)){for(var c=a.nextSetBit(0);0<=c;c=a.nextSetBit(c+1)){var d=J.util.Elements.elementNameFromNumber(c),e=J.util.Elements.elementSymbolFromNumber(c),e=e+" - "+d;this.menuCreateItem(b,e,"SELECT "+d,null)}for(c=4;c<J.util.Elements.altElementMax;++c)e=J.util.Elements.elementNumberMax+c,a.get(e)&&(e=J.util.Elements.altElementNumberFromIndex(c),d=J.util.Elements.elementNameFromNumber(e),e=J.util.Elements.elementSymbolFromNumber(e),e=e+" - "+d,this.menuCreateItem(b,e,"SELECT "+d,null));this.menuEnable(b,
+!0)}},$fz.isPrivate=!0,$fz),"J.util.BS");$_M(c$,"updateSpectraMenu",($fz=function(){var a=this.htMenus.get("hnmrMenu"),b=this.htMenus.get("cnmrMenu");null!=a&&this.menuRemoveAll(a,0);null!=b&&this.menuRemoveAll(b,0);var c=this.htMenus.get("spectraMenu");if(null!=c){this.menuRemoveAll(c,0);var d=(new Boolean(this.setSpectraMenu(a,this.hnmrPeaks)|this.setSpectraMenu(b,this.cnmrPeaks))).valueOf();d&&(null!=a&&this.menuAddSubMenu(c,a),null!=b&&this.menuAddSubMenu(c,b));this.menuEnable(c,d)}},$fz.isPrivate=
+!0,$fz));$_M(c$,"setSpectraMenu",($fz=function(a,b){if(null==a)return!1;this.menuEnable(a,!1);var c=null==b?0:b.size();if(0==c)return!1;for(var d=0;d<c;d++){var e=b.get(d),f=J.util.Parser.getQuotedAttribute(e,"title"),e=J.util.Parser.getQuotedAttribute(e,"atoms");null!=e&&this.menuCreateItem(a,f,"select visible & (@"+J.util.TextFormat.simpleReplace(e,","," or @")+")","Focus"+d)}this.menuEnable(a,!0);return!0},$fz.isPrivate=!0,$fz),"~O,J.util.JmolList");$_M(c$,"updateHeteroComputedMenu",($fz=function(a){var b=
+this.htMenus.get("PDBheteroComputedMenu");if(null!=b&&(this.menuRemoveAll(b,0),this.menuEnable(b,!1),null!=a)){var c=0,d;for(a=a.entrySet().iterator();a.hasNext()&&((d=a.next())||1);){var e=d.getKey(),f=d.getValue();20<f.length&&(f=f.substring(0,20)+"...");this.menuCreateItem(b,e+" - "+f,"SELECT ["+e+"]",null);c++}this.menuEnable(b,0<c)}},$fz.isPrivate=!0,$fz),"java.util.Map");$_M(c$,"updateSurfMoComputedMenu",($fz=function(a){var b=this.htMenus.get("surfMoComputedMenuText");if(null!=b){this.menuRemoveAll(b,
+0);a=null==a?null:a.get("mos");var c=null==a?0:a.size(),d=this.getMenuText("surfMoComputedMenuText");if(0==c)this.menuSetLabel(b,J.i18n.GT._(d,"")),this.menuEnable(b,!1);else{this.menuSetLabel(b,J.i18n.GT._(d,c));this.menuEnable(b,!0);var d=b,e=c%this.itemMax;0==e&&(e=this.itemMax);for(var f=c>this.itemMax?0:-2147483648;0<=--c;){0<=f&&0==f++%e&&(f==e+1&&(e=this.itemMax),f="mo"+f+"Menu",d=this.menuNewSubMenu(Math.max(c+2-e,1)+"..."+(c+1),this.menuGetId(b)+"."+f),this.menuAddSubMenu(b,d),this.htMenus.put(f,
+d),f=1);var g=a.get(c),g="#"+(c+1)+" "+(g.containsKey("type")?g.get("type")+" ":"")+(g.containsKey("symmetry")?g.get("symmetry")+" ":"")+(g.containsKey("energy")?g.get("energy"):"");this.menuCreateItem(d,g,"mo "+(c+1),null)}}}},$fz.isPrivate=!0,$fz),"java.util.Map");$_M(c$,"updateSceneComputedMenu",($fz=function(){var a=this.htMenus.get("sceneComputedMenu");if(null!=a){this.menuRemoveAll(a,0);this.menuEnable(a,!1);var b=this.viewer.getSceneList();if(null!=b){for(var c=0;c<b.length;c++)this.menuCreateItem(a,
+b[c],"restore scene "+J.util.Escape.eS(b[c])+" 1.0",null);this.menuEnable(a,!0)}}},$fz.isPrivate=!0,$fz));$_M(c$,"updatePDBComputedMenus",($fz=function(){var a=this.htMenus.get("PDBaaResiduesComputedMenu");if(null!=a){this.menuRemoveAll(a,0);this.menuEnable(a,!1);var b=this.htMenus.get("PDBnucleicResiduesComputedMenu");if(null!=b){this.menuRemoveAll(b,0);this.menuEnable(b,!1);var c=this.htMenus.get("PDBcarboResiduesComputedMenu");if(null!=c&&(this.menuRemoveAll(c,0),this.menuEnable(c,!1),null!=this.modelSetInfo)){var d=
+0>this.modelIndex?0:this.modelIndex+1,e=this.modelSetInfo.get("group3Lists");this.group3List=null==e?null:e[d];this.group3Counts=null==e?null:this.modelSetInfo.get("group3Counts")[d];if(null!=this.group3List){d=0;for(e=1;24>e;++e)d+=this.updateGroup3List(a,J.viewer.JC.predefinedGroup3Names[e]);d+=this.augmentGroup3List(a,"p>",!0);this.menuEnable(a,0<d);this.menuEnable(this.htMenus.get("PDBproteinMenu"),0<d);d=this.augmentGroup3List(b,"n>",!1);this.menuEnable(b,0<d);this.menuEnable(this.htMenus.get("PDBnucleicMenu"),
+0<d);d=this.augmentGroup3List(c,"c>",!1);this.menuEnable(c,0<d);this.menuEnable(this.htMenus.get("PDBcarboMenu"),0<d)}}}}},$fz.isPrivate=!0,$fz));$_M(c$,"updateGroup3List",($fz=function(a,b){var c=0,d=this.group3Counts[Clazz.doubleToInt(this.group3List.indexOf(b)/6)],e=null;0<d&&(e="SELECT "+b,b+="  ("+d+")",c++);e=this.menuCreateItem(a,b,e,this.menuGetId(a)+"."+b);0==d&&this.menuEnableItem(e,!1);return c},$fz.isPrivate=!0,$fz),"~O,~S");$_M(c$,"augmentGroup3List",($fz=function(a,b,c){for(var d=138,
+e=0;;){d=this.group3List.indexOf(b,d);if(0>d)break;0==e++&&c&&this.menuAddSeparator(a);var f=this.group3Counts[Clazz.doubleToInt(d/6)],g=this.group3List.substring(d+2,d+5),f=g+"  ("+f+")";this.menuCreateItem(a,f,"SELECT ["+g+"]",this.menuGetId(a)+"."+f);d++}return e},$fz.isPrivate=!0,$fz),"~O,~S,~B");$_M(c$,"updateSYMMETRYComputedMenus",($fz=function(){this.updateSYMMETRYSelectComputedMenu();this.updateSYMMETRYShowComputedMenu()},$fz.isPrivate=!0,$fz));$_M(c$,"updateSYMMETRYShowComputedMenu",($fz=
+function(){var a=this.htMenus.get("SYMMETRYShowComputedMenu");if(null!=a&&(this.menuRemoveAll(a,0),this.menuEnable(a,!1),this.isSymmetry&&!(0>this.modelIndex))){var b=this.viewer.getProperty("DATA_API","spaceGroupInfo",null);if(null!=b){var c=b.get("operations");if(null!=c){b=b.get("spaceGroupName");this.menuSetLabel(a,null==b?J.i18n.GT._("Space Group"):b);for(var b=a,d=this.itemMax,e=c.length>this.itemMax?0:-2147483648,f=0;f<c.length;f++)0<=e&&0==e++%d&&(e="drawsymop"+e+"Menu",b=this.menuNewSubMenu(f+
+1+"..."+Math.min(f+this.itemMax,c.length),this.menuGetId(a)+"."+e),this.menuAddSubMenu(a,b),this.htMenus.put(e,b),e=1),this.menuEnableItem(this.menuCreateItem(b,f+1+" "+c[f][2]+" ("+c[f][0]+")","draw SYMOP "+(f+1),null),!0);this.menuEnable(a,!0)}}}},$fz.isPrivate=!0,$fz));$_M(c$,"updateSYMMETRYSelectComputedMenu",($fz=function(){var a=this.htMenus.get("SYMMETRYSelectComputedMenu");if(null!=a&&(this.menuRemoveAll(a,0),this.menuEnable(a,!1),this.isSymmetry&&!(0>this.modelIndex))){var b=this.modelInfo.get("symmetryOperations");
+if(null!=b){for(var c=null!=this.modelInfo.get("unitCellRange"),d=a,e=this.itemMax,f=b.length>this.itemMax?0:-2147483648,g=0;g<b.length;g++)0<=f&&0==f++%e&&(f="symop"+f+"Menu",d=this.menuNewSubMenu(g+1+"..."+Math.min(g+this.itemMax,b.length),this.menuGetId(a)+"."+f),this.menuAddSubMenu(a,d),this.htMenus.put(f,d),f=1),this.menuEnableItem(this.menuCreateItem(d,"symop="+(g+1)+" # "+b[g],"SELECT symop="+(g+1),null),c);this.menuEnable(a,!0)}}},$fz.isPrivate=!0,$fz));$_M(c$,"updateFRAMESbyModelComputedMenu",
+($fz=function(){var a=this.htMenus.get("FRAMESbyModelComputedMenu");if(null!=a&&(this.menuEnable(a,0<this.modelCount),this.menuSetLabel(a,0>this.modelIndex?J.i18n.GT._(this.getMenuText("allModelsText"),this.modelCount):this.getModelLabel()),this.menuRemoveAll(a,0),!(1>this.modelCount))){1<this.modelCount&&this.menuCreateCheckboxItem(a,J.i18n.GT._("All"),"frame 0 ##",null,0>this.modelIndex,!1);for(var b=a,c=this.itemMax,d=this.modelCount>this.itemMax?0:-2147483648,e=0;e<this.modelCount;e++){0<=d&&
+0==d++%c&&(d="model"+d+"Menu",b=this.menuNewSubMenu(e+1+"..."+Math.min(e+this.itemMax,this.modelCount),this.menuGetId(a)+"."+d),this.menuAddSubMenu(a,b),this.htMenus.put(d,b),d=1);var f=""+this.viewer.getModelNumberDotted(e),g=this.viewer.getModelName(e),h=this.viewer.getModelAuxiliaryInfoValue(e,"spectrumTypes");null!=h&&g.startsWith(h)&&(h=null);if(!g.equals(f)){var j=g.indexOf(";PATH");0<=j&&(g=g.substring(0,j));if(0==g.indexOf("Model[")&&0<=(j=g.indexOf("]:")))g=g.substring(j+2);g=f+": "+g}60<
+g.length&&(g=g.substring(0,55)+"...");null!=h&&(g+=" ("+h+")");this.menuCreateCheckboxItem(b,g,"model "+f+" ##",null,this.modelIndex==e,!1)}}},$fz.isPrivate=!0,$fz));$_M(c$,"updateConfigurationComputedMenu",($fz=function(){var a=this.htMenus.get("configurationComputedMenu");if(null!=a&&(this.menuEnable(a,this.isMultiConfiguration),this.isMultiConfiguration)){var b=this.altlocs.length;this.menuSetLabel(a,J.i18n.GT._(this.getMenuText("configurationMenuText"),b));this.menuRemoveAll(a,0);var c="hide none ##CONFIG";
+this.menuCreateCheckboxItem(a,J.i18n.GT._("All"),c,null,1==this.updateMode&&this.configurationSelected.equals(c),!1);for(var d=0;d<b;d++){var c="configuration "+(d+1)+"; hide thisModel and not selected ##CONFIG",e=""+(d+1)+' -- "'+this.altlocs.charAt(d)+'"';this.menuCreateCheckboxItem(a,e,c,null,1==this.updateMode&&this.configurationSelected.equals(c),!1)}}},$fz.isPrivate=!0,$fz));$_M(c$,"updateModelSetComputedMenu",($fz=function(){var a=this.htMenus.get("modelSetMenu");if(null!=a&&(this.menuRemoveAll(a,
+0),this.menuSetLabel(a,this.nullModelSetName),this.menuEnable(a,!1),this.menuEnable(this.htMenus.get("surfaceMenu"),!this.isZapped),this.menuEnable(this.htMenus.get("measureMenu"),!this.isZapped),this.menuEnable(this.htMenus.get("pickingMenu"),!this.isZapped),this.menuEnable(this.htMenus.get("computationMenu"),!this.isZapped),!(null==this.modelSetName||this.isZapped))){this.isMultiFrame?(this.modelSetName=J.i18n.GT._(this.getMenuText("modelSetCollectionText"),this.modelCount),this.modelSetName.length>
+this.titleWidthMax&&(this.modelSetName=this.modelSetName.substring(0,this.titleWidthMax)+"...")):this.viewer.getBooleanProperty("hideNameInPopup")?this.modelSetName=this.getMenuText("hiddenModelSetText"):this.modelSetName.length>this.titleWidthMax&&(this.modelSetName=this.modelSetName.substring(0,this.titleWidthMax)+"...");this.menuSetLabel(a,this.modelSetName);this.menuEnable(a,!0);this.menuEnable(this.htMenus.get("computationMenu"),100>=this.atomCount);this.addMenuItem(a,J.i18n.GT._(this.getMenuText("atomsText"),
+this.atomCount));this.addMenuItem(a,J.i18n.GT._(this.getMenuText("bondsText"),this.viewer.getBondCountInModel(this.modelIndex)));if(this.isPDB){this.menuAddSeparator(a);this.addMenuItem(a,J.i18n.GT._(this.getMenuText("groupsText"),this.viewer.getGroupCountInModel(this.modelIndex)));this.addMenuItem(a,J.i18n.GT._(this.getMenuText("chainsText"),this.viewer.getChainCountInModel(this.modelIndex)));this.addMenuItem(a,J.i18n.GT._(this.getMenuText("polymersText"),this.viewer.getPolymerCountInModel(this.modelIndex)));
+var b=this.htMenus.get("BiomoleculesMenu");null==b&&(b=this.menuNewSubMenu(J.i18n.GT._(this.getMenuText("biomoleculesMenuText")),this.menuGetId(a)+".biomolecules"),this.menuAddSubMenu(a,b));this.menuRemoveAll(b,0);this.menuEnable(b,!1);var c;if(0<=this.modelIndex&&null!=(c=this.viewer.getModelAuxiliaryInfoValue(this.modelIndex,"biomolecules"))){this.menuEnable(b,!0);for(var d=c.size(),e=0;e<d;e++){var f=this.isMultiFrame?"":'save orientation;load "" FILTER "biomolecule '+(e+1)+'";restore orientation;',
+g=c.get(e).get("atomCount").intValue(),g=J.i18n.GT._(this.getMenuText(this.isMultiFrame?"biomoleculeText":"loadBiomoleculeText"),[Integer.$valueOf(e+1),Integer.$valueOf(g)]);this.menuCreateItem(b,g,f,null)}}}this.isApplet&&!this.viewer.getBooleanProperty("hideNameInPopup")&&(this.menuAddSeparator(a),this.menuCreateItem(a,J.i18n.GT._(this.getMenuText("viewMenuText"),this.modelSetFileName),"show url",null))}},$fz.isPrivate=!0,$fz));$_M(c$,"getModelLabel",($fz=function(){return J.i18n.GT._(this.getMenuText("modelMenuText"),
+this.modelIndex+1+"/"+this.modelCount)},$fz.isPrivate=!0,$fz));$_M(c$,"updateAboutSubmenu",($fz=function(){var a=this.htMenus.get("aboutComputedMenu");if(null!=a){this.menuRemoveAll(a,this.aboutComputedMenuBaseCount);var b=this.menuNewSubMenu("About molecule","modelSetMenu");this.menuAddSubMenu(a,b);this.htMenus.put("modelSetMenu",b);this.updateModelSetComputedMenu();b=this.menuNewSubMenu("Jmol "+J.viewer.JC.version+(this.isSigned?" (signed)":""),"aboutJmolMenu");this.menuAddSubMenu(a,b);this.htMenus.put("aboutJmolMenu",
+b);this.addMenuItem(b,J.viewer.JC.date);this.menuCreateItem(b,"http://www.jmol.org",'show url "http://www.jmol.org"',null);this.menuCreateItem(b,J.i18n.GT._("Mouse Manual"),'show url "http://wiki.jmol.org/index.php/Mouse_Manual"',null);this.menuCreateItem(b,J.i18n.GT._("Translations"),'show url "http://wiki.jmol.org/index.php/Internationalisation"',null);b=this.menuNewSubMenu(J.i18n.GT._("System"),"systemMenu");this.menuAddSubMenu(a,b);this.htMenus.put("systemMenu",b);this.addMenuItem(b,this.viewer.getOperatingSystemName());
+this.menuAddSeparator(b);this.addMenuItem(b,J.i18n.GT._("Java version:"));this.addMenuItem(b,this.viewer.getJavaVendor());this.addMenuItem(b,this.viewer.getJavaVersion())}},$fz.isPrivate=!0,$fz));$_M(c$,"updateLanguageSubmenu",($fz=function(){var a=this.htMenus.get("languageComputedMenu");if(null!=a){this.menuRemoveAll(a,0);for(var b=J.i18n.GT.getLanguage(),c=this.menuGetId(a),d=J.i18n.GT.getLanguageList(null),e=0,f=0;e<d.length;e++)if(b.equals(d[e].code)&&(d[e].display=!0),d[e].display){var g=d[e].code,
+h=d[e].language,j=d[e].nativeLanguage,k=g+" - "+J.i18n.GT._(h);null!=j&&!j.equals(J.i18n.GT._(h))&&(k+=" - "+j);0<f++&&1==f%4&&this.menuAddSeparator(a);this.menuCreateCheckboxItem(a,k,'language = "'+g+'" ##'+h,c+"."+g,b.equals(g),!1)}}},$fz.isPrivate=!0,$fz));$_M(c$,"convertToMegabytes",($fz=function(a){9223372036854251E3>=a&&(a+=524288);return Clazz.doubleToInt(a/1048576)},$fz.isPrivate=!0,$fz),"~N");$_M(c$,"updateForShow",($fz=function(){-1!=this.updateMode&&(this.getViewerData(),this.updateMode=
+2,this.updateSelectMenu(),this.updateSpectraMenu(),this.updateFRAMESbyModelComputedMenu(),this.updateSceneComputedMenu(),this.updateModelSetComputedMenu(),this.updateAboutSubmenu())},$fz.isPrivate=!0,$fz));$_M(c$,"setFrankMenu",($fz=function(a){if(!(null!=this.currentFrankId&&this.currentFrankId===a&&0<this.nFrankList)&&(null==this.frankPopup&&(this.frankPopup=this.menuCreatePopup("Frank")),this.thisPopup=this.frankPopup,this.menuRemoveAll(this.frankPopup,0),null!=a)){this.currentFrankId=a;this.nFrankList=
+0;this.frankList[this.nFrankList++]=[null,null,null];this.menuCreateItem(this.frankPopup,this.getMenuText("mainMenuText"),"MAIN","");for(var b=a.indexOf(".",2)+1;;){var c=a.indexOf(".",b);if(0>c)break;b=a.substring(b,c);b=this.htMenus.get(b);this.frankList[this.nFrankList++]=[this.menuGetParent(b),b,Integer.$valueOf(this.menuGetPosition(b))];this.menuAddSubMenu(this.frankPopup,b);b=c+1}this.thisPopup=this.popupMenu}},$fz.isPrivate=!0,$fz),"~S");$_M(c$,"show",($fz=function(a,b,c){this.thisx=a;this.thisy=
+b;this.updateForShow();var d;for(a=this.htCheckbox.entrySet().iterator();a.hasNext()&&((d=a.next())||1);){var e=d.getKey();b=d.getValue();e=e.substring(0,e.indexOf(":"));e=this.viewer.getBooleanProperty(e);this.menuSetCheckBoxState(b,e)}c&&this.menuShowPopup(this.popupMenu,this.thisx,this.thisy)},$fz.isPrivate=!0,$fz),"~N,~N,~B");Clazz.defineStatics(c$,"dumpList",!1,"UPDATE_NEVER",-1,"UPDATE_ALL",0,"UPDATE_CONFIG",1,"UPDATE_SHOW",2,"MENUITEM_HEIGHT",20)});Clazz.declarePackage("J.awtjs2d");
+Clazz.load(["J.popup.GenericPopup"],"J.awtjs2d.JSPopup",null,function(){c$=Clazz.declareType(J.awtjs2d,"JSPopup",J.popup.GenericPopup);Clazz.makeConstructor(c$,function(){Clazz.superConstructor(this,J.awtjs2d.JSPopup,[])});$_M(c$,"updateButton",function(a,b,c){b=[b];var d=this.getEntryIcon(b);b=b[0];null!=d&&a.setIcon(d);null!=b&&a.setText(b);null!=c&&a.setActionCommand(c);this.thisPopup.tainted=!0},"~O,~S,~S");$_M(c$,"newMenuItem",($fz=function(a,b,c,d,e){this.updateButton(b,c,d);null!=e&&e.startsWith("Focus")&&
+(b.addMouseListener(this),e=a.getName()+"."+e);b.setName(null==e?a.getName()+".":e);this.menuAddItem(a,b);return b},$fz.isPrivate=!0,$fz),"~O,~O,~S,~S,~S");Clazz.overrideMethod(c$,"menuAddButtonGroup",function(a){null==this.buttonGroup&&(this.buttonGroup=new Jmol.Menu.ButtonGroup(this.thisPopup));this.buttonGroup.add(a)},"~O");Clazz.overrideMethod(c$,"menuAddItem",function(a,b){a.add(b);this.thisPopup.tainted=!0},"~O,~O");Clazz.overrideMethod(c$,"menuAddSeparator",function(a){a.add(new Jmol.Menu.MenuItem(this.thisPopup,
+null,!1,!1));this.thisPopup.tainted=!0},"~O");Clazz.overrideMethod(c$,"menuAddSubMenu",function(a,b){this.menuAddItem(a,b)},"~O,~O");Clazz.overrideMethod(c$,"menuClearListeners",function(){},"~O");Clazz.overrideMethod(c$,"menuCreateCheckboxItem",function(a,b,c,d,e,f){var g=null,g=new Jmol.Menu.MenuItem(this.thisPopup,b,!f,f);g.setSelected(e);g.addItemListener(this);return this.newMenuItem(a,g,b,c,d)},"~O,~S,~S,~S,~B,~B");Clazz.overrideMethod(c$,"menuCreateItem",function(a,b,c,d){var e=null,e=new Jmol.Menu.MenuItem(this.thisPopup,
+b);e.addActionListener(this);return this.newMenuItem(a,e,b,c,d)},"~O,~S,~S,~S");Clazz.overrideMethod(c$,"menuCreatePopup",function(a){return new Jmol.Menu.PopupMenu(this.viewer.applet,a)},"~S");Clazz.overrideMethod(c$,"menuEnable",function(a,b){if(a.isItem)this.menuEnableItem(a,b);else{try{a.setEnabled(b)}catch(c){}this.thisPopup.tainted=!0}},"~O,~B");Clazz.overrideMethod(c$,"menuEnableItem",function(a,b){try{a.setEnabled(b)}catch(c){}this.thisPopup.tainted=!0},"~O,~B");Clazz.overrideMethod(c$,"menuGetAsText",
+function(a,b,c,d){c=c.getComponents();for(var e=0;e<c.length;e++){var f=c[e],g=null;if(f.isMenu)d=f.getName(),g="enabled:"+f.isEnabled(),this.addItemText(a,"M",b,d,f.getText(),null,g),this.menuGetAsText(a,b+1,f.getPopupMenu(),d);else if(f.isItem){g="enabled:"+f.isEnabled();f.isCheckBox&&(g+=";checked:"+f.getState());var h=this.fixScript(f.getName(),f.getActionCommand());this.addItemText(a,"I",b,f.getName(),f.getText(),h,g)}else this.addItemText(a,"S",b,d,null,null,null)}},"J.util.SB,~N,~O,~S");Clazz.overrideMethod(c$,
+"menuGetId",function(a){return a.getName()},"~O");Clazz.overrideMethod(c$,"menuGetItemCount",function(a){return a.getItemCount()},"~O");Clazz.overrideMethod(c$,"menuGetParent",function(a){return a.getParent()},"~O");Clazz.overrideMethod(c$,"menuGetPosition",function(a){var b=menuGetParent(a);if(null!=b)for(var c=b.getItemCount();0<=--c;)if(b.getItem(c)==a)return;c;return-1},"~O");Clazz.overrideMethod(c$,"menuInsertSubMenu",function(){},"~O,~O,~N");Clazz.overrideMethod(c$,"menuNewSubMenu",function(a,
+b){var c=new Jmol.Menu.SubMenu(this.thisPopup,a);this.updateButton(c,a,null);c.setName(b);c.setAutoscrolls(!0);return c},"~S,~S");Clazz.overrideMethod(c$,"menuRemoveAll",function(a,b){a.removeAll(b);this.thisPopup.tainted=!0},"~O,~N");Clazz.overrideMethod(c$,"menuSetAutoscrolls",function(a){a.setAutoscrolls(!0);this.thisPopup.tainted=!0},"~O");Clazz.overrideMethod(c$,"menuSetCheckBoxState",function(a,b){a.setSelected(b);this.thisPopup.tainted=!0},"~O,~B");Clazz.overrideMethod(c$,"menuSetCheckBoxOption",
+function(){return null},"~O,~S,~S");Clazz.overrideMethod(c$,"menuSetCheckBoxValue",function(a){this.setCheckBoxValue(a,a.getActionCommand(),a.isSelected());this.thisPopup.tainted=!0},"~O");Clazz.overrideMethod(c$,"menuSetLabel",function(a,b){a.setText(b);this.thisPopup.tainted=!0},"~O,~S");Clazz.overrideMethod(c$,"menuSetListeners",function(){});Clazz.overrideMethod(c$,"menuShowPopup",function(a,b,c){a.menuShowPopup(b,c)},"~O,~N,~N")});Clazz.declarePackage("J.awtjs2d");
+Clazz.load(["J.awtjs2d.JSPopup"],"J.awtjs2d.JSmolPopup",["J.i18n.GT","J.popup.MainPopupResourceBundle"],function(){c$=Clazz.declareType(J.awtjs2d,"JSmolPopup",J.awtjs2d.JSPopup);Clazz.makeConstructor(c$,function(){Clazz.superConstructor(this,J.awtjs2d.JSmolPopup,[])});Clazz.overrideMethod(c$,"jpiInitialize",function(a,b){var c=J.i18n.GT.setDoTranslate(!0),d=new J.popup.MainPopupResourceBundle(this.strMenuStructure=b,this.menuText);this.initialize(a,d,d.getMenuName());J.i18n.GT.setDoTranslate(c)},
+"J.viewer.Viewer,~S")});Clazz.declarePackage("J.popup");
+Clazz.load(null,"J.popup.PopupResource",["java.io.BufferedReader","$.StringReader","java.util.Properties","J.i18n.GT"],function(){c$=Clazz.decorateAsClass(function(){this.words=this.structure=null;Clazz.instantialize(this,arguments)},J.popup,"PopupResource");Clazz.makeConstructor(c$,function(a,b){this.structure=new java.util.Properties;this.words=new java.util.Properties;this.buildStructure(a);this.localize(null!=a,b)},"~S,java.util.Properties");$_M(c$,"getMenuAsText",function(){return null},"~S");
+$_M(c$,"getStructure",function(a){return this.structure.getProperty(a)},"~S");$_M(c$,"getWord",function(a){var b=this.words.getProperty(a);return null==b?a:b},"~S");$_M(c$,"setStructure",function(a){if(null!=a){a=new java.io.BufferedReader(new java.io.StringReader(a));var b,c;try{for(;null!=(b=a.readLine());)if(!(0==b.length||"#"==b.charAt(0))){c=b.indexOf("=");0>c&&(c=b.length,b+="=");var d=b.substring(0,c).trim(),e=b.substring(c+1).trim(),f=null;if(0<=(c=d.indexOf("|")))f=d.substring(c+1).trim(),
+d=d.substring(0,c).trim();0!=d.length&&(0<e.length&&this.structure.setProperty(d,e),null!=f&&0<f.length&&this.words.setProperty(d,J.i18n.GT._(f)))}}catch(g){if(!Clazz.exceptionOf(g,Exception))throw g;}try{a.close()}catch(h){if(!Clazz.exceptionOf(h,Exception))throw h;}}},"~S");$_M(c$,"addItems",function(a){for(var b="",c=0;c<a.length;c++){var d=a[c][1];null==d&&(d=b);b=d;this.structure.setProperty(a[c][0],d)}},"~A");$_M(c$,"localize",($fz=function(a,b){for(var c=this.getWordContents(),d=0;d<c.length;d++){var e=
+c[d++],f=this.words.getProperty(e);null==f&&(f=c[d]);this.words.setProperty(e,f);null!=b&&0<=e.indexOf("Text")&&b.setProperty(e,f)}},$fz.isPrivate=!0,$fz),"~B,java.util.Properties")});Clazz.declarePackage("J.popup");
+Clazz.load(["J.popup.PopupResource"],"J.popup.MainPopupResourceBundle",["J.i18n.GT","J.util.SB","$.TextFormat"],function(){c$=Clazz.declareType(J.popup,"MainPopupResourceBundle",J.popup.PopupResource);Clazz.overrideMethod(c$,"getMenuName",function(){return"popupMenu"});Clazz.overrideMethod(c$,"buildStructure",function(a){this.addItems(J.popup.MainPopupResourceBundle.menuContents);this.addItems(J.popup.MainPopupResourceBundle.structureContents);this.setStructure(a)},"~S");c$.Box=$_M(c$,"Box",($fz=
+function(a){return"if (showBoundBox or showUnitcell) {"+a+"} else {boundbox on;"+a+";boundbox off}"},$fz.isPrivate=!0,$fz),"~S");Clazz.overrideMethod(c$,"getWordContents",function(){var a=J.i18n.GT.setDoTranslate(!0),b=["modelSetMenu",J.i18n.GT._("No atoms loaded"),"configurationComputedMenu",J.i18n.GT._("Configurations"),"elementsComputedMenu",J.i18n.GT._("Element"),"FRAMESbyModelComputedMenu",J.i18n.GT._("Model/Frame"),"languageComputedMenu",J.i18n.GT._("Language"),"PDBaaResiduesComputedMenu",J.i18n.GT._("By Residue Name"),
+"PDBnucleicResiduesComputedMenu",J.i18n.GT._("By Residue Name"),"PDBcarboResiduesComputedMenu",J.i18n.GT._("By Residue Name"),"PDBheteroComputedMenu",J.i18n.GT._("By HETATM"),"surfMoComputedMenuText",J.i18n.GT._("Molecular Orbitals ({0})"),"SYMMETRYSelectComputedMenu",J.i18n.GT._("Symmetry"),"SYMMETRYShowComputedMenu",J.i18n.GT._("Space Group"),"SYMMETRYhide",J.i18n.GT._("Hide Symmetry"),"hiddenModelSetText",J.i18n.GT._("Model information"),"selectMenuText",J.i18n.GT._("Select ({0})"),"allModelsText",
+J.i18n.GT._("All {0} models"),"configurationMenuText",J.i18n.GT._("Configurations ({0})"),"modelSetCollectionText",J.i18n.GT._("Collection of {0} models"),"atomsText",J.i18n.GT._("atoms: {0}"),"bondsText",J.i18n.GT._("bonds: {0}"),"groupsText",J.i18n.GT._("groups: {0}"),"chainsText",J.i18n.GT._("chains: {0}"),"polymersText",J.i18n.GT._("polymers: {0}"),"modelMenuText",J.i18n.GT._("model {0}"),"viewMenuText",J.i18n.GT._("View {0}"),"mainMenuText",J.i18n.GT._("Main Menu"),"biomoleculesMenuText",J.i18n.GT._("Biomolecules"),
+"biomoleculeText",J.i18n.GT._("biomolecule {0} ({1} atoms)"),"loadBiomoleculeText",J.i18n.GT._("load biomolecule {0} ({1} atoms)"),"selectAll",J.i18n.GT._("All"),"selectNone",J.i18n.GT._("None"),"hideNotSelectedCB",J.i18n.GT._("Display Selected Only"),"invertSelection",J.i18n.GT._("Invert Selection"),"viewMenu",J.i18n.GT._("View"),"front",J.i18n.GT._("Front"),"left",J.i18n.GT._("Left"),"right",J.i18n.GT._("Right"),"top",J.util.TextFormat.split(J.i18n.GT._('Top[as in "view from the top, from above" - (translators: remove this bracketed part]'),
+"[")[0],"bottom",J.i18n.GT._("Bottom"),"back",J.i18n.GT._("Back"),"sceneComputedMenu",J.i18n.GT._("Scenes"),"PDBproteinMenu",J.i18n.GT._("Protein"),"allProtein",J.i18n.GT._("All"),"proteinBackbone",J.i18n.GT._("Backbone"),"proteinSideChains",J.i18n.GT._("Side Chains"),"polar",J.i18n.GT._("Polar Residues"),"nonpolar",J.i18n.GT._("Nonpolar Residues"),"positiveCharge",J.i18n.GT._("Basic Residues (+)"),"negativeCharge",J.i18n.GT._("Acidic Residues (-)"),"noCharge",J.i18n.GT._("Uncharged Residues"),"PDBnucleicMenu",
+J.i18n.GT._("Nucleic"),"allNucleic",J.i18n.GT._("All"),"DNA",J.i18n.GT._("DNA"),"RNA",J.i18n.GT._("RNA"),"nucleicBackbone",J.i18n.GT._("Backbone"),"nucleicBases",J.i18n.GT._("Bases"),"atPairs",J.i18n.GT._("AT pairs"),"gcPairs",J.i18n.GT._("GC pairs"),"auPairs",J.i18n.GT._("AU pairs"),"PDBheteroMenu",J.i18n.GT._("Hetero"),"allHetero",J.i18n.GT._('All PDB "HETATM"'),"Solvent",J.i18n.GT._("All Solvent"),"Water",J.i18n.GT._("All Water"),"nonWaterSolvent",J.i18n.GT._("Nonaqueous Solvent")+" (solvent and not water)",
+"exceptWater",J.i18n.GT._("Nonaqueous HETATM")+" (hetero and not water)","Ligand",J.i18n.GT._("Ligand"),"allCarbo",J.i18n.GT._("All"),"PDBcarboMenu",J.i18n.GT._("Carbohydrate"),"PDBnoneOfTheAbove",J.i18n.GT._("None of the above"),"renderMenu",J.i18n.GT._("Style"),"renderSchemeMenu",J.i18n.GT._("Scheme"),"renderCpkSpacefill",J.i18n.GT._("CPK Spacefill"),"renderBallAndStick",J.i18n.GT._("Ball and Stick"),"renderSticks",J.i18n.GT._("Sticks"),"renderWireframe",J.i18n.GT._("Wireframe"),"PDBrenderCartoonsOnly",
+J.i18n.GT._("Cartoon"),"PDBrenderTraceOnly",J.i18n.GT._("Trace"),"atomMenu",J.i18n.GT._("Atoms"),"atomNone",J.i18n.GT._("Off"),"atom15",J.i18n.GT._("{0}% van der Waals","15"),"atom20",J.i18n.GT._("{0}% van der Waals","20"),"atom25",J.i18n.GT._("{0}% van der Waals","25"),"atom50",J.i18n.GT._("{0}% van der Waals","50"),"atom75",J.i18n.GT._("{0}% van der Waals","75"),"atom100",J.i18n.GT._("{0}% van der Waals","100"),"bondMenu",J.i18n.GT._("Bonds"),"bondNone",J.i18n.GT._("Off"),"bondWireframe",J.i18n.GT._("On"),
+"bond100",J.i18n.GT._("{0} \u00c5","0.10"),"bond150",J.i18n.GT._("{0} \u00c5","0.15"),"bond200",J.i18n.GT._("{0} \u00c5","0.20"),"bond250",J.i18n.GT._("{0} \u00c5","0.25"),"bond300",J.i18n.GT._("{0} \u00c5","0.30"),"hbondMenu",J.i18n.GT._("Hydrogen Bonds"),"hbondNone",J.i18n.GT._("Off"),"hbondCalc",J.i18n.GT._("Calculate"),"hbondWireframe",J.i18n.GT._("On"),"PDBhbondSidechain",J.i18n.GT._("Set H-Bonds Side Chain"),"PDBhbondBackbone",J.i18n.GT._("Set H-Bonds Backbone"),"hbond100",J.i18n.GT._("{0} \u00c5",
+"0.10"),"hbond150",J.i18n.GT._("{0} \u00c5","0.15"),"hbond200",J.i18n.GT._("{0} \u00c5","0.20"),"hbond250",J.i18n.GT._("{0} \u00c5","0.25"),"hbond300",J.i18n.GT._("{0} \u00c5","0.30"),"ssbondMenu",J.i18n.GT._("Disulfide Bonds"),"ssbondNone",J.i18n.GT._("Off"),"ssbondWireframe",J.i18n.GT._("On"),"PDBssbondSidechain",J.i18n.GT._("Set SS-Bonds Side Chain"),"PDBssbondBackbone",J.i18n.GT._("Set SS-Bonds Backbone"),"ssbond100",J.i18n.GT._("{0} \u00c5","0.10"),"ssbond150",J.i18n.GT._("{0} \u00c5","0.15"),
+"ssbond200",J.i18n.GT._("{0} \u00c5","0.20"),"ssbond250",J.i18n.GT._("{0} \u00c5","0.25"),"ssbond300",J.i18n.GT._("{0} \u00c5","0.30"),"PDBstructureMenu",J.i18n.GT._("Structures"),"structureNone",J.i18n.GT._("Off"),"backbone",J.i18n.GT._("Backbone"),"cartoon",J.i18n.GT._("Cartoon"),"cartoonRockets",J.i18n.GT._("Cartoon Rockets"),"ribbons",J.i18n.GT._("Ribbons"),"rockets",J.i18n.GT._("Rockets"),"strands",J.i18n.GT._("Strands"),"trace",J.i18n.GT._("Trace"),"VIBRATIONMenu",J.i18n.GT._("Vibration"),"vibrationOff",
+J.i18n.GT._("Off"),"vibrationOn",J.i18n.GT._("On"),"vibration20","*2","vibration05","/2","VIBRATIONvectorMenu",J.i18n.GT._("Vectors"),"spectraMenu",J.i18n.GT._("Spectra"),"hnmrMenu",J.i18n.GT._("1H-NMR"),"cnmrMenu",J.i18n.GT._("13C-NMR"),"vectorOff",J.i18n.GT._("Off"),"vectorOn",J.i18n.GT._("On"),"vector3",J.i18n.GT._("{0} pixels","3"),"vector005",J.i18n.GT._("{0} \u00c5","0.05"),"vector01",J.i18n.GT._("{0} \u00c5","0.10"),"vectorScale02",J.i18n.GT._("Scale {0}","0.2"),"vectorScale05",J.i18n.GT._("Scale {0}",
+"0.5"),"vectorScale1",J.i18n.GT._("Scale {0}","1"),"vectorScale2",J.i18n.GT._("Scale {0}","2"),"vectorScale5",J.i18n.GT._("Scale {0}","5"),"stereoMenu",J.i18n.GT._("Stereographic"),"stereoNone",J.i18n.GT._("None"),"stereoRedCyan",J.i18n.GT._("Red+Cyan glasses"),"stereoRedBlue",J.i18n.GT._("Red+Blue glasses"),"stereoRedGreen",J.i18n.GT._("Red+Green glasses"),"stereoCrossEyed",J.i18n.GT._("Cross-eyed viewing"),"stereoWallEyed",J.i18n.GT._("Wall-eyed viewing"),"labelMenu",J.i18n.GT._("Labels"),"labelNone",
+J.i18n.GT._("None"),"labelSymbol",J.i18n.GT._("With Element Symbol"),"labelName",J.i18n.GT._("With Atom Name"),"labelNumber",J.i18n.GT._("With Atom Number"),"labelPositionMenu",J.i18n.GT._("Position Label on Atom"),"labelCentered",J.i18n.GT._("Centered"),"labelUpperRight",J.i18n.GT._("Upper Right"),"labelLowerRight",J.i18n.GT._("Lower Right"),"labelUpperLeft",J.i18n.GT._("Upper Left"),"labelLowerLeft",J.i18n.GT._("Lower Left"),"colorMenu",J.i18n.GT._("Color"),"[color_atoms]Menu",J.i18n.GT._("Atoms"),
+"schemeMenu",J.i18n.GT._("By Scheme"),"cpk",J.i18n.GT._("Element (CPK)"),"altloc#PDB",J.i18n.GT._("Alternative Location"),"molecule",J.i18n.GT._("Molecule"),"formalcharge",J.i18n.GT._("Formal Charge"),"partialcharge#CHARGE",J.i18n.GT._("Partial Charge"),"relativeTemperature#BFACTORS",J.i18n.GT._("Temperature (Relative)"),"fixedTemperature#BFACTORS",J.i18n.GT._("Temperature (Fixed)"),"amino#PDB",J.i18n.GT._("Amino Acid"),"structure#PDB",J.i18n.GT._("Secondary Structure"),"chain#PDB",J.i18n.GT._("Chain"),
+"group#PDB",J.i18n.GT._("Group"),"monomer#PDB",J.i18n.GT._("Monomer"),"shapely#PDB",J.i18n.GT._("Shapely"),"none",J.i18n.GT._("Inherit"),"black",J.i18n.GT._("Black"),"white",J.i18n.GT._("White"),"cyan",J.i18n.GT._("Cyan"),"red",J.i18n.GT._("Red"),"orange",J.i18n.GT._("Orange"),"yellow",J.i18n.GT._("Yellow"),"green",J.i18n.GT._("Green"),"blue",J.i18n.GT._("Blue"),"indigo",J.i18n.GT._("Indigo"),"violet",J.i18n.GT._("Violet"),"salmon",J.i18n.GT._("Salmon"),"olive",J.i18n.GT._("Olive"),"maroon",J.i18n.GT._("Maroon"),
+"gray",J.i18n.GT._("Gray"),"slateblue",J.i18n.GT._("Slate Blue"),"gold",J.i18n.GT._("Gold"),"orchid",J.i18n.GT._("Orchid"),"opaque",J.i18n.GT._("Make Opaque"),"translucent",J.i18n.GT._("Make Translucent"),"[color_bonds]Menu",J.i18n.GT._("Bonds"),"[color_hbonds]Menu",J.i18n.GT._("Hydrogen Bonds"),"[color_ssbonds]Menu",J.i18n.GT._("Disulfide Bonds"),"colorPDBStructuresMenu",J.i18n.GT._("Structures"),"[color_backbone]Menu",J.i18n.GT._("Backbone"),"[color_trace]Menu",J.i18n.GT._("Trace"),"[color_cartoon]sMenu",
+J.i18n.GT._("Cartoon"),"[color_ribbon]sMenu",J.i18n.GT._("Ribbons"),"[color_rockets]Menu",J.i18n.GT._("Rockets"),"[color_strands]Menu",J.i18n.GT._("Strands"),"[color_labels]Menu",J.i18n.GT._("Labels"),"[color_background]Menu",J.i18n.GT._("Background"),"[color_isosurface]Menu",J.i18n.GT._("Surfaces"),"[color_vectors]Menu",J.i18n.GT._("Vectors"),"[color_axes]Menu",J.i18n.GT._("Axes"),"[color_boundbox]Menu",J.i18n.GT._("Boundbox"),"[color_UNITCELL]Menu",J.i18n.GT._("Unit cell"),"zoomMenu",J.i18n.GT._("Zoom"),
+"zoom50","50%","zoom100","100%","zoom150","150%","zoom200","200%","zoom400","400%","zoom800","800%","zoomIn",J.i18n.GT._("Zoom In"),"zoomOut",J.i18n.GT._("Zoom Out"),"spinMenu",J.i18n.GT._("Spin"),"spinOn",J.i18n.GT._("On"),"spinOff",J.i18n.GT._("Off"),"[set_spin_X]Menu",J.i18n.GT._("Set X Rate"),"[set_spin_Y]Menu",J.i18n.GT._("Set Y Rate"),"[set_spin_Z]Menu",J.i18n.GT._("Set Z Rate"),"[set_spin_FPS]Menu",J.i18n.GT._("Set FPS"),"s0","0","s5","5","s10","10","s20","20","s30","30","s40","40","s50","50",
+"FRAMESanimateMenu",J.i18n.GT._("Animation"),"animModeMenu",J.i18n.GT._("Animation Mode"),"onceThrough",J.i18n.GT._("Play Once"),"palindrome",J.i18n.GT._("Palindrome"),"loop",J.i18n.GT._("Loop"),"play",J.i18n.GT._("Play"),"pause",J.i18n.GT._("Pause"),"resume",J.i18n.GT._("Resume"),"stop",J.i18n.GT._("Stop"),"nextframe",J.i18n.GT._("Next Frame"),"prevframe",J.i18n.GT._("Previous Frame"),"rewind",J.i18n.GT._("Rewind"),"playrev",J.i18n.GT._("Reverse"),"restart",J.i18n.GT._("Restart"),"FRAMESanimFpsMenu",
+J.i18n.GT._("Set FPS"),"animfps5","5","animfps10","10","animfps20","20","animfps30","30","animfps50","50","measureMenu",J.i18n.GT._("Measurements"),"measureOff",J.i18n.GT._("Double-Click begins and ends all measurements"),"measureDistance",J.i18n.GT._("Click for distance measurement"),"measureAngle",J.i18n.GT._("Click for angle measurement"),"measureTorsion",J.i18n.GT._("Click for torsion (dihedral) measurement"),"PDBmeasureSequence",J.i18n.GT._("Click two atoms to display a sequence in the console"),
+"measureDelete",J.i18n.GT._("Delete measurements"),"measureList",J.i18n.GT._("List measurements"),"distanceNanometers",J.i18n.GT._("Distance units nanometers"),"distanceAngstroms",J.i18n.GT._("Distance units Angstroms"),"distancePicometers",J.i18n.GT._("Distance units picometers"),"pickingMenu",J.i18n.GT._("Set picking"),"pickOff",J.i18n.GT._("Off"),"pickCenter",J.i18n.GT._("Center"),"pickIdent",J.i18n.GT._("Identity"),"pickLabel",J.i18n.GT._("Label"),"pickAtom",J.i18n.GT._("Select atom"),"PDBpickChain",
+J.i18n.GT._("Select chain"),"pickElement",J.i18n.GT._("Select element"),"PDBpickGroup",J.i18n.GT._("Select group"),"pickMolecule",J.i18n.GT._("Select molecule"),"SYMMETRYpickSite",J.i18n.GT._("Select site"),"SYMMETRYpickSymmetry",J.i18n.GT._("Show symmetry operation"),"pickSpin",J.i18n.GT._("Spin"),"showMenu",J.i18n.GT._("Show"),"showConsole",J.i18n.GT._("Console"),"JSConsole","JavaScript Console","showFile",J.i18n.GT._("File Contents"),"showFileHeader",J.i18n.GT._("File Header"),"showHistory",J.i18n.GT._("History"),
+"showIsosurface",J.i18n.GT._("Isosurface JVXL data"),"showMeasure",J.i18n.GT._("Measurements"),"showMo",J.i18n.GT._("Molecular orbital JVXL data"),"showModel",J.i18n.GT._("Model"),"showOrient",J.i18n.GT._("Orientation"),"showSpacegroup",J.i18n.GT._("Space group"),"SYMMETRYshowSymmetry",J.i18n.GT._("Symmetry"),"showState",J.i18n.GT._("Current state"),"fileMenu",J.i18n.GT._("File"),"reload",J.i18n.GT._("Reload"),"SIGNEDloadPdb",J.i18n.GT._("Open from PDB"),"SIGNEDloadFileOrUrl",J.i18n.GT._("Open file or URL"),
+"SIGNEDloadFileUnitCell",J.i18n.GT._("Load full unit cell"),"SIGNEDloadScript",J.i18n.GT._("Open script"),"writeFileTextVARIABLE",J.i18n.GT._("Save a copy of {0}"),"writeState",J.i18n.GT._("Save script with state"),"writeHistory",J.i18n.GT._("Save script with history"),"SIGNEDwriteJpg",J.i18n.GT._("Export {0} image","JPG"),"SIGNEDwritePng",J.i18n.GT._("Export {0} image","PNG"),"SIGNEDwritePngJmol",J.i18n.GT._("Export {0} image","PNG+JMOL"),"SIGNEDwriteGif",J.i18n.GT._("Export {0} image","GIF"),"SIGNEDwritePovray",
+J.i18n.GT._("Export {0} image","POV-Ray"),"SIGNEDwriteJmol",J.i18n.GT._("Save all as JMOL file (zip)"),"SIGNEDwriteIsosurface",J.i18n.GT._("Save JVXL isosurface"),"SIGNEDwriteVrml",J.i18n.GT._("Export {0} 3D model","VRML"),"SIGNEDwriteX3d",J.i18n.GT._("Export {0} 3D model","X3D"),"SIGNEDwriteIdtf",J.i18n.GT._("Export {0} 3D model","IDTF"),"SIGNEDwriteMaya",J.i18n.GT._("Export {0} 3D model","Maya"),"computationMenu",J.i18n.GT._("Computation"),"minimize",J.i18n.GT._("Optimize structure"),"modelkit",
+J.i18n.GT._("Model kit"),"UNITCELLshow",J.i18n.GT._("Unit cell"),"extractMOL",J.i18n.GT._("Extract MOL data"),"surfaceMenu",J.i18n.GT._("Surfaces"),"surfDots",J.i18n.GT._("Dot Surface"),"surfVDW",J.i18n.GT._("van der Waals Surface"),"surfMolecular",J.i18n.GT._("Molecular Surface"),"surfSolvent14",J.i18n.GT._("Solvent Surface ({0}-Angstrom probe)","1.4"),"surfSolventAccessible14",J.i18n.GT._("Solvent-Accessible Surface (VDW + {0} Angstrom)","1.4"),"CHARGEsurfMEP",J.i18n.GT._("Molecular Electrostatic Potential (range ALL)"),
+"CHARGEsurf2MEP",J.i18n.GT._("Molecular Electrostatic Potential (range -0.1 0.1)"),"surfOpaque",J.i18n.GT._("Make Opaque"),"surfTranslucent",J.i18n.GT._("Make Translucent"),"surfOff",J.i18n.GT._("Off"),"FILEUNITMenu",J.i18n.GT._("Symmetry"),"FILEMOLload",J.i18n.GT._("Reload {0}","(molecular)"),"FILEUNITone",J.i18n.GT._("Reload {0}","{1 1 1}"),"FILEUNITnine",J.i18n.GT._("Reload {0}","{444 666 1}"),"FILEUNITnineRestricted",J.i18n.GT._("Reload {0} + Display {1}",["{444 666 1}","555"]),"FILEUNITninePoly",
+J.i18n.GT._("Reload + Polyhedra"),"[set_axes]Menu",J.i18n.GT._("Axes"),"[set_boundbox]Menu",J.i18n.GT._("Boundbox"),"[set_UNITCELL]Menu",J.i18n.GT._("Unit cell"),"off#axes",J.i18n.GT._("Hide"),"dotted",J.i18n.GT._("Dotted"),"byPixelMenu",J.i18n.GT._("Pixel Width"),"1p",J.i18n.GT._("{0} px","1"),"3p",J.i18n.GT._("{0} px","3"),"5p",J.i18n.GT._("{0} px","5"),"10p",J.i18n.GT._("{0} px","10"),"byAngstromMenu",J.i18n.GT._("Angstrom Width"),"10a",J.i18n.GT._("{0} \u00c5","0.10"),"20a",J.i18n.GT._("{0} \u00c5",
+"0.20"),"25a",J.i18n.GT._("{0} \u00c5","0.25"),"50a",J.i18n.GT._("{0} \u00c5","0.50"),"100a",J.i18n.GT._("{0} \u00c5","1.0"),"showSelectionsCB",J.i18n.GT._("Selection Halos"),"showHydrogensCB",J.i18n.GT._("Show Hydrogens"),"showMeasurementsCB",J.i18n.GT._("Show Measurements"),"perspectiveDepthCB",J.i18n.GT._("Perspective Depth"),"showBoundBoxCB",J.i18n.GT._("Boundbox"),"showAxesCB",J.i18n.GT._("Axes"),"showUNITCELLCB",J.i18n.GT._("Unit cell"),"colorrasmolCB",J.i18n.GT._("RasMol Colors"),"aboutComputedMenu",
+J.i18n.GT._("About..."),"APPLETjmolUrl","http://www.jmol.org","APPLETmouseManualUrl",J.i18n.GT._("Mouse Manual"),"APPLETtranslationUrl",J.i18n.GT._("Translations")];J.i18n.GT.setDoTranslate(a);return b});Clazz.overrideMethod(c$,"getMenuAsText",function(a){return"# Jmol.mnu "+a+"\n\n# Part I -- Menu Structure\n# ------------------------\n\n"+this.dumpStructure(J.popup.MainPopupResourceBundle.menuContents)+"\n\n# Part II -- Key Definitions\n# --------------------------\n\n"+this.dumpStructure(J.popup.MainPopupResourceBundle.structureContents)+
+"\n\n# Part III -- Word Translations\n# -----------------------------\n\n"+this.dumpWords()},"~S");$_M(c$,"dumpWords",($fz=function(){for(var a=this.getWordContents(),b=new J.util.SB,c=0;c<a.length;c++){var d=a[c++];null==this.structure.getProperty(d)&&b.append(d).append(" | ").append(a[c]).appendC("\n")}return b.toString()},$fz.isPrivate=!0,$fz));$_M(c$,"dumpStructure",($fz=function(a){for(var b="",c=new J.util.SB,d=0;d<a.length;d++){var e=a[d][0],f=this.words.getProperty(e);null!=f&&(e+=" | "+f);
+c.append(e).append(" = ").append(null==a[d][1]?b:b=a[d][1]).appendC("\n")}return c.toString()},$fz.isPrivate=!0,$fz),"~A");Clazz.defineStatics(c$,"MENU_NAME","popupMenu");c$.menuContents=c$.prototype.menuContents=[["@COLOR","black white red orange yellow green cyan blue indigo violet"],["@AXESCOLOR","gray salmon maroon olive slateblue gold orchid"],["popupMenu","FRAMESbyModelComputedMenu configurationComputedMenu - selectMenuText viewMenu renderMenu colorMenu - surfaceMenu FILEUNITMenu - sceneComputedMenu zoomMenu spinMenu VIBRATIONMenu spectraMenu FRAMESanimateMenu - measureMenu pickingMenu - showConsole JSConsole showMenu fileMenu computationMenu - languageComputedMenu aboutComputedMenu"],
+["selectMenuText","hideNotSelectedCB showSelectionsCB - selectAll selectNone invertSelection - elementsComputedMenu SYMMETRYSelectComputedMenu - PDBproteinMenu PDBnucleicMenu PDBheteroMenu PDBcarboMenu PDBnoneOfTheAbove"],["PDBproteinMenu","PDBaaResiduesComputedMenu - allProtein proteinBackbone proteinSideChains - polar nonpolar - positiveCharge negativeCharge noCharge"],["PDBcarboMenu","PDBcarboResiduesComputedMenu - allCarbo"],["PDBnucleicMenu","PDBnucleicResiduesComputedMenu - allNucleic nucleicBackbone nucleicBases - DNA RNA - atPairs auPairs gcPairs"],
+["PDBheteroMenu","PDBheteroComputedMenu - allHetero Solvent Water - Ligand exceptWater nonWaterSolvent"],["viewMenu","front left right top bottom back"],["renderMenu","perspectiveDepthCB showBoundBoxCB showUNITCELLCB showAxesCB stereoMenu - renderSchemeMenu - atomMenu labelMenu bondMenu hbondMenu ssbondMenu - PDBstructureMenu [set_axes]Menu [set_boundbox]Menu [set_UNITCELL]Menu"],["renderSchemeMenu","renderCpkSpacefill renderBallAndStick renderSticks renderWireframe PDBrenderCartoonsOnly PDBrenderTraceOnly"],
+["atomMenu","showHydrogensCB - atomNone - atom15 atom20 atom25 atom50 atom75 atom100"],["bondMenu","bondNone bondWireframe - bond100 bond150 bond200 bond250 bond300"],["hbondMenu","hbondCalc hbondNone hbondWireframe - PDBhbondSidechain PDBhbondBackbone - hbond100 hbond150 hbond200 hbond250 hbond300"],["ssbondMenu","ssbondNone ssbondWireframe - PDBssbondSidechain PDBssbondBackbone - ssbond100 ssbond150 ssbond200 ssbond250 ssbond300"],["PDBstructureMenu","structureNone - backbone cartoon cartoonRockets ribbons rockets strands trace"],
+["VIBRATIONvectorMenu","vectorOff vectorOn vibScale20 vibScale05 vector3 vector005 vector01 - vectorScale02 vectorScale05 vectorScale1 vectorScale2 vectorScale5"],["stereoMenu","stereoNone stereoRedCyan stereoRedBlue stereoRedGreen stereoCrossEyed stereoWallEyed"],["labelMenu","labelNone - labelSymbol labelName labelNumber - labelPositionMenu"],["labelPositionMenu","labelCentered labelUpperRight labelLowerRight labelUpperLeft labelLowerLeft"],["colorMenu","colorrasmolCB - [color_atoms]Menu [color_bonds]Menu [color_hbonds]Menu [color_ssbonds]Menu colorPDBStructuresMenu [color_isosurface]Menu - [color_labels]Menu [color_vectors]Menu - [color_axes]Menu [color_boundbox]Menu [color_UNITCELL]Menu [color_background]Menu"],
+["[color_atoms]Menu","schemeMenu - @COLOR - opaque translucent"],["[color_bonds]Menu","none - @COLOR - opaque translucent"],["[color_hbonds]Menu",null],["[color_ssbonds]Menu",null],["[color_labels]Menu",null],["[color_vectors]Menu",null],["[color_backbone]Menu","none - schemeMenu - @COLOR - opaque translucent"],["[color_cartoon]sMenu",null],["[color_ribbon]sMenu",null],["[color_rockets]Menu",null],["[color_strands]Menu",null],["[color_trace]Menu",null],["[color_background]Menu","@COLOR"],["[color_isosurface]Menu",
+"@COLOR - opaque translucent"],["[color_axes]Menu","@AXESCOLOR"],["[color_boundbox]Menu",null],["[color_UNITCELL]Menu",null],["colorPDBStructuresMenu","[color_backbone]Menu [color_cartoon]sMenu [color_ribbon]sMenu [color_rockets]Menu [color_strands]Menu [color_trace]Menu"],["schemeMenu","cpk - formalcharge partialcharge#CHARGE - altloc#PDB amino#PDB chain#PDB group#PDB molecule monomer#PDB shapely#PDB structure#PDB relativeTemperature#BFACTORS fixedTemperature#BFACTORS"],["zoomMenu","zoom50 zoom100 zoom150 zoom200 zoom400 zoom800 - zoomIn zoomOut"],
+["spinMenu","spinOn spinOff - [set_spin_X]Menu [set_spin_Y]Menu [set_spin_Z]Menu - [set_spin_FPS]Menu"],["VIBRATIONMenu","vibrationOff vibrationOn vibration20 vibration05 VIBRATIONvectorMenu"],["spectraMenu","hnmrMenu cnmrMenu"],["FRAMESanimateMenu","animModeMenu - play pause resume stop - nextframe prevframe rewind - playrev restart - FRAMESanimFpsMenu"],["FRAMESanimFpsMenu","animfps5 animfps10 animfps20 animfps30 animfps50"],["measureMenu","showMeasurementsCB - measureOff measureDistance measureAngle measureTorsion PDBmeasureSequence - measureDelete measureList - distanceNanometers distanceAngstroms distancePicometers"],
+["pickingMenu","pickOff pickCenter pickIdent pickLabel pickAtom pickMolecule pickElement PDBpickChain PDBpickGroup SYMMETRYpickSite pickSpin"],["computationMenu","minimize modelkit"],["showMenu","showHistory showFile showFileHeader - showOrient showMeasure - showSpacegroup showState SYMMETRYshowSymmetry UNITCELLshow - showIsosurface showMo - extractMOL"],["fileMenu","SIGNEDloadFileOrUrl SIGNEDloadPdb SIGNEDloadScript - reload SIGNEDloadFileUnitCell - writeFileTextVARIABLE writeState writeHistory SIGNEDwriteJmol SIGNEDwriteIsosurface - SIGNEDJAVAwriteGif SIGNEDNOGLwriteJpg SIGNEDNOGLwritePng SIGNEDNOGLwritePngJmol SIGNEDJAVAwritePovray - SIGNEDJAVAwriteVrml SIGNEDJAVAwriteX3d SIGNEDJAVAwriteIdtf SIGNEDJAVAwriteMaya"],
+["[set_spin_X]Menu","s0 s5 s10 s20 s30 s40 s50"],["[set_spin_Y]Menu",null],["[set_spin_Z]Menu",null],["[set_spin_FPS]Menu",null],["animModeMenu","onceThrough palindrome loop"],["surfaceMenu","surfDots surfVDW surfSolventAccessible14 surfSolvent14 surfMolecular CHARGEsurf2MEP CHARGEsurfMEP surfMoComputedMenuText - surfOpaque surfTranslucent surfOff"],["FILEUNITMenu","SYMMETRYShowComputedMenu SYMMETRYhide FILEMOLload FILEUNITone FILEUNITnine FILEUNITnineRestricted FILEUNITninePoly"],["[set_axes]Menu",
+"off#axes dotted - byPixelMenu byAngstromMenu"],["[set_boundbox]Menu",null],["[set_UNITCELL]Menu",null],["byPixelMenu","1p 3p 5p 10p"],["byAngstromMenu","10a 20a 25a 50a 100a"],["aboutComputedMenu","- "]];c$.structureContents=c$.prototype.structureContents=[["colorrasmolCB",""],["hideNotSelectedCB","set hideNotSelected true | set hideNotSelected false; hide(none)"],["perspectiveDepthCB",""],["showAxesCB","set showAxes true | set showAxes false;set axesMolecular"],["showBoundBoxCB",""],["showHydrogensCB",
+""],["showMeasurementsCB",""],["showSelectionsCB",""],["showUNITCELLCB",""],["selectAll","SELECT all"],["selectNone","SELECT none"],["invertSelection","SELECT not selected"],["allProtein","SELECT protein"],["proteinBackbone","SELECT protein and backbone"],["proteinSideChains","SELECT protein and not backbone"],["polar","SELECT protein and polar"],["nonpolar","SELECT protein and not polar"],["positiveCharge","SELECT protein and basic"],["negativeCharge","SELECT protein and acidic"],["noCharge","SELECT protein and not (acidic,basic)"],
+["allCarbo","SELECT carbohydrate"],["allNucleic","SELECT nucleic"],["DNA","SELECT dna"],["RNA","SELECT rna"],["nucleicBackbone","SELECT nucleic and backbone"],["nucleicBases","SELECT nucleic and not backbone"],["atPairs","SELECT a,t"],["gcPairs","SELECT g,c"],["auPairs","SELECT a,u"],["A","SELECT a"],["C","SELECT c"],["G","SELECT g"],["T","SELECT t"],["U","SELECT u"],["allHetero","SELECT hetero"],["Solvent","SELECT solvent"],["Water","SELECT water"],["nonWaterSolvent","SELECT solvent and not water"],
+["exceptWater","SELECT hetero and not water"],["Ligand","SELECT ligand"],["PDBnoneOfTheAbove","SELECT not(hetero,protein,nucleic,carbohydrate)"],["front",J.popup.MainPopupResourceBundle.Box("moveto 2.0 front;delay 1")],["left",J.popup.MainPopupResourceBundle.Box("moveto 1.0 front;moveto 2.0 left;delay 1")],["right",J.popup.MainPopupResourceBundle.Box("moveto 1.0 front;moveto 2.0 right;delay 1")],["top",J.popup.MainPopupResourceBundle.Box("moveto 1.0 front;moveto 2.0 top;delay 1")],["bottom",J.popup.MainPopupResourceBundle.Box("moveto 1.0 front;moveto 2.0 bottom;delay 1")],
+["back",J.popup.MainPopupResourceBundle.Box("moveto 1.0 front;moveto 2.0 back;delay 1")],["renderCpkSpacefill","restrict bonds not selected;select not selected;spacefill 100%;color cpk"],["renderBallAndStick","restrict bonds not selected;select not selected;spacefill 23%AUTO;wireframe 0.15;color cpk"],["renderSticks","restrict bonds not selected;select not selected;wireframe 0.3;color cpk"],["renderWireframe","restrict bonds not selected;select not selected;wireframe on;color cpk"],["PDBrenderCartoonsOnly",
+"restrict bonds not selected;select not selected;cartoons on;color structure"],["PDBrenderTraceOnly","restrict bonds not selected;select not selected;trace on;color structure"],["atomNone","cpk off"],["atom15","cpk 15%"],["atom20","cpk 20%"],["atom25","cpk 25%"],["atom50","cpk 50%"],["atom75","cpk 75%"],["atom100","cpk on"],["bondNone","wireframe off"],["bondWireframe","wireframe on"],["bond100","wireframe .1"],["bond150","wireframe .15"],["bond200","wireframe .2"],["bond250","wireframe .25"],["bond300",
+"wireframe .3"],["hbondCalc","hbonds calculate"],["hbondNone","hbonds off"],["hbondWireframe","hbonds on"],["PDBhbondSidechain","set hbonds sidechain"],["PDBhbondBackbone","set hbonds backbone"],["hbond100","hbonds .1"],["hbond150","hbonds .15"],["hbond200","hbonds .2"],["hbond250","hbonds .25"],["hbond300","hbonds .3"],["ssbondNone","ssbonds off"],["ssbondWireframe","ssbonds on"],["PDBssbondSidechain","set ssbonds sidechain"],["PDBssbondBackbone","set ssbonds backbone"],["ssbond100","ssbonds .1"],
+["ssbond150","ssbonds .15"],["ssbond200","ssbonds .2"],["ssbond250","ssbonds .25"],["ssbond300","ssbonds .3"],["structureNone","backbone off;cartoons off;ribbons off;rockets off;strands off;trace off;"],["backbone","restrict not selected;select not selected;backbone 0.3"],["cartoon","restrict not selected;select not selected;set cartoonRockets false;cartoons on"],["cartoonRockets","restrict not selected;select not selected;set cartoonRockets;cartoons on"],["ribbons","restrict not selected;select not selected;ribbons on"],
+["rockets","restrict not selected;select not selected;rockets on"],["strands","restrict not selected;select not selected;strands on"],["trace","restrict not selected;select not selected;trace 0.3"],["vibrationOff","vibration off"],["vibrationOn","vibration on"],["vibration20","vibrationScale *= 2"],["vibration05","vibrationScale /= 2"],["vectorOff","vectors off"],["vectorOn","vectors on"],["vector3","vectors 3"],["vector005","vectors 0.05"],["vector01","vectors 0.1"],["vectorScale02","vector scale 0.2"],
+["vectorScale05","vector scale 0.5"],["vectorScale1","vector scale 1"],["vectorScale2","vector scale 2"],["vectorScale5","vector scale 5"],["stereoNone","stereo off"],["stereoRedCyan","stereo redcyan 3"],["stereoRedBlue","stereo redblue 3"],["stereoRedGreen","stereo redgreen 3"],["stereoCrossEyed","stereo -5"],["stereoWallEyed","stereo 5"],["labelNone","label off"],["labelSymbol","label %e"],["labelName","label %a"],["labelNumber","label %i"],["labelCentered","set labeloffset 0 0"],["labelUpperRight",
+"set labeloffset 4 4"],["labelLowerRight","set labeloffset 4 -4"],["labelUpperLeft","set labeloffset -4 4"],["labelLowerLeft","set labeloffset -4 -4"],["zoom50","zoom 50"],["zoom100","zoom 100"],["zoom150","zoom 150"],["zoom200","zoom 200"],["zoom400","zoom 400"],["zoom800","zoom 800"],["zoomIn","move 0 0 0 40 0 0 0 0 1"],["zoomOut","move 0 0 0 -40 0 0 0 0 1"],["spinOn","spin on"],["spinOff","spin off"],["s0","0"],["s5","5"],["s10","10"],["s20","20"],["s30","30"],["s40","40"],["s50","50"],["onceThrough",
+"anim mode once#"],["palindrome","anim mode palindrome#"],["loop","anim mode loop#"],["play","anim play#"],["pause","anim pause#"],["resume","anim resume#"],["stop","anim off#"],["nextframe","frame next#"],["prevframe","frame prev#"],["playrev","anim playrev#"],["rewind","anim rewind#"],["restart","anim on#"],["animfps5","anim fps 5#"],["animfps10","anim fps 10#"],["animfps20","anim fps 20#"],["animfps30","anim fps 30#"],["animfps50","anim fps 50#"],["measureOff","set pickingstyle MEASURE OFF; set picking OFF"],
+["measureDistance","set pickingstyle MEASURE; set picking MEASURE DISTANCE"],["measureAngle","set pickingstyle MEASURE; set picking MEASURE ANGLE"],["measureTorsion","set pickingstyle MEASURE; set picking MEASURE TORSION"],["PDBmeasureSequence","set pickingstyle MEASURE; set picking MEASURE SEQUENCE"],["measureDelete","measure delete"],["measureList","console on;show measurements"],["distanceNanometers","select *; set measure nanometers"],["distanceAngstroms","select *; set measure angstroms"],["distancePicometers",
+"select *; set measure picometers"],["pickOff","set picking off"],["pickCenter","set picking center"],["pickIdent","set picking ident"],["pickLabel","set picking label"],["pickAtom","set picking atom"],["PDBpickChain","set picking chain"],["pickElement","set picking element"],["PDBpickGroup","set picking group"],["pickMolecule","set picking molecule"],["SYMMETRYpickSite","set picking site"],["pickSpin","set picking spin"],["SYMMETRYpickSymmetry","set picking symmetry"],["showConsole","console"],["JSConsole",
+"JSCONSOLE"],["showFile","console on;show file"],["showFileHeader","console on;getProperty FileHeader"],["showHistory","console on;show history"],["showIsosurface","console on;show isosurface"],["showMeasure","console on;show measure"],["showMo","console on;show mo"],["showModel","console on;show model"],["showOrient","console on;show orientation"],["showSpacegroup","console on;show spacegroup"],["showState","console on;show state"],["reload",'load ""'],["SIGNEDloadPdb","load ?PdbId?"],["SIGNEDloadFileOrUrl",
+"load ?"],["SIGNEDloadFileUnitCell","load ? {1 1 1}"],["SIGNEDloadScript","script ?.spt"],["writeFileTextVARIABLE",'if (_applet && !_signedApplet) { console;show file } else { write file "?FILE?"}'],["writeState",'if (_applet && !_signedApplet) { console;show state } else { write state "?FILEROOT?.spt"}'],["writeHistory",'if (_applet && !_signedApplet) { console;show history } else { write history "?FILEROOT?.his"}'],["SIGNEDwriteJmol",'write "?FILEROOT?.jmol"'],["SIGNEDwriteIsosurface",'write isosurface "?FILEROOT?.jvxl"'],
+["SIGNEDJAVAwriteGif",'write image "?FILEROOT?.gif"'],["SIGNEDNOGLwriteJpg",'write image "?FILEROOT?.jpg"'],["SIGNEDNOGLwritePng",'write image "?FILEROOT?.png"'],["SIGNEDNOGLwritePngJmol",'write PNGJ "?FILEROOT?.png"'],["SIGNEDJAVAwritePovray",'write POVRAY "?FILEROOT?.pov"'],["SIGNEDJAVAwriteVrml",'write VRML "?FILEROOT?.wrl"'],["SIGNEDJAVAwriteX3d",'write X3D "?FILEROOT?.x3d"'],["SIGNEDJAVAwriteIdtf",'write IDTF "?FILEROOT?.idtf"'],["SIGNEDJAVAwriteMaya",'write MAYA "?FILEROOT?.ma"'],["SYMMETRYshowSymmetry",
+"console on;show symmetry"],["UNITCELLshow","console on;show unitcell"],["extractMOL",'console on;getproperty extractModel "visible" '],["minimize","minimize"],["modelkit","set modelkitmode"],["surfDots","dots on"],["surfVDW","isosurface delete resolution 0 solvent 0 translucent"],["surfMolecular","isosurface delete resolution 0 molecular translucent"],["surfSolvent14","isosurface delete resolution 0 solvent 1.4 translucent"],["surfSolventAccessible14","isosurface delete resolution 0 sasurface 1.4 translucent"],
+["CHARGEsurfMEP","isosurface delete resolution 0 vdw color range all map MEP translucent"],["CHARGEsurf2MEP","isosurface delete resolution 0 vdw color range -0.1 0.1 map MEP translucent"],["surfOpaque","mo opaque;isosurface opaque"],["surfTranslucent","mo translucent;isosurface translucent"],["surfOff","mo delete;isosurface delete;select *;dots off"],["SYMMETRYhide","draw sym_* delete"],["FILEMOLload",'save orientation;load "";restore orientation;center'],["FILEUNITone",'save orientation;load "" {1 1 1} ;restore orientation;center'],
+["FILEUNITnine",'save orientation;load "" {444 666 1} ;restore orientation;center'],["FILEUNITnineRestricted",'save orientation;load "" {444 666 1} ;restore orientation; unitcell on; display cell=555;center visible;zoom 200'],["FILEUNITninePoly",'save orientation;load "" {444 666 1} ;restore orientation; unitcell on; display cell=555; polyhedra 4,6 (displayed);center (visible);zoom 200'],["1p","on"],["3p","3"],["5p","5"],["10p","10"],["10a","0.1"],["20a","0.20"],["25a","0.25"],["50a","0.50"],["100a",
+"1.0"]]});

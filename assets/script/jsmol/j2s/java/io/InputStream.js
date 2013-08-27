@@ -1,6 +1,6 @@
 Clazz.load (null, "java.io.InputStream", ["java.io.IOException", "java.lang.IndexOutOfBoundsException", "$.NullPointerException"], function () {
 c$ = Clazz.declareType (java.io, "InputStream");
-Clazz.defineMethod (c$, "read", 
+$_M(c$, "read", 
 function (b, off, len) {
 if (b == null) {
 throw  new NullPointerException ();
@@ -28,7 +28,7 @@ throw ee;
 }
 return i;
 }, "~A,~N,~N");
-Clazz.defineMethod (c$, "skip", 
+$_M(c$, "skip", 
 function (n) {
 var remaining = n;
 var nr;
@@ -44,21 +44,21 @@ break;
 }
 return n - remaining;
 }, "~N");
-Clazz.defineMethod (c$, "available", 
+$_M(c$, "available", 
 function () {
 return 0;
 });
-Clazz.defineMethod (c$, "close", 
+$_M(c$, "close", 
 function () {
 });
-Clazz.defineMethod (c$, "mark", 
+$_M(c$, "mark", 
 function (readlimit) {
 }, "~N");
-Clazz.defineMethod (c$, "reset", 
+$_M(c$, "reset", 
 function () {
 throw  new java.io.IOException ("mark/reset not supported");
 });
-Clazz.defineMethod (c$, "markSupported", 
+$_M(c$, "markSupported", 
 function () {
 return false;
 });

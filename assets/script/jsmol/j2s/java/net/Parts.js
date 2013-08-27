@@ -17,15 +17,15 @@ this.path = file.substring (0, q);
 } else {
 this.path = file;
 }}, "~S");
-Clazz.defineMethod (c$, "getPath", 
+$_M(c$, "getPath", 
 function () {
 return this.path;
 });
-Clazz.defineMethod (c$, "getQuery", 
+$_M(c$, "getQuery", 
 function () {
 return this.query;
 });
-Clazz.defineMethod (c$, "getRef", 
+$_M(c$, "getRef", 
 function () {
 return this.ref;
 });

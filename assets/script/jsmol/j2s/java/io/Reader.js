@@ -10,7 +10,7 @@ if (lock == null) {
 throw  new NullPointerException ();
 }this.lock = lock;
 }, "~O");
-Clazz.defineMethod (c$, "skip", 
+$_M(c$, "skip", 
 function (n) {
 if (n < 0) throw  new IllegalArgumentException ("skip value is negative");
 var nn = Math.min (n, 8192);
@@ -24,19 +24,19 @@ r -= nc;
 }
 return n - r;
 }}, "~N");
-Clazz.defineMethod (c$, "ready", 
+$_M(c$, "ready", 
 function () {
 return false;
 });
-Clazz.defineMethod (c$, "markSupported", 
+$_M(c$, "markSupported", 
 function () {
 return false;
 });
-Clazz.defineMethod (c$, "mark", 
+$_M(c$, "mark", 
 function (readAheadLimit) {
 throw  new java.io.IOException ("mark() not supported");
 }, "~N");
-Clazz.defineMethod (c$, "reset", 
+$_M(c$, "reset", 
 function () {
 throw  new java.io.IOException ("reset() not supported");
 });

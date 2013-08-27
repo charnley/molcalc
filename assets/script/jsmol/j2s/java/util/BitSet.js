@@ -1,4 +1,4 @@
-Clazz.load (null, "java.util.BitSet", ["java.lang.IndexOutOfBoundsException", "$.NegativeArraySizeException", "$.StringBuffer", "java.util.Arrays"], function () {
+﻿Clazz.load (null, "java.util.BitSet", ["java.lang.IndexOutOfBoundsException", "$.NegativeArraySizeException", "$.StringBuffer", "java.util.Arrays"], function () {
 c$ = Clazz.decorateAsClass (function () {
 this.bits = null;
 Clazz.instantialize (this, arguments);
@@ -14,7 +14,7 @@ var length = nbits >>> 5;
 if ((nbits & 4) != 0) ++length;
 this.bits =  Clazz.newArray (length, 0);
 }, "~N");
-Clazz.defineMethod (c$, "and", 
+$_M(c$, "and", 
 function (bs) {
 var max = Math.min (this.bits.length, bs.bits.length);
 var i;
@@ -23,14 +23,14 @@ for (i = 0; i < max; ++i) this.bits[i] &= bs.bits[i];
 while (i < this.bits.length) this.bits[i++] = 0;
 
 }, "java.util.BitSet");
-Clazz.defineMethod (c$, "andNot", 
+$_M(c$, "andNot", 
 function (bs) {
 var i = Math.min (this.bits.length, bs.bits.length);
 while (--i >= 0) {
 this.bits[i] &= ~bs.bits[i];
 }
 }, "java.util.BitSet");
-Clazz.defineMethod (c$, "cardinality", 
+$_M(c$, "cardinality", 
 function () {
 var card = 0;
 for (var i = this.bits.length - 1; i >= 0; i--) {
@@ -45,17 +45,17 @@ card += ((a >> 16) & 0x0000ffff) + (a & 0x0000ffff);
 }
 return card;
 });
-Clazz.defineMethod (c$, "clear", 
+$_M(c$, "clear", 
 function () {
 java.util.Arrays.fill (this.bits, 0);
 });
-Clazz.defineMethod (c$, "clear", 
+$_M(c$, "clear", 
 function (pos) {
 var offset = pos >> 5;
 this.ensure (offset);
 this.bits[offset] &= ~(1 << pos);
 }, "~N");
-Clazz.defineMethod (c$, "clear", 
+$_M(c$, "clear", 
 function (from, to) {
 if (from < 0 || from > to) throw  new IndexOutOfBoundsException ();
 if (from == to) return ;
@@ -70,7 +70,7 @@ this.bits[hi_offset] &= -1 << to;
 for (var i = lo_offset + 1; i < hi_offset; i++) this.bits[i] = 0;
 
 }, "~N,~N");
-Clazz.defineMethod (c$, "clone", 
+$_M(c$, "clone", 
 function () {
 try {
 var bs = Clazz.superCall (this, java.util.BitSet, "clone", []);
@@ -84,7 +84,7 @@ throw e;
 }
 }
 });
-Clazz.overrideMethod (c$, "equals", 
+$_V (c$, "equals", 
 function (obj) {
 if (!(Clazz.instanceOf (obj, java.util.BitSet))) return false;
 var bs = obj;
@@ -98,13 +98,13 @@ for (var j = i; j < bs.bits.length; ++j) if (bs.bits[j] != 0) return false;
 
 return true;
 }, "~O");
-Clazz.defineMethod (c$, "flip", 
+$_M(c$, "flip", 
 function (index) {
 var offset = index >> 5;
 this.ensure (offset);
 this.bits[offset] ^= 1 << index;
 }, "~N");
-Clazz.defineMethod (c$, "flip", 
+$_M(c$, "flip", 
 function (from, to) {
 if (from < 0 || from > to) throw  new IndexOutOfBoundsException ();
 if (from == to) return ;
@@ -119,13 +119,13 @@ this.bits[hi_offset] ^= (1 << to) - 1;
 for (var i = lo_offset + 1; i < hi_offset; i++) this.bits[i] ^= -1;
 
 }, "~N,~N");
-Clazz.defineMethod (c$, "get", 
+$_M(c$, "get", 
 function (pos) {
 var offset = pos >> 5;
 if (offset >= this.bits.length) return false;
 return (this.bits[offset] & (1 << pos)) != 0;
 }, "~N");
-Clazz.defineMethod (c$, "get", 
+$_M(c$, "get", 
 function (from, to) {
 if (from < 0 || from > to) throw  new IndexOutOfBoundsException ();
 var bs =  new java.util.BitSet (to - from);
@@ -147,27 +147,27 @@ if ((to & 4) > lo_bit) bs.bits[i++] = this.bits[lo_offset] >>> lo_bit;
 if (hi_offset < this.bits.length) bs.bits[i - 1] &= (1 << (to - from)) - 1;
 return bs;
 }, "~N,~N");
-Clazz.overrideMethod (c$, "hashCode", 
+$_V (c$, "hashCode", 
 function () {
 var h = 1234;
 for (var i = this.bits.length; i > 0; ) h ^= i * this.bits[--i];
 
 return h;
 });
-Clazz.defineMethod (c$, "intersects", 
+$_M(c$, "intersects", 
 function (set) {
 var i = Math.min (this.bits.length, set.bits.length);
 while (--i >= 0) if ((this.bits[i] & set.bits[i]) != 0) return true;
 
 return false;
 }, "java.util.BitSet");
-Clazz.defineMethod (c$, "isEmpty", 
+$_M(c$, "isEmpty", 
 function () {
 for (var i = this.bits.length - 1; i >= 0; i--) if (this.bits[i] != 0) return false;
 
 return true;
 });
-Clazz.defineMethod (c$, "length", 
+$_M(c$, "length", 
 function () {
 var i;
 for (i = this.bits.length - 1; i >= 0 && this.bits[i] == 0; --i) ;
@@ -180,7 +180,7 @@ b <<= 1;
 }
 return len;
 });
-Clazz.defineMethod (c$, "nextClearBit", 
+$_M(c$, "nextClearBit", 
 function (from) {
 var offset = from >> 5;
 var mask = 1 << from;
@@ -196,7 +196,7 @@ offset++;
 }
 return from;
 }, "~N");
-Clazz.defineMethod (c$, "nextSetBit", 
+$_M(c$, "nextSetBit", 
 function (from) {
 var offset = from >> 5;
 var mask = 1 << from;
@@ -212,24 +212,24 @@ offset++;
 }
 return -1;
 }, "~N");
-Clazz.defineMethod (c$, "or", 
+$_M(c$, "or", 
 function (bs) {
 this.ensure (bs.bits.length - 1);
 for (var i = bs.bits.length - 1; i >= 0; i--) this.bits[i] |= bs.bits[i];
 
 }, "java.util.BitSet");
-Clazz.defineMethod (c$, "set", 
+$_M(c$, "set", 
 function (pos) {
 var offset = pos >> 5;
 this.ensure (offset);
 this.bits[offset] |= 1 << pos;
 }, "~N");
-Clazz.defineMethod (c$, "set", 
+$_M(c$, "set", 
 function (index, value) {
 if (value) this.set (index);
  else this.clear (index);
 }, "~N,~B");
-Clazz.defineMethod (c$, "set", 
+$_M(c$, "set", 
 function (from, to) {
 if (from < 0 || from > to) throw  new IndexOutOfBoundsException ();
 if (from == to) return ;
@@ -244,16 +244,16 @@ this.bits[hi_offset] |= (1 << to) - 1;
 for (var i = lo_offset + 1; i < hi_offset; i++) this.bits[i] = -1;
 
 }, "~N,~N");
-Clazz.defineMethod (c$, "set", 
+$_M(c$, "set", 
 function (from, to, value) {
 if (value) this.set (from, to);
  else this.clear (from, to);
 }, "~N,~N,~B");
-Clazz.defineMethod (c$, "size", 
+$_M(c$, "size", 
 function () {
 return this.bits.length * 32;
 });
-Clazz.overrideMethod (c$, "toString", 
+$_V (c$, "toString", 
 function () {
 var r =  new StringBuffer ("{");
 var first = true;
@@ -270,13 +270,13 @@ first = false;
 }
 return r.append ("}").toString ();
 });
-Clazz.defineMethod (c$, "xor", 
+$_M(c$, "xor", 
 function (bs) {
 this.ensure (bs.bits.length - 1);
 for (var i = bs.bits.length - 1; i >= 0; i--) this.bits[i] ^= bs.bits[i];
 
 }, "java.util.BitSet");
-Clazz.defineMethod (c$, "ensure", 
+$_M(c$, "ensure", 
 ($fz = function (lastElt) {
 if (lastElt >= this.bits.length) {
 var nd =  Clazz.newArray (lastElt + 1, 0);
