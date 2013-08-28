@@ -1,180 +1,3785 @@
-Clazz.declarePackage("J.api");Clazz.declareInterface(J.api,"SmilesMatcherInterface");Clazz.declarePackage("J.smiles");
-Clazz.load(["J.api.SmilesMatcherInterface"],"J.smiles.SmilesMatcher","J.smiles.InvalidSmilesException $.SmilesGenerator $.SmilesParser J.util.ArrayUtil $.BS $.BSUtil $.TextFormat".split(" "),function(){c$=Clazz.declareType(J.smiles,"SmilesMatcher",null,J.api.SmilesMatcherInterface);Clazz.overrideMethod(c$,"getLastException",function(){return J.smiles.InvalidSmilesException.getLastError()});Clazz.overrideMethod(c$,"getMolecularFormula",function(a,b){J.smiles.InvalidSmilesException.setLastError(null);
-try{var c=J.smiles.SmilesParser.getMolecule(a,b);c.createTopoMap(null);c.nodes=c.jmolAtoms;return c.getMolecularFormula(!b)}catch(d){if(Clazz.exceptionOf(d,J.smiles.InvalidSmilesException))return null==J.smiles.InvalidSmilesException.getLastError()&&J.smiles.InvalidSmilesException.setLastError(d.toString()),null;throw d;}},"~S,~B");Clazz.overrideMethod(c$,"getSmiles",function(a,b,c,d,e,f,h){J.smiles.InvalidSmilesException.setLastError(null);try{return d?(new J.smiles.SmilesGenerator).getBioSmiles(a,
-b,c,e,f,h):(new J.smiles.SmilesGenerator).getSmiles(a,b,c)}catch(j){if(Clazz.exceptionOf(j,J.smiles.InvalidSmilesException))return null==J.smiles.InvalidSmilesException.getLastError()&&J.smiles.InvalidSmilesException.setLastError(j.toString()),null;throw j;}},"~A,~N,J.util.BS,~B,~B,~B,~S");$_M(c$,"areEqual",function(a,b){var c=this.find(a,b,!1,!1);return null==c?-1:c.length},"~S,~S");$_M(c$,"areEqual",function(a,b){var c=this.find(a,b,!1,!0,!0);return null!=c&&1==c.length},"~S,J.smiles.SmilesSearch");
-$_M(c$,"find",function(a,b,c,d){J.smiles.InvalidSmilesException.setLastError(null);try{var e=J.smiles.SmilesParser.getMolecule(b,!1);return this.find(a,e,c,!c,d)}catch(f){if(Clazz.exceptionOf(f,Exception))return null==J.smiles.InvalidSmilesException.getLastError()&&J.smiles.InvalidSmilesException.setLastError(f.toString()),System.out.println(f.toString()),null;throw f;}},"~S,~S,~B,~B");Clazz.overrideMethod(c$,"getRelationship",function(a,b){if(null==a||null==b||0==a.length||0==b.length)return"";var c=
-this.getMolecularFormula(a,!1),d=this.getMolecularFormula(b,!1);if(!c.equals(d))return"none";var e,c=this.countStereo(a),d=this.countStereo(b);e=c==d&&0<this.areEqual(b,a);if(!e){e=a+b;if(0<=e.indexOf("/")||0<=e.indexOf("\\")||0<=e.indexOf("@")){if(c==d&&0<c&&(a=this.reverseChirality(a),e=0<this.areEqual(a,b)))return"enantiomers";if(e=0<this.areEqual("/nostereo/"+b,a))return c==d?"diastereomers":"ambiguous stereochemistry!"}return"constitutional isomers"}return"identical"},"~S,~S");Clazz.overrideMethod(c$,
-"reverseChirality",function(a){a=J.util.TextFormat.simpleReplace(a,"@@","!@");a=J.util.TextFormat.simpleReplace(a,"@","@@");a=J.util.TextFormat.simpleReplace(a,"!@@","@");a=J.util.TextFormat.simpleReplace(a,"@@SP","@SP");a=J.util.TextFormat.simpleReplace(a,"@@OH","@OH");return a=J.util.TextFormat.simpleReplace(a,"@@TB","@TB")},"~S");Clazz.overrideMethod(c$,"getSubstructureSet",function(a,b,c,d,e,f){return this.match(a,b,c,d,null,e,!1,f,1)},"~S,~A,~N,J.util.BS,~B,~B");Clazz.overrideMethod(c$,"getSubstructureSets",
-function(a,b,c,d,e,f,h){J.smiles.InvalidSmilesException.setLastError(null);var j=new J.smiles.SmilesParser(!0),g=null;try{g=j.parse(""),g.firstMatchOnly=!1,g.matchAllAtoms=!1,g.jmolAtoms=b,g.jmolAtomCount=Math.abs(c),g.setSelected(e),g.getRingData(!0,d,h),g.asVector=!1,g.subSearches=Array(1),g.getSelections()}catch(l){if(!Clazz.exceptionOf(l,J.smiles.InvalidSmilesException))throw l;}b=new J.util.BS;for(e=0;e<a.length;e++)if(null==a[e]||0==a[e].length||a[e].startsWith("#"))f.addLast(null);else try{g.clear();
-var k=j.getSearch(g,J.smiles.SmilesParser.cleanPattern(a[e]),d);g.subSearches[0]=k;var m=J.util.BSUtil.copy(g.search(!1));f.addLast(m);b.or(m);if(b.cardinality()==c)break}catch(n){if(Clazz.exceptionOf(n,Exception))null==J.smiles.InvalidSmilesException.getLastError()&&J.smiles.InvalidSmilesException.setLastError(n.toString()),System.out.println(n.toString());else throw n;}},"~A,~A,~N,~N,J.util.BS,J.util.JmolList,~A");Clazz.overrideMethod(c$,"getSubstructureSetArray",function(a,b,c,d,e,f,h){return this.match(a,
-b,c,d,e,f,!1,h,2)},"~S,~A,~N,J.util.BS,J.util.BS,~B,~B");Clazz.overrideMethod(c$,"getCorrelationMaps",function(a,b,c,d,e,f){return this.match(a,b,c,d,null,e,!1,f,3)},"~S,~A,~N,J.util.BS,~B,~B");$_M(c$,"find",($fz=function(a,b,c,d,e){var f=new J.util.BS;b.createTopoMap(f);return this.match(a,b.jmolAtoms,-b.jmolAtoms.length,null,f,c,d,e,2)},$fz.isPrivate=!0,$fz),"~S,J.smiles.SmilesSearch,~B,~B,~B");$_M(c$,"match",($fz=function(a,b,c,d,e,f,h,j,g){J.smiles.InvalidSmilesException.setLastError(null);try{var l=
-J.smiles.SmilesParser.getMolecule(a,f);l.jmolAtoms=b;l.jmolAtomCount=Math.abs(c);0>c&&(l.isSmilesFind=!0);l.setSelected(d);l.getSelections();l.bsRequired=null;l.setRingData(e);l.firstMatchOnly=j;l.matchAllAtoms=h;switch(g){case 1:return l.asVector=!1,l.search(!1);case 2:l.asVector=!0;var k=l.search(!1);return k.toArray(Array(k.size()));case 3:l.getMaps=!0;var m=l.search(!1);return m.toArray(J.util.ArrayUtil.newInt2(m.size()))}}catch(n){if(Clazz.exceptionOf(n,Exception))null==J.smiles.InvalidSmilesException.getLastError()&&
-J.smiles.InvalidSmilesException.setLastError(n.toString()),System.out.println(n.toString());else throw n;}return null},$fz.isPrivate=!0,$fz),"~S,~A,~N,J.util.BS,J.util.BS,~B,~B,~B,~N");$_M(c$,"countStereo",($fz=function(a){a=J.util.TextFormat.simpleReplace(a,"@@","@");for(var b=a.lastIndexOf("@")+1,c=0;0<=--b;)"@"==a.charAt(b)&&c++;return c},$fz.isPrivate=!0,$fz),"~S");Clazz.defineStatics(c$,"MODE_BITSET",1,"MODE_ARRAY",2,"MODE_MAP",3)});Clazz.declarePackage("J.smiles");
-Clazz.load(["java.lang.Exception"],"J.smiles.InvalidSmilesException",null,function(){c$=Clazz.declareType(J.smiles,"InvalidSmilesException",Exception);c$.getLastError=$_M(c$,"getLastError",function(){return J.smiles.InvalidSmilesException.lastError});c$.setLastError=$_M(c$,"setLastError",function(a){$t$=J.smiles.InvalidSmilesException.lastError=a;J.smiles.InvalidSmilesException.prototype.lastError=J.smiles.InvalidSmilesException.lastError;$t$},"~S");Clazz.makeConstructor(c$,function(a){Clazz.superConstructor(this,
-J.smiles.InvalidSmilesException,[a]);$t$=J.smiles.InvalidSmilesException.lastError=a;J.smiles.InvalidSmilesException.prototype.lastError=J.smiles.InvalidSmilesException.lastError;$t$},"~S");Clazz.makeConstructor(c$,function(a){Clazz.superConstructor(this,J.smiles.InvalidSmilesException,[a]);$t$=J.smiles.InvalidSmilesException.lastError=a.toString();J.smiles.InvalidSmilesException.prototype.lastError=J.smiles.InvalidSmilesException.lastError;$t$},"Throwable");Clazz.makeConstructor(c$,function(a,b){Clazz.superConstructor(this,
-J.smiles.InvalidSmilesException,[a,b]);$t$=J.smiles.InvalidSmilesException.lastError=a+"\n"+b.getCause();J.smiles.InvalidSmilesException.prototype.lastError=J.smiles.InvalidSmilesException.lastError;$t$},"~S,Throwable");Clazz.defineStatics(c$,"lastError",null)});Clazz.declarePackage("J.smiles");
-Clazz.load(["J.util.JmolMolecule","$.BS","$.JmolList","$.V3"],"J.smiles.SmilesSearch","java.util.Arrays $.Hashtable J.smiles.SmilesAromatic $.SmilesAtom $.SmilesBond $.SmilesMeasure $.SmilesParser J.util.ArrayUtil $.BSUtil $.Logger $.SB".split(" "),function(){c$=Clazz.decorateAsClass(function(){this.jmolAtoms=this.pattern=this.patternAtoms=null;this.jmolAtomCount=0;this.bsRequired=this.bsSelected=null;this.isSmilesFind=this.isSmarts=this.matchAllAtoms=this.firstMatchOnly=!1;this.subSearches=null;
-this.needRingData=this.haveAtomStereochemistry=this.haveBondStereochemistry=this.haveSelected=!1;this.needAromatic=!0;this.needRingMemberships=!1;this.ringDataMax=-2147483648;this.measures=null;this.flags=0;this.lastChainAtom=this.bsAromatic6=this.bsAromatic5=this.bsAromatic=this.ringSets=null;this.getMaps=this.asVector=!1;this.top=null;this.isRingCheck=this.isSilent=!1;this.selectedAtomCount=0;this.htNested=this.bsFound=this.ringConnections=this.ringCounts=this.ringData=null;this.nNested=0;this.bsReturn=
-this.vReturn=this.nestedBond=null;this.aromaticDouble=this.noAromatic=this.ignoreStereochemistry=!1;this.v=this.bsCheck=null;Clazz.instantialize(this,arguments)},J.smiles,"SmilesSearch",J.util.JmolMolecule);Clazz.prepareFields(c$,function(){this.patternAtoms=Array(16);this.measures=new J.util.JmolList;this.bsAromatic=new J.util.BS;this.bsAromatic5=new J.util.BS;this.bsAromatic6=new J.util.BS;this.top=this;this.bsFound=new J.util.BS;this.bsReturn=new J.util.BS;this.v=new J.smiles.SmilesSearch.VTemp});
-$_M(c$,"toString",function(){var a=(new J.util.SB).append(this.pattern);a.append("\nmolecular formula: "+this.getMolecularFormula(!0));return a.toString()});$_M(c$,"setSelected",function(a){null==a&&(a=J.util.BSUtil.newBitSet(this.jmolAtomCount),a.setBits(0,this.jmolAtomCount));this.bsSelected=a},"J.util.BS");$_M(c$,"setAtomArray",function(){this.patternAtoms.length>this.atomCount&&(this.patternAtoms=J.util.ArrayUtil.arrayCopyObject(this.patternAtoms,this.atomCount));this.nodes=this.patternAtoms});
-$_M(c$,"addAtom",function(){this.atomCount>=this.patternAtoms.length&&(this.patternAtoms=J.util.ArrayUtil.doubleLength(this.patternAtoms));var a=(new J.smiles.SmilesAtom).setIndex(this.atomCount);this.patternAtoms[this.atomCount]=a;this.atomCount++;return a});$_M(c$,"addNested",function(a){null==this.top.htNested&&(this.top.htNested=new java.util.Hashtable);this.setNested(++this.top.nNested,a);return this.top.nNested},"~S");$_M(c$,"clear",function(){this.bsReturn.clearAll();this.nNested=0;this.nestedBond=
-this.htNested=null;this.clearBsFound(-1)});$_M(c$,"setNested",function(a,b){this.top.htNested.put("_"+a,b)},"~N,~O");$_M(c$,"getNested",function(a){return this.top.htNested.get("_"+a)},"~N");$_M(c$,"getMissingHydrogenCount",function(){for(var a=0,b,c=0;c<this.atomCount;c++)if(0<=(b=this.patternAtoms[c].missingHydrogenCount))a+=b;return a});$_M(c$,"setRingData",function(a){this.needAromatic&&(this.needRingData=!0);this.needAromatic=(new Boolean(this.needAromatic&(new Boolean(null==a&0==(this.flags&
-1))).valueOf())).valueOf();if(!this.needAromatic&&(this.bsAromatic.clearAll(),null!=a&&this.bsAromatic.or(a),!this.needRingMemberships&&!this.needRingData))return;this.getRingData(this.needRingData,this.flags,null)},"J.util.BS");$_M(c$,"getRingData",function(a,b,c){var d=0!=(b&4),e=0!=(b&8);d&&null==c&&(c=J.util.ArrayUtil.createArrayOfArrayList(4));e&&this.needAromatic&&(this.bsAromatic=J.smiles.SmilesAromatic.checkAromaticDefined(this.jmolAtoms,this.bsSelected),d=!1);0>this.ringDataMax&&(this.ringDataMax=
-8);d&&6>this.ringDataMax&&(this.ringDataMax=6);a&&(this.ringCounts=Clazz.newIntArray(this.jmolAtomCount,0),this.ringConnections=Clazz.newIntArray(this.jmolAtomCount,0),this.ringData=Array(this.ringDataMax+1));this.ringSets=new J.util.SB;for(var f="****";f.length<this.ringDataMax;)f+=f;var h=null;for(b=3;b<=this.ringDataMax;b++)if(!(b>this.jmolAtomCount)){var j="*1"+f.substring(0,b-2)+"*1",j=J.smiles.SmilesParser.getMolecule(j,!0),j=this.subsearch(j,!1,!0);if(null!=c&&5>=b){for(var g=new J.util.JmolList,
-l=j.size();0<=--l;)g.addLast(j.get(l));c[b-3]=g}if(this.needAromatic){if(!e&&(!d||5==b||6==b))for(g=j.size();0<=--g;)l=j.get(g),(e||J.smiles.SmilesAromatic.isFlatSp2Ring(this.jmolAtoms,this.bsSelected,l,d?0.1:0.01))&&this.bsAromatic.or(l);if(d)switch(b){case 5:h=j;break;case 6:e?this.bsAromatic=J.smiles.SmilesAromatic.checkAromaticDefined(this.jmolAtoms,this.bsAromatic):J.smiles.SmilesAromatic.checkAromaticStrict(this.jmolAtoms,this.bsAromatic,h,j),c[3]=new J.util.JmolList,this.setAromatic56(h,this.bsAromatic5,
-5,c[3]),this.setAromatic56(j,this.bsAromatic6,6,c[3])}}if(a){this.ringData[b]=new J.util.BS;for(var k=0;k<j.size();k++){g=j.get(k);this.ringData[b].or(g);for(l=g.nextSetBit(0);0<=l;l=g.nextSetBit(l+1))this.ringCounts[l]++}}}if(a)for(b=this.bsSelected.nextSetBit(0);0<=b;b=this.bsSelected.nextSetBit(b+1))if(a=this.jmolAtoms[b],c=a.getEdges(),null!=c)for(k=c.length;0<=--k;)0<this.ringCounts[a.getBondedAtomIndex(k)]&&this.ringConnections[b]++},"~B,~N,~A");$_M(c$,"setAromatic56",($fz=function(a,b,c,d){for(var e=
-0;e<a.size();e++){var f=a.get(e);this.v.bsTemp.clearAll();this.v.bsTemp.or(f);this.v.bsTemp.and(this.bsAromatic);this.v.bsTemp.cardinality()==c&&(b.or(f),null!=d&&d.addLast(f))}},$fz.isPrivate=!0,$fz),"J.util.JmolList,J.util.BS,~N,J.util.JmolList");$_M(c$,"subsearch",function(a,b,c){a.ringSets=this.ringSets;a.jmolAtoms=this.jmolAtoms;a.jmolAtomCount=this.jmolAtomCount;a.bsSelected=this.bsSelected;a.htNested=this.htNested;a.isSmilesFind=this.isSmilesFind;a.bsCheck=this.bsCheck;a.isSmarts=!0;a.bsAromatic=
-this.bsAromatic;a.bsAromatic5=this.bsAromatic5;a.bsAromatic6=this.bsAromatic6;a.ringData=this.ringData;a.ringCounts=this.ringCounts;a.ringConnections=this.ringConnections;b?(a.bsRequired=null,a.firstMatchOnly=!1,a.matchAllAtoms=!1):c?(a.bsRequired=null,a.isSilent=!0,a.isRingCheck=!0,a.asVector=!0,a.matchAllAtoms=!1):(a.haveSelected=this.haveSelected,a.bsRequired=this.bsRequired,a.firstMatchOnly=this.firstMatchOnly,a.matchAllAtoms=this.matchAllAtoms,a.getMaps=this.getMaps,a.asVector=this.asVector,
-a.vReturn=this.vReturn,a.bsReturn=this.bsReturn);return a.search(b)},"J.smiles.SmilesSearch,~B,~B");$_M(c$,"search",function(a){this.ignoreStereochemistry=0!=(this.flags&2);this.noAromatic=0!=(this.flags&1);this.aromaticDouble=0!=(this.flags&16);J.util.Logger.debugging&&!this.isSilent&&J.util.Logger.debug("SmilesSearch processing "+this.pattern);if(null==this.vReturn&&(this.asVector||this.getMaps))this.vReturn=new J.util.JmolList;null==this.bsSelected&&(this.bsSelected=J.util.BSUtil.newBitSet(this.jmolAtomCount),
-this.bsSelected.setBits(0,this.jmolAtomCount));this.selectedAtomCount=this.bsSelected.cardinality();if(null!=this.subSearches)for(a=0;a<this.subSearches.length&&!(null!=this.subSearches[a]&&(this.subsearch(this.subSearches[a],!1,!1),this.firstMatchOnly&&(null==this.vReturn?0<=this.bsReturn.nextSetBit(0):0<this.vReturn.size())));a++);else 0<this.atomCount&&this.checkMatch(null,-1,-1,a);return this.asVector||this.getMaps?this.vReturn:this.bsReturn},"~B");$_M(c$,"checkMatch",($fz=function(a,b,c,d){var e;
-if(null==a)null==this.nestedBond?this.clearBsFound(-1):this.bsReturn.clearAll();else{if(this.bsFound.get(c)||!this.bsSelected.get(c))return!0;e=this.jmolAtoms[c];if(!this.isRingCheck){if(null!=a.atomsOr){for(var f=0;f<a.nAtomsOr;f++)if(!this.checkMatch(a.atomsOr[f],b,c,d))return!1;return!0}if(null==a.primitives){if(!this.checkPrimitiveAtom(a,c))return!0}else for(f=0;f<a.nPrimitives;f++)if(!this.checkPrimitiveAtom(a.primitives[f],c))return!0}e=e.getEdges();for(f=a.getBondCount();0<=--f;){var h=a.getBond(f);
-if(h.getAtomIndex2()==a.index){var j=h.getAtom1(),g=j.getMatchingAtom();switch(h.order){case 96:case 112:if(!this.checkMatchBond(a,j,h,c,g,null))return!0;break;default:for(var l=0;l<e.length&&(!(e[l].getAtomIndex1()==g||e[l].getAtomIndex2()==g)||!e[l].isCovalent());l++);if(l==e.length||!this.checkMatchBond(a,j,h,c,g,e[l]))return!0}}}this.patternAtoms[a.index].setMatchingAtom(c);J.util.Logger.debugging&&!this.isSilent&&J.util.Logger.debug("pattern atom "+b+" "+a);this.bsFound.set(c)}if(!this.continueMatch(b,
-c,d))return!1;0<=c&&this.clearBsFound(c);return!0},$fz.isPrivate=!0,$fz),"J.smiles.SmilesAtom,~N,~N,~B");$_M(c$,"continueMatch",($fz=function(a,b,c){var d,e;if(++a<this.atomCount){var f=this.patternAtoms[a],h=0<=b?f.getBondTo(null):0==a?this.nestedBond:null;if(null==h){h=J.util.BSUtil.copy(this.bsFound);if(0<=f.notBondedIndex){d=this.patternAtoms[f.notBondedIndex];var j=this.jmolAtoms[d.getMatchingAtom()];if("\x00"==d.bioType){e=j.getEdges();for(d=0;d<e.length;d++)h.set(e[d].getOtherAtomNode(j).getIndex())}else d=
-j.getOffsetResidueAtom("0",1),0<=d&&h.set(d),d=j.getOffsetResidueAtom("0",-1),0<=d&&h.set(d)}b=0<=b&&f.isBioAtom&&(null==f.atomName||null!=f.residueChar);for(j=this.bsSelected.nextSetBit(0);0<=j;j=this.bsSelected.nextSetBit(j+1)){if(!h.get(j)&&!this.checkMatch(f,a,j,c))return!1;b&&(d=this.jmolAtoms[j].getOffsetResidueAtom(f.atomName,1),0<=d&&(j=d-1))}this.bsFound=h;return!0}d=this.jmolAtoms[h.getAtom1().getMatchingAtom()];switch(h.order){case 96:j=d.getOffsetResidueAtom(f.atomName,1);if(0<=j){h=J.util.BSUtil.copy(this.bsFound);
-d.getGroupBits(this.bsFound);if(!this.checkMatch(f,a,j,c))return!1;this.bsFound=h}return!0;case 112:b=new J.util.JmolList;d.getCrossLinkLeadAtomIndexes(b);h=J.util.BSUtil.copy(this.bsFound);d.getGroupBits(this.bsFound);for(j=0;j<b.size();j++)if(!this.checkMatch(f,a,b.get(j).intValue(),c))return!1;this.bsFound=h;return!0}e=d.getEdges();if(null!=e)for(j=0;j<e.length;j++)if(!this.checkMatch(f,a,d.getBondedAtomIndex(j),c))return!1;this.clearBsFound(b);return!0}if(!this.ignoreStereochemistry&&!this.checkStereochemistry())return!0;
-h=new J.util.BS;for(j=f=0;j<this.atomCount;j++)if(b=this.patternAtoms[j].getMatchingAtom(),c||!this.top.haveSelected||this.patternAtoms[j].selected){f++;h.set(b);this.patternAtoms[j].isBioAtom&&null==this.patternAtoms[j].atomName&&this.jmolAtoms[b].getGroupBits(h);if(c)break;!this.isSmarts&&0<this.patternAtoms[j].missingHydrogenCount&&this.getHydrogens(this.jmolAtoms[b],h)}if(null!=this.bsRequired&&!this.bsRequired.intersects(h)||this.matchAllAtoms&&h.cardinality()!=this.selectedAtomCount)return!0;
-if(null!=this.bsCheck)if(c){this.bsCheck.clearAll();for(j=0;j<this.atomCount;j++)this.bsCheck.set(this.patternAtoms[j].getMatchingAtom());if(this.bsCheck.cardinality()!=this.atomCount)return!0}else if(h.cardinality()!=this.atomCount)return!0;this.bsReturn.or(h);if(this.getMaps){a=Clazz.newIntArray(f,0);for(h=j=0;j<this.atomCount;j++)if(c||!this.top.haveSelected||this.patternAtoms[j].selected)a[h++]=this.patternAtoms[j].getMatchingAtom();this.vReturn.addLast(a);return!this.firstMatchOnly}if(this.asVector){c=
-!0;for(j=this.vReturn.size();0<=--j&&c;)c=!this.vReturn.get(j).equals(h);if(!c)return!0;this.vReturn.addLast(h)}if(this.isRingCheck){this.ringSets.append(" ");for(d=3*a+2;--d>a;)this.ringSets.append("-").appendI(this.patternAtoms[(d<=2*a?2*a-d+1:d-1)%a].getMatchingAtom());this.ringSets.append("- ");return!0}return this.firstMatchOnly?!1:h.cardinality()!=this.selectedAtomCount},$fz.isPrivate=!0,$fz),"~N,~N,~B");$_M(c$,"clearBsFound",($fz=function(a){0>a?null==this.bsCheck&&this.bsFound.clearAll():
-this.bsFound.clear(a)},$fz.isPrivate=!0,$fz),"~N");$_M(c$,"getHydrogens",($fz=function(a,b){for(var c=a.getEdges(),d=-1,e=0;e<c.length;e++)if(1==this.jmolAtoms[a.getBondedAtomIndex(e)].getElementNumber()){d=a.getBondedAtomIndex(e);if(null==b)break;b.set(d)}return 0<=d?this.jmolAtoms[d]:null},$fz.isPrivate=!0,$fz),"J.util.JmolNode,J.util.BS");$_M(c$,"checkPrimitiveAtom",($fz=function(a,b){for(var c=this.jmolAtoms[b],d=a.not;;){var e;if(0<a.iNested){d=this.getNested(a.iNested);Clazz.instanceOf(d,J.smiles.SmilesSearch)&&
-(a.isBioAtom&&(d.nestedBond=a.getBondTo(null)),d=this.subsearch(d,!0,!1),null==d&&(d=new J.util.BS),a.isBioAtom||this.setNested(a.iNested,d));d=a.not!=d.get(b);break}if(a.isBioAtom){if(null!=a.atomName&&(a.isLeadAtom()?!c.isLeadAtom():!a.atomName.equals(c.getAtomName().toUpperCase())))break;if(null!=a.residueName&&!a.residueName.equals(c.getGroup3(!1).toUpperCase()))break;if(null!=a.residueChar){if(a.isDna()&&!c.isDna()||a.isRna()&&!c.isRna()||a.isProtein()&&!c.isProtein()||a.isNucleic()&&!c.isNucleic())break;
-e=c.getGroup1("\x00").toUpperCase();e=a.residueChar.equals(e);switch(a.residueChar.charAt(0)){case "N":e=a.isNucleic()?c.isNucleic():e;break;case "R":e=a.isNucleic()?c.isPurine():e;break;case "Y":e=a.isNucleic()?c.isPyrimidine():e}if(!e)break}if(0<=a.elementNumber&&a.elementNumber!=c.getElementNumber())break;if(a.notCrossLinked&&c.getCrossLinkLeadAtomIndexes(null))break}else{if(0<=a.jmolIndex&&c.getIndex()!=a.jmolIndex)break;if(null!=a.atomType&&!a.atomType.equals(c.getAtomType()))break;if(0<=a.elementNumber&&
-a.elementNumber!=c.getElementNumber())break;e=a.isAromatic();if(!this.noAromatic&&!a.aromaticAmbiguous&&e!=this.bsAromatic.get(b))break;if(-2147483648!=(e=a.getAtomicMass())){var f=c.getIsotopeNumber();if(0<=e&&e!=f||0>e&&0!=f&&-e!=f)break}if(-2147483648!=(e=a.getCharge())&&e!=c.getFormalCharge())break;e=a.getCovalentHydrogenCount()+a.missingHydrogenCount;if(0<=e&&e!=c.getCovalentHydrogenCount())break;e=a.implicitHydrogenCount;if(-2147483648!=e&&(f=c.getImplicitHydrogenCount(),-1==e?0==f:e!=f))break;
-if(0<a.degree&&a.degree!=c.getCovalentBondCount())break;if(0<a.nonhydrogenDegree&&a.nonhydrogenDegree!=c.getCovalentBondCount()-c.getCovalentHydrogenCount())break;if(0<a.valence&&a.valence!=c.getValence())break;if(0<a.connectivity&&a.connectivity!=c.getCovalentBondCount()+c.getImplicitHydrogenCount())break;if(null!=this.ringData&&-1<=a.ringSize)if(0>=a.ringSize){if(0==this.ringCounts[b]!=(0==a.ringSize))break}else{c=this.ringData[500==a.ringSize?5:600==a.ringSize?6:a.ringSize];if(null==c||!c.get(b))break;
-if(!this.noAromatic)if(500==a.ringSize){if(!this.bsAromatic5.get(b))break}else if(600==a.ringSize&&!this.bsAromatic6.get(b))break}if(null!=this.ringData&&-1<=a.ringMembership&&(-1==a.ringMembership?0==this.ringCounts[b]:this.ringCounts[b]!=a.ringMembership))break;if(0<=a.ringConnectivity&&(e=this.ringConnections[b],-1==a.ringConnectivity&&0==e||-1!=a.ringConnectivity&&e!=a.ringConnectivity))break}d=!d;break}return d},$fz.isPrivate=!0,$fz),"J.smiles.SmilesAtom,~N");$_M(c$,"checkMatchBond",($fz=function(a,
-b,c,d,e,f){if(null!=c.bondsOr){for(var h=0;h<c.nBondsOr;h++)if(this.checkMatchBond(a,b,c.bondsOr[h],d,e,f))return!0;return!1}if(null==c.primitives){if(!this.checkPrimitiveBond(c,d,e,f))return!1}else for(a=0;a<c.nPrimitives;a++)if(!this.checkPrimitiveBond(c.primitives[a],d,e,f))return!1;c.matchingBond=f;return!0},$fz.isPrivate=!0,$fz),"J.smiles.SmilesAtom,J.smiles.SmilesAtom,J.smiles.SmilesBond,~N,~N,J.util.JmolEdge");$_M(c$,"checkPrimitiveBond",($fz=function(a,b,c,d){var e=!1;switch(a.order){case 96:return a.isNot!=
-(this.jmolAtoms[c].getOffsetResidueAtom("0",1)==this.jmolAtoms[b].getOffsetResidueAtom("0",0));case 112:return a.isNot!=this.jmolAtoms[b].isCrossLinked(this.jmolAtoms[c])}var f=!this.noAromatic&&this.bsAromatic.get(b),h=!this.noAromatic&&this.bsAromatic.get(c);d=d.getCovalentOrder();if(f&&h)switch(a.order){case 17:case 65:e=J.smiles.SmilesSearch.isRingBond(this.ringSets,b,c);break;case 1:e=!this.isSmarts||!J.smiles.SmilesSearch.isRingBond(this.ringSets,b,c);break;case 2:e=!this.isSmarts||this.aromaticDouble&&
-(2==d||514==d);break;case 769:case 1025:case 81:case -1:e=!0}else switch(a.order){case 81:case -1:e=!0;break;case 1:case 257:case 513:e=1==d||1041==d||1025==d;break;case 769:e=d==(this.isSmilesFind?33:1);break;case 1025:e=d==(this.isSmilesFind?97:1);break;case 2:e=2==d;break;case 3:e=3==d;break;case 65:e=J.smiles.SmilesSearch.isRingBond(this.ringSets,b,c)}return e!=a.isNot},$fz.isPrivate=!0,$fz),"J.smiles.SmilesBond,~N,~N,J.util.JmolEdge");c$.isRingBond=$_M(c$,"isRingBond",function(a,b,c){return null!=
-a&&0<=a.indexOf("-"+b+"-"+c+"-")},"J.util.SB,~N,~N");$_M(c$,"checkStereochemistry",($fz=function(){for(var a=0;a<this.measures.size();a++)if(!this.measures.get(a).check())return!1;if(this.haveAtomStereochemistry){J.util.Logger.debugging&&J.util.Logger.debug("checking stereochemistry...");for(var b=null,c=null,d=null,e=null,f=null,h=null,j=c=null,a=0;a<this.atomCount;a++){var g=this.patternAtoms[a],l=this.jmolAtoms[g.getMatchingAtom()],h=g.missingHydrogenCount;0>h&&(h=0);var k=g.getChiralClass();if(-2147483648!=
-k){var m=g.getChiralOrder();if(this.isSmilesFind&&l.getAtomSite()>>8!=k)return!1;J.util.Logger.debugging&&J.util.Logger.debug("...type "+k+" for pattern atom "+g+" "+l);switch(k){case 2:c=g.getBond(0).getOtherAtom(g);j=g.getBond(1).getOtherAtom(g);if(null==c||null==j)continue;for(d=b=g;2==c.getBondCount()&&2==j.getBondCount()&&4==c.getValence()&&4==j.getValence();)g=c.getBondNotTo(b,!0),b=c,c=g.getOtherAtom(c),g=j.getBondNotTo(d,!0),d=j,j=g.getOtherAtom(j);g=c;e=Array(6);e[4]=(new J.smiles.SmilesAtom).setIndex(604);
-d=g.getBondCount();for(b=0;b<d;b++)c=g.bonds[b].getOtherAtom(g),2==g.bonds[b].matchingBond.getCovalentOrder()?null==j&&(j=c):null==e[0]?e[0]=this.getJmolAtom(c.getMatchingAtom()):e[1]=this.getJmolAtom(c.getMatchingAtom());if(null==j)continue;d=j.getBondCount();if(2>d||3<d)continue;for(b=0;b<d;b++)c=j.bonds[b].getOtherAtom(j),2!=j.bonds[b].matchingBond.getCovalentOrder()&&(null==e[2]?e[2]=this.getJmolAtom(c.getMatchingAtom()):e[3]=this.getJmolAtom(c.getMatchingAtom()));if(this.isSmilesFind&&(null==
-e[1]&&this.getX(g,e,1,!1,!0),null==e[3]&&this.getX(j,e,3,!1,!1),!this.setSmilesCoordinates(l,g,j,e)))return!1;null==e[1]&&this.getX(g,e,1,!0,!1);null==e[3]&&this.getX(j,e,3,!0,!1);if(!J.smiles.SmilesSearch.checkStereochemistryAll(g.not,l,k,m,e[0],e[1],e[2],e[3],null,null,this.v))return!1;continue;case 4:case 8:case 5:case 6:b=this.getJmolAtom(g.getMatchingBondedAtom(0));switch(h){case 0:c=this.getJmolAtom(g.getMatchingBondedAtom(1));break;case 1:c=this.getHydrogens(this.getJmolAtom(g.getMatchingAtom()),
-null);g.isFirst&&(d=c,c=b,b=d);break;default:continue}d=this.getJmolAtom(g.getMatchingBondedAtom(2-h));e=this.getJmolAtom(g.getMatchingBondedAtom(3-h));f=this.getJmolAtom(g.getMatchingBondedAtom(4-h));h=this.getJmolAtom(g.getMatchingBondedAtom(5-h));if(this.isSmilesFind&&!this.setSmilesCoordinates(l,g,j,[b,c,d,e,f,h])||!J.smiles.SmilesSearch.checkStereochemistryAll(g.not,l,k,m,b,c,d,e,f,h,this.v))return!1}}}}if(this.haveBondStereochemistry)for(b=0;b<this.atomCount;b++){c=this.patternAtoms[b];e=f=
-j=null;k=l=a=0;d=c.getBondCount();m=!1;for(h=0;h<d;h++){var g=c.getBond(h),n=g.getAtom2()===c,q=g.order;switch(q){case 769:case 1025:case 2:if(n)continue;j=g.getAtom2();k=q;(m=2!=q)&&(a=g.isNot?-1:1);break;case 257:case 513:f=n?g.getAtom1():g.getAtom2(),a=n!=(257==q)?1:-1}}if(m){g=c.getBondNotTo(j,!1);if(null==g)return!1;f=g.getOtherAtom(c);g=j.getBondNotTo(c,!1);if(null==g)return!1;e=g.getOtherAtom(j)}else{if(null==j||0==a)continue;d=j.getBondCount();for(h=0;h<d&&0==l;h++)switch(g=j.getBond(h),n=
-g.getAtom2()===j,q=g.order,q){case 257:case 513:e=n?g.getAtom1():g.getAtom2(),l=n!=(257==q)?1:-1}if(0==l)continue}this.isSmilesFind&&this.setSmilesBondCoordinates(c,j,k);c=this.getJmolAtom(c.getMatchingAtom());j=this.getJmolAtom(j.getMatchingAtom());g=this.getJmolAtom(f.getMatchingAtom());d=this.getJmolAtom(e.getMatchingAtom());if(null==g||null==d)return!1;J.smiles.SmilesMeasure.setTorsionData(g,c,j,d,this.v,m);if(m){if(l=769==k?1:-1,j=this.v.vTemp1.dot(this.v.vTemp2),0.05>j||0.95<j||0<this.v.vNorm1.dot(this.v.vNorm2)*
-a*l)return!1}else if(0>this.v.vTemp1.dot(this.v.vTemp2)*a*l)return!1}return!0},$fz.isPrivate=!0,$fz));$_M(c$,"getX",($fz=function(a,b,c,d,e){var f=this.getJmolAtom(a.getMatchingAtom()),h=a.isFirst||3==c;if(d){if(this.isSmarts){var j=f.getEdges();for(d=0;d<j.length;d++)if(2!=j[d].getCovalentOrder()){var g=this.jmolAtoms[f.getBondedAtomIndex(d)];if(g!==b[c-1]){b[c]=g;break}}}if(null==b[c]){j=new J.util.V3;for(d=g=0;4>d;d++)null!=b[d]&&(g++,j.sub(b[d]));0==j.length()?(j.setT(b[4]),h=!1):(j.scaleAdd2(g+
-1,this.getJmolAtom(a.getMatchingAtom()),j),h=this.isSmilesFind||h);b[c]=(new J.smiles.SmilesAtom).setIndex(-1);b[c].setT(j)}}null==b[c]&&(b[c]=this.getHydrogens(f,null),e&&(h=!0));null!=b[c]&&h&&(g=b[c],b[c]=b[c-1],b[c-1]=g)},$fz.isPrivate=!0,$fz),"J.smiles.SmilesAtom,~A,~N,~B,~B");c$.checkStereochemistryAll=$_M(c$,"checkStereochemistryAll",function(a,b,c,d,e,f,h,j,g,l,k){switch(c){default:case 2:case 4:return a==(J.smiles.SmilesSearch.getHandedness(f,h,j,e,k)!=d);case 5:return a==(!J.smiles.SmilesSearch.isDiaxial(b,
-b,g,e,k,-0.95)||J.smiles.SmilesSearch.getHandedness(f,h,j,e,k)!=d);case 6:if(a!=!J.smiles.SmilesSearch.isDiaxial(b,b,l,e,k,-0.95))return!1;J.smiles.SmilesSearch.getPlaneNormals(f,h,j,g,k);if(a!=(0>k.vNorm1.dot(k.vNorm2)||0>k.vNorm2.dot(k.vNorm3)))return!1;k.vNorm2.setT(b);k.vNorm2.sub(e);return a==((0>k.vNorm1.dot(k.vNorm2)?2:1)==d);case 8:return J.smiles.SmilesSearch.getPlaneNormals(e,f,h,j,k),0>k.vNorm1.dot(k.vNorm2)?a==(3!=d):0>k.vNorm2.dot(k.vNorm3)?a==(2!=d):a==(1!=d)}},"~B,J.util.JmolNode,~N,~N,J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.smiles.SmilesSearch.VTemp");
-$_M(c$,"getJmolAtom",($fz=function(a){return 0>a||a>=this.jmolAtoms.length?null:this.jmolAtoms[a]},$fz.isPrivate=!0,$fz),"~N");$_M(c$,"setSmilesBondCoordinates",($fz=function(a,b,c){a=this.jmolAtoms[a.getMatchingAtom()];b=this.jmolAtoms[b.getMatchingAtom()];a.set(-1,0,0);b.set(1,0,0);if(2==c){var d=0,e=0;c=a.getEdges();for(var f=c.length;0<=--f;){var h=c[f],j=h.getOtherAtomNode(a);if(j!==b)switch(j.set(-1,0==d++?-1:1,0),j=h.getAtomIndex2()==a.getIndex()?d:-d,h.order){case 1025:e=j;break;case 1041:e=
--j}}var g=0,d=0,l=Array(2);c=b.getEdges();for(f=c.length;0<=--f;)if(h=c[f],j=h.getOtherAtomNode(b),j!==a)switch(l[d]=j,j.set(1,0==d++?1:-1,0),j=h.getAtomIndex2()==b.getIndex()?d:-d,h.order){case 1025:g=j;break;case 1041:g=-j}0<e*g==(Math.abs(e)%2==Math.abs(g)%2)&&(a=l[0].y,l[0].y=l[1].y,l[1].y=a)}else{c=a.getEdges();l=0;for(f=c.length;0<=--f;)if(h=c[f],h.getOtherAtomNode(a)===b){l=33==h.order?1:-1;break}for(f=c.length;0<=--f;)h=c[f],j=h.getOtherAtomNode(a),j!==b&&j.set(-1,1,0);c=b.getEdges();for(f=
-c.length;0<=--f;)h=c[f],j=h.getOtherAtomNode(b),j!==a&&j.set(1,1,-l/2)}},$fz.isPrivate=!0,$fz),"J.smiles.SmilesAtom,J.smiles.SmilesAtom,~N");$_M(c$,"setSmilesCoordinates",($fz=function(a,b,c,d){var e=a.getAtomSite();if(-2147483648==e)return!1;var f=e>>8,e=e&255;c=2==f||3==f?c=this.jmolAtoms[c.getMatchingAtom()]:null;a.set(0,0,0);a=this.jmolAtoms[b.getMatchingAtom()];a.set(0,0,0);a=this.getMappedAtoms(a,c,d);switch(f){case 2:case 4:2==e&&(e=a[0],a[0]=a[1],a[1]=e);d[a[0]].set(0,0,1);d[a[1]].set(1,0,
--1);d[a[2]].set(0,1,-1);d[a[3]].set(-1,-1,-1);break;case 8:switch(e){case 1:d[a[0]].set(1,0,0);d[a[1]].set(0,1,0);d[a[2]].set(-1,0,0);d[a[3]].set(0,-1,0);break;case 2:d[a[0]].set(1,0,0);d[a[1]].set(-1,0,0);d[a[2]].set(0,1,0);d[a[3]].set(0,-1,0);break;case 3:d[a[0]].set(1,0,0),d[a[1]].set(0,1,0),d[a[2]].set(0,-1,0),d[a[3]].set(-1,0,0)}break;case 5:case 6:f=a.length,2==e&&(e=a[0],a[0]=a[f-1],a[f-1]=e),d[a[0]].set(0,0,1),d[a[f-1]].set(0,0,-1),d[a[1]].set(1,0,0),d[a[2]].set(0,1,0),d[a[3]].set(-1,0,0),
-6==f&&d[a[4]].set(0,-1,0)}return!0},$fz.isPrivate=!0,$fz),"J.util.JmolNode,J.smiles.SmilesAtom,J.smiles.SmilesAtom,~A");$_M(c$,"getMappedAtoms",function(a,b,c){for(var d=Clazz.newIntArray(null==c[4]?4:null==c[5]?5:6,0),e=0;e<d.length;e++)d[e]=null==c[e]?104+100*e:c[e].getIndex();for(var f,h=a.getEdges(),j=null==b?null:b.getEdges(),e=0;e<d.length;e++){for(f=0;f<h.length&&h[f].getOtherAtomNode(a)!==c[e];f++);if(f<h.length)d[e]=10*f+100+e;else if(null!=b){for(f=0;f<j.length&&j[f].getOtherAtomNode(b)!==
-c[e];f++);f<j.length&&(d[e]=10*f+300+e)}}java.util.Arrays.sort(d);for(e=0;e<d.length;e++)d[e]%=10;return d},"J.util.JmolNode,J.util.JmolNode,~A");c$.isDiaxial=$_M(c$,"isDiaxial",function(a,b,c,d,e,f){e.vA.setT(a);e.vB.setT(b);e.vA.sub(c);e.vB.sub(d);e.vA.normalize();e.vB.normalize();return e.vA.dot(e.vB)<f},"J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.smiles.SmilesSearch.VTemp,~N");c$.getHandedness=$_M(c$,"getHandedness",($fz=function(a,b,c,d,e){a=J.smiles.SmilesAromatic.getNormalThroughPoints(a,
-b,c,e.vTemp,e.vA,e.vB);return 0<J.smiles.SmilesSearch.distanceToPlane(e.vTemp,a,d)?1:2},$fz.isPrivate=!0,$fz),"J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.smiles.SmilesSearch.VTemp");c$.getPlaneNormals=$_M(c$,"getPlaneNormals",($fz=function(a,b,c,d,e){J.smiles.SmilesAromatic.getNormalThroughPoints(a,b,c,e.vNorm1,e.vTemp1,e.vTemp2);J.smiles.SmilesAromatic.getNormalThroughPoints(b,c,d,e.vNorm2,e.vTemp1,e.vTemp2);J.smiles.SmilesAromatic.getNormalThroughPoints(c,d,a,e.vNorm3,e.vTemp1,
-e.vTemp2)},$fz.isPrivate=!0,$fz),"J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.smiles.SmilesSearch.VTemp");c$.distanceToPlane=$_M(c$,"distanceToPlane",function(a,b,c){return null==a?NaN:(a.x*c.x+a.y*c.y+a.z*c.z+b)/Math.sqrt(a.x*a.x+a.y*a.y+a.z*a.z)},"J.util.V3,~N,J.util.P3");$_M(c$,"createTopoMap",function(a){null==a&&(a=new J.util.BS);var b=this.getMissingHydrogenCount();this.jmolAtoms=b=Array(this.atomCount+b);for(var c=0,d=new J.util.BS,e=0;e<this.atomCount;e++){var f=this.patternAtoms[e],
-h=f.getChiralClass(),j=f.missingHydrogenCount;0>j&&(j=0);var g=b[c]=(new J.smiles.SmilesAtom).setAll(0,c,-2147483648==h?h:(h<<8)+f.getChiralOrder(),f.elementNumber,f.getCharge());g.atomName=f.atomName;g.residueName=f.residueName;g.residueChar=f.residueChar;g.isBioAtom=f.isBioAtom;g.$isLeadAtom=f.$isLeadAtom;g.setAtomicMass(f.getAtomicMass());f.isAromatic()&&a.set(c);!f.isFirst&&(1==j&&0<h)&&d.set(c);f.setMatchingAtom(c++);f=Array(f.getBondCount()+j);for(g.setBonds(f);0<=--j;)f=b[c]=(new J.smiles.SmilesAtom).setAll(0,
-c,0,1,0),c++,f.setBonds(Array(1)),h=new J.smiles.SmilesBond(g,f,1,!1),J.util.Logger.info(""+h)}for(e=0;e<this.atomCount;e++){f=this.patternAtoms[e];j=f.getMatchingAtom();a=b[j];j=f.getBondCount();for(c=0;c<j;c++)if(g=f.getBond(c),g.getAtom1()===f){h=1;switch(g.order){case 769:h=33;break;case 1025:h=97;break;case 257:h=1025;break;case 513:h=1041;break;case 112:case 96:h=g.order;break;case 1:h=1;break;case 17:h=514;break;case 2:h=2;break;case 3:h=3}g=b[g.getAtom2().getMatchingAtom()];h=new J.smiles.SmilesBond(a,
-g,h,!1);g.bondCount--;J.util.Logger.info(""+h)}else g=b[g.getAtom1().getMatchingAtom()],h=g.getBondTo(a),a.addBond(h)}for(e=d.nextSetBit(0);0<=e;e=d.nextSetBit(e+1))f=b[e].getEdges(),h=f[0],f[0]=f[1],f[1]=h},"J.util.BS");$_M(c$,"setTop",function(a){this.top=null==a?this:a.getTop()},"J.smiles.SmilesSearch");$_M(c$,"getTop",function(){return this.top===this?this:this.top.getTop()});$_M(c$,"getSelections",function(){var a=this.top.htNested;if(!(null==a||0==this.jmolAtoms.length))for(var b=new java.util.Hashtable,
-c,a=a.entrySet().iterator();a.hasNext()&&((c=a.next())||1);){var d=c.getValue().toString();if(d.startsWith("select")){var e=b.containsKey(d)?b.get(d):this.jmolAtoms[0].findAtomsLike(d.substring(6));null==e&&(e=new J.util.BS);b.put(d,e);c.setValue(e)}}});Clazz.pu$h();c$=Clazz.decorateAsClass(function(){this.bsTemp=this.vNorm3=this.vNorm2=this.vNorm1=this.vTemp2=this.vTemp1=this.vB=this.vA=this.vTemp=null;Clazz.instantialize(this,arguments)},J.smiles.SmilesSearch,"VTemp");Clazz.prepareFields(c$,function(){this.vTemp=
-new J.util.V3;this.vA=new J.util.V3;this.vB=new J.util.V3;this.vTemp1=new J.util.V3;this.vTemp2=new J.util.V3;this.vNorm1=new J.util.V3;this.vNorm2=new J.util.V3;this.vNorm3=new J.util.V3;this.bsTemp=new J.util.BS});c$=Clazz.p0p();Clazz.defineStatics(c$,"INITIAL_ATOMS",16)});Clazz.declarePackage("J.smiles");
-Clazz.load(["java.util.Hashtable","J.smiles.SmilesSearch","J.util.BS"],"J.smiles.SmilesGenerator","J.smiles.InvalidSmilesException $.SmilesAromatic $.SmilesAtom $.SmilesBond $.SmilesParser J.util.BSUtil $.Elements $.JmolList $.JmolMolecule $.Logger $.SB".split(" "),function(){c$=Clazz.decorateAsClass(function(){this.atoms=null;this.atomCount=0;this.vTemp=this.ringSets=this.bsAromatic=this.bsSelected=null;this.nPairs=0;this.bsIncludingH=this.htRings=this.htRingsSequence=this.prevSp2Atoms=this.prevAtom=
-this.bsToDo=this.bsBondsDn=this.bsBondsUp=null;Clazz.instantialize(this,arguments)},J.smiles,"SmilesGenerator");Clazz.prepareFields(c$,function(){this.vTemp=new J.smiles.SmilesSearch.VTemp;this.bsBondsUp=new J.util.BS;this.bsBondsDn=new J.util.BS;this.htRingsSequence=new java.util.Hashtable;this.htRings=new java.util.Hashtable});$_M(c$,"getSmiles",function(a,b,c){var d=c.nextSetBit(0);if(0>d)return"";this.atoms=a;this.atomCount=b;this.bsSelected=c=J.util.BSUtil.copy(c);return this.getSmilesComponent(a[d],
-c,!1)},"~A,~N,J.util.BS");$_M(c$,"getBioSmiles",function(a,b,c,d,e,f){this.atoms=a;this.atomCount=b;b=new J.util.SB;c=J.util.BSUtil.copy(c);null!=f&&b.append("//* Jmol bioSMILES ").append(f.$replace("*","_")).append(" *//");f="\n";var h=new J.util.BS,j=null,g,l=new J.util.JmolList;try{for(var k=0,m=c.nextSetBit(0);0<=m;m=c.nextSetBit(m+1)){var n=a[m],q=n.getGroup1("?"),p=n.getBioStructureTypeName(),s=q.equals("?");if(null!=f)if(0<b.length()&&b.append(f),f=null,k=0,0<p.length)0!=n.getChainID()&&(g=
-"//* chain "+n.getChainIDStr()+" "+p+" "+n.getResno()+" *// ",k=g.length,b.append(g)),b.append("~").appendC(p.charAt(0)).append("~"),k++;else{g=this.getSmilesComponent(n,c,!0);if(g.equals(j))f="";else{var j=g,r=n.getGroup3(!0);null!=r&&b.append("//* ").append(r).append(" *//");b.append(g);f=".\n"}continue}75<=k&&(b.append("\n  "),k=2);s?this.addBracketedBioName(b,n,0<p.length?".0":null):b.append(q);k++;var u=n.getOffsetResidueAtom("0",0);if(e){n.getCrossLinkLeadAtomIndexes(l);for(var w=0;w<l.size();w++)b.append(":"),
-g=this.getRingCache(u,l.get(w).intValue(),this.htRingsSequence),b.append(g),k+=1+g.length;l.clear()}n.getGroupBits(h);c.andNot(h);var x=n.getOffsetResidueAtom("0",1);if(0>x||!c.get(x)){b.append(" //* ").appendI(n.getResno()).append(" *//");if(0>x&&0>(x=c.nextSetBit(m+1)))break;0<k&&(f=".\n")}m=x-1}}catch(t){if(Clazz.exceptionOf(t,Exception))return System.out.println(t.toString()),"";throw t;}if(!d&&!this.htRingsSequence.isEmpty())throw this.dumpRingKeys(b,this.htRingsSequence),new J.smiles.InvalidSmilesException("//* ?ring error? *//");
-g=b.toString();g.endsWith(".\n")&&(g=g.substring(0,g.length-2));return g},"~A,~N,J.util.BS,~B,~B,~S");$_M(c$,"addBracketedBioName",($fz=function(a,b,c){a.append("[");if(null!=c){var d=b.getChainIDStr();a.append(b.getGroup3(!1));c.equals(".0")||a.append(c).append("#").appendI(b.getElementNumber());a.append("//* ").appendI(b.getResno());0<d.length&&a.append(":").append(d);a.append(" *//")}else a.append(J.util.Elements.elementNameFromNumber(b.getElementNumber()));a.append("]")},$fz.isPrivate=!0,$fz),
-"J.util.SB,J.util.JmolNode,~S");$_M(c$,"getSmilesComponent",($fz=function(a,b,c){1==a.getElementNumber()&&0<a.getEdges().length&&(a=this.atoms[a.getBondedAtomIndex(0)]);this.bsSelected=J.util.JmolMolecule.getBranchBitSet(this.atoms,a.getIndex(),J.util.BSUtil.copy(b),null,-1,!0,!1);b.andNot(this.bsSelected);this.bsIncludingH=J.util.BSUtil.copy(this.bsSelected);for(b=this.bsSelected.nextSetBit(0);0<=b;b=this.bsSelected.nextSetBit(b+1)){var d=this.atoms[b];1==d.getElementNumber()&&0==d.getIsotopeNumber()&&
-this.bsSelected.clear(b)}2<this.bsSelected.cardinality()?(b=null,b=J.smiles.SmilesParser.getMolecule("A[=&@]A",!0),b.jmolAtoms=this.atoms,b.setSelected(this.bsSelected),b.jmolAtomCount=this.atomCount,b.ringDataMax=7,b.setRingData(null),this.bsAromatic=b.bsAromatic,this.ringSets=b.ringSets,this.setBondDirections()):this.bsAromatic=new J.util.BS;this.bsToDo=J.util.BSUtil.copy(this.bsSelected);b=new J.util.SB;for(d=this.bsToDo.nextSetBit(0);0<=d;d=this.bsToDo.nextSetBit(d+1))4<this.atoms[d].getCovalentBondCount()&&
-(this.getSmiles(b,this.atoms[d],c,!1),a=null);if(null!=a)for(;null!=(a=this.getSmiles(b,a,c,!0)););for(;0<this.bsToDo.cardinality()||!this.htRings.isEmpty();){a=this.htRings.values().iterator();if(a.hasNext()){if(a=this.atoms[a.next()[1].intValue()],!this.bsToDo.get(a.getIndex()))break}else a=this.atoms[this.bsToDo.nextSetBit(0)];b.append(".");for(this.prevAtom=this.prevSp2Atoms=null;null!=(a=this.getSmiles(b,a,c,!0)););}if(!this.htRings.isEmpty())throw this.dumpRingKeys(b,this.htRings),new J.smiles.InvalidSmilesException("//* ?ring error? *//\n"+
-b);return b.toString()},$fz.isPrivate=!0,$fz),"J.util.JmolNode,J.util.BS,~B");$_M(c$,"getBondStereochemistry",($fz=function(a,b){if(null==a)return"\x00";var c=a.index,d=null==b||a.getAtomIndex1()==b.getIndex();return this.bsBondsUp.get(c)?d?"/":"\\":this.bsBondsDn.get(c)?d?"\\":"/":"\x00"},$fz.isPrivate=!0,$fz),"J.util.JmolEdge,J.util.JmolNode");$_M(c$,"setBondDirections",($fz=function(){for(var a=new J.util.BS,b=Clazz.newArray(2,3,null),c=this.bsSelected.nextSetBit(0);0<=c;c=this.bsSelected.nextSetBit(c+
-1))for(var d=this.atoms[c],e=d.getEdges(),f=0;f<e.length;f++){var h=e[f],j=h.index;if(!a.get(j)){var g=h.getOtherAtomNode(d);if(!(2!=h.getCovalentOrder()||J.smiles.SmilesSearch.isRingBond(this.ringSets,c,g.getIndex()))){a.set(j);var l=h=null,j=0,k=[d,g];J.util.Logger.debugging&&J.util.Logger.debug(d+" == "+g);l=1;for(g=0;2>g&&0<l&&3>l;g++)for(var l=0,m=k[g],n=m.getEdges(),q=0;q<n.length;q++)1==n[q].getCovalentOrder()&&(b[g][l++]=n[q],"\x00"!=this.getBondStereochemistry(n[q],m)&&(h=n[q],j=g));if(!(3==
-l||0==l))if(null==h&&(j=0,h=b[j][0],this.bsBondsUp.set(h.index)),m=this.getBondStereochemistry(h,k[j]),l=h.getOtherAtomNode(k[j]),null!=l)for(g=0;2>g;g++)for(n=0;2>n;n++)if(q=b[g][n],!(null==q||q===h)){var p=q.index,s=q.getOtherAtomNode(k[g]);if(null!=s){var r=this.getBondStereochemistry(q,k[g]),u=J.smiles.SmilesSearch.isDiaxial(k[j],k[g],l,s,this.vTemp,0);"\x00"==r||r!=m==u?("\\"==m&&u||"/"==m&&!u)==(q.getAtomIndex1()!=s.getIndex())?this.bsBondsUp.set(p):this.bsBondsDn.set(p):J.util.Logger.error("BOND STEREOCHEMISTRY ERROR");
-J.util.Logger.debugging&&J.util.Logger.debug(this.getBondStereochemistry(h,k[0])+" "+l.getIndex()+" "+s.getIndex()+" "+this.getBondStereochemistry(q,k[g]))}}}}}},$fz.isPrivate=!0,$fz));$_M(c$,"getSmiles",($fz=function(a,b,c,d){var e=b.getIndex();if(!this.bsToDo.get(e))return null;this.bsToDo.clear(e);var f=!this.bsSelected.get(e),h=null==this.prevAtom?-1:this.prevAtom.getIndex(),j=this.bsAromatic.get(e),g=null!=this.prevSp2Atoms,l=this.prevSp2Atoms,k=0,m=b.getElementNumber(),n=0,q=new J.util.JmolList,
-p=null,s=null,r=b.getEdges(),u=null,w=j?10:0,x=Array(7);J.util.Logger.debugging&&J.util.Logger.debug(a.toString());if(null!=r)for(var t=r.length;0<=--t;){var v=r[t];if(v.isCovalent()){var y=r[t].getOtherAtomNode(b),v=y.getIndex();if(v==h)s=r[t];else{var z=1==y.getElementNumber()&&0==y.getIsotopeNumber();if(!this.bsIncludingH.get(v))if(!z&&c&&this.bsSelected.get(e))this.bsToDo.set(v);else continue;z?(u=y,n++,1<n&&(w=10)):q.addLast(r[t])}}}r=null;null==l&&(l=Array(5));null!=s&&(r=J.smiles.SmilesBond.getBondOrderString(s.getCovalentOrder()),
-null==this.prevSp2Atoms?l[k++]=this.prevAtom:k=2);var k=k+n,h=0,B=new J.util.BS;if(d)for(t=0;t<q.size();t++){var v=q.get(t),z=v.getOtherAtomNode(b),y=z.getCovalentBondCount()-z.getCovalentHydrogenCount(),A=v.getCovalentOrder();if(1==A&&1==y&&t<q.size()-(null==p?1:0))B.set(v.index);else if((1<A||y>h)&&!this.htRings.containsKey(J.smiles.SmilesGenerator.getRingKey(z.getIndex(),e)))h=1<A?1E3+A:y,p=v}h=null==p?null:p.getOtherAtomNode(b);y=null==p?0:p.getCovalentOrder();7>w&&null!=s&&(2==s.getCovalentOrder()&&
-2==y&&null!=this.prevSp2Atoms&&null!=this.prevSp2Atoms[1]?(x[w++]=this.prevSp2Atoms[0],x[w++]=this.prevSp2Atoms[1]):x[w++]=this.prevAtom);7>w&&1==n&&(x[w++]=u);u=1==y&&null==this.prevSp2Atoms;A=this.getBondStereochemistry(s,this.prevAtom);s=new J.util.SB;for(t=0;t<q.size();t++)v=q.get(t),B.get(v.index)&&(z=v.getOtherAtomNode(b),v=new J.util.SB,v.append("("),this.prevAtom=b,this.prevSp2Atoms=null,this.getSmiles(v,z,c,d),v.append(")"),0<=s.indexOf(v.toString())&&(w=10),s.appendSB(v),q.remove(t--),7>
-w&&(x[w++]=z),5>k&&(l[k++]=z));t=2==y?h.getIndex():-1;if(1<n||j||0>t||J.smiles.SmilesSearch.isRingBond(this.ringSets,e,t))k=-1;0>k&&(l=null);if(null!=r||"\x00"!=A)"\x00"!=A&&(r=""+A),a.append(r);c=null;if(!d&&(5==q.size()||6==q.size()))c=this.sortInorganic(b,q);for(t=0;t<q.size();t++)v=q.get(t),v!==p&&(z=v.getOtherAtomNode(b),d=this.getRingCache(e,z.getIndex(),this.htRings),r=J.smiles.SmilesBond.getBondOrderString(v.order),u||(A=this.getBondStereochemistry(v,b),"\x00"!=A&&(r=""+A)),s.append(r),s.append(d),
-7>w&&(x[w++]=z),null!=l&&5>k&&(l[k++]=z));if(g&&2==w&&2==y&&3==h.getCovalentBondCount()){r=h.getEdges();for(k=0;k<r.length;k++)r[k].isCovalent()&&h.getBondedAtomIndex(k)!=e&&(x[w++]=this.atoms[h.getBondedAtomIndex(k)]);k=0}else null!=h&&7>w&&(x[w++]=h);g=b.getValence();q=b.getFormalCharge();d=b.getIsotopeNumber();t=b.getAtomName();r=b.getBioStructureTypeName();J.util.Logger.debugging&&a.append("\n//* "+b+" *//\t");f&&0!=r.length&&0!=t.length?this.addBracketedBioName(a,b,"."+t):a.append(J.smiles.SmilesAtom.getAtomLabel(m,
-d,g,q,n,j,null!=c?c:this.checkStereoPairs(b,e,x,w)));a.appendSB(s);if(null==p)return null;2==y&&(1==k||2==k)?(null==l[0]&&(l[0]=b),null==l[1]&&(l[1]=b)):l=null;this.prevSp2Atoms=l;this.prevAtom=b;return h},$fz.isPrivate=!0,$fz),"J.util.SB,J.util.JmolNode,~B,~B");$_M(c$,"sortInorganic",($fz=function(a,b){for(var c=a.getIndex(),d=b.size(),e=new J.util.JmolList,f=new J.util.JmolList,h,j,g,l,k=new J.util.BS,m=null,n=Array(6),m=!0,q="",p=0;p<d;p++)if(g=b.get(p),n[0]=h=g.getOtherAtomNode(a),0==p?q=this.addStereoCheck(c,
-n,0,""):m&&null!=this.addStereoCheck(c,n,0,q)&&(m=!1),!k.get(p)){k.set(p);for(var s=!1,r=p+1;r<d;r++)if(!k.get(r)&&(l=b.get(r),j=l.getOtherAtomNode(a),J.smiles.SmilesSearch.isDiaxial(a,a,h,j,this.vTemp,-0.95))){e.addLast([g,l]);s=!0;k.set(r);break}s||f.addLast(g)}c=e.size();if(m||6==d&&3!=c||5==d&&0==c)return"";m=e.get(0);g=m[0];n[0]=g.getOtherAtomNode(a);b.clear();b.addLast(g);1<c&&f.addLast(e.get(1)[0]);3==c&&f.addLast(e.get(2)[0]);1<c&&f.addLast(e.get(1)[1]);3==c&&f.addLast(e.get(2)[1]);for(p=
-0;p<f.size();p++)g=f.get(p),b.addLast(g),n[p+1]=g.getOtherAtomNode(a);b.addLast(m[1]);return J.smiles.SmilesGenerator.getStereoFlag(a,n,d,this.vTemp)},$fz.isPrivate=!0,$fz),"J.util.JmolNode,J.util.JmolList");$_M(c$,"checkStereoPairs",($fz=function(a,b,c,d){if(4>d)return"";if(4==d&&6==a.getElementNumber())for(var e="",f=0;4>f;f++)if(null==(e=this.addStereoCheck(b,c,f,e))){d=10;break}return 6<d?"":J.smiles.SmilesGenerator.getStereoFlag(a,c,d,this.vTemp)},$fz.isPrivate=!0,$fz),"J.util.JmolNode,~N,~A,~N");
-c$.getStereoFlag=$_M(c$,"getStereoFlag",($fz=function(a,b,c,d){var e=b[0],f=b[1],h=b[2],j=b[3],g=b[4];b=b[5];var l=4;switch(c){default:case 5:case 6:return J.smiles.SmilesSearch.checkStereochemistryAll(!1,a,l,1,e,f,h,j,g,b,d)?"@":"@@";case 2:case 4:if(null==h||null==j)break;c=J.smiles.SmilesAromatic.getNormalThroughPoints(e,f,h,d.vTemp,d.vA,d.vB);if(0.2>Math.abs(J.smiles.SmilesSearch.distanceToPlane(d.vTemp,c,j))){l=8;if(J.smiles.SmilesSearch.checkStereochemistryAll(!1,a,l,1,e,f,h,j,g,b,d))return"@SP1";
-if(J.smiles.SmilesSearch.checkStereochemistryAll(!1,a,l,2,e,f,h,j,g,b,d))return"@SP2";if(J.smiles.SmilesSearch.checkStereochemistryAll(!1,a,l,3,e,f,h,j,g,b,d))return"@SP3"}else return J.smiles.SmilesSearch.checkStereochemistryAll(!1,a,l,1,e,f,h,j,g,b,d)?"@":"@@"}return""},$fz.isPrivate=!0,$fz),"J.util.JmolNode,~A,~N,J.smiles.SmilesSearch.VTemp");$_M(c$,"addStereoCheck",($fz=function(a,b,c,d){var e=b[c].getAtomicAndIsotopeNumber(),f=b[c].getCovalentBondCount(),h=6==e?b[c].getCovalentHydrogenCount():
-0;if(6==e?4!=f||3!=h:1<f)return d;e=";"+e+"/"+h+"/"+f+",";if(0<=d.indexOf(e)){if(3==h){for(e=h=0;e<f&&3>h;e++){var j=b[c].getBondedAtomIndex(e);j!=a&&(h+=this.atoms[j].getAtomicAndIsotopeNumber())}if(3<h)return d}return null}return d+e},$fz.isPrivate=!0,$fz),"~N,~A,~N,~S");$_M(c$,"getRingCache",($fz=function(a,b,c){var d=J.smiles.SmilesGenerator.getRingKey(a,b),e=c.get(d),e=null==e?null:e[0];null==e?(c.put(d,[e=J.smiles.SmilesParser.getRingPointer(++this.nPairs),Integer.$valueOf(b)]),J.util.Logger.debugging&&
-J.util.Logger.debug("adding for "+a+" ring key "+this.nPairs+": "+d)):(c.remove(d),J.util.Logger.debugging&&J.util.Logger.debug("using ring key "+d));return e},$fz.isPrivate=!0,$fz),"~N,~N,java.util.Map");$_M(c$,"dumpRingKeys",($fz=function(a,b){J.util.Logger.info(a.toString()+"\n\n");for(var c=b.keySet().iterator();c.hasNext();)J.util.Logger.info("unmatched ring key: "+c.next())},$fz.isPrivate=!0,$fz),"J.util.SB,java.util.Map");c$.getRingKey=$_M(c$,"getRingKey",function(a,b){return Math.min(a,b)+
-"_"+Math.max(a,b)},"~N,~N")});Clazz.declarePackage("J.smiles");
-Clazz.load(null,"J.smiles.SmilesAromatic",["J.util.BS","$.V3"],function(){c$=Clazz.declareType(J.smiles,"SmilesAromatic");c$.isFlatSp2Ring=$_M(c$,"isFlatSp2Ring",function(a,b,c,d){for(var e=c.nextSetBit(0);0<=e;e=c.nextSetBit(e+1)){var f=a[e],h=f.getEdges();if(!(3>h.length)&&3<h.length)return!1}if(3.4028235E38==d)return!0;0>=d&&(d=0.01);for(var j=new J.util.V3,g=new J.util.V3,l=new J.util.V3,k=null,e=c.cardinality(),m=Array(2*e),n=0,q=1-5*d,e=c.nextSetBit(0);0<=e;e=c.nextSetBit(e+1)){for(var f=a[e],
-h=f.getEdges(),p=-1,s=-1,r=-1,h=h.length;0<=--h;){var u=f.getBondedAtomIndex(h);b.get(u)&&(c.get(u)?0>s?s=u:r=u:p=u)}J.smiles.SmilesAromatic.getNormalThroughPoints(a[s],a[e],a[r],j,g,l);null==k&&(k=new J.util.V3);if(!J.smiles.SmilesAromatic.addNormal(j,k,q))return!1;m[n++]=J.util.V3.newV(j);if(0<=p){J.smiles.SmilesAromatic.getNormalThroughPoints(a[s],a[p],a[r],j,g,l);if(!J.smiles.SmilesAromatic.addNormal(j,k,q))return!1;m[n++]=J.util.V3.newV(j)}}return J.smiles.SmilesAromatic.checkStandardDeviation(m,
-k,n,d)},"~A,J.util.BS,J.util.BS,~N");c$.addNormal=$_M(c$,"addNormal",($fz=function(a,b,c){var d=b.dot(a);if(0!=d&&Math.abs(d)<c)return!1;0>d&&a.scale(-1);b.add(a);b.normalize();return!0},$fz.isPrivate=!0,$fz),"J.util.V3,J.util.V3,~N");c$.checkStandardDeviation=$_M(c$,"checkStandardDeviation",($fz=function(a,b,c,d){for(var e=0,f=0,h=0;h<c;h++)var j=a[h].dot(b),e=e+j,f=f+j*j;e=Math.sqrt((f-e*e/c)/(c-1));return e<d},$fz.isPrivate=!0,$fz),"~A,J.util.V3,~N,~N");c$.getNormalThroughPoints=$_M(c$,"getNormalThroughPoints",
-function(a,b,c,d,e,f){e.sub2(b,a);f.sub2(c,a);d.cross(e,f);d.normalize();e.setT(a);return-e.dot(d)},"J.util.JmolNode,J.util.JmolNode,J.util.JmolNode,J.util.V3,J.util.V3,J.util.V3");c$.checkAromaticDefined=$_M(c$,"checkAromaticDefined",function(a,b){for(var c=new J.util.BS,d=b.nextSetBit(0);0<=d;d=b.nextSetBit(d+1))for(var e=a[d].getEdges(),f=0;f<e.length;f++)switch(e[f].order){case 515:case 514:case 513:c.set(e[f].getAtomIndex1()),c.set(e[f].getAtomIndex2())}return c},"~A,J.util.BS");c$.checkAromaticStrict=
-$_M(c$,"checkAromaticStrict",function(a,b,c,d){for(var e=new J.util.BS,f=new J.util.BS,h=c.size();0<=--h;){var j=c.get(h);J.smiles.SmilesAromatic.isAromaticRing(b,f,j,5)&&J.smiles.SmilesAromatic.checkAromaticStrict2(a,e,c,d,j,!0)}for(h=d.size();0<=--h;)j=d.get(h),J.smiles.SmilesAromatic.isAromaticRing(b,f,j,6)&&J.smiles.SmilesAromatic.checkAromaticStrict2(a,e,c,d,j,!1);b.clearAll();b.or(e)},"~A,J.util.BS,J.util.JmolList,J.util.JmolList");c$.isAromaticRing=$_M(c$,"isAromaticRing",($fz=function(a,b,
-c,d){b.clearAll();b.or(c);b.and(a);return b.cardinality()==d},$fz.isPrivate=!0,$fz),"J.util.BS,J.util.BS,J.util.BS,~N");c$.checkAromaticStrict2=$_M(c$,"checkAromaticStrict2",($fz=function(a,b,c,d,e,f){f=J.smiles.SmilesAromatic.countInternalPairs(a,e,f)<<1;switch(f){case -3:break;default:for(var h=e.nextSetBit(0);0<=h;h=e.nextSetBit(h+1))for(var j=a[h].getEdges(),g=0;g<j.length;g++)if(2==j[g].order){var l=j[g].getOtherAtomNode(a[h]).getIndex();if(!e.get(l)){for(var k=!1,m=c.size();0<=--m&&!k;){var n=
-c.get(m);if(n.get(l)&&(b.get(l)||3==Math.abs(J.smiles.SmilesAromatic.countInternalPairs(a,n,!0))))k=!0}for(m=d.size();0<=--m&&!k;)if(n=d.get(m),n.get(l)&&(b.get(l)||3==Math.abs(J.smiles.SmilesAromatic.countInternalPairs(a,n,!1))))k=!0;if(!k)return;f++}}}6==f&&b.or(e)},$fz.isPrivate=!0,$fz),"~A,J.util.BS,J.util.JmolList,J.util.JmolList,J.util.BS,~B");c$.countInternalPairs=$_M(c$,"countInternalPairs",($fz=function(a,b,c){for(var d=0,e=0,f=0,h=b.nextSetBit(0);0<=h;h=b.nextSetBit(h+1)){for(var j=a[h],
-g=j.getEdges(),l=!1,k=0;k<g.length;k++){var m=g[k].getOtherAtomNode(j).getIndex();if(b.get(m))switch(g[k].order){case 514:case 513:case 515:e++;break;case 2:d++,l=!0}}if(c&&0==e)switch(j.getElementNumber()){case 7:case 8:case 16:l||f++}}return 0==e?Clazz.doubleToInt(d/2)+f:e==(c?5:6)?-3:0},$fz.isPrivate=!0,$fz),"~A,J.util.BS,~B")});Clazz.declarePackage("J.smiles");
-Clazz.load(["J.util.JmolNode","$.P3"],"J.smiles.SmilesAtom",["J.util.ArrayUtil","$.Elements","$.Logger"],function(){c$=Clazz.decorateAsClass(function(){this.atomsOr=null;this.nAtomsOr=0;this.primitives=null;this.index=this.nPrimitives=0;this.residueChar=this.residueName=this.atomName=null;this.isBioAtom=!1;this.bioType="\x00";this.$isLeadAtom=!1;this.notBondedIndex=-1;this.notCrossLinked=!1;this.aromaticAmbiguous=!0;this.atomType=null;this.covalentHydrogenCount=-1;this.hasSymbol=this.selected=this.not=
-!1;this.isFirst=!0;this.jmolIndex=-1;this.elementNumber=-2;this.implicitHydrogenCount=this.missingHydrogenCount=-2147483648;this.bonds=this.parent=null;this.iNested=this.bondCount=0;this.charge=this.atomicMass=-2147483648;this.matchingAtom=-1;this.chiralOrder=this.chiralClass=-2147483648;this.$isAromatic=!1;this.atomSite=this.component=0;this.nonhydrogenDegree=this.degree=-1;this.valence=0;this.connectivity=-1;this.ringSize=this.ringMembership=-2147483648;this.ringConnectivity=-1;Clazz.instantialize(this,
-arguments)},J.smiles,"SmilesAtom",J.util.P3,J.util.JmolNode);Clazz.prepareFields(c$,function(){this.bonds=Array(4)});c$.getChiralityClass=$_M(c$,"getChiralityClass",function(a){return Clazz.doubleToInt(("0;11;AL;33;TH;TP;OH;77;SP;".indexOf(a)+1)/3)},"~S");c$.allowSmilesUnbracketed=$_M(c$,"allowSmilesUnbracketed",function(a){return 0<="B, C, N, O, P, S, F, Cl, Br, I,".indexOf(a+",")},"~S");$_M(c$,"setBioAtom",function(a){this.isBioAtom="\x00"!=a;this.bioType=a;null!=this.parent&&(this.parent.bioType=
-a,this.parent.isBioAtom=this.isBioAtom)},"~S");$_M(c$,"setAtomName",function(a){null!=a&&(0<a.length&&(this.atomName=a),a.equals("0")&&(this.$isLeadAtom=!0),null!=this.parent&&(this.parent.atomName=a))},"~S");$_M(c$,"setBonds",function(a){this.bonds=a},"~A");$_M(c$,"addAtomOr",function(){null==this.atomsOr&&(this.atomsOr=Array(2));this.nAtomsOr>=this.atomsOr.length&&(this.atomsOr=J.util.ArrayUtil.doubleLength(this.atomsOr));var a=(new J.smiles.SmilesAtom).setIndex(this.index);a.parent=this;this.atomsOr[this.nAtomsOr]=
-a;this.nAtomsOr++;return a});$_M(c$,"addPrimitive",function(){null==this.primitives&&(this.primitives=Array(2));if(this.nPrimitives>=this.primitives.length){var a=Array(2*this.primitives.length);System.arraycopy(this.primitives,0,a,0,this.primitives.length);this.primitives=a}a=(new J.smiles.SmilesAtom).setIndex(this.index);a.parent=this;this.primitives[this.nPrimitives]=a;this.setSymbol("*");this.hasSymbol=!1;this.nPrimitives++;return a});Clazz.overrideMethod(c$,"toString",function(){var a=null!=
-this.residueChar||null!=this.residueName?(null==this.residueChar?this.residueName:this.residueChar)+"."+this.atomName:-1==this.elementNumber?"A":-2==this.elementNumber?"*":J.util.Elements.elementSymbolFromNumber(this.elementNumber);this.$isAromatic&&(a=a.toLowerCase());return"["+a+"."+this.index+(0<=this.matchingAtom?"("+this.matchingAtom+")":"")+"]"});$_M(c$,"setIndex",function(a){this.index=a;return this},"~N");$_M(c$,"setAll",function(a,b,c,d,e){this.component=a;this.index=b;this.atomSite=c;this.elementNumber=
-d;this.charge=e;return this},"~N,~N,~N,~N,~N");$_M(c$,"setHydrogenCount",function(){if(-2147483648!=this.missingHydrogenCount)return!0;var a=J.smiles.SmilesAtom.getDefaultCount(this.elementNumber,this.$isAromatic);if(-2==a)return!1;if(-1==a)return!0;7==this.elementNumber&&this.$isAromatic&&2==this.bondCount&&1==this.bonds[0].order&&1==this.bonds[1].order&&a++;for(var b=0;b<this.bondCount;b++)switch(this.bonds[b].order){case 81:7==this.elementNumber&&J.util.Logger.info("Ambiguous bonding to aromatic N found -- MF may be in error");
-a-=1;break;case 1:case 257:case 513:a-=1;break;case 2:a-=this.$isAromatic&&6==this.elementNumber?1:2;break;case 3:a-=3}0<a&&(this.missingHydrogenCount=a);return!0},"J.smiles.SmilesSearch");c$.getDefaultCount=$_M(c$,"getDefaultCount",function(a,b){switch(a){case 0:case -1:return-1;case 6:return b?3:4;case 8:case 16:return 2;case 7:return b?2:3;case 5:case 15:return 3;case 9:case 17:case 35:case 53:return 1}return-2},"~N,~B");Clazz.overrideMethod(c$,"getIndex",function(){return this.index});$_M(c$,
-"isAromatic",function(){return this.$isAromatic});$_M(c$,"setSymbol",function(a){this.$isAromatic=a.equals(a.toLowerCase());this.hasSymbol=!0;if(a.equals("*"))return this.$isAromatic=!1,this.elementNumber=-2,!0;if(a.equals("Xx"))return this.elementNumber=0,!0;this.aromaticAmbiguous=!1;if(a.equals("a")||a.equals("A"))return 0>this.elementNumber&&(this.elementNumber=-1),!0;this.$isAromatic&&(a=a.substring(0,1).toUpperCase()+(1==a.length?"":a.substring(1)));this.elementNumber=J.util.Elements.elementNumberFromSymbol(a,
-!0);return 0!=this.elementNumber},"~S");Clazz.overrideMethod(c$,"getElementNumber",function(){return this.elementNumber});$_M(c$,"getAtomicMass",function(){return this.atomicMass});$_M(c$,"setAtomicMass",function(a){this.atomicMass=a},"~N");$_M(c$,"getCharge",function(){return this.charge});$_M(c$,"setCharge",function(a){this.charge=a},"~N");$_M(c$,"getMatchingAtom",function(){return this.matchingAtom});$_M(c$,"setMatchingAtom",function(a){this.matchingAtom=a},"~N");$_M(c$,"getChiralClass",function(){return this.chiralClass});
-$_M(c$,"setChiralClass",function(a){this.chiralClass=a},"~N");$_M(c$,"getChiralOrder",function(){return this.chiralOrder});$_M(c$,"setChiralOrder",function(a){this.chiralOrder=a},"~N");$_M(c$,"setExplicitHydrogenCount",function(a){this.missingHydrogenCount=a},"~N");$_M(c$,"setImplicitHydrogenCount",function(a){this.implicitHydrogenCount=a},"~N");$_M(c$,"setDegree",function(a){this.degree=a},"~N");$_M(c$,"setNonhydrogenDegree",function(a){this.nonhydrogenDegree=a},"~N");$_M(c$,"setValence",function(a){this.valence=
-a},"~N");$_M(c$,"setConnectivity",function(a){this.connectivity=a},"~N");$_M(c$,"setRingMembership",function(a){this.ringMembership=a},"~N");$_M(c$,"setRingSize",function(a){this.ringSize=a},"~N");$_M(c$,"setRingConnectivity",function(a){this.ringConnectivity=a},"~N");Clazz.overrideMethod(c$,"getModelIndex",function(){return this.component});Clazz.overrideMethod(c$,"getAtomSite",function(){return this.atomSite});Clazz.overrideMethod(c$,"getImplicitHydrogenCount",function(){return 0});$_M(c$,"getExplicitHydrogenCount",
-function(){return this.missingHydrogenCount});Clazz.overrideMethod(c$,"getFormalCharge",function(){return this.charge});Clazz.overrideMethod(c$,"getIsotopeNumber",function(){return this.atomicMass});Clazz.overrideMethod(c$,"getAtomicAndIsotopeNumber",function(){return J.util.Elements.getAtomicAndIsotopeNumber(this.elementNumber,this.atomicMass)});Clazz.overrideMethod(c$,"getAtomName",function(){return null==this.atomName?"":this.atomName});Clazz.overrideMethod(c$,"getGroup3",function(){return null==
-this.residueName?"":this.residueName},"~B");Clazz.overrideMethod(c$,"getGroup1",function(){return null==this.residueChar?"":this.residueChar},"~S");$_M(c$,"addBond",function(a){this.bondCount>=this.bonds.length&&(this.bonds=J.util.ArrayUtil.doubleLength(this.bonds));this.bonds[this.bondCount]=a;this.bondCount++},"J.smiles.SmilesBond");$_M(c$,"setBondArray",function(){this.bonds.length>this.bondCount&&(this.bonds=J.util.ArrayUtil.arrayCopyObject(this.bonds,this.bondCount));null!=this.atomsOr&&this.atomsOr.length>
-this.nAtomsOr&&(this.atomsOr=J.util.ArrayUtil.arrayCopyObject(this.atomsOr,this.atomsOr.length));null!=this.primitives&&this.primitives.length>this.nPrimitives&&(this.primitives=J.util.ArrayUtil.arrayCopyObject(this.primitives,this.primitives.length));for(var a=0;a<this.bonds.length;a++)this.isBioAtom&&17==this.bonds[a].order&&(this.bonds[a].order=112),this.bonds[a].getAtom1().index>this.bonds[a].getAtom2().index&&this.bonds[a].switchAtoms()});Clazz.overrideMethod(c$,"getEdges",function(){return null!=
-this.parent?this.parent.getEdges():this.bonds});$_M(c$,"getBond",function(a){return null!=this.parent?this.parent.getBond(a):0<=a&&a<this.bondCount?this.bonds[a]:null},"~N");Clazz.overrideMethod(c$,"getCovalentBondCount",function(){return this.getBondCount()});$_M(c$,"getBondCount",function(){return null!=this.parent?this.parent.getCovalentBondCount():this.bondCount});$_M(c$,"getMatchingBondedAtom",function(a){if(null!=this.parent)return this.parent.getMatchingBondedAtom(a);if(a>=this.bondCount)return-1;
-a=this.bonds[a];return(a.getAtom1()===this?a.getAtom2():a.getAtom1()).matchingAtom},"~N");Clazz.overrideMethod(c$,"getBondedAtomIndex",function(a){return null!=this.parent?this.parent.getBondedAtomIndex(a):this.bonds[a].getOtherAtom(this).index},"~N");Clazz.overrideMethod(c$,"getCovalentHydrogenCount",function(){if(0<=this.covalentHydrogenCount)return this.covalentHydrogenCount;if(null!=this.parent)return this.parent.getCovalentHydrogenCount();for(var a=this.covalentHydrogenCount=0;a<this.bonds.length;a++)1==
-this.bonds[a].getOtherAtom(this).elementNumber&&this.covalentHydrogenCount++;return this.covalentHydrogenCount});Clazz.overrideMethod(c$,"getValence",function(){if(null!=this.parent)return this.parent.getValence();var a=this.valence;if(0>=a&&null!=this.bonds)for(var b=this.bonds.length;0<=--b;)a+=this.bonds[b].getValence();return this.valence=a});$_M(c$,"getBondTo",function(a){if(null!=this.parent)return this.parent.getBondTo(a);for(var b,c=0;c<this.bonds.length;c++)if(null!=(b=this.bonds[c]))if(null==
-a?b.getAtom2()===this:b.getOtherAtom(this)===a)return b;return null},"J.smiles.SmilesAtom");$_M(c$,"getBondNotTo",function(a,b){for(var c,d=0;d<this.bonds.length;d++)if(null!=(c=this.bonds[d])){var e=c.getOtherAtom(this);if(a!==e&&(b||1!=e.elementNumber))return c}return null},"J.smiles.SmilesAtom,~B");Clazz.overrideMethod(c$,"isLeadAtom",function(){return this.$isLeadAtom});Clazz.overrideMethod(c$,"getOffsetResidueAtom",function(){if(this.isBioAtom)for(var a=0;a<this.bonds.length;a++)if(this.bonds[a].getAtomIndex1()==
-this.index&&96==this.bonds[a].order)return this.bonds[a].getOtherAtom(this).index;return-1},"~S,~N");Clazz.overrideMethod(c$,"getGroupBits",function(a){a.set(this.index)},"J.util.BS");Clazz.overrideMethod(c$,"isCrossLinked",function(a){return this.getBondTo(a).isHydrogen()},"J.util.JmolNode");Clazz.overrideMethod(c$,"getCrossLinkLeadAtomIndexes",function(a){for(var b=0;b<this.bonds.length;b++)112==this.bonds[b].order&&a.addLast(Integer.$valueOf(this.bonds[b].getOtherAtom(this).index));return!0},"J.util.JmolList");
-Clazz.overrideMethod(c$,"getBioStructureTypeName",function(){return null});Clazz.overrideMethod(c$,"getResno",function(){return 0});Clazz.overrideMethod(c$,"getChainID",function(){return 0});Clazz.overrideMethod(c$,"getChainIDStr",function(){return""});c$.getAtomLabel=$_M(c$,"getAtomLabel",function(a,b,c,d,e,f,h){var j=J.util.Elements.elementSymbolFromNumber(a);f&&(j=j.toLowerCase(),6!=a&&(c=2147483647));return(0<h.length||0!=b||0!=d?-1:J.smiles.SmilesAtom.getDefaultCount(a,!1))==c?j:"["+(0>=b?"":
-""+b)+j+(0>d?""+d:0<d?"+"+d:"")+h+(1<e?"H"+e:1==e?"H":"")+"]"},"~N,~N,~N,~N,~N,~B,~S");Clazz.overrideMethod(c$,"isDna",function(){return"d"==this.bioType});Clazz.overrideMethod(c$,"isRna",function(){return"r"==this.bioType});Clazz.overrideMethod(c$,"isNucleic",function(){return"n"==this.bioType||"r"==this.bioType||"d"==this.bioType});Clazz.overrideMethod(c$,"isProtein",function(){return"p"==this.bioType});Clazz.overrideMethod(c$,"isPurine",function(){return null!=this.residueChar&&this.isNucleic()&&
-0<="AG".indexOf(this.residueChar)});Clazz.overrideMethod(c$,"isPyrimidine",function(){return null!=this.residueChar&&this.isNucleic()&&0<="CTUI".indexOf(this.residueChar)});Clazz.overrideMethod(c$,"isDeleted",function(){return!1});$_M(c$,"setAtomType",function(a){this.atomType=a},"~S");Clazz.overrideMethod(c$,"getAtomType",function(){return null==this.atomType?this.atomName:this.atomType});Clazz.overrideMethod(c$,"findAtomsLike",function(){return null},"~S");Clazz.defineStatics(c$,"STEREOCHEMISTRY_DEFAULT",
-0,"STEREOCHEMISTRY_ALLENE",2,"STEREOCHEMISTRY_TETRAHEDRAL",4,"STEREOCHEMISTRY_TRIGONAL_BIPYRAMIDAL",5,"STEREOCHEMISTRY_OCTAHEDRAL",6,"STEREOCHEMISTRY_SQUARE_PLANAR",8,"UNBRACKETED_SET","B, C, N, O, P, S, F, Cl, Br, I,")});Clazz.declarePackage("J.smiles");
-Clazz.load(["J.util.JmolEdge"],"J.smiles.SmilesBond",["J.smiles.InvalidSmilesException"],function(){c$=Clazz.decorateAsClass(function(){this.atom2=this.atom1=null;this.isNot=!1;this.primitives=this.matchingBond=null;this.nPrimitives=0;this.bondsOr=null;this.nBondsOr=0;Clazz.instantialize(this,arguments)},J.smiles,"SmilesBond",J.util.JmolEdge);c$.getBondOrderString=$_M(c$,"getBondOrderString",function(a){switch(a){case 1:return"";case 2:return"=";case 3:return"#";default:return""}},"~N");$_M(c$,"set",
-function(a){this.order=a.order;this.isNot=a.isNot;this.primitives=a.primitives;this.nPrimitives=a.nPrimitives;this.bondsOr=a.bondsOr;this.nBondsOr=a.nBondsOr},"J.smiles.SmilesBond");$_M(c$,"addBondOr",function(){null==this.bondsOr&&(this.bondsOr=Array(2));if(this.nBondsOr>=this.bondsOr.length){var a=Array(2*this.bondsOr.length);System.arraycopy(this.bondsOr,0,a,0,this.bondsOr.length);this.bondsOr=a}a=new J.smiles.SmilesBond(null,null,-1,!1);this.bondsOr[this.nBondsOr]=a;this.nBondsOr++;return a});
-$_M(c$,"addPrimitive",function(){null==this.primitives&&(this.primitives=Array(2));if(this.nPrimitives>=this.primitives.length){var a=Array(2*this.primitives.length);System.arraycopy(this.primitives,0,a,0,this.primitives.length);this.primitives=a}a=new J.smiles.SmilesBond(null,null,-1,!1);this.primitives[this.nPrimitives]=a;this.nPrimitives++;return a});Clazz.overrideMethod(c$,"toString",function(){return this.atom1+" -"+(this.isNot?"!":"")+this.order+"- "+this.atom2});Clazz.makeConstructor(c$,function(a,
-b,c,d){Clazz.superConstructor(this,J.smiles.SmilesBond,[]);this.set2(c,d);this.set2a(a,b)},"J.smiles.SmilesAtom,J.smiles.SmilesAtom,~N,~B");$_M(c$,"set2",function(a,b){this.order=a;this.isNot=b},"~N,~B");$_M(c$,"set2a",function(a,b){null!=a&&(this.atom1=a,a.addBond(this));null!=b&&(this.atom2=b,b.isFirst=!1,b.addBond(this))},"J.smiles.SmilesAtom,J.smiles.SmilesAtom");c$.isBondType=$_M(c$,"isBondType",function(a,b,c){if(0>"-=#:/\\.+!,&;@~^'".indexOf(a))return!1;if(!b&&0>"-=#:/\\.~^'".indexOf(a))throw new J.smiles.InvalidSmilesException("SMARTS bond type "+
-a+" not allowed in SMILES");return c&&"~"==a?!1:!0},"~S,~B,~B");c$.getBondTypeFromCode=$_M(c$,"getBondTypeFromCode",function(a){switch(a){case ".":return 0;case "-":return 1;case "=":return 2;case "#":return 3;case ":":return 17;case "/":return 257;case "\\":return 513;case "^":return 769;case "'":return 1025;case "@":return 65;case "~":return 81;case "+":return 96}return-1},"~S");$_M(c$,"getAtom1",function(){return this.atom1});$_M(c$,"getAtom2",function(){return this.atom2});$_M(c$,"setAtom2",function(a){this.atom2=
-a;null!=this.atom2&&a.addBond(this)},"J.smiles.SmilesAtom");$_M(c$,"getBondType",function(){return this.order});$_M(c$,"getOtherAtom",function(a){return this.atom1===a?this.atom2:this.atom1},"J.smiles.SmilesAtom");Clazz.overrideMethod(c$,"getAtomIndex1",function(){return this.atom1.index});Clazz.overrideMethod(c$,"getAtomIndex2",function(){return this.atom2.index});Clazz.overrideMethod(c$,"getCovalentOrder",function(){return this.order});Clazz.overrideMethod(c$,"getOtherAtomNode",function(a){return a===
-this.atom1?this.atom2:a===this.atom2?this.atom1:null},"J.util.JmolNode");Clazz.overrideMethod(c$,"isCovalent",function(){return 112!=this.order});$_M(c$,"getValence",function(){return this.order&7});Clazz.overrideMethod(c$,"isHydrogen",function(){return 112==this.order});$_M(c$,"switchAtoms",function(){var a=this.atom1;this.atom1=this.atom2;this.atom2=a;switch(this.order){case 769:this.order=1025;break;case 1025:this.order=769;break;case 257:this.order=513;break;case 513:this.order=257}});Clazz.defineStatics(c$,
-"TYPE_UNKNOWN",-1,"TYPE_NONE",0,"TYPE_SINGLE",1,"TYPE_DOUBLE",2,"TYPE_TRIPLE",3,"TYPE_AROMATIC",17,"TYPE_DIRECTIONAL_1",257,"TYPE_DIRECTIONAL_2",513,"TYPE_ATROPISOMER_1",769,"TYPE_ATROPISOMER_2",1025,"TYPE_RING",65,"TYPE_ANY",81,"TYPE_BIO_SEQUENCE",96,"TYPE_BIO_PAIR",112,"TYPE_MULTIPLE",999)});Clazz.declarePackage("J.smiles");
-c$=Clazz.decorateAsClass(function(){this.search=null;this.index=this.type=this.nPoints=0;this.isNot=!1;this.indices=null;this.max=this.min=0;this.points=null;Clazz.instantialize(this,arguments)},J.smiles,"SmilesMeasure");Clazz.prepareFields(c$,function(){this.indices=Clazz.newIntArray(4,0);this.points=Array(4)});Clazz.makeConstructor(c$,function(a,b,c,d,e,f){this.search=a;this.type=Math.min(4,Math.max(c,2));this.index=b;this.min=Math.min(d,e);this.max=Math.max(d,e);this.isNot=f},"J.smiles.SmilesSearch,~N,~N,~N,~N,~B");
-Clazz.overrideMethod(c$,"toString",function(){for(var a="(."+"__dat".charAt(this.type)+this.index+":"+this.min+","+this.max+") for",b=0;b<this.type;b++)a+=" "+(b>=this.nPoints?"?":""+this.indices[b]);return a});$_M(c$,"addPoint",function(a){if(this.nPoints==this.type)return!1;if(0==this.nPoints)for(var b=1;b<this.type;b++)this.indices[b]=a+b;this.indices[this.nPoints++]=a;return!0},"~N");
-$_M(c$,"check",function(){for(var a=0;a<this.type;a++){var b=this.search.patternAtoms[this.indices[a]].getMatchingAtom();this.points[a]=this.search.jmolAtoms[b]}a=0;switch(this.type){case 2:a=this.points[0].distance(this.points[1]);break;case 3:this.search.v.vA.sub2(this.points[0],this.points[1]);this.search.v.vB.sub2(this.points[2],this.points[1]);a=this.search.v.vA.angle(this.search.v.vB)/0.017453292;break;case 4:J.smiles.SmilesMeasure.setTorsionData(this.points[0],this.points[1],this.points[2],
-this.points[3],this.search.v,!0),a=this.search.v.vTemp1.angle(this.search.v.vTemp2)/0.017453292*(0>this.search.v.vNorm1.dot(this.search.v.vNorm2)?1:-1)}return(a<this.min||a>this.max)==this.isNot});
-c$.setTorsionData=$_M(c$,"setTorsionData",function(a,b,c,d,e,f){e.vTemp1.setT(a);e.vTemp1.sub(b);e.vTemp2.setT(d);e.vTemp2.sub(c);f&&(e.vNorm1.setT(b),e.vNorm1.sub(c),e.vNorm1.normalize(),e.vTemp1.cross(e.vTemp1,e.vNorm1),e.vTemp1.normalize(),e.vTemp2.cross(e.vTemp2,e.vNorm1),e.vTemp2.normalize(),e.vNorm2.cross(e.vTemp1,e.vTemp2))},"J.util.P3,J.util.P3,J.util.P3,J.util.P3,J.smiles.SmilesSearch.VTemp,~B");Clazz.defineStatics(c$,"TYPES","__dat","radiansPerDegree",0.017453292519943295);Clazz.declarePackage("J.smiles");
-Clazz.load(["java.util.Hashtable"],"J.smiles.SmilesParser","java.lang.Character J.smiles.InvalidSmilesException $.SmilesAtom $.SmilesBond $.SmilesMeasure $.SmilesSearch J.util.Elements $.JmolList $.Logger $.Parser $.SB $.TextFormat".split(" "),function(){c$=Clazz.decorateAsClass(function(){this.isBioSequence=this.isSmarts=!1;this.bioType="\x00";this.ringBonds=null;this.flags=this.branchLevel=this.braceCount=0;this.htMeasures=null;Clazz.instantialize(this,arguments)},J.smiles,"SmilesParser");Clazz.prepareFields(c$,
-function(){this.ringBonds=new java.util.Hashtable;this.htMeasures=new java.util.Hashtable});c$.getMolecule=$_M(c$,"getMolecule",function(a,b){return(new J.smiles.SmilesParser(b)).parse(a)},"~S,~B");Clazz.makeConstructor(c$,function(a){this.isSmarts=a},"~B");$_M(c$,"reset",function(){this.branchLevel=this.braceCount=0});$_M(c$,"parse",function(a){if(null==a)throw new J.smiles.InvalidSmilesException("SMILES expressions must not be null");var b=new J.smiles.SmilesSearch;0<=a.indexOf("$(select")&&(a=
-this.parseNested(b,a,"select"));for(a=J.smiles.SmilesParser.cleanPattern(a);a.startsWith("/");){var c=J.smiles.SmilesParser.getSubPattern(a,0,"/").toUpperCase();a=a.substring(c.length);this.flags=0;0<=c.indexOf("NOAROMATIC")&&(this.flags|=1);0<=c.indexOf("AROMATICSTRICT")&&(this.flags|=4);0<=c.indexOf("AROMATICDEFINED")&&(this.flags|=8);0<=c.indexOf("AROMATICDOUBLE")&&(this.flags|=16);0<=c.indexOf("NOSTEREO")&&(this.flags|=2)}0<=a.indexOf("$")&&(a=this.parseVariables(a));this.isSmarts&&0<=a.indexOf("[$")&&
-(a=this.parseVariableLength(a));if(0<=a.indexOf("||")){a=J.util.TextFormat.splitChars(a,"||");c="";b.subSearches=Array(a.length);for(var d=0;d<a.length;d++){var e="|"+a[d]+"|";0>c.indexOf(e)&&(b.subSearches[d]=this.getSearch(b,a[d],this.flags),c+=e)}J.util.Logger.info(c);return b}return this.getSearch(b,a,this.flags)},"~S");$_M(c$,"parseVariableLength",($fz=function(a){for(var b=new J.util.SB,c=a.length-1,d=0,e=!1,f=0;f<c;f++)switch(a.charAt(f)){case "(":d++;break;case ")":d--;break;case "|":0<d&&
-(e=!0,"|"==a.charAt(f+1)&&(a=a.substring(0,f)+a.substring(f+1),c--))}if(0<=a.indexOf("||")){c=J.util.TextFormat.splitChars(a,"||");for(f=0;f<c.length;f++)b.append("||").append(this.parseVariableLength(c[f]))}else{c=-1;d=Clazz.newIntArray(1,0);for(f=null;0<=(c=a.indexOf("[$",c+1));){var h=c,j=-2147483648,g=-2147483648,c=J.smiles.SmilesParser.getDigits(a,c+2,d),j=d[0];-2147483648!=j&&"-"==J.smiles.SmilesParser.getChar(a,c)&&(c=J.smiles.SmilesParser.getDigits(a,c+1,d),g=d[0]);if("("==J.smiles.SmilesParser.getChar(a,
-c)&&(f=J.smiles.SmilesParser.getSubPattern(a,h,"["),f.endsWith(")"))){var l=h+f.length+2,k=J.smiles.SmilesParser.getSubPattern(a,c,"("),m=c;J.smiles.SmilesParser.getSubPattern(a,c,"[");c+=1+k.length;if(0<=k.indexOf(":")&&0>k.indexOf("|")){for(var n=0,q=k.length,p=-1,f=0;f<q;f++)switch(k.charAt(f)){case "[":case "(":n++;break;case ")":case "]":n--;break;case ".":0<=p&&0==n&&(q=f);break;case ":":0>p&&0==n&&(p=f)}0<p&&(k=k.substring(0,p)+"("+k.substring(p,q)+")"+k.substring(q))}if(-2147483648==j){if(f=
-k.indexOf("|"),0<=f)return this.parseVariableLength(a.substring(0,h)+"[$1"+a.substring(m,m+f+1)+")]"+a.substring(l)+"||"+a.substring(0,h)+"[$1("+a.substring(m+f+2)+a.substring(l))}else{-2147483648==g&&(g=j);0<=k.indexOf("|")&&(k="[$("+k+")]");for(f=j;f<=g;f++){j=new J.util.SB;j.append("||").append(a.substring(0,h));for(m=0;m<f;m++)j.append(k);j.append(a.substring(l));b.appendSB(j)}}}}}return e?this.parseVariableLength(b.substring(2)):2>b.length()?a:b.substring(2)},$fz.isPrivate=!0,$fz),"~S");$_M(c$,
-"getSearch",function(a,b,c){this.htMeasures=new java.util.Hashtable;var d=new J.smiles.SmilesSearch;d.setTop(a);d.isSmarts=this.isSmarts;d.pattern=b;d.flags=c;0<=b.indexOf("$(")&&(b=this.parseNested(d,b,""));this.parseSmiles(d,b,null,!1);if(0!=this.braceCount)throw new J.smiles.InvalidSmilesException("unmatched '{'");if(!this.ringBonds.isEmpty())throw new J.smiles.InvalidSmilesException("Open ring");d.setAtomArray();for(a=d.atomCount;0<=--a;)if(b=d.patternAtoms[a],b.setBondArray(),!this.isSmarts&&
-"\x00"==b.bioType&&!b.setHydrogenCount(d))throw new J.smiles.InvalidSmilesException("unbracketed atoms must be one of: B, C, N, O, P, S, F, Cl, Br, I,");if(this.isSmarts)for(a=d.atomCount;0<=--a;){b=d.patternAtoms[a];this.checkNested(d,b,c);for(var e=0;e<b.nAtomsOr;e++)this.checkNested(d,b.atomsOr[e],c);for(e=0;e<b.nPrimitives;e++)this.checkNested(d,b.primitives[e],c)}!this.isSmarts&&!this.isBioSequence&&(d.elementCounts[1]=d.getMissingHydrogenCount());this.fixChirality(d);return d},"J.smiles.SmilesSearch,~S,~N");
-$_M(c$,"checkNested",($fz=function(a,b,c){if(0<b.iNested){var d=a.getNested(b.iNested);Clazz.instanceOf(d,String)&&!d.startsWith("select")&&("~"!=d.charAt(0)&&"\x00"!=b.bioType&&(d="~"+b.bioType+"~"+d),c=this.getSearch(a,d,c),0<c.atomCount&&c.patternAtoms[0].selected&&(b.selected=!0),a.setNested(b.iNested,c))}},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,J.smiles.SmilesAtom,~N");$_M(c$,"fixChirality",($fz=function(a){for(var b=a.atomCount;0<=--b;){var c=a.patternAtoms[b],d=c.getChiralClass();if(-2147483648!=
-d){var e=c.missingHydrogenCount;0>e&&(e=0);e+=c.getBondCount();switch(d){case 0:switch(e){case 2:d=3==c.getValence()?3:2;break;case 3:case 4:case 5:case 6:d=e}break;case 8:4!=e&&(d=0);break;case 2:case 6:case 4:case 5:e!=d&&(d=0)}if(0==d)throw new J.smiles.InvalidSmilesException("Incorrect number of bonds for stereochemistry descriptor");c.setChiralClass(d)}}},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch");$_M(c$,"parseSmiles",($fz=function(a,b,c,d){for(var e=Clazz.newIntArray(1,0),f=0,h,j=null;null!=
-b&&0!=b.length;){var g=0;if(null==c||null!=j&&0==j.order)this.isBioSequence&&(a.top.needAromatic=!1),g=this.checkBioType(b,0);h=J.smiles.SmilesParser.getChar(b,g);var l=this.checkBrace(a,h,"{");l&&(h=J.smiles.SmilesParser.getChar(b,++g));if("("==h){d="."==J.smiles.SmilesParser.getChar(b,g+1);if(null==c)throw new J.smiles.InvalidSmilesException("No previous atom for "+(d?"measure":"branch"));g=J.smiles.SmilesParser.getSubPattern(b,g,"(");g.startsWith(".")?this.parseMeasure(a,g.substring(1),c):0==g.length&&
-this.isBioSequence?c.notCrossLinked=!0:(this.branchLevel++,this.parseSmiles(a,g,c,!0),this.branchLevel--);g=g.length+2}else{for(f=g;J.smiles.SmilesBond.isBondType(h,this.isSmarts,this.isBioSequence);)h=J.smiles.SmilesParser.getChar(b,++g);j=this.parseBond(a,null,b.substring(f,g),null,c,!1,d);l&&-1!=j.order&&(g=f);h=J.smiles.SmilesParser.getChar(b,g);this.checkBrace(a,h,"{")&&(h=J.smiles.SmilesParser.getChar(b,++g));"~"==h&&0==j.order&&(g=this.checkBioType(b,g),h=J.smiles.SmilesParser.getChar(b,g));
-if("\x00"==h&&0==j.order)break;f=Character.isDigit(h)||"%"==h;l=!f&&("_"==h||"["==h||"*"==h||Character.isLetter(h));if(f){switch(h){case "%":if("("==J.smiles.SmilesParser.getChar(b,g+1)){if(f=J.smiles.SmilesParser.getSubPattern(b,g+1,"("),J.smiles.SmilesParser.getDigits(f,0,e),g+=f.length+3,0>e[0])throw new J.smiles.InvalidSmilesException("Invalid ring designation: "+f);}else if(g+3<=b.length&&(g=J.smiles.SmilesParser.getDigits(b.substring(0,g+3),g+1,e)),10>e[0])throw new J.smiles.InvalidSmilesException("Two digits must follow the % sign");
-d=e[0];break;default:d=h.charCodeAt(0)-48,g++}this.parseRing(a,d,c,j)}else if(l)switch(h){case "[":case "_":f=J.smiles.SmilesParser.getSubPattern(b,g,h);g+=f.length+("["==h?2:0);this.isBioSequence&&("["==h&&0>f.indexOf(".")&&0>f.indexOf("_"))&&(f+=".0");c=this.parseAtom(a,null,f,c,j,"["==h,!1,d);-1!=j.order&&0!=j.order&&j.set2a(null,c);break;default:f=!this.isBioSequence&&Character.isUpperCase(h)?J.smiles.SmilesParser.getChar(b,g+1):"\x00";if("X"!=h||"x"!=f)if(!Character.isLowerCase(f)||0==J.util.Elements.elementNumberFromSymbol(b.substring(g,
-g+2),!0))f="\x00";"\x00"!=f&&0<="NA CA BA PA SC AC".indexOf(b.substring(g,g+2))&&(f="\x00");h=Character.isUpperCase(h)&&Character.isLowerCase(f)?2:1;c=this.parseAtom(a,null,b.substring(g,g+h),c,j,!1,!1,d);g+=h}else throw new J.smiles.InvalidSmilesException("Unexpected character: "+J.smiles.SmilesParser.getChar(b,g));}h=J.smiles.SmilesParser.getChar(b,g);"}"==h&&this.checkBrace(a,h,"}")&&g++;b=b.substring(g);d=!1}},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,~S,J.smiles.SmilesAtom,~B");$_M(c$,"checkBioType",
-($fz=function(a,b){if(this.isBioSequence="~"==a.charAt(b)){b++;this.bioType="*";var c=J.smiles.SmilesParser.getChar(a,2);if("~"==c&&("*"==(c=a.charAt(1))||Character.isLowerCase(c)))this.bioType=c,b=3}return b},$fz.isPrivate=!0,$fz),"~S,~N");$_M(c$,"parseMeasure",($fz=function(a,b,c){for(var d=b.indexOf(":"),e=!1,f=0>d?b:b.substring(0,d);0!=d;){1==f.length&&(f+="0");var h=this.htMeasures.get(f);if(null==h==0>d)break;try{if(0<d){var j="__dat".indexOf(f.charAt(0));if(2>j)break;var g=Clazz.newIntArray(1,
-0),l=J.smiles.SmilesParser.getDigits(f,1,g),k=b.indexOf(",",d);0>k&&(k=b.indexOf("-",d+1));if(0>k)break;var m=b.substring(d+1,k);m.startsWith("!")&&(e=!0,m=m.substring(1));var n=d+1==k?0:J.util.Parser.fVal(m),m=b.substring(k+1),q=0==m.length?3.4028235E38:J.util.Parser.fVal(m),h=new J.smiles.SmilesMeasure(a,l,j,n,q,e);a.measures.addLast(h);0<l?this.htMeasures.put(f,h):0==l&&J.util.Logger.debugging&&J.util.Logger.debug("measure created: "+h)}else{if(!h.addPoint(c.index))break;h.nPoints==h.type&&(this.htMeasures.remove(f),
-J.util.Logger.debugging&&J.util.Logger.debug("measure created: "+h));return}if(!h.addPoint(c.index))break}catch(p){if(Clazz.exceptionOf(p,NumberFormatException))break;else throw p;}return}throw new J.smiles.InvalidSmilesException("invalid measure: "+b);},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,~S,J.smiles.SmilesAtom");$_M(c$,"checkBrace",($fz=function(a,b,c){switch(b){case "{":if(b!=c)break;this.braceCount++;return a.top.haveSelected=!0;case "}":if(b!=c)break;if(0<this.braceCount)return this.braceCount--,
-!0;break;default:return!1}throw new J.smiles.InvalidSmilesException("Unmatched '}'");},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,~S,~S");$_M(c$,"parseNested",($fz=function(a,b,c){var d;for(c="$("+c;0<=(d=b.lastIndexOf(c));){var e=J.smiles.SmilesParser.getSubPattern(b,d+1,"("),f=d+e.length+3;b=b.substring(0,d)+"_"+a.addNested(e)+"_"+b.substring(f)}return b},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,~S,~S");$_M(c$,"parseVariables",($fz=function(a){for(var b=new J.util.JmolList,c=new J.util.JmolList,
-d,e=0,f=-1;0<=(d=a.indexOf("$",e))&&"("!=J.smiles.SmilesParser.getChar(a,e+1);){e=J.smiles.SmilesParser.skipTo(a,d,"=");if(e<=d+1||'"'!=J.smiles.SmilesParser.getChar(a,e+1))break;d=a.substring(d,e);if(0<d.lastIndexOf("$")||0<d.indexOf("]"))throw new J.smiles.InvalidSmilesException("Invalid variable name: "+d);f=J.smiles.SmilesParser.getSubPattern(a,e+1,'"');b.addLast("["+d+"]");c.addLast(f);e+=f.length+2;e=J.smiles.SmilesParser.skipTo(a,e,";");f=++e}return 0>f?a:J.util.TextFormat.replaceStrings(a.substring(f),
-b,c)},$fz.isPrivate=!0,$fz),"~S");$_M(c$,"parseAtom",($fz=function(a,b,c,d,e,f,h,j){if(null==c||0==c.length)throw new J.smiles.InvalidSmilesException("Empty atom definition");var g=null==b?a.addAtom():h?b.addPrimitive():b.addAtomOr();0<this.braceCount&&(g.selected=!0);if(!this.checkLogic(a,c,g,null,d,h,j)){var l=Clazz.newIntArray(1,0);this.isBioSequence&&1==c.length&&(c+=".0");var k=c.charAt(0),m=0,n=!1;if(this.isSmarts&&"!"==k){k=J.smiles.SmilesParser.getChar(c,++m);if("\x00"==k)throw new J.smiles.InvalidSmilesException("invalid '!'");
-g.not=n=!0}var q=-2147483648,p=c.indexOf(".");if(0<=p){k=c.substring(m,p);0==k.length&&(k="*");1<k.length?g.residueName=k.toUpperCase():k.equals("*")||(g.residueChar=k);k=c.substring(p+1).toUpperCase();if(0<=(p=k.indexOf("#")))J.smiles.SmilesParser.getDigits(k,p+1,l),g.elementNumber=l[0],k=k.substring(0,p);0==k.length&&(k="*");k.equals("*")||g.setAtomName(k);k="\x00"}for(g.setBioAtom(this.bioType);"\x00"!=k;){g.setAtomName(this.isBioSequence?"0":"");if(Character.isDigit(k)){m=J.smiles.SmilesParser.getDigits(c,
-m,l);k=l[0];if(-2147483648==k)throw new J.smiles.InvalidSmilesException("Non numeric atomic mass");"?"==J.smiles.SmilesParser.getChar(c,m)&&(m++,k=-k);g.setAtomicMass(k)}else switch(k){case '"':k=J.util.Parser.getQuotedStringAt(c,m);m+=k.length+2;g.setAtomType(k);break;case "_":m=J.smiles.SmilesParser.getDigits(c,m+1,l)+1;if(-2147483648==l[0])throw new J.smiles.InvalidSmilesException("Invalid SEARCH primitive: "+c.substring(m));g.iNested=l[0];if(this.isBioSequence&&f&&m!=c.length)throw new J.smiles.InvalidSmilesException("invalid characters: "+
-c.substring(m));break;case "=":m=J.smiles.SmilesParser.getDigits(c,m+1,l);g.jmolIndex=l[0];break;case "#":m=J.smiles.SmilesParser.getDigits(c,m+1,l);g.elementNumber=l[0];break;case "-":case "+":m=this.checkCharge(c,m,g);break;case "@":a.haveAtomStereochemistry=!0;m=this.checkChirality(c,m,a.patternAtoms[g.index]);break;default:var p=J.smiles.SmilesParser.getChar(c,m+1),s=c.substring(m+1,m+(Character.isLowerCase(p)&&(!f||!Character.isDigit(J.smiles.SmilesParser.getChar(c,m+2)))?2:1)),r=Character.toUpperCase(k)+
-s,u=!0;f&&Character.isLetter(k)&&(!n&&(h?b:g).hasSymbol?u=!1:"H"==k?u=!Character.isDigit(p)||"?"==J.smiles.SmilesParser.getChar(c,m+2):0<="DdhRrvXx".indexOf(k)&&Character.isDigit(p)?u=!1:!r.equals("A")&&!r.equals("Xx")&&(u=0<J.util.Elements.elementNumberFromSymbol(r,!0),!u&&""!==s&&(s="",r=r.substring(0,1),u=0<J.util.Elements.elementNumberFromSymbol(r,!0))));if(u){if(!f&&!this.isSmarts&&!this.isBioSequence&&!J.smiles.SmilesAtom.allowSmilesUnbracketed(r)||!g.setSymbol(r=k+s))throw new J.smiles.InvalidSmilesException("Invalid atom symbol: "+
-r);h&&(b.hasSymbol=!0);m+=r.length}else switch(m=J.smiles.SmilesParser.getDigits(c,m+1,l),p=l[0],k){default:throw new J.smiles.InvalidSmilesException("Invalid SEARCH primitive: "+c.substring(m));case "D":g.setDegree(-2147483648==p?1:p);break;case "d":g.setNonhydrogenDegree(-2147483648==p?1:p);break;case "H":q=-2147483648==p?1:p;break;case "h":g.setImplicitHydrogenCount(-2147483648==p?-1:p);break;case "R":-2147483648==p&&(p=-1);g.setRingMembership(p);a.top.needRingData=!0;break;case "r":if(-2147483648==
-p)p=-1,g.setRingMembership(p);else{g.setRingSize(p);switch(p){case 500:p=5;break;case 600:p=6}p>a.ringDataMax&&(a.ringDataMax=p)}a.top.needRingData=!0;break;case "v":g.setValence(-2147483648==p?1:p);break;case "X":g.setConnectivity(-2147483648==p?1:p);break;case "x":g.setRingConnectivity(-2147483648==p?-1:p),a.top.needRingData=!0}}k=J.smiles.SmilesParser.getChar(c,m);if(n&&"\x00"!=k)throw new J.smiles.InvalidSmilesException("'!' may only involve one primitive.");}-2147483648==q&&f&&(q=-2147483647);
-g.setExplicitHydrogenCount(q);a.patternAtoms[g.index].setExplicitHydrogenCount(q)}null!=d&&0==e.order&&(g.notBondedIndex=d.index);null!=d&&0!=e.order&&(-1==e.order&&(e.order=this.isBioSequence&&j?112:this.isSmarts||d.isAromatic()&&g.isAromatic()?81:1),f||e.set2a(null,g),0==this.branchLevel&&(17==e.order||112==e.order)&&this.branchLevel++);0==this.branchLevel&&(a.lastChainAtom=g);return g},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,J.smiles.SmilesAtom,~S,J.smiles.SmilesAtom,J.smiles.SmilesBond,~B,~B,~B");
-$_M(c$,"parseRing",($fz=function(a,b,c,d){a=Integer.$valueOf(b);b=this.ringBonds.get(a);if(null==b)this.ringBonds.put(a,d);else{this.ringBonds.remove(a);switch(d.order){case -1:d.order=-1!=b.order?b.order:this.isSmarts||c.isAromatic()&&b.getAtom1().isAromatic()?81:1;break;case 257:d.order=513;break;case 513:d.order=257}if(-1!=b.order&&b.order!=d.order)throw new J.smiles.InvalidSmilesException("Incoherent bond type for ring");b.set(d);c.bondCount--;b.setAtom2(c)}},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,~N,J.smiles.SmilesAtom,J.smiles.SmilesBond");
-$_M(c$,"checkCharge",($fz=function(a,b,c){var d=a.length,e=a.charAt(b),f=1;++b;if(b<d){var h=a.charAt(b);if(Character.isDigit(h)){if(d=Clazz.newIntArray(1,0),b=J.smiles.SmilesParser.getDigits(a,b,d),f=d[0],-2147483648==f)throw new J.smiles.InvalidSmilesException("Non numeric charge");}else for(;b<d&&a.charAt(b)==e;)b++,f++}c.setCharge("+"==e?f:-f);return b},$fz.isPrivate=!0,$fz),"~S,~N,J.smiles.SmilesAtom");$_M(c$,"checkChirality",($fz=function(a,b,c){var d=0,e=-2147483648,f=a.length,h,d=0,e=1;if(++b<
-f){switch(h=a.charAt(b)){case "@":e=2;b++;break;case "H":break;case "A":case "D":case "E":case "O":case "S":case "T":d=b+1<f?J.smiles.SmilesAtom.getChiralityClass(a.substring(b,b+2)):-1;b+=2;break;default:e=Character.isDigit(h)?1:-1}h=b;if(1==e){for(;h<f&&Character.isDigit(a.charAt(h));)h++;if(h>b){try{e=Integer.parseInt(a.substring(b,h))}catch(j){if(Clazz.exceptionOf(j,NumberFormatException))e=-1;else throw j;}b=h}}if(1>e||0>d)throw new J.smiles.InvalidSmilesException("Invalid stereochemistry descriptor");
-}c.setChiralClass(d);c.setChiralOrder(e);"?"==J.smiles.SmilesParser.getChar(a,b)&&(J.util.Logger.info("Ignoring '?' in stereochemistry"),b++);return b},$fz.isPrivate=!0,$fz),"~S,~N,J.smiles.SmilesAtom");$_M(c$,"parseBond",($fz=function(a,b,c,d,e,f,h){var j=J.smiles.SmilesParser.getChar(c,0);if("."==j){if(null!=d||null!=b)throw new J.smiles.InvalidSmilesException("invalid '.'");this.isBioSequence="~"==J.smiles.SmilesParser.getChar(c,1);return new J.smiles.SmilesBond(null,null,0,!1)}if("+"==j&&null!=
-b)throw new J.smiles.InvalidSmilesException("invalid '+'");d=null==b?null==d?new J.smiles.SmilesBond(e,null,this.isBioSequence&&null!=e?h?112:96:-1,!1):d:f?b.addPrimitive():b.addBondOr();if("\x00"!=j&&!this.checkLogic(a,c,null,d,e,f,!1)){if(f="!"==j)if(j=J.smiles.SmilesParser.getChar(c,1),"\x00"==j||"!"==j)throw new J.smiles.InvalidSmilesException("invalid '!'");c=J.smiles.SmilesBond.getBondTypeFromCode(j);65==c&&(a.top.needRingMemberships=!0);if(null==e&&0!=c)throw new J.smiles.InvalidSmilesException("Bond without a previous atom");
-switch(c){case 769:case 1025:f&&(f=!1,c=769==c?1025:769);a.haveBondStereochemistry=!0;break;case 257:case 513:a.haveBondStereochemistry=!0;break;case 2:case 1:e.isAromatic()&&(a.top.needRingData=!0)}d.set2(c,f);this.isBioSequence&&null!=b&&b.set2(c,f)}return d},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,J.smiles.SmilesBond,~S,J.smiles.SmilesBond,J.smiles.SmilesAtom,~B,~B");$_M(c$,"checkLogic",($fz=function(a,b,c,d,e,f,h){for(var j=b.indexOf(","),g=b.length;;){var l=0<j;if(l&&!this.isSmarts||0==
-j)break;var k="",j=b.indexOf(";");if(0<=j){if(!this.isSmarts||0==j)break;k="&"+b.substring(j+1);b=b.substring(0,j);l||(b+=k,k="")}var m=0;if(l)for(b+=",";0<(j=b.indexOf(",",m))&&j<=g;){m=b.substring(m,j)+k;if(0==m.length)throw new J.smiles.InvalidSmilesException("missing "+(null==d?"atom":"bond")+" token");null==d?this.parseAtom(a,c,m,null,null,!0,!1,h):this.parseBond(a,d,m,null,e,!1,!1);m=j+1}else if(0<=(j=b.indexOf("&"))||null!=d&&1<g&&!f){if(!this.isSmarts||0==j)break;if(null!=d&&0>j&&1<g){f=new J.util.SB;
-for(l=0;l<g;){var n=b.charAt(l++);f.appendC(n);"!"!=n&&l<g&&f.appendC("&")}b=f.toString();g=b.length}for(b+="&";0<(j=b.indexOf("&",m))&&j<=g;)m=b.substring(m,j)+k,null==d?this.parseAtom(a,c,m,null,null,!0,!0,h):this.parseBond(a,d,m,null,e,!0,!1),m=j+1}else return!1;return!0}n=b.charAt(j);throw new J.smiles.InvalidSmilesException((this.isSmarts?"invalid placement for '"+n+"'":"["+n+"] notation only valid with SMARTS, not SMILES,")+" in "+b);},$fz.isPrivate=!0,$fz),"J.smiles.SmilesSearch,~S,J.smiles.SmilesAtom,J.smiles.SmilesBond,J.smiles.SmilesAtom,~B,~B");
-c$.getSubPattern=$_M(c$,"getSubPattern",($fz=function(a,b,c){var d,e=1;switch(c){case "[":d="]";break;case '"':case "%":d=c;break;case "(":d=")";break;default:d=c,e=0}for(var f=a.length,h=1,j=b+1;j<f;j++){var g=a.charAt(j);if(g==d){if(h--,0==h)return a.substring(b+e,j+1-e)}else g==c&&h++}throw new J.smiles.InvalidSmilesException("Unmatched "+c);},$fz.isPrivate=!0,$fz),"~S,~N,~S");c$.getChar=$_M(c$,"getChar",($fz=function(a,b){return b<a.length?a.charAt(b):"\x00"},$fz.isPrivate=!0,$fz),"~S,~N");c$.getDigits=
-$_M(c$,"getDigits",($fz=function(a,b,c){for(var d=b,e=a.length;d<e&&Character.isDigit(a.charAt(d));)d++;try{c[0]=Integer.parseInt(a.substring(b,d))}catch(f){if(Clazz.exceptionOf(f,NumberFormatException))c[0]=-2147483648;else throw f;}return d},$fz.isPrivate=!0,$fz),"~S,~N,~A");c$.skipTo=$_M(c$,"skipTo",($fz=function(a,b,c){for(var d;(d=J.smiles.SmilesParser.getChar(a,++b))!=c&&"\x00"!=d;);return"\x00"==d?-1:b},$fz.isPrivate=!0,$fz),"~S,~N,~S");c$.getRingPointer=$_M(c$,"getRingPointer",function(a){return 10>
-a?""+a:100>a?"%"+a:"%("+a+")"},"~N");c$.cleanPattern=$_M(c$,"cleanPattern",function(a){a=J.util.TextFormat.replaceAllCharacters(a," \t\n\r","");a=J.util.TextFormat.simpleReplace(a,"^^","'");for(var b=0,c=0;0<=(b=a.indexOf("//*"))&&(c=a.indexOf("*//"))>=b;)a=a.substring(0,b)+a.substring(c+3);return a=J.util.TextFormat.simpleReplace(a,"//","")},"~S")});
+// 
+//// org\jmol\api\SmilesMatcherInterface.js 
+// 
+Clazz.declarePackage ("org.jmol.api");
+Clazz.declareInterface (org.jmol.api, "SmilesMatcherInterface");
+// 
+//// org\jmol\smiles\SmilesMatcher.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (["org.jmol.api.SmilesMatcherInterface"], "org.jmol.smiles.SmilesMatcher", ["org.jmol.smiles.InvalidSmilesException", "$.SmilesGenerator", "$.SmilesParser", "org.jmol.util.ArrayUtil", "$.BitSet", "$.BitSetUtil", "$.TextFormat"], function () {
+c$ = Clazz.declareType (org.jmol.smiles, "SmilesMatcher", null, org.jmol.api.SmilesMatcherInterface);
+Clazz.overrideMethod (c$, "getLastException", 
+function () {
+return org.jmol.smiles.InvalidSmilesException.getLastError ();
+});
+Clazz.overrideMethod (c$, "getMolecularFormula", 
+function (pattern, isSmarts) {
+org.jmol.smiles.InvalidSmilesException.setLastError (null);
+try {
+var search = org.jmol.smiles.SmilesParser.getMolecule (pattern, isSmarts);
+search.createTopoMap (null);
+search.nodes = search.jmolAtoms;
+return search.getMolecularFormula (!isSmarts);
+} catch (e) {
+if (Clazz.exceptionOf (e, org.jmol.smiles.InvalidSmilesException)) {
+if (org.jmol.smiles.InvalidSmilesException.getLastError () == null) org.jmol.smiles.InvalidSmilesException.setLastError (e.toString ());
+return null;
+} else {
+throw e;
+}
+}
+}, "~S,~B");
+Clazz.overrideMethod (c$, "getSmiles", 
+function (atoms, atomCount, bsSelected, asBioSmiles, allowUnmatchedRings, addCrossLinks, comment) {
+org.jmol.smiles.InvalidSmilesException.setLastError (null);
+try {
+if (asBioSmiles) return ( new org.jmol.smiles.SmilesGenerator ()).getBioSmiles (atoms, atomCount, bsSelected, allowUnmatchedRings, addCrossLinks, comment);
+return ( new org.jmol.smiles.SmilesGenerator ()).getSmiles (atoms, atomCount, bsSelected);
+} catch (e) {
+if (Clazz.exceptionOf (e, org.jmol.smiles.InvalidSmilesException)) {
+if (org.jmol.smiles.InvalidSmilesException.getLastError () == null) org.jmol.smiles.InvalidSmilesException.setLastError (e.toString ());
+return null;
+} else {
+throw e;
+}
+}
+}, "~A,~N,org.jmol.util.BitSet,~B,~B,~B,~S");
+Clazz.defineMethod (c$, "areEqual", 
+function (smiles1, smiles2) {
+var result = this.find (smiles1, smiles2, false, false);
+return (result == null ? -1 : result.length);
+}, "~S,~S");
+Clazz.defineMethod (c$, "areEqual", 
+function (smiles, molecule) {
+var ret = this.find (smiles, molecule, false, true, true);
+return (ret != null && ret.length == 1);
+}, "~S,org.jmol.smiles.SmilesSearch");
+Clazz.defineMethod (c$, "find", 
+function (pattern, smiles, isSmarts, firstMatchOnly) {
+org.jmol.smiles.InvalidSmilesException.setLastError (null);
+try {
+var search = org.jmol.smiles.SmilesParser.getMolecule (smiles, false);
+return this.find (pattern, search, isSmarts, !isSmarts, firstMatchOnly);
+} catch (e) {
+if (Clazz.exceptionOf (e, Exception)) {
+if (org.jmol.smiles.InvalidSmilesException.getLastError () == null) org.jmol.smiles.InvalidSmilesException.setLastError (e.toString ());
+System.out.println (e.toString ());
+return null;
+} else {
+throw e;
+}
+}
+}, "~S,~S,~B,~B");
+Clazz.overrideMethod (c$, "getRelationship", 
+function (smiles1, smiles2) {
+if (smiles1 == null || smiles2 == null || smiles1.length == 0 || smiles2.length == 0) return "";
+var mf1 = this.getMolecularFormula (smiles1, false);
+var mf2 = this.getMolecularFormula (smiles2, false);
+if (!mf1.equals (mf2)) return "none";
+var check;
+var n1 = this.countStereo (smiles1);
+var n2 = this.countStereo (smiles2);
+check = (n1 == n2 && this.areEqual (smiles2, smiles1) > 0);
+if (!check) {
+var s = smiles1 + smiles2;
+if (s.indexOf ("/") >= 0 || s.indexOf ("\\") >= 0 || s.indexOf ("@") >= 0) {
+if (n1 == n2 && n1 > 0) {
+smiles1 = this.reverseChirality (smiles1);
+check = (this.areEqual (smiles1, smiles2) > 0);
+if (check) return "enantiomers";
+}check = (this.areEqual ("/nostereo/" + smiles2, smiles1) > 0);
+if (check) return (n1 == n2 ? "diastereomers" : "ambiguous stereochemistry!");
+}return "constitutional isomers";
+}return "identical";
+}, "~S,~S");
+Clazz.overrideMethod (c$, "reverseChirality", 
+function (smiles) {
+smiles = org.jmol.util.TextFormat.simpleReplace (smiles, "@@", "!@");
+smiles = org.jmol.util.TextFormat.simpleReplace (smiles, "@", "@@");
+smiles = org.jmol.util.TextFormat.simpleReplace (smiles, "!@@", "@");
+smiles = org.jmol.util.TextFormat.simpleReplace (smiles, "@@SP", "@SP");
+smiles = org.jmol.util.TextFormat.simpleReplace (smiles, "@@OH", "@OH");
+smiles = org.jmol.util.TextFormat.simpleReplace (smiles, "@@TB", "@TB");
+return smiles;
+}, "~S");
+Clazz.overrideMethod (c$, "getSubstructureSet", 
+function (pattern, atoms, atomCount, bsSelected, isSmarts, firstMatchOnly) {
+return this.match (pattern, atoms, atomCount, bsSelected, null, isSmarts, false, firstMatchOnly, 1);
+}, "~S,~A,~N,org.jmol.util.BitSet,~B,~B");
+Clazz.overrideMethod (c$, "getSubstructureSets", 
+function (smarts, atoms, atomCount, flags, bsSelected, ret, vRings) {
+org.jmol.smiles.InvalidSmilesException.setLastError (null);
+var sp =  new org.jmol.smiles.SmilesParser (true);
+var search = null;
+try {
+search = sp.parse ("");
+search.firstMatchOnly = false;
+search.matchAllAtoms = false;
+search.jmolAtoms = atoms;
+search.jmolAtomCount = Math.abs (atomCount);
+search.setSelected (bsSelected);
+search.getRingData (true, flags, vRings);
+search.asVector = false;
+search.subSearches =  new Array (1);
+search.getSelections ();
+} catch (e) {
+if (Clazz.exceptionOf (e, org.jmol.smiles.InvalidSmilesException)) {
+} else {
+throw e;
+}
+}
+var bsDone =  new org.jmol.util.BitSet ();
+for (var i = 0; i < smarts.length; i++) {
+if (smarts[i] == null || smarts[i].length == 0 || smarts[i].startsWith ("#")) {
+ret.add (null);
+continue;
+}try {
+search.clear ();
+var ss = sp.getSearch (search, org.jmol.smiles.SmilesParser.cleanPattern (smarts[i]), flags);
+search.subSearches[0] = ss;
+var bs = org.jmol.util.BitSetUtil.copy (search.search (false));
+ret.add (bs);
+bsDone.or (bs);
+if (bsDone.cardinality () == atomCount) return;
+} catch (e) {
+if (Clazz.exceptionOf (e, Exception)) {
+if (org.jmol.smiles.InvalidSmilesException.getLastError () == null) org.jmol.smiles.InvalidSmilesException.setLastError (e.toString ());
+System.out.println (e.toString ());
+} else {
+throw e;
+}
+}
+}
+}, "~A,~A,~N,~N,org.jmol.util.BitSet,java.util.List,~A");
+Clazz.overrideMethod (c$, "getSubstructureSetArray", 
+function (pattern, atoms, atomCount, bsSelected, bsAromatic, isSmarts, firstMatchOnly) {
+return this.match (pattern, atoms, atomCount, bsSelected, bsAromatic, isSmarts, false, firstMatchOnly, 2);
+}, "~S,~A,~N,org.jmol.util.BitSet,org.jmol.util.BitSet,~B,~B");
+Clazz.overrideMethod (c$, "getCorrelationMaps", 
+function (pattern, atoms, atomCount, bsSelected, isSmarts, firstMatchOnly) {
+return this.match (pattern, atoms, atomCount, bsSelected, null, isSmarts, false, firstMatchOnly, 3);
+}, "~S,~A,~N,org.jmol.util.BitSet,~B,~B");
+Clazz.defineMethod (c$, "find", 
+($fz = function (pattern, search, isSmarts, matchAllAtoms, firstMatchOnly) {
+var bsAromatic =  new org.jmol.util.BitSet ();
+search.createTopoMap (bsAromatic);
+return this.match (pattern, search.jmolAtoms, -search.jmolAtoms.length, null, bsAromatic, isSmarts, matchAllAtoms, firstMatchOnly, 2);
+}, $fz.isPrivate = true, $fz), "~S,org.jmol.smiles.SmilesSearch,~B,~B,~B");
+Clazz.defineMethod (c$, "match", 
+($fz = function (pattern, atoms, atomCount, bsSelected, bsAromatic, isSmarts, matchAllAtoms, firstMatchOnly, mode) {
+org.jmol.smiles.InvalidSmilesException.setLastError (null);
+try {
+var search = org.jmol.smiles.SmilesParser.getMolecule (pattern, isSmarts);
+search.jmolAtoms = atoms;
+search.jmolAtomCount = Math.abs (atomCount);
+if (atomCount < 0) search.isSmilesFind = true;
+search.setSelected (bsSelected);
+search.getSelections ();
+search.bsRequired = null;
+search.setRingData (bsAromatic);
+search.firstMatchOnly = firstMatchOnly;
+search.matchAllAtoms = matchAllAtoms;
+switch (mode) {
+case 1:
+search.asVector = false;
+return search.search (false);
+case 2:
+search.asVector = true;
+var vb = search.search (false);
+return vb.toArray ( new Array (vb.size ()));
+case 3:
+search.getMaps = true;
+var vl = search.search (false);
+return vl.toArray (org.jmol.util.ArrayUtil.newInt2 (vl.size ()));
+}
+} catch (e) {
+if (Clazz.exceptionOf (e, Exception)) {
+if (org.jmol.smiles.InvalidSmilesException.getLastError () == null) org.jmol.smiles.InvalidSmilesException.setLastError (e.toString ());
+System.out.println (e.toString ());
+} else {
+throw e;
+}
+}
+return null;
+}, $fz.isPrivate = true, $fz), "~S,~A,~N,org.jmol.util.BitSet,org.jmol.util.BitSet,~B,~B,~B,~N");
+Clazz.defineMethod (c$, "countStereo", 
+($fz = function (s) {
+s = org.jmol.util.TextFormat.simpleReplace (s, "@@", "@");
+var i = s.lastIndexOf ('@') + 1;
+var n = 0;
+for (; --i >= 0; ) if (s.charAt (i) == '@') n++;
+
+return n;
+}, $fz.isPrivate = true, $fz), "~S");
+Clazz.defineStatics (c$,
+"MODE_BITSET", 1,
+"MODE_ARRAY", 2,
+"MODE_MAP", 3);
+});
+// 
+//// org\jmol\smiles\InvalidSmilesException.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (["java.lang.Exception"], "org.jmol.smiles.InvalidSmilesException", null, function () {
+c$ = Clazz.declareType (org.jmol.smiles, "InvalidSmilesException", Exception);
+c$.getLastError = Clazz.defineMethod (c$, "getLastError", 
+function () {
+return org.jmol.smiles.InvalidSmilesException.lastError;
+});
+c$.setLastError = Clazz.defineMethod (c$, "setLastError", 
+function (message) {
+($t$ = org.jmol.smiles.InvalidSmilesException.lastError = message, org.jmol.smiles.InvalidSmilesException.prototype.lastError = org.jmol.smiles.InvalidSmilesException.lastError, $t$);
+}, "~S");
+Clazz.makeConstructor (c$, 
+function (message) {
+Clazz.superConstructor (this, org.jmol.smiles.InvalidSmilesException, [message]);
+($t$ = org.jmol.smiles.InvalidSmilesException.lastError = message, org.jmol.smiles.InvalidSmilesException.prototype.lastError = org.jmol.smiles.InvalidSmilesException.lastError, $t$);
+this.printStackTrace ();
+}, "~S");
+Clazz.makeConstructor (c$, 
+function (cause) {
+Clazz.superConstructor (this, org.jmol.smiles.InvalidSmilesException, [cause]);
+($t$ = org.jmol.smiles.InvalidSmilesException.lastError = cause.toString (), org.jmol.smiles.InvalidSmilesException.prototype.lastError = org.jmol.smiles.InvalidSmilesException.lastError, $t$);
+}, "Throwable");
+Clazz.makeConstructor (c$, 
+function (message, cause) {
+Clazz.superConstructor (this, org.jmol.smiles.InvalidSmilesException, [message, cause]);
+($t$ = org.jmol.smiles.InvalidSmilesException.lastError = message + "\n" + cause.getCause (), org.jmol.smiles.InvalidSmilesException.prototype.lastError = org.jmol.smiles.InvalidSmilesException.lastError, $t$);
+}, "~S,Throwable");
+Clazz.defineStatics (c$,
+"lastError", null);
+});
+// 
+//// org\jmol\smiles\SmilesSearch.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (["org.jmol.util.JmolMolecule", "java.util.ArrayList", "org.jmol.util.BitSet", "$.Vector3f"], "org.jmol.smiles.SmilesSearch", ["java.util.Arrays", "$.Hashtable", "org.jmol.smiles.SmilesAromatic", "$.SmilesAtom", "$.SmilesBond", "$.SmilesMeasure", "$.SmilesParser", "org.jmol.util.ArrayUtil", "$.BitSetUtil", "$.Logger", "$.StringXBuilder"], function () {
+c$ = Clazz.decorateAsClass (function () {
+this.patternAtoms = null;
+this.pattern = null;
+this.jmolAtoms = null;
+this.jmolAtomCount = 0;
+this.bsSelected = null;
+this.bsRequired = null;
+this.firstMatchOnly = false;
+this.matchAllAtoms = false;
+this.isSmarts = false;
+this.isSmilesFind = false;
+this.subSearches = null;
+this.haveSelected = false;
+this.haveBondStereochemistry = false;
+this.haveAtomStereochemistry = false;
+this.needRingData = false;
+this.needAromatic = true;
+this.needRingMemberships = false;
+this.ringDataMax = -2147483648;
+this.measures = null;
+this.flags = 0;
+this.ringSets = null;
+this.bsAromatic = null;
+this.bsAromatic5 = null;
+this.bsAromatic6 = null;
+this.lastChainAtom = null;
+this.asVector = false;
+this.getMaps = false;
+this.top = null;
+this.isSilent = false;
+this.isRingCheck = false;
+this.selectedAtomCount = 0;
+this.ringData = null;
+this.ringCounts = null;
+this.ringConnections = null;
+this.bsFound = null;
+this.htNested = null;
+this.nNested = 0;
+this.nestedBond = null;
+this.vReturn = null;
+this.bsReturn = null;
+this.ignoreStereochemistry = false;
+this.noAromatic = false;
+this.aromaticDouble = false;
+this.bsCheck = null;
+this.v = null;
+Clazz.instantialize (this, arguments);
+}, org.jmol.smiles, "SmilesSearch", org.jmol.util.JmolMolecule);
+Clazz.prepareFields (c$, function () {
+this.patternAtoms =  new Array (16);
+this.measures =  new java.util.ArrayList ();
+this.bsAromatic =  new org.jmol.util.BitSet ();
+this.bsAromatic5 =  new org.jmol.util.BitSet ();
+this.bsAromatic6 =  new org.jmol.util.BitSet ();
+this.top = this;
+this.bsFound =  new org.jmol.util.BitSet ();
+this.bsReturn =  new org.jmol.util.BitSet ();
+this.v =  new org.jmol.smiles.SmilesSearch.VTemp ();
+});
+Clazz.defineMethod (c$, "toString", 
+function () {
+var sb =  new org.jmol.util.StringXBuilder ().append (this.pattern);
+sb.append ("\nmolecular formula: " + this.getMolecularFormula (true));
+return sb.toString ();
+});
+Clazz.defineMethod (c$, "setSelected", 
+function (bs) {
+if (bs == null) {
+bs = org.jmol.util.BitSetUtil.newBitSet (this.jmolAtomCount);
+bs.setBits (0, this.jmolAtomCount);
+}this.bsSelected = bs;
+}, "org.jmol.util.BitSet");
+Clazz.defineMethod (c$, "setAtomArray", 
+function () {
+if (this.patternAtoms.length > this.atomCount) this.patternAtoms = org.jmol.util.ArrayUtil.arrayCopyObject (this.patternAtoms, this.atomCount);
+this.nodes = this.patternAtoms;
+});
+Clazz.defineMethod (c$, "addAtom", 
+function () {
+if (this.atomCount >= this.patternAtoms.length) this.patternAtoms = org.jmol.util.ArrayUtil.doubleLength (this.patternAtoms);
+var sAtom =  new org.jmol.smiles.SmilesAtom (this.atomCount);
+this.patternAtoms[this.atomCount] = sAtom;
+this.atomCount++;
+return sAtom;
+});
+Clazz.defineMethod (c$, "addNested", 
+function (pattern) {
+if (this.top.htNested == null) this.top.htNested =  new java.util.Hashtable ();
+this.setNested (++this.top.nNested, pattern);
+return this.top.nNested;
+}, "~S");
+Clazz.defineMethod (c$, "clear", 
+function () {
+this.bsReturn.clearAll ();
+this.nNested = 0;
+this.htNested = null;
+this.nestedBond = null;
+this.clearBsFound (-1);
+});
+Clazz.defineMethod (c$, "setNested", 
+function (iNested, o) {
+this.top.htNested.put ("_" + iNested, o);
+}, "~N,~O");
+Clazz.defineMethod (c$, "getNested", 
+function (iNested) {
+return this.top.htNested.get ("_" + iNested);
+}, "~N");
+Clazz.defineMethod (c$, "getMissingHydrogenCount", 
+function () {
+var n = 0;
+var nH;
+for (var i = 0; i < this.atomCount; i++) if ((nH = this.patternAtoms[i].missingHydrogenCount) >= 0) n += nH;
+
+return n;
+});
+Clazz.defineMethod (c$, "setRingData", 
+function (bsA) {
+if (this.needAromatic) this.needRingData = true;
+var noAromatic = ((this.flags & 1) != 0);
+this.needAromatic = new Boolean (this.needAromatic & ( new Boolean ((bsA == null) & !noAromatic).valueOf ())).valueOf ();
+if (!this.needAromatic) {
+this.bsAromatic.clearAll ();
+if (bsA != null) this.bsAromatic.or (bsA);
+if (!this.needRingMemberships && !this.needRingData) return;
+}this.getRingData (this.needRingData, this.flags, null);
+}, "org.jmol.util.BitSet");
+Clazz.defineMethod (c$, "getRingData", 
+function (needRingData, flags, vRings) {
+var aromaticStrict = ((flags & 4) != 0);
+var aromaticDefined = ((flags & 8) != 0);
+if (aromaticStrict && vRings == null) vRings = org.jmol.util.ArrayUtil.createArrayOfArrayList (4);
+if (aromaticDefined && this.needAromatic) {
+this.bsAromatic = org.jmol.smiles.SmilesAromatic.checkAromaticDefined (this.jmolAtoms, this.bsSelected);
+aromaticStrict = false;
+}if (this.ringDataMax < 0) this.ringDataMax = 8;
+if (aromaticStrict && this.ringDataMax < 6) this.ringDataMax = 6;
+if (needRingData) {
+this.ringCounts =  Clazz.newIntArray (this.jmolAtomCount, 0);
+this.ringConnections =  Clazz.newIntArray (this.jmolAtomCount, 0);
+this.ringData =  new Array (this.ringDataMax + 1);
+}this.ringSets =  new org.jmol.util.StringXBuilder ();
+var s = "****";
+while (s.length < this.ringDataMax) s += s;
+
+var v5 = null;
+for (var i = 3; i <= this.ringDataMax; i++) {
+if (i > this.jmolAtomCount) continue;
+var smarts = "*1" + s.substring (0, i - 2) + "*1";
+var search = org.jmol.smiles.SmilesParser.getMolecule (smarts, true);
+var vR = this.subsearch (search, false, true);
+if (vRings != null && i <= 5) {
+var v =  new java.util.ArrayList ();
+for (var j = vR.size (); --j >= 0; ) v.add (vR.get (j));
+
+vRings[i - 3] = v;
+}if (this.needAromatic) {
+if (!aromaticDefined && (!aromaticStrict || i == 5 || i == 6)) for (var r = vR.size (); --r >= 0; ) {
+var bs = vR.get (r);
+if (aromaticDefined || org.jmol.smiles.SmilesAromatic.isFlatSp2Ring (this.jmolAtoms, this.bsSelected, bs, (aromaticStrict ? 0.1 : 0.01))) this.bsAromatic.or (bs);
+}
+if (aromaticStrict) {
+switch (i) {
+case 5:
+v5 = vR;
+break;
+case 6:
+if (aromaticDefined) this.bsAromatic = org.jmol.smiles.SmilesAromatic.checkAromaticDefined (this.jmolAtoms, this.bsAromatic);
+ else org.jmol.smiles.SmilesAromatic.checkAromaticStrict (this.jmolAtoms, this.bsAromatic, v5, vR);
+vRings[3] =  new java.util.ArrayList ();
+this.setAromatic56 (v5, this.bsAromatic5, 5, vRings[3]);
+this.setAromatic56 (vR, this.bsAromatic6, 6, vRings[3]);
+break;
+}
+}}if (needRingData) {
+this.ringData[i] =  new org.jmol.util.BitSet ();
+for (var k = 0; k < vR.size (); k++) {
+var r = vR.get (k);
+this.ringData[i].or (r);
+for (var j = r.nextSetBit (0); j >= 0; j = r.nextSetBit (j + 1)) this.ringCounts[j]++;
+
+}
+}}
+if (needRingData) {
+for (var i = this.bsSelected.nextSetBit (0); i >= 0; i = this.bsSelected.nextSetBit (i + 1)) {
+var atom = this.jmolAtoms[i];
+var bonds = atom.getEdges ();
+if (bonds != null) for (var k = bonds.length; --k >= 0; ) if (this.ringCounts[atom.getBondedAtomIndex (k)] > 0) this.ringConnections[i]++;
+
+}
+}}, "~B,~N,~A");
+Clazz.defineMethod (c$, "setAromatic56", 
+($fz = function (vRings, bs56, n56, vAromatic56) {
+for (var k = 0; k < vRings.size (); k++) {
+var r = vRings.get (k);
+this.v.bsTemp.clearAll ();
+this.v.bsTemp.or (r);
+this.v.bsTemp.and (this.bsAromatic);
+if (this.v.bsTemp.cardinality () == n56) {
+bs56.or (r);
+if (vAromatic56 != null) vAromatic56.add (r);
+}}
+}, $fz.isPrivate = true, $fz), "java.util.List,org.jmol.util.BitSet,~N,java.util.List");
+Clazz.defineMethod (c$, "subsearch", 
+function (search, firstAtomOnly, isRingCheck) {
+search.ringSets = this.ringSets;
+search.jmolAtoms = this.jmolAtoms;
+search.jmolAtomCount = this.jmolAtomCount;
+search.bsSelected = this.bsSelected;
+search.htNested = this.htNested;
+search.isSmilesFind = this.isSmilesFind;
+search.bsCheck = this.bsCheck;
+search.isSmarts = true;
+search.bsAromatic = this.bsAromatic;
+search.bsAromatic5 = this.bsAromatic5;
+search.bsAromatic6 = this.bsAromatic6;
+search.ringData = this.ringData;
+search.ringCounts = this.ringCounts;
+search.ringConnections = this.ringConnections;
+if (firstAtomOnly) {
+search.bsRequired = null;
+search.firstMatchOnly = false;
+search.matchAllAtoms = false;
+} else if (isRingCheck) {
+search.bsRequired = null;
+search.isSilent = true;
+search.isRingCheck = true;
+search.asVector = true;
+search.matchAllAtoms = false;
+} else {
+search.haveSelected = this.haveSelected;
+search.bsRequired = this.bsRequired;
+search.firstMatchOnly = this.firstMatchOnly;
+search.matchAllAtoms = this.matchAllAtoms;
+search.getMaps = this.getMaps;
+search.asVector = this.asVector;
+search.vReturn = this.vReturn;
+search.bsReturn = this.bsReturn;
+}return search.search (firstAtomOnly);
+}, "org.jmol.smiles.SmilesSearch,~B,~B");
+Clazz.defineMethod (c$, "search", 
+function (firstAtomOnly) {
+this.ignoreStereochemistry = ((this.flags & 2) != 0);
+this.noAromatic = ((this.flags & 1) != 0);
+this.aromaticDouble = ((this.flags & 16) != 0);
+if (org.jmol.util.Logger.debugging && !this.isSilent) org.jmol.util.Logger.debug ("SmilesSearch processing " + this.pattern);
+if (this.vReturn == null && (this.asVector || this.getMaps)) this.vReturn =  new java.util.ArrayList ();
+if (this.bsSelected == null) {
+this.bsSelected = org.jmol.util.BitSetUtil.newBitSet (this.jmolAtomCount);
+this.bsSelected.setBits (0, this.jmolAtomCount);
+}this.selectedAtomCount = this.bsSelected.cardinality ();
+if (this.subSearches != null) {
+for (var i = 0; i < this.subSearches.length; i++) {
+if (this.subSearches[i] == null) continue;
+this.subsearch (this.subSearches[i], false, false);
+if (this.firstMatchOnly) {
+if (this.vReturn == null ? this.bsReturn.nextSetBit (0) >= 0 : this.vReturn.size () > 0) break;
+}}
+} else if (this.atomCount > 0) {
+this.checkMatch (null, -1, -1, firstAtomOnly);
+}return (this.asVector || this.getMaps ? this.vReturn : this.bsReturn);
+}, "~B");
+Clazz.defineMethod (c$, "checkMatch", 
+($fz = function (patternAtom, atomNum, iAtom, firstAtomOnly) {
+var jmolAtom;
+var jmolBonds;
+if (patternAtom == null) {
+if (this.nestedBond == null) {
+this.clearBsFound (-1);
+} else {
+this.bsReturn.clearAll ();
+}} else {
+if (this.bsFound.get (iAtom) || !this.bsSelected.get (iAtom)) return true;
+jmolAtom = this.jmolAtoms[iAtom];
+if (!this.isRingCheck) {
+if (patternAtom.atomsOr != null) {
+for (var ii = 0; ii < patternAtom.nAtomsOr; ii++) if (!this.checkMatch (patternAtom.atomsOr[ii], atomNum, iAtom, firstAtomOnly)) return false;
+
+return true;
+}if (patternAtom.primitives == null) {
+if (!this.checkPrimitiveAtom (patternAtom, iAtom)) return true;
+} else {
+for (var i = 0; i < patternAtom.nPrimitives; i++) if (!this.checkPrimitiveAtom (patternAtom.primitives[i], iAtom)) return true;
+
+}}jmolBonds = jmolAtom.getEdges ();
+for (var i = patternAtom.getBondCount (); --i >= 0; ) {
+var patternBond = patternAtom.getBond (i);
+if (patternBond.getAtomIndex2 () != patternAtom.index) continue;
+var atom1 = patternBond.getAtom1 ();
+var matchingAtom = atom1.getMatchingAtom ();
+switch (patternBond.order) {
+case 96:
+case 112:
+if (!this.checkMatchBond (patternAtom, atom1, patternBond, iAtom, matchingAtom, null)) return true;
+break;
+default:
+var k = 0;
+for (; k < jmolBonds.length; k++) if ((jmolBonds[k].getAtomIndex1 () == matchingAtom || jmolBonds[k].getAtomIndex2 () == matchingAtom) && jmolBonds[k].isCovalent ()) break;
+
+if (k == jmolBonds.length) return true;
+if (!this.checkMatchBond (patternAtom, atom1, patternBond, iAtom, matchingAtom, jmolBonds[k])) return true;
+}
+}
+this.patternAtoms[patternAtom.index].setMatchingAtom (iAtom);
+if (org.jmol.util.Logger.debugging && !this.isSilent) org.jmol.util.Logger.debug ("pattern atom " + atomNum + " " + patternAtom);
+this.bsFound.set (iAtom);
+}if (!this.continueMatch (atomNum, iAtom, firstAtomOnly)) return false;
+if (iAtom >= 0) this.clearBsFound (iAtom);
+return true;
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesAtom,~N,~N,~B");
+Clazz.defineMethod (c$, "continueMatch", 
+($fz = function (atomNum, iAtom, firstAtomOnly) {
+var jmolAtom;
+var jmolBonds;
+if (++atomNum < this.atomCount) {
+var newPatternAtom = this.patternAtoms[atomNum];
+var newPatternBond = (iAtom >= 0 ? newPatternAtom.getBondTo (null) : atomNum == 0 ? this.nestedBond : null);
+if (newPatternBond == null) {
+var bs = org.jmol.util.BitSetUtil.copy (this.bsFound);
+if (newPatternAtom.notBondedIndex >= 0) {
+var pa = this.patternAtoms[newPatternAtom.notBondedIndex];
+var a = this.jmolAtoms[pa.getMatchingAtom ()];
+if (pa.bioType == '\0') {
+jmolBonds = a.getEdges ();
+for (var k = 0; k < jmolBonds.length; k++) bs.set (jmolBonds[k].getOtherAtomNode (a).getIndex ());
+
+} else {
+var ii = a.getOffsetResidueAtom ("0", 1);
+if (ii >= 0) bs.set (ii);
+ii = a.getOffsetResidueAtom ("0", -1);
+if (ii >= 0) bs.set (ii);
+}}var skipGroup = (iAtom >= 0 && newPatternAtom.isBioAtom && (newPatternAtom.atomName == null || newPatternAtom.residueChar != null));
+for (var j = this.bsSelected.nextSetBit (0); j >= 0; j = this.bsSelected.nextSetBit (j + 1)) {
+if (!bs.get (j) && !this.checkMatch (newPatternAtom, atomNum, j, firstAtomOnly)) return false;
+if (skipGroup) {
+var j1 = this.jmolAtoms[j].getOffsetResidueAtom (newPatternAtom.atomName, 1);
+if (j1 >= 0) j = j1 - 1;
+}}
+this.bsFound = bs;
+return true;
+}jmolAtom = this.jmolAtoms[newPatternBond.getAtom1 ().getMatchingAtom ()];
+switch (newPatternBond.order) {
+case 96:
+var nextGroupAtom = jmolAtom.getOffsetResidueAtom (newPatternAtom.atomName, 1);
+if (nextGroupAtom >= 0) {
+var bs = org.jmol.util.BitSetUtil.copy (this.bsFound);
+jmolAtom.getGroupBits (this.bsFound);
+if (!this.checkMatch (newPatternAtom, atomNum, nextGroupAtom, firstAtomOnly)) return false;
+this.bsFound = bs;
+}return true;
+case 112:
+var vLinks =  new java.util.ArrayList ();
+jmolAtom.getCrossLinkLeadAtomIndexes (vLinks);
+var bs = org.jmol.util.BitSetUtil.copy (this.bsFound);
+jmolAtom.getGroupBits (this.bsFound);
+for (var j = 0; j < vLinks.size (); j++) if (!this.checkMatch (newPatternAtom, atomNum, vLinks.get (j).intValue (), firstAtomOnly)) return false;
+
+this.bsFound = bs;
+return true;
+}
+jmolBonds = jmolAtom.getEdges ();
+if (jmolBonds != null) for (var j = 0; j < jmolBonds.length; j++) if (!this.checkMatch (newPatternAtom, atomNum, jmolAtom.getBondedAtomIndex (j), firstAtomOnly)) return false;
+
+this.clearBsFound (iAtom);
+return true;
+}if (!this.ignoreStereochemistry && !this.checkStereochemistry ()) return true;
+var bs =  new org.jmol.util.BitSet ();
+var nMatch = 0;
+for (var j = 0; j < this.atomCount; j++) {
+var i = this.patternAtoms[j].getMatchingAtom ();
+if (!firstAtomOnly && this.top.haveSelected && !this.patternAtoms[j].selected) continue;
+nMatch++;
+bs.set (i);
+if (this.patternAtoms[j].isBioAtom && this.patternAtoms[j].atomName == null) this.jmolAtoms[i].getGroupBits (bs);
+if (firstAtomOnly) break;
+if (!this.isSmarts && this.patternAtoms[j].missingHydrogenCount > 0) this.getHydrogens (this.jmolAtoms[i], bs);
+}
+if (this.bsRequired != null && !this.bsRequired.intersects (bs)) return true;
+if (this.matchAllAtoms && bs.cardinality () != this.selectedAtomCount) return true;
+if (this.bsCheck != null) {
+if (firstAtomOnly) {
+this.bsCheck.clearAll ();
+for (var j = 0; j < this.atomCount; j++) {
+this.bsCheck.set (this.patternAtoms[j].getMatchingAtom ());
+}
+if (this.bsCheck.cardinality () != this.atomCount) return true;
+} else {
+if (bs.cardinality () != this.atomCount) return true;
+}}this.bsReturn.or (bs);
+if (this.getMaps) {
+var map =  Clazz.newIntArray (nMatch, 0);
+for (var j = 0, nn = 0; j < this.atomCount; j++) {
+if (!firstAtomOnly && this.top.haveSelected && !this.patternAtoms[j].selected) continue;
+map[nn++] = this.patternAtoms[j].getMatchingAtom ();
+}
+this.vReturn.add (map);
+return !this.firstMatchOnly;
+}if (this.asVector) {
+var isOK = true;
+for (var j = this.vReturn.size (); --j >= 0 && isOK; ) isOK = !((this.vReturn.get (j)).equals (bs));
+
+if (!isOK) return true;
+this.vReturn.add (bs);
+}if (this.isRingCheck) {
+this.ringSets.append (" ");
+for (var k = atomNum * 3 + 2; --k > atomNum; ) this.ringSets.append ("-").appendI (this.patternAtoms[(k <= atomNum * 2 ? atomNum * 2 - k + 1 : k - 1) % atomNum].getMatchingAtom ());
+
+this.ringSets.append ("- ");
+return true;
+}if (this.firstMatchOnly) return false;
+return (bs.cardinality () != this.selectedAtomCount);
+}, $fz.isPrivate = true, $fz), "~N,~N,~B");
+Clazz.defineMethod (c$, "clearBsFound", 
+($fz = function (iAtom) {
+if (iAtom < 0) {
+if (this.bsCheck == null) {
+this.bsFound.clearAll ();
+}} else this.bsFound.clear (iAtom);
+}, $fz.isPrivate = true, $fz), "~N");
+Clazz.defineMethod (c$, "getHydrogens", 
+($fz = function (atom, bsHydrogens) {
+var b = atom.getEdges ();
+var k = -1;
+for (var i = 0; i < b.length; i++) if (this.jmolAtoms[atom.getBondedAtomIndex (i)].getElementNumber () == 1) {
+k = atom.getBondedAtomIndex (i);
+if (bsHydrogens == null) break;
+bsHydrogens.set (k);
+}
+return (k >= 0 ? this.jmolAtoms[k] : null);
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,org.jmol.util.BitSet");
+Clazz.defineMethod (c$, "checkPrimitiveAtom", 
+($fz = function (patternAtom, iAtom) {
+var atom = this.jmolAtoms[iAtom];
+var foundAtom = patternAtom.not;
+while (true) {
+var n;
+if (patternAtom.iNested > 0) {
+var o = this.getNested (patternAtom.iNested);
+if (Clazz.instanceOf (o, org.jmol.smiles.SmilesSearch)) {
+var search = o;
+if (patternAtom.isBioAtom) search.nestedBond = patternAtom.getBondTo (null);
+o = this.subsearch (search, true, false);
+if (o == null) o =  new org.jmol.util.BitSet ();
+if (!patternAtom.isBioAtom) this.setNested (patternAtom.iNested, o);
+}foundAtom = (patternAtom.not != ((o).get (iAtom)));
+break;
+}if (patternAtom.isBioAtom) {
+if (patternAtom.atomName != null && (patternAtom.isLeadAtom () ? !atom.isLeadAtom () : !patternAtom.atomName.equals (atom.getAtomName ().toUpperCase ()))) break;
+if (patternAtom.residueName != null && !patternAtom.residueName.equals (atom.getGroup3 (false).toUpperCase ())) break;
+if (patternAtom.residueChar != null) {
+if (patternAtom.isDna () && !atom.isDna () || patternAtom.isRna () && !atom.isRna () || patternAtom.isProtein () && !atom.isProtein () || patternAtom.isNucleic () && !atom.isNucleic ()) break;
+var s = atom.getGroup1 ('\0').toUpperCase ();
+var isOK = patternAtom.residueChar.equals (s);
+switch (patternAtom.residueChar.charAt (0)) {
+case 'N':
+isOK = patternAtom.isNucleic () ? atom.isNucleic () : isOK;
+break;
+case 'R':
+isOK = patternAtom.isNucleic () ? atom.isPurine () : isOK;
+break;
+case 'Y':
+isOK = patternAtom.isNucleic () ? atom.isPyrimidine () : isOK;
+break;
+}
+if (!isOK) break;
+}if (patternAtom.elementNumber >= 0 && patternAtom.elementNumber != atom.getElementNumber ()) break;
+if (patternAtom.notCrossLinked && atom.getCrossLinkLeadAtomIndexes (null)) break;
+} else {
+if (patternAtom.jmolIndex >= 0 && atom.getIndex () != patternAtom.jmolIndex) break;
+if (patternAtom.atomType != null && !patternAtom.atomType.equals (atom.getAtomType ())) break;
+if (patternAtom.elementNumber >= 0 && patternAtom.elementNumber != atom.getElementNumber ()) break;
+var isAromatic = patternAtom.isAromatic ();
+if (!this.noAromatic && !patternAtom.aromaticAmbiguous && isAromatic != this.bsAromatic.get (iAtom)) break;
+if ((n = patternAtom.getAtomicMass ()) != -32768) {
+var isotope = atom.getIsotopeNumber ();
+if (n >= 0 && n != isotope || n < 0 && isotope != 0 && -n != isotope) {
+break;
+}}if ((n = patternAtom.getCharge ()) != -2147483648 && n != atom.getFormalCharge ()) break;
+n = patternAtom.getCovalentHydrogenCount () + patternAtom.missingHydrogenCount;
+if (n >= 0 && n != atom.getCovalentHydrogenCount ()) break;
+n = patternAtom.implicitHydrogenCount;
+if (n != -2147483648) {
+var nH = atom.getImplicitHydrogenCount ();
+if (n == -1 ? nH == 0 : n != nH) break;
+}if (patternAtom.degree > 0 && patternAtom.degree != atom.getCovalentBondCount ()) break;
+if (patternAtom.nonhydrogenDegree > 0 && patternAtom.nonhydrogenDegree != atom.getCovalentBondCount () - atom.getCovalentHydrogenCount ()) break;
+if (patternAtom.valence > 0 && patternAtom.valence != atom.getValence ()) break;
+if (patternAtom.connectivity > 0 && patternAtom.connectivity != atom.getCovalentBondCount () + atom.getImplicitHydrogenCount ()) break;
+if (this.ringData != null && patternAtom.ringSize >= -1) {
+if (patternAtom.ringSize <= 0) {
+if ((this.ringCounts[iAtom] == 0) != (patternAtom.ringSize == 0)) break;
+} else {
+var rd = this.ringData[patternAtom.ringSize == 500 ? 5 : patternAtom.ringSize == 600 ? 6 : patternAtom.ringSize];
+if (rd == null || !rd.get (iAtom)) break;
+if (!this.noAromatic) if (patternAtom.ringSize == 500) {
+if (!this.bsAromatic5.get (iAtom)) break;
+} else if (patternAtom.ringSize == 600) {
+if (!this.bsAromatic6.get (iAtom)) break;
+}}}if (this.ringData != null && patternAtom.ringMembership >= -1) {
+if (patternAtom.ringMembership == -1 ? this.ringCounts[iAtom] == 0 : this.ringCounts[iAtom] != patternAtom.ringMembership) break;
+}if (patternAtom.ringConnectivity >= 0) {
+n = this.ringConnections[iAtom];
+if (patternAtom.ringConnectivity == -1 && n == 0 || patternAtom.ringConnectivity != -1 && n != patternAtom.ringConnectivity) break;
+}}foundAtom = !foundAtom;
+break;
+}
+return foundAtom;
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesAtom,~N");
+Clazz.defineMethod (c$, "checkMatchBond", 
+($fz = function (patternAtom, atom1, patternBond, iAtom, matchingAtom, bond) {
+if (patternBond.bondsOr != null) {
+for (var ii = 0; ii < patternBond.nBondsOr; ii++) if (this.checkMatchBond (patternAtom, atom1, patternBond.bondsOr[ii], iAtom, matchingAtom, bond)) return true;
+
+return false;
+}if (patternBond.primitives == null) {
+if (!this.checkPrimitiveBond (patternBond, iAtom, matchingAtom, bond)) return false;
+} else {
+for (var i = 0; i < patternBond.nPrimitives; i++) if (!this.checkPrimitiveBond (patternBond.primitives[i], iAtom, matchingAtom, bond)) return false;
+
+}patternBond.matchingBond = bond;
+return true;
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesBond,~N,~N,org.jmol.util.JmolEdge");
+Clazz.defineMethod (c$, "checkPrimitiveBond", 
+($fz = function (patternBond, iAtom1, iAtom2, bond) {
+var bondFound = false;
+switch (patternBond.order) {
+case 96:
+return (patternBond.isNot != (this.jmolAtoms[iAtom2].getOffsetResidueAtom ("0", 1) == this.jmolAtoms[iAtom1].getOffsetResidueAtom ("0", 0)));
+case 112:
+return (patternBond.isNot != this.jmolAtoms[iAtom1].isCrossLinked (this.jmolAtoms[iAtom2]));
+}
+var isAromatic1 = (!this.noAromatic && this.bsAromatic.get (iAtom1));
+var isAromatic2 = (!this.noAromatic && this.bsAromatic.get (iAtom2));
+var order = bond.getCovalentOrder ();
+if (isAromatic1 && isAromatic2) {
+switch (patternBond.order) {
+case 17:
+case 65:
+bondFound = org.jmol.smiles.SmilesSearch.isRingBond (this.ringSets, iAtom1, iAtom2);
+break;
+case 1:
+bondFound = !this.isSmarts || !org.jmol.smiles.SmilesSearch.isRingBond (this.ringSets, iAtom1, iAtom2);
+break;
+case 2:
+bondFound = !this.isSmarts || this.aromaticDouble && (order == 2 || order == 514);
+break;
+case 769:
+case 1025:
+case 81:
+case -1:
+bondFound = true;
+break;
+}
+} else {
+switch (patternBond.order) {
+case 81:
+case -1:
+bondFound = true;
+break;
+case 1:
+case 257:
+case 513:
+bondFound = (order == 1 || order == 1041 || order == 1025);
+break;
+case 769:
+bondFound = (order == (this.isSmilesFind ? 33 : 1));
+break;
+case 1025:
+bondFound = (order == (this.isSmilesFind ? 97 : 1));
+break;
+case 2:
+bondFound = (order == 2);
+break;
+case 3:
+bondFound = (order == 3);
+break;
+case 65:
+bondFound = org.jmol.smiles.SmilesSearch.isRingBond (this.ringSets, iAtom1, iAtom2);
+break;
+}
+}return bondFound != patternBond.isNot;
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesBond,~N,~N,org.jmol.util.JmolEdge");
+c$.isRingBond = Clazz.defineMethod (c$, "isRingBond", 
+function (ringSets, i, j) {
+return (ringSets != null && ringSets.indexOf ("-" + i + "-" + j + "-") >= 0);
+}, "org.jmol.util.StringXBuilder,~N,~N");
+Clazz.defineMethod (c$, "checkStereochemistry", 
+($fz = function () {
+for (var i = 0; i < this.measures.size (); i++) if (!this.measures.get (i).check ()) return false;
+
+if (this.haveAtomStereochemistry) {
+if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.debug ("checking stereochemistry...");
+var atom1 = null;
+var atom2 = null;
+var atom3 = null;
+var atom4 = null;
+var atom5 = null;
+var atom6 = null;
+var sAtom1 = null;
+var sAtom2 = null;
+var jn;
+for (var i = 0; i < this.atomCount; i++) {
+var sAtom = this.patternAtoms[i];
+var atom0 = this.jmolAtoms[sAtom.getMatchingAtom ()];
+var nH = sAtom.missingHydrogenCount;
+if (nH < 0) nH = 0;
+var chiralClass = sAtom.getChiralClass ();
+if (chiralClass == -2147483648) continue;
+var order = sAtom.getChiralOrder ();
+if (this.isSmilesFind && (atom0.getAtomSite () >> 8) != chiralClass) return false;
+atom4 = null;
+if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.debug ("...type " + chiralClass + " for pattern atom " + sAtom + " " + atom0);
+switch (chiralClass) {
+case 2:
+var isAllene = true;
+if (isAllene) {
+sAtom1 = sAtom.getBond (0).getOtherAtom (sAtom);
+sAtom2 = sAtom.getBond (1).getOtherAtom (sAtom);
+if (sAtom1 == null || sAtom2 == null) continue;
+var sAtom1a = sAtom;
+var sAtom2a = sAtom;
+while (sAtom1.getBondCount () == 2 && sAtom2.getBondCount () == 2 && sAtom1.getValence () == 4 && sAtom2.getValence () == 4) {
+var b = sAtom1.getBondNotTo (sAtom1a, true);
+sAtom1a = sAtom1;
+sAtom1 = b.getOtherAtom (sAtom1);
+b = sAtom2.getBondNotTo (sAtom2a, true);
+sAtom2a = sAtom2;
+sAtom2 = b.getOtherAtom (sAtom2);
+}
+sAtom = sAtom1;
+}jn =  new Array (6);
+jn[4] =  new org.jmol.smiles.SmilesAtom (604);
+var nBonds = sAtom.getBondCount ();
+for (var k = 0; k < nBonds; k++) {
+sAtom1 = sAtom.bonds[k].getOtherAtom (sAtom);
+if (sAtom.bonds[k].matchingBond.getCovalentOrder () == 2) {
+if (sAtom2 == null) sAtom2 = sAtom1;
+} else if (jn[0] == null) {
+jn[0] = this.getJmolAtom (sAtom1.getMatchingAtom ());
+} else {
+jn[1] = this.getJmolAtom (sAtom1.getMatchingAtom ());
+}}
+if (sAtom2 == null) continue;
+nBonds = sAtom2.getBondCount ();
+if (nBonds < 2 || nBonds > 3) continue;
+for (var k = 0; k < nBonds; k++) {
+sAtom1 = sAtom2.bonds[k].getOtherAtom (sAtom2);
+if (sAtom2.bonds[k].matchingBond.getCovalentOrder () == 2) {
+} else if (jn[2] == null) {
+jn[2] = this.getJmolAtom (sAtom1.getMatchingAtom ());
+} else {
+jn[3] = this.getJmolAtom (sAtom1.getMatchingAtom ());
+}}
+if (this.isSmilesFind) {
+if (jn[1] == null) this.getX (sAtom, jn, 1, false, isAllene);
+if (jn[3] == null) this.getX (sAtom2, jn, 3, false, false);
+if (!this.setSmilesCoordinates (atom0, sAtom, sAtom2, jn)) return false;
+}if (jn[1] == null) this.getX (sAtom, jn, 1, true, false);
+if (jn[3] == null) this.getX (sAtom2, jn, 3, true, false);
+if (!org.jmol.smiles.SmilesSearch.checkStereochemistry (sAtom.not, atom0, chiralClass, order, jn[0], jn[1], jn[2], jn[3], null, null, this.v)) return false;
+continue;
+case 4:
+case 8:
+case 5:
+case 6:
+atom1 = this.getJmolAtom (sAtom.getMatchingBondedAtom (0));
+switch (nH) {
+case 0:
+atom2 = this.getJmolAtom (sAtom.getMatchingBondedAtom (1));
+break;
+case 1:
+atom2 = this.getHydrogens (this.getJmolAtom (sAtom.getMatchingAtom ()), null);
+if (sAtom.isFirst) {
+var a = atom2;
+atom2 = atom1;
+atom1 = a;
+}break;
+default:
+continue;
+}
+atom3 = this.getJmolAtom (sAtom.getMatchingBondedAtom (2 - nH));
+atom4 = this.getJmolAtom (sAtom.getMatchingBondedAtom (3 - nH));
+atom5 = this.getJmolAtom (sAtom.getMatchingBondedAtom (4 - nH));
+atom6 = this.getJmolAtom (sAtom.getMatchingBondedAtom (5 - nH));
+if (this.isSmilesFind && !this.setSmilesCoordinates (atom0, sAtom, sAtom2, [atom1, atom2, atom3, atom4, atom5, atom6])) return false;
+if (!org.jmol.smiles.SmilesSearch.checkStereochemistry (sAtom.not, atom0, chiralClass, order, atom1, atom2, atom3, atom4, atom5, atom6, this.v)) return false;
+continue;
+}
+}
+}if (this.haveBondStereochemistry) {
+for (var k = 0; k < this.atomCount; k++) {
+var sAtom1 = this.patternAtoms[k];
+var sAtom2 = null;
+var sAtomDirected1 = null;
+var sAtomDirected2 = null;
+var dir1 = 0;
+var dir2 = 0;
+var bondType = 0;
+var b;
+var nBonds = sAtom1.getBondCount ();
+var isAtropisomer = false;
+for (var j = 0; j < nBonds; j++) {
+b = sAtom1.getBond (j);
+var isAtom2 = (b.getAtom2 () === sAtom1);
+var type = b.order;
+switch (type) {
+case 769:
+case 1025:
+case 2:
+if (isAtom2) continue;
+sAtom2 = b.getAtom2 ();
+bondType = type;
+isAtropisomer = (type != 2);
+if (isAtropisomer) dir1 = (b.isNot ? -1 : 1);
+break;
+case 257:
+case 513:
+sAtomDirected1 = (isAtom2 ? b.getAtom1 () : b.getAtom2 ());
+dir1 = (isAtom2 != (type == 257) ? 1 : -1);
+break;
+}
+}
+if (isAtropisomer) {
+b = sAtom1.getBondNotTo (sAtom2, false);
+if (b == null) return false;
+sAtomDirected1 = b.getOtherAtom (sAtom1);
+b = sAtom2.getBondNotTo (sAtom1, false);
+if (b == null) return false;
+sAtomDirected2 = b.getOtherAtom (sAtom2);
+} else {
+if (sAtom2 == null || dir1 == 0) continue;
+nBonds = sAtom2.getBondCount ();
+for (var j = 0; j < nBonds && dir2 == 0; j++) {
+b = sAtom2.getBond (j);
+var isAtom2 = (b.getAtom2 () === sAtom2);
+var type = b.order;
+switch (type) {
+case 257:
+case 513:
+sAtomDirected2 = (isAtom2 ? b.getAtom1 () : b.getAtom2 ());
+dir2 = (isAtom2 != (type == 257) ? 1 : -1);
+break;
+}
+}
+if (dir2 == 0) continue;
+}if (this.isSmilesFind) this.setSmilesBondCoordinates (sAtom1, sAtom2, bondType);
+var dbAtom1 = this.getJmolAtom (sAtom1.getMatchingAtom ());
+var dbAtom2 = this.getJmolAtom (sAtom2.getMatchingAtom ());
+var dbAtom1a = this.getJmolAtom (sAtomDirected1.getMatchingAtom ());
+var dbAtom2a = this.getJmolAtom (sAtomDirected2.getMatchingAtom ());
+if (dbAtom1a == null || dbAtom2a == null) return false;
+org.jmol.smiles.SmilesMeasure.setTorsionData (dbAtom1a, dbAtom1, dbAtom2, dbAtom2a, this.v, isAtropisomer);
+if (isAtropisomer) {
+dir2 = (bondType == 769 ? 1 : -1);
+var f = this.v.vTemp1.dot (this.v.vTemp2);
+if (f < 0.05 || f > 0.95 || this.v.vNorm1.dot (this.v.vNorm2) * dir1 * dir2 > 0) return false;
+} else {
+if (this.v.vTemp1.dot (this.v.vTemp2) * dir1 * dir2 < 0) return false;
+}}
+}return true;
+}, $fz.isPrivate = true, $fz));
+Clazz.defineMethod (c$, "getX", 
+($fz = function (sAtom, jn, pt, haveCoordinates, needHSwitch) {
+var atom = this.getJmolAtom (sAtom.getMatchingAtom ());
+var doSwitch = sAtom.isFirst || pt == 3;
+if (haveCoordinates) {
+if (this.isSmarts) {
+var b = atom.getEdges ();
+for (var i = 0; i < b.length; i++) {
+if (b[i].getCovalentOrder () == 2) continue;
+var a = this.jmolAtoms[atom.getBondedAtomIndex (i)];
+if (a === jn[pt - 1]) continue;
+jn[pt] = a;
+break;
+}
+}if (jn[pt] == null) {
+var v =  new org.jmol.util.Vector3f ();
+var n = 0;
+for (var i = 0; i < 4; i++) {
+if (jn[i] == null) continue;
+n++;
+v.sub (jn[i]);
+}
+if (v.length () == 0) {
+v.setT ((jn[4]));
+doSwitch = false;
+} else {
+v.scaleAdd2 (n + 1, this.getJmolAtom (sAtom.getMatchingAtom ()), v);
+doSwitch = this.isSmilesFind || doSwitch;
+}jn[pt] =  new org.jmol.smiles.SmilesAtom (-1);
+(jn[pt]).setT (v);
+}}if (jn[pt] == null) {
+jn[pt] = this.getHydrogens (atom, null);
+if (needHSwitch) doSwitch = true;
+}if (jn[pt] != null && doSwitch) {
+var a = jn[pt];
+jn[pt] = jn[pt - 1];
+jn[pt - 1] = a;
+}}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesAtom,~A,~N,~B,~B");
+c$.checkStereochemistry = Clazz.defineMethod (c$, "checkStereochemistry", 
+function (isNot, atom0, chiralClass, order, atom1, atom2, atom3, atom4, atom5, atom6, v) {
+switch (chiralClass) {
+default:
+case 2:
+case 4:
+return (isNot == (org.jmol.smiles.SmilesSearch.getHandedness (atom2, atom3, atom4, atom1, v) != order));
+case 5:
+return (isNot == (!org.jmol.smiles.SmilesSearch.isDiaxial (atom0, atom0, atom5, atom1, v, -0.95) || org.jmol.smiles.SmilesSearch.getHandedness (atom2, atom3, atom4, atom1, v) != order));
+case 6:
+if (isNot != (!org.jmol.smiles.SmilesSearch.isDiaxial (atom0, atom0, atom6, atom1, v, -0.95))) return false;
+org.jmol.smiles.SmilesSearch.getPlaneNormals (atom2, atom3, atom4, atom5, v);
+if (isNot != (v.vNorm1.dot (v.vNorm2) < 0 || v.vNorm2.dot (v.vNorm3) < 0)) return false;
+v.vNorm2.setT (atom0);
+v.vNorm2.sub (atom1);
+return (isNot == ((v.vNorm1.dot (v.vNorm2) < 0 ? 2 : 1) == order));
+case 8:
+org.jmol.smiles.SmilesSearch.getPlaneNormals (atom1, atom2, atom3, atom4, v);
+return (v.vNorm1.dot (v.vNorm2) < 0 ? isNot == (order != 3) : v.vNorm2.dot (v.vNorm3) < 0 ? isNot == (order != 2) : isNot == (order != 1));
+}
+}, "~B,org.jmol.util.JmolNode,~N,~N,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.smiles.SmilesSearch.VTemp");
+Clazz.defineMethod (c$, "getJmolAtom", 
+($fz = function (i) {
+return (i < 0 || i >= this.jmolAtoms.length ? null : this.jmolAtoms[i]);
+}, $fz.isPrivate = true, $fz), "~N");
+Clazz.defineMethod (c$, "setSmilesBondCoordinates", 
+($fz = function (sAtom1, sAtom2, bondType) {
+var dbAtom1 = this.jmolAtoms[sAtom1.getMatchingAtom ()];
+var dbAtom2 = this.jmolAtoms[sAtom2.getMatchingAtom ()];
+dbAtom1.set (-1, 0, 0);
+dbAtom2.set (1, 0, 0);
+if (bondType == 2) {
+var nBonds = 0;
+var dir1 = 0;
+var bonds = dbAtom1.getEdges ();
+for (var k = bonds.length; --k >= 0; ) {
+var bond = bonds[k];
+var atom = bond.getOtherAtomNode (dbAtom1);
+if (atom === dbAtom2) continue;
+atom.set (-1, (nBonds++ == 0) ? -1 : 1, 0);
+var mode = (bond.getAtomIndex2 () == dbAtom1.getIndex () ? nBonds : -nBonds);
+switch (bond.order) {
+case 1025:
+dir1 = mode;
+break;
+case 1041:
+dir1 = -mode;
+}
+}
+var dir2 = 0;
+nBonds = 0;
+var atoms =  new Array (2);
+bonds = dbAtom2.getEdges ();
+for (var k = bonds.length; --k >= 0; ) {
+var bond = bonds[k];
+var atom = bond.getOtherAtomNode (dbAtom2);
+if (atom === dbAtom1) continue;
+atoms[nBonds] = atom;
+atom.set (1, (nBonds++ == 0) ? 1 : -1, 0);
+var mode = (bond.getAtomIndex2 () == dbAtom2.getIndex () ? nBonds : -nBonds);
+switch (bond.order) {
+case 1025:
+dir2 = mode;
+break;
+case 1041:
+dir2 = -mode;
+}
+}
+if ((dir1 * dir2 > 0) == (Math.abs (dir1) % 2 == Math.abs (dir2) % 2)) {
+var y = (atoms[0]).y;
+(atoms[0]).y = (atoms[1]).y;
+(atoms[1]).y = y;
+}} else {
+var bonds = dbAtom1.getEdges ();
+var dir = 0;
+for (var k = bonds.length; --k >= 0; ) {
+var bond = bonds[k];
+if (bond.getOtherAtomNode (dbAtom1) === dbAtom2) {
+dir = (bond.order == 33 ? 1 : -1);
+break;
+}}
+for (var k = bonds.length; --k >= 0; ) {
+var bond = bonds[k];
+var atom = bond.getOtherAtomNode (dbAtom1);
+if (atom !== dbAtom2) atom.set (-1, 1, 0);
+}
+bonds = dbAtom2.getEdges ();
+for (var k = bonds.length; --k >= 0; ) {
+var bond = bonds[k];
+var atom = bond.getOtherAtomNode (dbAtom2);
+if (atom !== dbAtom1) atom.set (1, 1, -dir / 2.0);
+}
+}}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesAtom,~N");
+Clazz.defineMethod (c$, "setSmilesCoordinates", 
+($fz = function (atom, sAtom, sAtom2, cAtoms) {
+var atomSite = atom.getAtomSite ();
+if (atomSite == -2147483648) return false;
+var chiralClass = atomSite >> 8;
+var chiralOrder = atomSite & 0xFF;
+var a2 = (chiralClass == 2 || chiralClass == 3 ? a2 = this.jmolAtoms[sAtom2.getMatchingAtom ()] : null);
+atom.set (0, 0, 0);
+atom = this.jmolAtoms[sAtom.getMatchingAtom ()];
+atom.set (0, 0, 0);
+var map = this.getMappedAtoms (atom, a2, cAtoms);
+switch (chiralClass) {
+case 2:
+case 4:
+if (chiralOrder == 2) {
+var i = map[0];
+map[0] = map[1];
+map[1] = i;
+}cAtoms[map[0]].set (0, 0, 1);
+cAtoms[map[1]].set (1, 0, -1);
+cAtoms[map[2]].set (0, 1, -1);
+cAtoms[map[3]].set (-1, -1, -1);
+break;
+case 8:
+switch (chiralOrder) {
+case 1:
+cAtoms[map[0]].set (1, 0, 0);
+cAtoms[map[1]].set (0, 1, 0);
+cAtoms[map[2]].set (-1, 0, 0);
+cAtoms[map[3]].set (0, -1, 0);
+break;
+case 2:
+cAtoms[map[0]].set (1, 0, 0);
+cAtoms[map[1]].set (-1, 0, 0);
+cAtoms[map[2]].set (0, 1, 0);
+cAtoms[map[3]].set (0, -1, 0);
+break;
+case 3:
+cAtoms[map[0]].set (1, 0, 0);
+cAtoms[map[1]].set (0, 1, 0);
+cAtoms[map[2]].set (0, -1, 0);
+cAtoms[map[3]].set (-1, 0, 0);
+break;
+}
+break;
+case 5:
+case 6:
+var n = map.length;
+if (chiralOrder == 2) {
+var i = map[0];
+map[0] = map[n - 1];
+map[n - 1] = i;
+}cAtoms[map[0]].set (0, 0, 1);
+cAtoms[map[n - 1]].set (0, 0, -1);
+cAtoms[map[1]].set (1, 0, 0);
+cAtoms[map[2]].set (0, 1, 0);
+cAtoms[map[3]].set (-1, 0, 0);
+if (n == 6) cAtoms[map[4]].set (0, -1, 0);
+break;
+}
+return true;
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesAtom,~A");
+Clazz.defineMethod (c$, "getMappedAtoms", 
+function (atom, a2, cAtoms) {
+var map =  Clazz.newIntArray (cAtoms[4] == null ? 4 : cAtoms[5] == null ? 5 : 6, 0);
+for (var i = 0; i < map.length; i++) map[i] = (cAtoms[i] == null ? 104 + i * 100 : cAtoms[i].getIndex ());
+
+var k;
+var bonds = atom.getEdges ();
+var b2 = (a2 == null ? null : a2.getEdges ());
+for (var i = 0; i < map.length; i++) {
+for (k = 0; k < bonds.length; k++) if (bonds[k].getOtherAtomNode (atom) === cAtoms[i]) break;
+
+if (k < bonds.length) {
+map[i] = (k * 10 + 100) + i;
+} else if (a2 != null) {
+for (k = 0; k < b2.length; k++) if (b2[k].getOtherAtomNode (a2) === cAtoms[i]) break;
+
+if (k < b2.length) map[i] = (k * 10 + 300) + i;
+}}
+java.util.Arrays.sort (map);
+for (var i = 0; i < map.length; i++) {
+map[i] = map[i] % 10;
+}
+return map;
+}, "org.jmol.util.JmolNode,org.jmol.util.JmolNode,~A");
+c$.isDiaxial = Clazz.defineMethod (c$, "isDiaxial", 
+function (atomA, atomB, atom1, atom2, v, f) {
+v.vA.setT (atomA);
+v.vB.setT (atomB);
+v.vA.sub (atom1);
+v.vB.sub (atom2);
+v.vA.normalize ();
+v.vB.normalize ();
+return (v.vA.dot (v.vB) < f);
+}, "org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.smiles.SmilesSearch.VTemp,~N");
+c$.getHandedness = Clazz.defineMethod (c$, "getHandedness", 
+($fz = function (a, b, c, pt, v) {
+var d = org.jmol.smiles.SmilesAromatic.getNormalThroughPoints (a, b, c, v.vTemp, v.vA, v.vB);
+return (org.jmol.smiles.SmilesSearch.distanceToPlane (v.vTemp, d, pt) > 0 ? 1 : 2);
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.smiles.SmilesSearch.VTemp");
+c$.getPlaneNormals = Clazz.defineMethod (c$, "getPlaneNormals", 
+($fz = function (atom1, atom2, atom3, atom4, v) {
+org.jmol.smiles.SmilesAromatic.getNormalThroughPoints (atom1, atom2, atom3, v.vNorm1, v.vTemp1, v.vTemp2);
+org.jmol.smiles.SmilesAromatic.getNormalThroughPoints (atom2, atom3, atom4, v.vNorm2, v.vTemp1, v.vTemp2);
+org.jmol.smiles.SmilesAromatic.getNormalThroughPoints (atom3, atom4, atom1, v.vNorm3, v.vTemp1, v.vTemp2);
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.smiles.SmilesSearch.VTemp");
+c$.distanceToPlane = Clazz.defineMethod (c$, "distanceToPlane", 
+function (norm, w, pt) {
+return (norm == null ? NaN : (norm.x * pt.x + norm.y * pt.y + norm.z * pt.z + w) / Math.sqrt (norm.x * norm.x + norm.y * norm.y + norm.z * norm.z));
+}, "org.jmol.util.Vector3f,~N,org.jmol.util.Point3f");
+Clazz.defineMethod (c$, "createTopoMap", 
+function (bsAromatic) {
+if (bsAromatic == null) bsAromatic =  new org.jmol.util.BitSet ();
+var nAtomsMissing = this.getMissingHydrogenCount ();
+var atoms =  new Array (this.atomCount + nAtomsMissing);
+this.jmolAtoms = atoms;
+var ptAtom = 0;
+var bsFixH =  new org.jmol.util.BitSet ();
+for (var i = 0; i < this.atomCount; i++) {
+var sAtom = this.patternAtoms[i];
+var cclass = sAtom.getChiralClass ();
+var n = sAtom.missingHydrogenCount;
+if (n < 0) n = 0;
+var atom = atoms[ptAtom] =  new org.jmol.smiles.SmilesAtom (0, ptAtom, cclass == -2147483648 ? cclass : (cclass << 8) + sAtom.getChiralOrder (), sAtom.elementNumber, sAtom.getCharge ());
+atom.atomName = sAtom.atomName;
+atom.residueName = sAtom.residueName;
+atom.residueChar = sAtom.residueChar;
+atom.isBioAtom = sAtom.isBioAtom;
+atom.$isLeadAtom = sAtom.$isLeadAtom;
+atom.setAtomicMass (sAtom.getAtomicMass ());
+if (sAtom.isAromatic ()) bsAromatic.set (ptAtom);
+if (!sAtom.isFirst && n == 1 && cclass > 0) bsFixH.set (ptAtom);
+sAtom.setMatchingAtom (ptAtom++);
+var bonds =  new Array (sAtom.getBondCount () + n);
+atom.setBonds (bonds);
+while (--n >= 0) {
+var atomH = atoms[ptAtom] =  new org.jmol.smiles.SmilesAtom (0, ptAtom, 0, 1, 0);
+ptAtom++;
+atomH.setBonds ( new Array (1));
+var b =  new org.jmol.smiles.SmilesBond (atom, atomH, 1, false);
+org.jmol.util.Logger.info ("" + b);
+}
+}
+for (var i = 0; i < this.atomCount; i++) {
+var sAtom = this.patternAtoms[i];
+var i1 = sAtom.getMatchingAtom ();
+var atom1 = atoms[i1];
+var n = sAtom.getBondCount ();
+for (var j = 0; j < n; j++) {
+var sBond = sAtom.getBond (j);
+var firstAtom = (sBond.getAtom1 () === sAtom);
+if (firstAtom) {
+var order = 1;
+switch (sBond.order) {
+case 769:
+order = 33;
+break;
+case 1025:
+order = 97;
+break;
+case 257:
+order = 1025;
+break;
+case 513:
+order = 1041;
+break;
+case 112:
+case 96:
+order = sBond.order;
+break;
+case 1:
+order = 1;
+break;
+case 17:
+order = 514;
+break;
+case 2:
+order = 2;
+break;
+case 3:
+order = 3;
+break;
+}
+var atom2 = atoms[sBond.getAtom2 ().getMatchingAtom ()];
+var b =  new org.jmol.smiles.SmilesBond (atom1, atom2, order, false);
+atom2.bondCount--;
+org.jmol.util.Logger.info ("" + b);
+} else {
+var atom2 = atoms[sBond.getAtom1 ().getMatchingAtom ()];
+var b = atom2.getBondTo (atom1);
+atom1.addBond (b);
+}}
+}
+for (var i = bsFixH.nextSetBit (0); i >= 0; i = bsFixH.nextSetBit (i + 1)) {
+var bonds = atoms[i].getEdges ();
+var b = bonds[0];
+bonds[0] = bonds[1];
+bonds[1] = b;
+}
+}, "org.jmol.util.BitSet");
+Clazz.defineMethod (c$, "setTop", 
+function (parent) {
+if (parent == null) this.top = this;
+ else this.top = parent.getTop ();
+}, "org.jmol.smiles.SmilesSearch");
+Clazz.defineMethod (c$, "getTop", 
+function () {
+return (this.top === this ? this : this.top.getTop ());
+});
+Clazz.defineMethod (c$, "getSelections", 
+function () {
+var ht = this.top.htNested;
+if (ht == null || this.jmolAtoms.length == 0) return;
+var htNew =  new java.util.Hashtable ();
+for (var entry, $entry = ht.entrySet ().iterator (); $entry.hasNext () && ((entry = $entry.next ()) || true);) {
+var key = entry.getValue ().toString ();
+if (key.startsWith ("select")) {
+var bs = (htNew.containsKey (key) ? htNew.get (key) : this.jmolAtoms[0].findAtomsLike (key.substring (6)));
+if (bs == null) bs =  new org.jmol.util.BitSet ();
+htNew.put (key, bs);
+entry.setValue (bs);
+}}
+});
+Clazz.pu$h ();
+c$ = Clazz.decorateAsClass (function () {
+this.vTemp = null;
+this.vA = null;
+this.vB = null;
+this.vTemp1 = null;
+this.vTemp2 = null;
+this.vNorm1 = null;
+this.vNorm2 = null;
+this.vNorm3 = null;
+this.bsTemp = null;
+Clazz.instantialize (this, arguments);
+}, org.jmol.smiles.SmilesSearch, "VTemp");
+Clazz.prepareFields (c$, function () {
+this.vTemp =  new org.jmol.util.Vector3f ();
+this.vA =  new org.jmol.util.Vector3f ();
+this.vB =  new org.jmol.util.Vector3f ();
+this.vTemp1 =  new org.jmol.util.Vector3f ();
+this.vTemp2 =  new org.jmol.util.Vector3f ();
+this.vNorm1 =  new org.jmol.util.Vector3f ();
+this.vNorm2 =  new org.jmol.util.Vector3f ();
+this.vNorm3 =  new org.jmol.util.Vector3f ();
+this.bsTemp =  new org.jmol.util.BitSet ();
+});
+c$ = Clazz.p0p ();
+Clazz.defineStatics (c$,
+"INITIAL_ATOMS", 16);
+});
+// 
+//// org\jmol\smiles\SmilesGenerator.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (["java.util.Hashtable", "org.jmol.smiles.SmilesSearch", "org.jmol.util.BitSet"], "org.jmol.smiles.SmilesGenerator", ["java.util.ArrayList", "org.jmol.smiles.InvalidSmilesException", "$.SmilesAromatic", "$.SmilesAtom", "$.SmilesBond", "$.SmilesParser", "org.jmol.util.BitSetUtil", "$.Elements", "$.JmolMolecule", "$.Logger", "$.StringXBuilder"], function () {
+c$ = Clazz.decorateAsClass (function () {
+this.atoms = null;
+this.atomCount = 0;
+this.bsSelected = null;
+this.bsAromatic = null;
+this.ringSets = null;
+this.vTemp = null;
+this.nPairs = 0;
+this.bsBondsUp = null;
+this.bsBondsDn = null;
+this.bsToDo = null;
+this.prevAtom = null;
+this.prevSp2Atoms = null;
+this.htRingsSequence = null;
+this.htRings = null;
+this.bsIncludingH = null;
+Clazz.instantialize (this, arguments);
+}, org.jmol.smiles, "SmilesGenerator");
+Clazz.prepareFields (c$, function () {
+this.vTemp =  new org.jmol.smiles.SmilesSearch.VTemp ();
+this.bsBondsUp =  new org.jmol.util.BitSet ();
+this.bsBondsDn =  new org.jmol.util.BitSet ();
+this.htRingsSequence =  new java.util.Hashtable ();
+this.htRings =  new java.util.Hashtable ();
+});
+Clazz.defineMethod (c$, "getSmiles", 
+function (atoms, atomCount, bsSelected) {
+var i = bsSelected.nextSetBit (0);
+if (i < 0) return "";
+this.atoms = atoms;
+this.atomCount = atomCount;
+this.bsSelected = bsSelected = org.jmol.util.BitSetUtil.copy (bsSelected);
+return this.getSmilesComponent (atoms[i], bsSelected, false);
+}, "~A,~N,org.jmol.util.BitSet");
+Clazz.defineMethod (c$, "getBioSmiles", 
+function (atoms, atomCount, bsSelected, allowUnmatchedRings, addCrossLinks, comment) {
+this.atoms = atoms;
+this.atomCount = atomCount;
+var sb =  new org.jmol.util.StringXBuilder ();
+var bs = org.jmol.util.BitSetUtil.copy (bsSelected);
+if (comment != null) sb.append ("//* Jmol bioSMILES ").append (comment.$replace ('*', '_')).append (" *//");
+var end = "\n";
+var bsIgnore =  new org.jmol.util.BitSet ();
+var lastComponent = null;
+var s;
+var vLinks =  new java.util.ArrayList ();
+try {
+var len = 0;
+for (var i = bs.nextSetBit (0); i >= 0; i = bs.nextSetBit (i + 1)) {
+var a = atoms[i];
+var ch = a.getGroup1 ('?');
+var bioStructureName = a.getBioStructureTypeName ();
+var unknown = (ch.equals ("?"));
+if (end != null) {
+if (sb.length () > 0) sb.append (end);
+end = null;
+len = 0;
+if (bioStructureName.length > 0) {
+var id = a.getChainID ();
+if (id != '\0') {
+s = "//* chain " + id + " " + bioStructureName + " " + a.getResno () + " *// ";
+len = s.length;
+sb.append (s);
+}sb.append ("~").appendC (bioStructureName.charAt (0)).append ("~");
+len++;
+} else {
+s = this.getSmilesComponent (a, bs, true);
+if (s.equals (lastComponent)) {
+end = "";
+} else {
+lastComponent = s;
+var groupName = a.getGroup3 (true);
+if (groupName != null) sb.append ("//* ").append (groupName).append (" *//");
+sb.append (s);
+end = ".\n";
+}continue;
+}}if (len >= 75) {
+sb.append ("\n  ");
+len = 2;
+}if (unknown) {
+this.addBracketedBioName (sb, a, bioStructureName.length > 0 ? ".0" : null);
+} else {
+sb.append (ch);
+}len++;
+var i0 = a.getOffsetResidueAtom ("0", 0);
+if (addCrossLinks) {
+a.getCrossLinkLeadAtomIndexes (vLinks);
+for (var j = 0; j < vLinks.size (); j++) {
+sb.append (":");
+s = this.getRingCache (i0, vLinks.get (j).intValue (), this.htRingsSequence);
+sb.append (s);
+len += 1 + s.length;
+}
+vLinks.clear ();
+}a.getGroupBits (bsIgnore);
+bs.andNot (bsIgnore);
+var i2 = a.getOffsetResidueAtom ("0", 1);
+if (i2 < 0 || !bs.get (i2)) {
+sb.append (" //* ").appendI (a.getResno ()).append (" *//");
+if (i2 < 0 && (i2 = bs.nextSetBit (i + 1)) < 0) break;
+if (len > 0) end = ".\n";
+}i = i2 - 1;
+}
+} catch (e) {
+if (Clazz.exceptionOf (e, Exception)) {
+System.out.println (e.toString ());
+return "";
+} else {
+throw e;
+}
+}
+if (!allowUnmatchedRings && !this.htRingsSequence.isEmpty ()) {
+this.dumpRingKeys (sb, this.htRingsSequence);
+throw  new org.jmol.smiles.InvalidSmilesException ("//* ?ring error? *//");
+}s = sb.toString ();
+if (s.endsWith (".\n")) s = s.substring (0, s.length - 2);
+return s;
+}, "~A,~N,org.jmol.util.BitSet,~B,~B,~S");
+Clazz.defineMethod (c$, "addBracketedBioName", 
+($fz = function (sb, a, atomName) {
+sb.append ("[");
+if (atomName != null) {
+var chChain = a.getChainID ();
+sb.append (a.getGroup3 (false));
+if (!atomName.equals (".0")) sb.append (atomName).append ("#").appendI (a.getElementNumber ());
+sb.append ("//* ").appendI (a.getResno ());
+if (chChain != '\0') sb.append (":").appendC (chChain);
+sb.append (" *//");
+} else {
+sb.append (org.jmol.util.Elements.elementNameFromNumber (a.getElementNumber ()));
+}sb.append ("]");
+}, $fz.isPrivate = true, $fz), "org.jmol.util.StringXBuilder,org.jmol.util.JmolNode,~S");
+Clazz.defineMethod (c$, "getSmilesComponent", 
+($fz = function (atom, bs, allowConnectionsToOutsideWorld) {
+if (atom.getElementNumber () == 1 && atom.getEdges ().length > 0) atom = this.atoms[atom.getBondedAtomIndex (0)];
+this.bsSelected = org.jmol.util.JmolMolecule.getBranchBitSet (this.atoms, atom.getIndex (), org.jmol.util.BitSetUtil.copy (bs), null, -1, true, false);
+bs.andNot (this.bsSelected);
+this.bsIncludingH = org.jmol.util.BitSetUtil.copy (this.bsSelected);
+for (var j = this.bsSelected.nextSetBit (0); j >= 0; j = this.bsSelected.nextSetBit (j + 1)) {
+var a = this.atoms[j];
+if (a.getElementNumber () == 1 && a.getIsotopeNumber () == 0) this.bsSelected.clear (j);
+}
+if (this.bsSelected.cardinality () > 2) {
+var search = null;
+search = org.jmol.smiles.SmilesParser.getMolecule ("A[=&@]A", true);
+search.jmolAtoms = this.atoms;
+search.setSelected (this.bsSelected);
+search.jmolAtomCount = this.atomCount;
+search.ringDataMax = 7;
+search.setRingData (null);
+this.bsAromatic = search.bsAromatic;
+this.ringSets = search.ringSets;
+this.setBondDirections ();
+} else {
+this.bsAromatic =  new org.jmol.util.BitSet ();
+}this.bsToDo = org.jmol.util.BitSetUtil.copy (this.bsSelected);
+var sb =  new org.jmol.util.StringXBuilder ();
+for (var i = this.bsToDo.nextSetBit (0); i >= 0; i = this.bsToDo.nextSetBit (i + 1)) if (this.atoms[i].getCovalentBondCount () > 4) {
+this.getSmiles (sb, this.atoms[i], allowConnectionsToOutsideWorld, false);
+atom = null;
+}
+if (atom != null) while ((atom = this.getSmiles (sb, atom, allowConnectionsToOutsideWorld, true)) != null) {
+}
+while (this.bsToDo.cardinality () > 0 || !this.htRings.isEmpty ()) {
+var e = this.htRings.values ().iterator ();
+if (e.hasNext ()) {
+atom = this.atoms[(e.next ()[1]).intValue ()];
+if (!this.bsToDo.get (atom.getIndex ())) break;
+} else {
+atom = this.atoms[this.bsToDo.nextSetBit (0)];
+}sb.append (".");
+this.prevSp2Atoms = null;
+this.prevAtom = null;
+while ((atom = this.getSmiles (sb, atom, allowConnectionsToOutsideWorld, true)) != null) {
+}
+}
+if (!this.htRings.isEmpty ()) {
+this.dumpRingKeys (sb, this.htRings);
+throw  new org.jmol.smiles.InvalidSmilesException ("//* ?ring error? *//\n" + sb);
+}return sb.toString ();
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,org.jmol.util.BitSet,~B");
+Clazz.defineMethod (c$, "getBondStereochemistry", 
+($fz = function (bond, atomFrom) {
+if (bond == null) return '\0';
+var i = bond.index;
+var isFirst = (atomFrom == null || bond.getAtomIndex1 () == atomFrom.getIndex ());
+return (this.bsBondsUp.get (i) ? (isFirst ? '/' : '\\') : this.bsBondsDn.get (i) ? (isFirst ? '\\' : '/') : '\0');
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolEdge,org.jmol.util.JmolNode");
+Clazz.defineMethod (c$, "setBondDirections", 
+($fz = function () {
+var bsDone =  new org.jmol.util.BitSet ();
+var edges =  Clazz.newArray (2, 3, null);
+for (var i = this.bsSelected.nextSetBit (0); i >= 0; i = this.bsSelected.nextSetBit (i + 1)) {
+var atom1 = this.atoms[i];
+var bonds = atom1.getEdges ();
+for (var k = 0; k < bonds.length; k++) {
+var bond = bonds[k];
+var index = bond.index;
+if (bsDone.get (index)) continue;
+var atom2 = bond.getOtherAtomNode (atom1);
+if (bond.getCovalentOrder () != 2 || org.jmol.smiles.SmilesSearch.isRingBond (this.ringSets, i, atom2.getIndex ())) continue;
+bsDone.set (index);
+var b0 = null;
+var a0 = null;
+var i0 = 0;
+var atom12 = [atom1, atom2];
+if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.debug (atom1 + " == " + atom2);
+var edgeCount = 1;
+for (var j = 0; j < 2 && edgeCount > 0 && edgeCount < 3; j++) {
+edgeCount = 0;
+var atomA = atom12[j];
+var bb = atomA.getEdges ();
+for (var b = 0; b < bb.length; b++) {
+if (bb[b].getCovalentOrder () != 1) continue;
+edges[j][edgeCount++] = bb[b];
+if (this.getBondStereochemistry (bb[b], atomA) != '\0') {
+b0 = bb[b];
+i0 = j;
+}}
+}
+if (edgeCount == 3 || edgeCount == 0) continue;
+if (b0 == null) {
+i0 = 0;
+b0 = edges[i0][0];
+this.bsBondsUp.set (b0.index);
+}var c0 = this.getBondStereochemistry (b0, atom12[i0]);
+a0 = b0.getOtherAtomNode (atom12[i0]);
+if (a0 == null) continue;
+for (var j = 0; j < 2; j++) for (var jj = 0; jj < 2; jj++) {
+var b1 = edges[j][jj];
+if (b1 == null || b1 === b0) continue;
+var bi = b1.index;
+var a1 = b1.getOtherAtomNode (atom12[j]);
+if (a1 == null) continue;
+var c1 = this.getBondStereochemistry (b1, atom12[j]);
+var isOpposite = org.jmol.smiles.SmilesSearch.isDiaxial (atom12[i0], atom12[j], a0, a1, this.vTemp, 0);
+if (c1 == '\0' || (c1 != c0) == isOpposite) {
+var isUp = (c0 == '\\' && isOpposite || c0 == '/' && !isOpposite);
+if (isUp == (b1.getAtomIndex1 () != a1.getIndex ())) this.bsBondsUp.set (bi);
+ else this.bsBondsDn.set (bi);
+} else {
+org.jmol.util.Logger.error ("BOND STEREOCHEMISTRY ERROR");
+}if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.debug (this.getBondStereochemistry (b0, atom12[0]) + " " + a0.getIndex () + " " + a1.getIndex () + " " + this.getBondStereochemistry (b1, atom12[j]));
+}
+
+}
+}
+}, $fz.isPrivate = true, $fz));
+Clazz.defineMethod (c$, "getSmiles", 
+($fz = function (sb, atom, allowConnectionsToOutsideWorld, allowBranches) {
+var atomIndex = atom.getIndex ();
+if (!this.bsToDo.get (atomIndex)) return null;
+this.bsToDo.clear (atomIndex);
+var isExtension = (!this.bsSelected.get (atomIndex));
+var prevIndex = (this.prevAtom == null ? -1 : this.prevAtom.getIndex ());
+var isAromatic = this.bsAromatic.get (atomIndex);
+var havePreviousSp2Atoms = (this.prevSp2Atoms != null);
+var sp2Atoms = this.prevSp2Atoms;
+var nSp2Atoms = 0;
+var atomicNumber = atom.getElementNumber ();
+var nH = 0;
+var v =  new java.util.ArrayList ();
+var bond0 = null;
+var bondPrev = null;
+var bonds = atom.getEdges ();
+var aH = null;
+var stereoFlag = (isAromatic ? 10 : 0);
+var stereo =  new Array (7);
+if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.debug (sb.toString ());
+if (bonds != null) for (var i = bonds.length; --i >= 0; ) {
+var bond = bonds[i];
+if (!bond.isCovalent ()) continue;
+var atom1 = bonds[i].getOtherAtomNode (atom);
+var index1 = atom1.getIndex ();
+if (index1 == prevIndex) {
+bondPrev = bonds[i];
+continue;
+}var isH = (atom1.getElementNumber () == 1 && atom1.getIsotopeNumber () == 0);
+if (!this.bsIncludingH.get (index1)) {
+if (!isH && allowConnectionsToOutsideWorld && this.bsSelected.get (atomIndex)) this.bsToDo.set (index1);
+ else continue;
+}if (isH) {
+aH = atom1;
+nH++;
+if (nH > 1) stereoFlag = 10;
+} else {
+v.add (bonds[i]);
+}}
+var strBond = null;
+if (sp2Atoms == null) sp2Atoms =  new Array (5);
+if (bondPrev != null) {
+strBond = org.jmol.smiles.SmilesBond.getBondOrderString (bondPrev.getCovalentOrder ());
+if (this.prevSp2Atoms == null) sp2Atoms[nSp2Atoms++] = this.prevAtom;
+ else nSp2Atoms = 2;
+}nSp2Atoms += nH;
+var nMax = 0;
+var bsBranches =  new org.jmol.util.BitSet ();
+if (allowBranches) for (var i = 0; i < v.size (); i++) {
+var bond = v.get (i);
+var a = bond.getOtherAtomNode (atom);
+var n = a.getCovalentBondCount () - a.getCovalentHydrogenCount ();
+var order = bond.getCovalentOrder ();
+if (order == 1 && n == 1 && i < v.size () - (bond0 == null ? 1 : 0)) {
+bsBranches.set (bond.index);
+} else if ((order > 1 || n > nMax) && !this.htRings.containsKey (org.jmol.smiles.SmilesGenerator.getRingKey (a.getIndex (), atomIndex))) {
+nMax = (order > 1 ? 1000 + order : n);
+bond0 = bond;
+}}
+var atomNext = (bond0 == null ? null : bond0.getOtherAtomNode (atom));
+var orderNext = (bond0 == null ? 0 : bond0.getCovalentOrder ());
+if (stereoFlag < 7 && bondPrev != null) {
+if (bondPrev.getCovalentOrder () == 2 && orderNext == 2 && this.prevSp2Atoms != null && this.prevSp2Atoms[1] != null) {
+stereo[stereoFlag++] = this.prevSp2Atoms[0];
+stereo[stereoFlag++] = this.prevSp2Atoms[1];
+} else {
+stereo[stereoFlag++] = this.prevAtom;
+}}if (stereoFlag < 7 && nH == 1) stereo[stereoFlag++] = aH;
+var deferStereo = (orderNext == 1 && this.prevSp2Atoms == null);
+var chBond = this.getBondStereochemistry (bondPrev, this.prevAtom);
+var sMore =  new org.jmol.util.StringXBuilder ();
+for (var i = 0; i < v.size (); i++) {
+var bond = v.get (i);
+if (!bsBranches.get (bond.index)) continue;
+var a = bond.getOtherAtomNode (atom);
+var s2 =  new org.jmol.util.StringXBuilder ();
+s2.append ("(");
+this.prevAtom = atom;
+this.prevSp2Atoms = null;
+var bond0t = bond0;
+this.getSmiles (s2, a, allowConnectionsToOutsideWorld, allowBranches);
+bond0 = bond0t;
+s2.append (")");
+if (sMore.indexOf (s2.toString ()) >= 0) stereoFlag = 10;
+sMore.appendSB (s2);
+v.remove (i--);
+if (stereoFlag < 7) stereo[stereoFlag++] = a;
+if (nSp2Atoms < 5) sp2Atoms[nSp2Atoms++] = a;
+}
+var index2 = (orderNext == 2 ? atomNext.getIndex () : -1);
+if (nH > 1 || isAromatic || index2 < 0 || org.jmol.smiles.SmilesSearch.isRingBond (this.ringSets, atomIndex, index2)) {
+nSp2Atoms = -1;
+}if (nSp2Atoms < 0) sp2Atoms = null;
+if (strBond != null || chBond != '\0') {
+if (chBond != '\0') strBond = "" + chBond;
+sb.append (strBond);
+}var atat = null;
+if (!allowBranches && (v.size () == 5 || v.size () == 6)) atat = this.sortInorganic (atom, v);
+for (var i = 0; i < v.size (); i++) {
+var bond = v.get (i);
+if (bond === bond0) continue;
+var a = bond.getOtherAtomNode (atom);
+var s = this.getRingCache (atomIndex, a.getIndex (), this.htRings);
+strBond = org.jmol.smiles.SmilesBond.getBondOrderString (bond.order);
+if (!deferStereo) {
+chBond = this.getBondStereochemistry (bond, atom);
+if (chBond != '\0') strBond = "" + chBond;
+}sMore.append (strBond);
+sMore.append (s);
+if (stereoFlag < 7) stereo[stereoFlag++] = a;
+if (sp2Atoms != null && nSp2Atoms < 5) sp2Atoms[nSp2Atoms++] = a;
+}
+if (havePreviousSp2Atoms && stereoFlag == 2 && orderNext == 2 && atomNext.getCovalentBondCount () == 3) {
+bonds = atomNext.getEdges ();
+for (var k = 0; k < bonds.length; k++) {
+if (bonds[k].isCovalent () && atomNext.getBondedAtomIndex (k) != atomIndex) stereo[stereoFlag++] = this.atoms[atomNext.getBondedAtomIndex (k)];
+}
+nSp2Atoms = 0;
+} else if (atomNext != null && stereoFlag < 7) {
+stereo[stereoFlag++] = atomNext;
+}var valence = atom.getValence ();
+var charge = atom.getFormalCharge ();
+var isotope = atom.getIsotopeNumber ();
+var atomName = atom.getAtomName ();
+var groupType = atom.getBioStructureTypeName ();
+if (org.jmol.util.Logger.debugging) sb.append ("\n//* " + atom + " *//\t");
+if (isExtension && groupType.length != 0 && atomName.length != 0) this.addBracketedBioName (sb, atom, "." + atomName);
+ else sb.append (org.jmol.smiles.SmilesAtom.getAtomLabel (atomicNumber, isotope, valence, charge, nH, isAromatic, atat != null ? atat : this.checkStereoPairs (atom, atomIndex, stereo, stereoFlag)));
+sb.appendSB (sMore);
+if (bond0 == null) return null;
+if (orderNext == 2 && (nSp2Atoms == 1 || nSp2Atoms == 2)) {
+if (sp2Atoms[0] == null) sp2Atoms[0] = atom;
+if (sp2Atoms[1] == null) sp2Atoms[1] = atom;
+} else {
+sp2Atoms = null;
+nSp2Atoms = 0;
+}this.prevSp2Atoms = sp2Atoms;
+this.prevAtom = atom;
+return atomNext;
+}, $fz.isPrivate = true, $fz), "org.jmol.util.StringXBuilder,org.jmol.util.JmolNode,~B,~B");
+Clazz.defineMethod (c$, "sortInorganic", 
+($fz = function (atom, v) {
+var atomIndex = atom.getIndex ();
+var n = v.size ();
+var axialPairs =  new java.util.ArrayList ();
+var bonds =  new java.util.ArrayList ();
+var a1;
+var a2;
+var bond1;
+var bond2;
+var bsDone =  new org.jmol.util.BitSet ();
+var pair0 = null;
+var stereo =  new Array (6);
+var isOK = true;
+var s = "";
+for (var i = 0; i < n; i++) {
+bond1 = v.get (i);
+stereo[0] = a1 = bond1.getOtherAtomNode (atom);
+if (i == 0) s = this.addStereoCheck (atomIndex, stereo, 0, "");
+ else if (isOK && this.addStereoCheck (atomIndex, stereo, 0, s) != null) isOK = false;
+if (bsDone.get (i)) continue;
+bsDone.set (i);
+var isAxial = false;
+for (var j = i + 1; j < n; j++) {
+if (bsDone.get (j)) continue;
+bond2 = v.get (j);
+a2 = bond2.getOtherAtomNode (atom);
+if (org.jmol.smiles.SmilesSearch.isDiaxial (atom, atom, a1, a2, this.vTemp, -0.95)) {
+axialPairs.add ([bond1, bond2]);
+isAxial = true;
+bsDone.set (j);
+break;
+}}
+if (!isAxial) bonds.add (bond1);
+}
+var nPairs = axialPairs.size ();
+if (isOK || n == 6 && nPairs != 3 || n == 5 && nPairs == 0) return "";
+pair0 = axialPairs.get (0);
+bond1 = pair0[0];
+stereo[0] = bond1.getOtherAtomNode (atom);
+v.clear ();
+v.add (bond1);
+if (nPairs > 1) bonds.add (axialPairs.get (1)[0]);
+if (nPairs == 3) bonds.add (axialPairs.get (2)[0]);
+if (nPairs > 1) bonds.add (axialPairs.get (1)[1]);
+if (nPairs == 3) bonds.add (axialPairs.get (2)[1]);
+for (var i = 0; i < bonds.size (); i++) {
+bond1 = bonds.get (i);
+v.add (bond1);
+stereo[i + 1] = bond1.getOtherAtomNode (atom);
+}
+v.add (pair0[1]);
+return org.jmol.smiles.SmilesGenerator.getStereoFlag (atom, stereo, n, this.vTemp);
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,java.util.List");
+Clazz.defineMethod (c$, "checkStereoPairs", 
+($fz = function (atom, atomIndex, stereo, stereoFlag) {
+if (stereoFlag < 4) return "";
+if (stereoFlag == 4 && (atom.getElementNumber ()) == 6) {
+var s = "";
+for (var i = 0; i < 4; i++) if ((s = this.addStereoCheck (atomIndex, stereo, i, s)) == null) {
+stereoFlag = 10;
+break;
+}
+}return (stereoFlag > 6 ? "" : org.jmol.smiles.SmilesGenerator.getStereoFlag (atom, stereo, stereoFlag, this.vTemp));
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,~N,~A,~N");
+c$.getStereoFlag = Clazz.defineMethod (c$, "getStereoFlag", 
+($fz = function (atom0, atoms, nAtoms, v) {
+var atom1 = atoms[0];
+var atom2 = atoms[1];
+var atom3 = atoms[2];
+var atom4 = atoms[3];
+var atom5 = atoms[4];
+var atom6 = atoms[5];
+var chiralClass = 4;
+switch (nAtoms) {
+default:
+case 5:
+case 6:
+return (org.jmol.smiles.SmilesSearch.checkStereochemistry (false, atom0, chiralClass, 1, atom1, atom2, atom3, atom4, atom5, atom6, v) ? "@" : "@@");
+case 2:
+case 4:
+if (atom3 == null || atom4 == null) return "";
+var d = org.jmol.smiles.SmilesAromatic.getNormalThroughPoints (atom1, atom2, atom3, v.vTemp, v.vA, v.vB);
+if (Math.abs (org.jmol.smiles.SmilesSearch.distanceToPlane (v.vTemp, d, atom4)) < 0.2) {
+chiralClass = 8;
+if (org.jmol.smiles.SmilesSearch.checkStereochemistry (false, atom0, chiralClass, 1, atom1, atom2, atom3, atom4, atom5, atom6, v)) return "@SP1";
+if (org.jmol.smiles.SmilesSearch.checkStereochemistry (false, atom0, chiralClass, 2, atom1, atom2, atom3, atom4, atom5, atom6, v)) return "@SP2";
+if (org.jmol.smiles.SmilesSearch.checkStereochemistry (false, atom0, chiralClass, 3, atom1, atom2, atom3, atom4, atom5, atom6, v)) return "@SP3";
+} else {
+return (org.jmol.smiles.SmilesSearch.checkStereochemistry (false, atom0, chiralClass, 1, atom1, atom2, atom3, atom4, atom5, atom6, v) ? "@" : "@@");
+}}
+return "";
+}, $fz.isPrivate = true, $fz), "org.jmol.util.JmolNode,~A,~N,org.jmol.smiles.SmilesSearch.VTemp");
+Clazz.defineMethod (c$, "addStereoCheck", 
+($fz = function (atomIndex, stereo, i, s) {
+var n = stereo[i].getAtomicAndIsotopeNumber ();
+var nx = stereo[i].getCovalentBondCount ();
+var nh = (n == 6 ? stereo[i].getCovalentHydrogenCount () : 0);
+if (n == 6 ? nx != 4 || nh != 3 : nx > 1) return s;
+var sa = ";" + n + "/" + nh + "/" + nx + ",";
+if (s.indexOf (sa) >= 0) {
+if (nh == 3) {
+var ndt = 0;
+for (var j = 0; j < nx && ndt < 3; j++) {
+var ia = stereo[i].getBondedAtomIndex (j);
+if (ia == atomIndex) continue;
+ndt += this.atoms[ia].getAtomicAndIsotopeNumber ();
+}
+if (ndt > 3) return s;
+}return null;
+}return s + sa;
+}, $fz.isPrivate = true, $fz), "~N,~A,~N,~S");
+Clazz.defineMethod (c$, "getRingCache", 
+($fz = function (i0, i1, ht) {
+var key = org.jmol.smiles.SmilesGenerator.getRingKey (i0, i1);
+var o = ht.get (key);
+var s = (o == null ? null : o[0]);
+if (s == null) {
+ht.put (key, [s = org.jmol.smiles.SmilesParser.getRingPointer (++this.nPairs), Integer.$valueOf (i1)]);
+if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.info ("adding for " + i0 + " ring key " + this.nPairs + ": " + key);
+} else {
+ht.remove (key);
+if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.info ("using ring key " + key);
+}return s;
+}, $fz.isPrivate = true, $fz), "~N,~N,java.util.Map");
+Clazz.defineMethod (c$, "dumpRingKeys", 
+($fz = function (sb, ht) {
+org.jmol.util.Logger.info (sb.toString () + "\n\n");
+var e = ht.keySet ().iterator ();
+while (e.hasNext ()) {
+org.jmol.util.Logger.info ("unmatched ring key: " + e.next ());
+}
+}, $fz.isPrivate = true, $fz), "org.jmol.util.StringXBuilder,java.util.Map");
+c$.getRingKey = Clazz.defineMethod (c$, "getRingKey", 
+function (i0, i1) {
+return Math.min (i0, i1) + "_" + Math.max (i0, i1);
+}, "~N,~N");
+});
+// 
+//// org\jmol\smiles\SmilesAromatic.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (null, "org.jmol.smiles.SmilesAromatic", ["org.jmol.util.BitSet", "$.Vector3f"], function () {
+c$ = Clazz.declareType (org.jmol.smiles, "SmilesAromatic");
+c$.isFlatSp2Ring = Clazz.defineMethod (c$, "isFlatSp2Ring", 
+function (atoms, bsSelected, bs, cutoff) {
+for (var i = bs.nextSetBit (0); i >= 0; i = bs.nextSetBit (i + 1)) {
+var ringAtom = atoms[i];
+var bonds = ringAtom.getEdges ();
+if (bonds.length < 3) continue;
+if (bonds.length > 3) return false;
+}
+if (cutoff == 3.4028235E38) return true;
+if (cutoff <= 0) cutoff = 0.01;
+var vTemp =  new org.jmol.util.Vector3f ();
+var vA =  new org.jmol.util.Vector3f ();
+var vB =  new org.jmol.util.Vector3f ();
+var vMean = null;
+var nPoints = bs.cardinality ();
+var vNorms =  new Array (nPoints * 2);
+var nNorms = 0;
+var maxDev = (1 - cutoff * 5);
+for (var i = bs.nextSetBit (0); i >= 0; i = bs.nextSetBit (i + 1)) {
+var ringAtom = atoms[i];
+var bonds = ringAtom.getEdges ();
+var iSub = -1;
+var r1 = -1;
+var r2 = -1;
+for (var k = bonds.length; --k >= 0; ) {
+var iAtom = ringAtom.getBondedAtomIndex (k);
+if (!bsSelected.get (iAtom)) continue;
+if (!bs.get (iAtom)) iSub = iAtom;
+ else if (r1 < 0) r1 = iAtom;
+ else r2 = iAtom;
+}
+org.jmol.smiles.SmilesAromatic.getNormalThroughPoints (atoms[r1], atoms[i], atoms[r2], vTemp, vA, vB);
+if (vMean == null) vMean =  new org.jmol.util.Vector3f ();
+if (!org.jmol.smiles.SmilesAromatic.addNormal (vTemp, vMean, maxDev)) return false;
+vNorms[nNorms++] = org.jmol.util.Vector3f.newV (vTemp);
+if (iSub >= 0) {
+org.jmol.smiles.SmilesAromatic.getNormalThroughPoints (atoms[r1], atoms[iSub], atoms[r2], vTemp, vA, vB);
+if (!org.jmol.smiles.SmilesAromatic.addNormal (vTemp, vMean, maxDev)) return false;
+vNorms[nNorms++] = org.jmol.util.Vector3f.newV (vTemp);
+}}
+var isFlat = org.jmol.smiles.SmilesAromatic.checkStandardDeviation (vNorms, vMean, nNorms, cutoff);
+return isFlat;
+}, "~A,org.jmol.util.BitSet,org.jmol.util.BitSet,~N");
+c$.addNormal = Clazz.defineMethod (c$, "addNormal", 
+($fz = function (vTemp, vMean, maxDev) {
+var similarity = vMean.dot (vTemp);
+if (similarity != 0 && Math.abs (similarity) < maxDev) return false;
+if (similarity < 0) vTemp.scale (-1);
+vMean.add (vTemp);
+vMean.normalize ();
+return true;
+}, $fz.isPrivate = true, $fz), "org.jmol.util.Vector3f,org.jmol.util.Vector3f,~N");
+c$.checkStandardDeviation = Clazz.defineMethod (c$, "checkStandardDeviation", 
+($fz = function (vNorms, vMean, n, cutoff) {
+var sum = 0;
+var sum2 = 0;
+for (var i = 0; i < n; i++) {
+var v = vNorms[i].dot (vMean);
+sum += v;
+sum2 += (v) * v;
+}
+sum = Math.sqrt ((sum2 - sum * sum / n) / (n - 1));
+return (sum < cutoff);
+}, $fz.isPrivate = true, $fz), "~A,org.jmol.util.Vector3f,~N,~N");
+c$.getNormalThroughPoints = Clazz.defineMethod (c$, "getNormalThroughPoints", 
+function (pointA, pointB, pointC, vNorm, vAB, vAC) {
+vAB.sub2 (pointB, pointA);
+vAC.sub2 (pointC, pointA);
+vNorm.cross (vAB, vAC);
+vNorm.normalize ();
+vAB.setT (pointA);
+return -vAB.dot (vNorm);
+}, "org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.JmolNode,org.jmol.util.Vector3f,org.jmol.util.Vector3f,org.jmol.util.Vector3f");
+c$.checkAromaticDefined = Clazz.defineMethod (c$, "checkAromaticDefined", 
+function (jmolAtoms, bsAtoms) {
+var bsDefined =  new org.jmol.util.BitSet ();
+for (var i = bsAtoms.nextSetBit (0); i >= 0; i = bsAtoms.nextSetBit (i + 1)) {
+var bonds = jmolAtoms[i].getEdges ();
+for (var j = 0; j < bonds.length; j++) {
+switch (bonds[j].order) {
+case 515:
+case 514:
+case 513:
+bsDefined.set (bonds[j].getAtomIndex1 ());
+bsDefined.set (bonds[j].getAtomIndex2 ());
+}
+}
+}
+return bsDefined;
+}, "~A,org.jmol.util.BitSet");
+c$.checkAromaticStrict = Clazz.defineMethod (c$, "checkAromaticStrict", 
+function (jmolAtoms, bsAromatic, v5, v6) {
+var bsStrict =  new org.jmol.util.BitSet ();
+var bsTest =  new org.jmol.util.BitSet ();
+for (var i = v5.size (); --i >= 0; ) {
+var bs = v5.get (i);
+if (org.jmol.smiles.SmilesAromatic.isAromaticRing (bsAromatic, bsTest, bs, 5)) org.jmol.smiles.SmilesAromatic.checkAromaticStrict (jmolAtoms, bsStrict, v5, v6, bs, true);
+}
+for (var i = v6.size (); --i >= 0; ) {
+var bs = v6.get (i);
+if (org.jmol.smiles.SmilesAromatic.isAromaticRing (bsAromatic, bsTest, bs, 6)) org.jmol.smiles.SmilesAromatic.checkAromaticStrict (jmolAtoms, bsStrict, v5, v6, bs, false);
+}
+bsAromatic.clearAll ();
+bsAromatic.or (bsStrict);
+}, "~A,org.jmol.util.BitSet,java.util.List,java.util.List");
+c$.isAromaticRing = Clazz.defineMethod (c$, "isAromaticRing", 
+($fz = function (bsAromatic, bsTest, bs, n) {
+bsTest.clearAll ();
+bsTest.or (bs);
+bsTest.and (bsAromatic);
+return (bsTest.cardinality () == n);
+}, $fz.isPrivate = true, $fz), "org.jmol.util.BitSet,org.jmol.util.BitSet,org.jmol.util.BitSet,~N");
+c$.checkAromaticStrict = Clazz.defineMethod (c$, "checkAromaticStrict", 
+($fz = function (jmolAtoms, bsStrict, v5, v6, bsRing, is5) {
+var piElectronCount = org.jmol.smiles.SmilesAromatic.countInternalPairs (jmolAtoms, bsRing, is5) << 1;
+switch (piElectronCount) {
+case -3:
+break;
+default:
+for (var i = bsRing.nextSetBit (0); i >= 0; i = bsRing.nextSetBit (i + 1)) {
+var bonds = jmolAtoms[i].getEdges ();
+for (var j = 0; j < bonds.length; j++) if (bonds[j].order == 2) {
+var i2 = bonds[j].getOtherAtomNode (jmolAtoms[i]).getIndex ();
+if (!bsRing.get (i2)) {
+var piShared = false;
+for (var k = v5.size (); --k >= 0 && !piShared; ) {
+var bs = v5.get (k);
+if (bs.get (i2) && (bsStrict.get (i2) || Math.abs (org.jmol.smiles.SmilesAromatic.countInternalPairs (jmolAtoms, bs, true)) == 3)) piShared = true;
+}
+for (var k = v6.size (); --k >= 0 && !piShared; ) {
+var bs = v6.get (k);
+if (bs.get (i2) && (bsStrict.get (i2) || Math.abs (org.jmol.smiles.SmilesAromatic.countInternalPairs (jmolAtoms, bs, false)) == 3)) piShared = true;
+}
+if (!piShared) return;
+piElectronCount++;
+}}
+}
+break;
+}
+if (piElectronCount == 6) bsStrict.or (bsRing);
+}, $fz.isPrivate = true, $fz), "~A,org.jmol.util.BitSet,java.util.List,java.util.List,org.jmol.util.BitSet,~B");
+c$.countInternalPairs = Clazz.defineMethod (c$, "countInternalPairs", 
+($fz = function (jmolAtoms, bsRing, is5) {
+var nDouble = 0;
+var nAromatic = 0;
+var nLonePairs = 0;
+for (var i = bsRing.nextSetBit (0); i >= 0; i = bsRing.nextSetBit (i + 1)) {
+var atom = jmolAtoms[i];
+var bonds = atom.getEdges ();
+var haveDouble = false;
+for (var k = 0; k < bonds.length; k++) {
+var j = bonds[k].getOtherAtomNode (atom).getIndex ();
+if (bsRing.get (j)) {
+switch (bonds[k].order) {
+case 514:
+case 513:
+case 515:
+nAromatic++;
+break;
+case 2:
+nDouble++;
+haveDouble = true;
+}
+}}
+if (is5 && nAromatic == 0) {
+switch (atom.getElementNumber ()) {
+case 7:
+case 8:
+case 16:
+if (!haveDouble) nLonePairs++;
+break;
+}
+}}
+return (nAromatic == 0 ? Clazz.doubleToInt (nDouble / 2) + nLonePairs : nAromatic == (is5 ? 5 : 6) ? -3 : 0);
+}, $fz.isPrivate = true, $fz), "~A,org.jmol.util.BitSet,~B");
+});
+// 
+//// org\jmol\smiles\SmilesAtom.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (["org.jmol.util.JmolNode", "$.Point3f"], "org.jmol.smiles.SmilesAtom", ["org.jmol.util.ArrayUtil", "$.Elements", "$.Logger"], function () {
+c$ = Clazz.decorateAsClass (function () {
+this.atomsOr = null;
+this.nAtomsOr = 0;
+this.primitives = null;
+this.nPrimitives = 0;
+this.index = 0;
+this.atomName = null;
+this.residueName = null;
+this.residueChar = null;
+this.isBioAtom = false;
+this.bioType = '\0';
+this.$isLeadAtom = false;
+this.notBondedIndex = -1;
+this.notCrossLinked = false;
+this.aromaticAmbiguous = true;
+this.atomType = null;
+this.covalentHydrogenCount = -1;
+this.not = false;
+this.selected = false;
+this.hasSymbol = false;
+this.isFirst = true;
+this.jmolIndex = -1;
+this.elementNumber = -2;
+this.missingHydrogenCount = -2147483648;
+this.implicitHydrogenCount = -2147483648;
+this.parent = null;
+this.bonds = null;
+this.bondCount = 0;
+this.iNested = 0;
+this.atomicMass = -32768;
+this.charge = -2147483648;
+this.matchingAtom = -1;
+this.chiralClass = -2147483648;
+this.chiralOrder = -2147483648;
+this.$isAromatic = false;
+this.component = 0;
+this.atomSite = 0;
+this.degree = -1;
+this.nonhydrogenDegree = -1;
+this.valence = 0;
+this.connectivity = -1;
+this.ringMembership = -2147483648;
+this.ringSize = -2147483648;
+this.ringConnectivity = -1;
+Clazz.instantialize (this, arguments);
+}, org.jmol.smiles, "SmilesAtom", org.jmol.util.Point3f, org.jmol.util.JmolNode);
+Clazz.prepareFields (c$, function () {
+this.bonds =  new Array (4);
+});
+c$.getChiralityClass = Clazz.defineMethod (c$, "getChiralityClass", 
+function (xx) {
+return Clazz.doubleToInt (("0;11;AL;33;TH;TP;OH;77;SP;".indexOf (xx) + 1) / 3);
+}, "~S");
+c$.allowSmilesUnbracketed = Clazz.defineMethod (c$, "allowSmilesUnbracketed", 
+function (xx) {
+return ("B, C, N, O, P, S, F, Cl, Br, I,".indexOf (xx + ",") >= 0);
+}, "~S");
+Clazz.defineMethod (c$, "setBioAtom", 
+function (bioType) {
+this.isBioAtom = (bioType != '\0');
+this.bioType = bioType;
+if (this.parent != null) {
+this.parent.bioType = bioType;
+this.parent.isBioAtom = this.isBioAtom;
+}}, "~S");
+Clazz.defineMethod (c$, "setAtomName", 
+function (name) {
+if (name == null) return;
+if (name.length > 0) this.atomName = name;
+if (name.equals ("0")) this.$isLeadAtom = true;
+if (this.parent != null) {
+this.parent.atomName = name;
+}}, "~S");
+Clazz.defineMethod (c$, "setBonds", 
+function (bonds) {
+this.bonds = bonds;
+}, "~A");
+Clazz.defineMethod (c$, "addAtomOr", 
+function () {
+if (this.atomsOr == null) this.atomsOr =  new Array (2);
+if (this.nAtomsOr >= this.atomsOr.length) this.atomsOr = org.jmol.util.ArrayUtil.doubleLength (this.atomsOr);
+var sAtom =  new org.jmol.smiles.SmilesAtom (this.index);
+sAtom.parent = this;
+this.atomsOr[this.nAtomsOr] = sAtom;
+this.nAtomsOr++;
+return sAtom;
+});
+Clazz.defineMethod (c$, "addPrimitive", 
+function () {
+if (this.primitives == null) this.primitives =  new Array (2);
+if (this.nPrimitives >= this.primitives.length) {
+var tmp =  new Array (this.primitives.length * 2);
+System.arraycopy (this.primitives, 0, tmp, 0, this.primitives.length);
+this.primitives = tmp;
+}var sAtom =  new org.jmol.smiles.SmilesAtom (this.index);
+sAtom.parent = this;
+this.primitives[this.nPrimitives] = sAtom;
+this.setSymbol ("*");
+this.hasSymbol = false;
+this.nPrimitives++;
+return sAtom;
+});
+Clazz.overrideMethod (c$, "toString", 
+function () {
+var s = (this.residueChar != null || this.residueName != null ? (this.residueChar == null ? this.residueName : this.residueChar) + "." + this.atomName : this.elementNumber == -1 ? "A" : this.elementNumber == -2 ? "*" : org.jmol.util.Elements.elementSymbolFromNumber (this.elementNumber));
+if (this.$isAromatic) s = s.toLowerCase ();
+return "[" + s + '.' + this.index + (this.matchingAtom >= 0 ? "(" + this.matchingAtom + ")" : "") + "]";
+});
+Clazz.makeConstructor (c$, 
+function (index) {
+Clazz.superConstructor (this, org.jmol.smiles.SmilesAtom, []);
+this.index = index;
+}, "~N");
+Clazz.makeConstructor (c$, 
+function (iComponent, ptAtom, flags, atomicNumber, charge) {
+Clazz.superConstructor (this, org.jmol.smiles.SmilesAtom, []);
+this.component = iComponent;
+this.index = ptAtom;
+this.atomSite = flags;
+this.elementNumber = atomicNumber;
+this.charge = charge;
+}, "~N,~N,~N,~N,~N");
+Clazz.defineMethod (c$, "setHydrogenCount", 
+function (molecule) {
+if (this.missingHydrogenCount != -2147483648) return true;
+var count = org.jmol.smiles.SmilesAtom.getDefaultCount (this.elementNumber, this.$isAromatic);
+if (count == -2) return false;
+if (count == -1) return true;
+if (this.elementNumber == 7 && this.$isAromatic && this.bondCount == 2) {
+if (this.bonds[0].order == 1 && this.bonds[1].order == 1) count++;
+}for (var i = 0; i < this.bondCount; i++) {
+var bond = this.bonds[i];
+switch (bond.order) {
+case 81:
+if (this.elementNumber == 7) {
+org.jmol.util.Logger.info ("Ambiguous bonding to aromatic N found -- MF may be in error");
+}count -= 1;
+break;
+case 1:
+case 257:
+case 513:
+count -= 1;
+break;
+case 2:
+count -= (this.$isAromatic && this.elementNumber == 6 ? 1 : 2);
+break;
+case 3:
+count -= 3;
+break;
+}
+}
+if (count > 0) this.missingHydrogenCount = count;
+return true;
+}, "org.jmol.smiles.SmilesSearch");
+c$.getDefaultCount = Clazz.defineMethod (c$, "getDefaultCount", 
+function (elementNumber, isAromatic) {
+switch (elementNumber) {
+case 0:
+case -1:
+return -1;
+case 6:
+return (isAromatic ? 3 : 4);
+case 8:
+case 16:
+return 2;
+case 7:
+return (isAromatic ? 2 : 3);
+case 5:
+case 15:
+return 3;
+case 9:
+case 17:
+case 35:
+case 53:
+return 1;
+}
+return -2;
+}, "~N,~B");
+Clazz.overrideMethod (c$, "getIndex", 
+function () {
+return this.index;
+});
+Clazz.defineMethod (c$, "isAromatic", 
+function () {
+return this.$isAromatic;
+});
+Clazz.defineMethod (c$, "setSymbol", 
+function (symbol) {
+this.$isAromatic = symbol.equals (symbol.toLowerCase ());
+this.hasSymbol = true;
+if (symbol.equals ("*")) {
+this.$isAromatic = false;
+this.elementNumber = -2;
+return true;
+}if (symbol.equals ("Xx")) {
+this.elementNumber = 0;
+return true;
+}this.aromaticAmbiguous = false;
+if (symbol.equals ("a") || symbol.equals ("A")) {
+if (this.elementNumber < 0) this.elementNumber = -1;
+return true;
+}if (this.$isAromatic) symbol = symbol.substring (0, 1).toUpperCase () + (symbol.length == 1 ? "" : symbol.substring (1));
+this.elementNumber = org.jmol.util.Elements.elementNumberFromSymbol (symbol, true);
+return (this.elementNumber != 0);
+}, "~S");
+Clazz.overrideMethod (c$, "getElementNumber", 
+function () {
+return this.elementNumber;
+});
+Clazz.defineMethod (c$, "getAtomicMass", 
+function () {
+return this.atomicMass;
+});
+Clazz.defineMethod (c$, "setAtomicMass", 
+function (mass) {
+this.atomicMass = mass;
+}, "~N");
+Clazz.defineMethod (c$, "getCharge", 
+function () {
+return this.charge;
+});
+Clazz.defineMethod (c$, "setCharge", 
+function (charge) {
+this.charge = charge;
+}, "~N");
+Clazz.defineMethod (c$, "getMatchingAtom", 
+function () {
+return this.matchingAtom;
+});
+Clazz.defineMethod (c$, "setMatchingAtom", 
+function (atom) {
+this.matchingAtom = atom;
+}, "~N");
+Clazz.defineMethod (c$, "getChiralClass", 
+function () {
+return this.chiralClass;
+});
+Clazz.defineMethod (c$, "setChiralClass", 
+function (chiralClass) {
+this.chiralClass = chiralClass;
+}, "~N");
+Clazz.defineMethod (c$, "getChiralOrder", 
+function () {
+return this.chiralOrder;
+});
+Clazz.defineMethod (c$, "setChiralOrder", 
+function (chiralOrder) {
+this.chiralOrder = chiralOrder;
+}, "~N");
+Clazz.defineMethod (c$, "setExplicitHydrogenCount", 
+function (count) {
+this.missingHydrogenCount = count;
+}, "~N");
+Clazz.defineMethod (c$, "setImplicitHydrogenCount", 
+function (count) {
+this.implicitHydrogenCount = count;
+}, "~N");
+Clazz.defineMethod (c$, "setDegree", 
+function (degree) {
+this.degree = degree;
+}, "~N");
+Clazz.defineMethod (c$, "setNonhydrogenDegree", 
+function (degree) {
+this.nonhydrogenDegree = degree;
+}, "~N");
+Clazz.defineMethod (c$, "setValence", 
+function (valence) {
+this.valence = valence;
+}, "~N");
+Clazz.defineMethod (c$, "setConnectivity", 
+function (connectivity) {
+this.connectivity = connectivity;
+}, "~N");
+Clazz.defineMethod (c$, "setRingMembership", 
+function (rm) {
+this.ringMembership = rm;
+}, "~N");
+Clazz.defineMethod (c$, "setRingSize", 
+function (rs) {
+this.ringSize = rs;
+}, "~N");
+Clazz.defineMethod (c$, "setRingConnectivity", 
+function (rc) {
+this.ringConnectivity = rc;
+}, "~N");
+Clazz.overrideMethod (c$, "getModelIndex", 
+function () {
+return this.component;
+});
+Clazz.overrideMethod (c$, "getAtomSite", 
+function () {
+return this.atomSite;
+});
+Clazz.overrideMethod (c$, "getImplicitHydrogenCount", 
+function () {
+return 0;
+});
+Clazz.defineMethod (c$, "getExplicitHydrogenCount", 
+function () {
+return this.missingHydrogenCount;
+});
+Clazz.overrideMethod (c$, "getFormalCharge", 
+function () {
+return this.charge;
+});
+Clazz.overrideMethod (c$, "getIsotopeNumber", 
+function () {
+return this.atomicMass;
+});
+Clazz.overrideMethod (c$, "getAtomicAndIsotopeNumber", 
+function () {
+return org.jmol.util.Elements.getAtomicAndIsotopeNumber (this.elementNumber, this.atomicMass);
+});
+Clazz.overrideMethod (c$, "getAtomName", 
+function () {
+return this.atomName == null ? "" : this.atomName;
+});
+Clazz.overrideMethod (c$, "getGroup3", 
+function (allowNull) {
+return this.residueName == null ? "" : this.residueName;
+}, "~B");
+Clazz.overrideMethod (c$, "getGroup1", 
+function (c0) {
+return this.residueChar == null ? "" : this.residueChar;
+}, "~S");
+Clazz.defineMethod (c$, "addBond", 
+function (bond) {
+if (this.bondCount >= this.bonds.length) this.bonds = org.jmol.util.ArrayUtil.doubleLength (this.bonds);
+this.bonds[this.bondCount] = bond;
+this.bondCount++;
+}, "org.jmol.smiles.SmilesBond");
+Clazz.defineMethod (c$, "setBondArray", 
+function () {
+if (this.bonds.length > this.bondCount) this.bonds = org.jmol.util.ArrayUtil.arrayCopyObject (this.bonds, this.bondCount);
+if (this.atomsOr != null && this.atomsOr.length > this.nAtomsOr) this.atomsOr = org.jmol.util.ArrayUtil.arrayCopyObject (this.atomsOr, this.atomsOr.length);
+if (this.primitives != null && this.primitives.length > this.nPrimitives) this.primitives = org.jmol.util.ArrayUtil.arrayCopyObject (this.primitives, this.primitives.length);
+for (var i = 0; i < this.bonds.length; i++) {
+if (this.isBioAtom && this.bonds[i].order == 17) this.bonds[i].order = 112;
+if (this.bonds[i].getAtom1 ().index > this.bonds[i].getAtom2 ().index) {
+this.bonds[i].switchAtoms ();
+}}
+});
+Clazz.overrideMethod (c$, "getEdges", 
+function () {
+return (this.parent != null ? this.parent.getEdges () : this.bonds);
+});
+Clazz.defineMethod (c$, "getBond", 
+function (number) {
+return (this.parent != null ? this.parent.getBond (number) : number >= 0 && number < this.bondCount ? this.bonds[number] : null);
+}, "~N");
+Clazz.overrideMethod (c$, "getCovalentBondCount", 
+function () {
+return this.getBondCount ();
+});
+Clazz.defineMethod (c$, "getBondCount", 
+function () {
+return (this.parent != null ? this.parent.getCovalentBondCount () : this.bondCount);
+});
+Clazz.defineMethod (c$, "getMatchingBondedAtom", 
+function (i) {
+if (this.parent != null) return this.parent.getMatchingBondedAtom (i);
+if (i >= this.bondCount) return -1;
+var b = this.bonds[i];
+return (b.getAtom1 () === this ? b.getAtom2 () : b.getAtom1 ()).matchingAtom;
+}, "~N");
+Clazz.overrideMethod (c$, "getBondedAtomIndex", 
+function (j) {
+return (this.parent != null ? this.parent.getBondedAtomIndex (j) : this.bonds[j].getOtherAtom (this).index);
+}, "~N");
+Clazz.overrideMethod (c$, "getCovalentHydrogenCount", 
+function () {
+if (this.covalentHydrogenCount >= 0) return this.covalentHydrogenCount;
+if (this.parent != null) return this.parent.getCovalentHydrogenCount ();
+this.covalentHydrogenCount = 0;
+for (var k = 0; k < this.bonds.length; k++) if (this.bonds[k].getOtherAtom (this).elementNumber == 1) this.covalentHydrogenCount++;
+
+return this.covalentHydrogenCount;
+});
+Clazz.overrideMethod (c$, "getValence", 
+function () {
+if (this.parent != null) return this.parent.getValence ();
+var n = this.valence;
+if (n <= 0 && this.bonds != null) for (var i = this.bonds.length; --i >= 0; ) n += this.bonds[i].getValence ();
+
+this.valence = n;
+return n;
+});
+Clazz.defineMethod (c$, "getBondTo", 
+function (atom) {
+if (this.parent != null) return this.parent.getBondTo (atom);
+var bond;
+for (var k = 0; k < this.bonds.length; k++) {
+if ((bond = this.bonds[k]) == null) continue;
+if (atom == null ? bond.getAtom2 () === this : bond.getOtherAtom (this) === atom) return bond;
+}
+return null;
+}, "org.jmol.smiles.SmilesAtom");
+Clazz.defineMethod (c$, "getBondNotTo", 
+function (atom, allowH) {
+var bond;
+for (var k = 0; k < this.bonds.length; k++) {
+if ((bond = this.bonds[k]) == null) continue;
+var atom2 = bond.getOtherAtom (this);
+if (atom !== atom2 && (allowH || atom2.elementNumber != 1)) return bond;
+}
+return null;
+}, "org.jmol.smiles.SmilesAtom,~B");
+Clazz.overrideMethod (c$, "isLeadAtom", 
+function () {
+return this.$isLeadAtom;
+});
+Clazz.overrideMethod (c$, "getOffsetResidueAtom", 
+function (name, offset) {
+if (this.isBioAtom) for (var k = 0; k < this.bonds.length; k++) if (this.bonds[k].getAtomIndex1 () == this.index && this.bonds[k].order == 96) return this.bonds[k].getOtherAtom (this).index;
+
+return -1;
+}, "~S,~N");
+Clazz.overrideMethod (c$, "getGroupBits", 
+function (bs) {
+bs.set (this.index);
+return;
+}, "org.jmol.util.BitSet");
+Clazz.overrideMethod (c$, "isCrossLinked", 
+function (node) {
+var bond = this.getBondTo (node);
+return bond.isHydrogen ();
+}, "org.jmol.util.JmolNode");
+Clazz.overrideMethod (c$, "getCrossLinkLeadAtomIndexes", 
+function (vLinks) {
+for (var k = 0; k < this.bonds.length; k++) if (this.bonds[k].order == 112) vLinks.add (Integer.$valueOf (this.bonds[k].getOtherAtom (this).index));
+
+return true;
+}, "java.util.List");
+Clazz.overrideMethod (c$, "getBioStructureTypeName", 
+function () {
+return null;
+});
+Clazz.overrideMethod (c$, "getResno", 
+function () {
+return 0;
+});
+Clazz.overrideMethod (c$, "getChainID", 
+function () {
+return '\0';
+});
+c$.getAtomLabel = Clazz.defineMethod (c$, "getAtomLabel", 
+function (atomicNumber, isotopeNumber, valence, charge, nH, isAromatic, stereo) {
+var sym = org.jmol.util.Elements.elementSymbolFromNumber (atomicNumber);
+if (isAromatic) {
+sym = sym.toLowerCase ();
+if (atomicNumber != 6) valence = 2147483647;
+}var count = (stereo.length > 0 || isotopeNumber != 0 || charge != 0 ? -1 : org.jmol.smiles.SmilesAtom.getDefaultCount (atomicNumber, false));
+return (count == valence ? sym : "[" + (isotopeNumber <= 0 ? "" : "" + isotopeNumber) + sym + (charge < 0 ? "" + charge : charge > 0 ? "+" + charge : "") + stereo + (nH > 1 ? "H" + nH : nH == 1 ? "H" : "") + "]");
+}, "~N,~N,~N,~N,~N,~B,~S");
+Clazz.overrideMethod (c$, "isDna", 
+function () {
+return this.bioType == 'd';
+});
+Clazz.overrideMethod (c$, "isRna", 
+function () {
+return this.bioType == 'r';
+});
+Clazz.overrideMethod (c$, "isNucleic", 
+function () {
+return this.bioType == 'n' || this.bioType == 'r' || this.bioType == 'd';
+});
+Clazz.overrideMethod (c$, "isProtein", 
+function () {
+return this.bioType == 'p';
+});
+Clazz.overrideMethod (c$, "isPurine", 
+function () {
+return this.residueChar != null && this.isNucleic () && "AG".indexOf (this.residueChar) >= 0;
+});
+Clazz.overrideMethod (c$, "isPyrimidine", 
+function () {
+return this.residueChar != null && this.isNucleic () && "CTUI".indexOf (this.residueChar) >= 0;
+});
+Clazz.overrideMethod (c$, "isDeleted", 
+function () {
+return false;
+});
+Clazz.defineMethod (c$, "setAtomType", 
+function (type) {
+this.atomType = type;
+}, "~S");
+Clazz.overrideMethod (c$, "getAtomType", 
+function () {
+return (this.atomType == null ? this.atomName : this.atomType);
+});
+Clazz.overrideMethod (c$, "findAtomsLike", 
+function (substring) {
+return null;
+}, "~S");
+Clazz.defineStatics (c$,
+"STEREOCHEMISTRY_DEFAULT", 0,
+"STEREOCHEMISTRY_ALLENE", 2,
+"STEREOCHEMISTRY_TETRAHEDRAL", 4,
+"STEREOCHEMISTRY_TRIGONAL_BIPYRAMIDAL", 5,
+"STEREOCHEMISTRY_OCTAHEDRAL", 6,
+"STEREOCHEMISTRY_SQUARE_PLANAR", 8,
+"UNBRACKETED_SET", "B, C, N, O, P, S, F, Cl, Br, I,");
+});
+// 
+//// org\jmol\smiles\SmilesBond.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (["org.jmol.util.JmolEdge"], "org.jmol.smiles.SmilesBond", ["org.jmol.smiles.InvalidSmilesException"], function () {
+c$ = Clazz.decorateAsClass (function () {
+this.atom1 = null;
+this.atom2 = null;
+this.isNot = false;
+this.matchingBond = null;
+this.primitives = null;
+this.nPrimitives = 0;
+this.bondsOr = null;
+this.nBondsOr = 0;
+Clazz.instantialize (this, arguments);
+}, org.jmol.smiles, "SmilesBond", org.jmol.util.JmolEdge);
+c$.getBondOrderString = Clazz.defineMethod (c$, "getBondOrderString", 
+function (order) {
+switch (order) {
+case 1:
+return "";
+case 2:
+return "=";
+case 3:
+return "#";
+default:
+return "";
+}
+}, "~N");
+Clazz.defineMethod (c$, "set", 
+function (bond) {
+this.order = bond.order;
+this.isNot = bond.isNot;
+this.primitives = bond.primitives;
+this.nPrimitives = bond.nPrimitives;
+this.bondsOr = bond.bondsOr;
+this.nBondsOr = bond.nBondsOr;
+}, "org.jmol.smiles.SmilesBond");
+Clazz.defineMethod (c$, "addBondOr", 
+function () {
+if (this.bondsOr == null) this.bondsOr =  new Array (2);
+if (this.nBondsOr >= this.bondsOr.length) {
+var tmp =  new Array (this.bondsOr.length * 2);
+System.arraycopy (this.bondsOr, 0, tmp, 0, this.bondsOr.length);
+this.bondsOr = tmp;
+}var sBond =  new org.jmol.smiles.SmilesBond (-1, false);
+this.bondsOr[this.nBondsOr] = sBond;
+this.nBondsOr++;
+return sBond;
+});
+Clazz.defineMethod (c$, "addPrimitive", 
+function () {
+if (this.primitives == null) this.primitives =  new Array (2);
+if (this.nPrimitives >= this.primitives.length) {
+var tmp =  new Array (this.primitives.length * 2);
+System.arraycopy (this.primitives, 0, tmp, 0, this.primitives.length);
+this.primitives = tmp;
+}var sBond =  new org.jmol.smiles.SmilesBond (-1, false);
+this.primitives[this.nPrimitives] = sBond;
+this.nPrimitives++;
+return sBond;
+});
+Clazz.overrideMethod (c$, "toString", 
+function () {
+return this.atom1 + " -" + (this.isNot ? "!" : "") + this.order + "- " + this.atom2;
+});
+Clazz.makeConstructor (c$, 
+function (atom1, atom2, bondType, isNot) {
+Clazz.superConstructor (this, org.jmol.smiles.SmilesBond, []);
+this.set (atom1, atom2);
+this.set (bondType, isNot);
+}, "org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesAtom,~N,~B");
+Clazz.makeConstructor (c$, 
+function (bondType, isNot) {
+Clazz.superConstructor (this, org.jmol.smiles.SmilesBond, []);
+this.set (bondType, isNot);
+}, "~N,~B");
+Clazz.defineMethod (c$, "set", 
+function (bondType, isNot) {
+this.order = bondType;
+this.isNot = isNot;
+}, "~N,~B");
+Clazz.defineMethod (c$, "set", 
+function (atom1, atom2) {
+if (atom1 != null) {
+this.atom1 = atom1;
+atom1.addBond (this);
+}if (atom2 != null) {
+this.atom2 = atom2;
+atom2.isFirst = false;
+atom2.addBond (this);
+}}, "org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesAtom");
+c$.isBondType = Clazz.defineMethod (c$, "isBondType", 
+function (ch, isSearch, isBioSequence) {
+if ("-=#:/\\.+!,&;@~^'".indexOf (ch) < 0) return false;
+if (!isSearch && "-=#:/\\.~^'".indexOf (ch) < 0) throw  new org.jmol.smiles.InvalidSmilesException ("SMARTS bond type " + ch + " not allowed in SMILES");
+if (isBioSequence && ch == '~') return false;
+return true;
+}, "~S,~B,~B");
+c$.getBondTypeFromCode = Clazz.defineMethod (c$, "getBondTypeFromCode", 
+function (code) {
+switch (code) {
+case '.':
+return 0;
+case '-':
+return 1;
+case '=':
+return 2;
+case '#':
+return 3;
+case ':':
+return 17;
+case '/':
+return 257;
+case '\\':
+return 513;
+case '^':
+return 769;
+case '\'':
+return 1025;
+case '@':
+return 65;
+case '~':
+return 81;
+case '+':
+return 96;
+}
+return -1;
+}, "~S");
+Clazz.defineMethod (c$, "getAtom1", 
+function () {
+return this.atom1;
+});
+Clazz.defineMethod (c$, "getAtom2", 
+function () {
+return this.atom2;
+});
+Clazz.defineMethod (c$, "setAtom2", 
+function (atom) {
+this.atom2 = atom;
+if (this.atom2 != null) {
+atom.addBond (this);
+}}, "org.jmol.smiles.SmilesAtom");
+Clazz.defineMethod (c$, "getBondType", 
+function () {
+return this.order;
+});
+Clazz.defineMethod (c$, "getOtherAtom", 
+function (a) {
+return (this.atom1 === a ? this.atom2 : this.atom1);
+}, "org.jmol.smiles.SmilesAtom");
+Clazz.overrideMethod (c$, "getAtomIndex1", 
+function () {
+return this.atom1.index;
+});
+Clazz.overrideMethod (c$, "getAtomIndex2", 
+function () {
+return this.atom2.index;
+});
+Clazz.overrideMethod (c$, "getCovalentOrder", 
+function () {
+return this.order;
+});
+Clazz.overrideMethod (c$, "getOtherAtomNode", 
+function (atom) {
+return (atom === this.atom1 ? this.atom2 : atom === this.atom2 ? this.atom1 : null);
+}, "org.jmol.util.JmolNode");
+Clazz.overrideMethod (c$, "isCovalent", 
+function () {
+return this.order != 112;
+});
+Clazz.defineMethod (c$, "getValence", 
+function () {
+return (this.order & 7);
+});
+Clazz.overrideMethod (c$, "isHydrogen", 
+function () {
+return this.order == 112;
+});
+Clazz.defineMethod (c$, "switchAtoms", 
+function () {
+var a = this.atom1;
+this.atom1 = this.atom2;
+this.atom2 = a;
+switch (this.order) {
+case 769:
+this.order = 1025;
+break;
+case 1025:
+this.order = 769;
+break;
+case 257:
+this.order = 513;
+break;
+case 513:
+this.order = 257;
+break;
+}
+});
+Clazz.defineStatics (c$,
+"TYPE_UNKNOWN", -1,
+"TYPE_NONE", 0,
+"TYPE_SINGLE", 1,
+"TYPE_DOUBLE", 2,
+"TYPE_TRIPLE", 3,
+"TYPE_AROMATIC", 0x11,
+"TYPE_DIRECTIONAL_1", 0x101,
+"TYPE_DIRECTIONAL_2", 0x201,
+"TYPE_ATROPISOMER_1", 0x301,
+"TYPE_ATROPISOMER_2", 0x401,
+"TYPE_RING", 0x41,
+"TYPE_ANY", 0x51,
+"TYPE_BIO_SEQUENCE", 0x60,
+"TYPE_BIO_PAIR", 0x70,
+"TYPE_MULTIPLE", 999);
+});
+// 
+//// org\jmol\smiles\SmilesMeasure.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+c$ = Clazz.decorateAsClass (function () {
+this.search = null;
+this.nPoints = 0;
+this.type = 0;
+this.index = 0;
+this.isNot = false;
+this.indices = null;
+this.min = 0;
+this.max = 0;
+this.points = null;
+Clazz.instantialize (this, arguments);
+}, org.jmol.smiles, "SmilesMeasure");
+Clazz.prepareFields (c$, function () {
+this.indices =  Clazz.newIntArray (4, 0);
+this.points =  new Array (4);
+});
+Clazz.makeConstructor (c$, 
+function (search, index, type, min, max, isNot) {
+this.search = search;
+this.type = Math.min (4, Math.max (type, 2));
+this.index = index;
+this.min = Math.min (min, max);
+this.max = Math.max (min, max);
+this.isNot = isNot;
+}, "org.jmol.smiles.SmilesSearch,~N,~N,~N,~N,~B");
+Clazz.overrideMethod (c$, "toString", 
+function () {
+var s = "(." + "__dat".charAt (this.type) + this.index + ":" + this.min + "," + this.max + ") for";
+for (var i = 0; i < this.type; i++) s += " " + (i >= this.nPoints ? "?" : "" + this.indices[i]);
+
+return s;
+});
+Clazz.defineMethod (c$, "addPoint", 
+function (index) {
+if (this.nPoints == this.type) return false;
+if (this.nPoints == 0) for (var i = 1; i < this.type; i++) this.indices[i] = index + i;
+
+this.indices[this.nPoints++] = index;
+return true;
+}, "~N");
+Clazz.defineMethod (c$, "check", 
+function () {
+for (var i = 0; i < this.type; i++) {
+var iAtom = this.search.patternAtoms[this.indices[i]].getMatchingAtom ();
+this.points[i] = this.search.jmolAtoms[iAtom];
+}
+var d = 0;
+switch (this.type) {
+case 2:
+d = this.points[0].distance (this.points[1]);
+break;
+case 3:
+this.search.v.vA.sub2 (this.points[0], this.points[1]);
+this.search.v.vB.sub2 (this.points[2], this.points[1]);
+d = this.search.v.vA.angle (this.search.v.vB) / 0.017453292;
+break;
+case 4:
+org.jmol.smiles.SmilesMeasure.setTorsionData (this.points[0], this.points[1], this.points[2], this.points[3], this.search.v, true);
+d = this.search.v.vTemp1.angle (this.search.v.vTemp2) / 0.017453292 * (this.search.v.vNorm1.dot (this.search.v.vNorm2) < 0 ? 1 : -1);
+break;
+}
+return ((d < this.min || d > this.max) == this.isNot);
+});
+c$.setTorsionData = Clazz.defineMethod (c$, "setTorsionData", 
+function (pt1a, pt1, pt2, pt2a, v, isAll) {
+v.vTemp1.setT (pt1a);
+v.vTemp1.sub (pt1);
+v.vTemp2.setT (pt2a);
+v.vTemp2.sub (pt2);
+if (!isAll) return;
+v.vNorm1.setT (pt1);
+v.vNorm1.sub (pt2);
+v.vNorm1.normalize ();
+v.vTemp1.cross (v.vTemp1, v.vNorm1);
+v.vTemp1.normalize ();
+v.vTemp2.cross (v.vTemp2, v.vNorm1);
+v.vTemp2.normalize ();
+v.vNorm2.cross (v.vTemp1, v.vTemp2);
+}, "org.jmol.util.Point3f,org.jmol.util.Point3f,org.jmol.util.Point3f,org.jmol.util.Point3f,org.jmol.smiles.SmilesSearch.VTemp,~B");
+Clazz.defineStatics (c$,
+"TYPES", "__dat",
+"radiansPerDegree", (0.017453292519943295));
+// 
+//// org\jmol\smiles\SmilesParser.js 
+// 
+Clazz.declarePackage ("org.jmol.smiles");
+Clazz.load (["java.util.Hashtable"], "org.jmol.smiles.SmilesParser", ["java.lang.Character", "$.Float", "java.util.ArrayList", "org.jmol.smiles.InvalidSmilesException", "$.SmilesAtom", "$.SmilesBond", "$.SmilesMeasure", "$.SmilesSearch", "org.jmol.util.Elements", "$.Logger", "$.Parser", "$.StringXBuilder", "$.TextFormat"], function () {
+c$ = Clazz.decorateAsClass (function () {
+this.isSmarts = false;
+this.isBioSequence = false;
+this.bioType = '\0';
+this.ringBonds = null;
+this.braceCount = 0;
+this.branchLevel = 0;
+this.flags = 0;
+this.htMeasures = null;
+Clazz.instantialize (this, arguments);
+}, org.jmol.smiles, "SmilesParser");
+Clazz.prepareFields (c$, function () {
+this.ringBonds =  new java.util.Hashtable ();
+this.htMeasures =  new java.util.Hashtable ();
+});
+c$.getMolecule = Clazz.defineMethod (c$, "getMolecule", 
+function (pattern, isSmarts) {
+return ( new org.jmol.smiles.SmilesParser (isSmarts)).parse (pattern);
+}, "~S,~B");
+Clazz.makeConstructor (c$, 
+function (isSmarts) {
+this.isSmarts = isSmarts;
+}, "~B");
+Clazz.defineMethod (c$, "reset", 
+function () {
+this.braceCount = 0;
+this.branchLevel = 0;
+});
+Clazz.defineMethod (c$, "parse", 
+function (pattern) {
+if (pattern == null) throw  new org.jmol.smiles.InvalidSmilesException ("SMILES expressions must not be null");
+var search =  new org.jmol.smiles.SmilesSearch ();
+if (pattern.indexOf ("$(select") >= 0) pattern = this.parseNested (search, pattern, "select");
+pattern = org.jmol.smiles.SmilesParser.cleanPattern (pattern);
+while (pattern.startsWith ("/")) {
+var strFlags = org.jmol.smiles.SmilesParser.getSubPattern (pattern, 0, '/').toUpperCase ();
+pattern = pattern.substring (strFlags.length);
+this.flags = 0;
+if (strFlags.indexOf ("NOAROMATIC") >= 0) this.flags |= 1;
+if (strFlags.indexOf ("AROMATICSTRICT") >= 0) this.flags |= 4;
+if (strFlags.indexOf ("AROMATICDEFINED") >= 0) this.flags |= 8;
+if (strFlags.indexOf ("AROMATICDOUBLE") >= 0) this.flags |= 16;
+if (strFlags.indexOf ("NOSTEREO") >= 0) this.flags |= 2;
+}
+if (pattern.indexOf ("$") >= 0) pattern = this.parseVariables (pattern);
+if (this.isSmarts && pattern.indexOf ("[$") >= 0) pattern = this.parseVariableLength (pattern);
+if (pattern.indexOf ("||") >= 0) {
+var patterns = org.jmol.util.TextFormat.splitChars (pattern, "||");
+var toDo = "";
+search.subSearches =  new Array (patterns.length);
+for (var i = 0; i < patterns.length; i++) {
+var key = "|" + patterns[i] + "|";
+if (toDo.indexOf (key) < 0) {
+search.subSearches[i] = this.getSearch (search, patterns[i], this.flags);
+toDo += key;
+}}
+org.jmol.util.Logger.info (toDo);
+return search;
+}return this.getSearch (search, pattern, this.flags);
+}, "~S");
+Clazz.defineMethod (c$, "parseVariableLength", 
+($fz = function (pattern) {
+var sout =  new org.jmol.util.StringXBuilder ();
+var len = pattern.length - 1;
+var nParen = 0;
+var haveInternalOr = false;
+for (var i = 0; i < len; i++) {
+switch (pattern.charAt (i)) {
+case '(':
+nParen++;
+break;
+case ')':
+nParen--;
+break;
+case '|':
+if (nParen > 0) {
+haveInternalOr = true;
+if (pattern.charAt (i + 1) == '|') {
+pattern = pattern.substring (0, i) + pattern.substring (i + 1);
+len--;
+}}break;
+}
+}
+if (pattern.indexOf ("||") >= 0) {
+var patterns = org.jmol.util.TextFormat.splitChars (pattern, "||");
+for (var i = 0; i < patterns.length; i++) sout.append ("||").append (this.parseVariableLength (patterns[i]));
+
+} else {
+var pt = -1;
+var ret =  Clazz.newIntArray (1, 0);
+var isOK = true;
+var bracketed = null;
+while ((pt = pattern.indexOf ("[$", pt + 1)) >= 0) {
+var pt0 = pt;
+var min = -2147483648;
+var max = -2147483648;
+pt = org.jmol.smiles.SmilesParser.getDigits (pattern, pt + 2, ret);
+min = ret[0];
+if (min != -2147483648) {
+if (org.jmol.smiles.SmilesParser.getChar (pattern, pt) == '-') {
+pt = org.jmol.smiles.SmilesParser.getDigits (pattern, pt + 1, ret);
+max = ret[0];
+}}if (org.jmol.smiles.SmilesParser.getChar (pattern, pt) != '(') continue;
+bracketed = org.jmol.smiles.SmilesParser.getSubPattern (pattern, pt0, '[');
+if (!bracketed.endsWith (")")) continue;
+var pt1 = pt0 + bracketed.length + 2;
+var repeat = org.jmol.smiles.SmilesParser.getSubPattern (pattern, pt, '(');
+var pt2 = pt;
+bracketed = org.jmol.smiles.SmilesParser.getSubPattern (pattern, pt, '[');
+pt += 1 + repeat.length;
+if (repeat.indexOf (':') >= 0 && repeat.indexOf ('|') < 0) {
+var parenCount = 0;
+var n = repeat.length;
+var ptColon = -1;
+for (var i = 0; i < n; i++) {
+switch (repeat.charAt (i)) {
+case '[':
+case '(':
+parenCount++;
+break;
+case ')':
+case ']':
+parenCount--;
+break;
+case '.':
+if (ptColon >= 0 && parenCount == 0) n = i;
+break;
+case ':':
+if (ptColon < 0 && parenCount == 0) ptColon = i;
+break;
+}
+}
+if (ptColon > 0) repeat = repeat.substring (0, ptColon) + "(" + repeat.substring (ptColon, n) + ")" + repeat.substring (n);
+}if (min == -2147483648) {
+var ptOr = repeat.indexOf ("|");
+if (ptOr >= 0) return this.parseVariableLength (pattern.substring (0, pt0) + "[$1" + pattern.substring (pt2, pt2 + ptOr + 1) + ")]" + pattern.substring (pt1) + "||" + pattern.substring (0, pt0) + "[$1(" + pattern.substring (pt2 + ptOr + 2) + pattern.substring (pt1));
+continue;
+}if (max == -2147483648) max = min;
+if (repeat.indexOf ("|") >= 0) repeat = "[$(" + repeat + ")]";
+for (var i = min; i <= max; i++) {
+var sb =  new org.jmol.util.StringXBuilder ();
+sb.append ("||").append (pattern.substring (0, pt0));
+for (var j = 0; j < i; j++) sb.append (repeat);
+
+sb.append (pattern.substring (pt1));
+sout.appendSB (sb);
+}
+}
+if (!isOK) throw  new org.jmol.smiles.InvalidSmilesException ("bad variable expression: " + bracketed);
+}return (haveInternalOr ? this.parseVariableLength (sout.substring (2)) : sout.length () < 2 ? pattern : sout.substring (2));
+}, $fz.isPrivate = true, $fz), "~S");
+Clazz.defineMethod (c$, "getSearch", 
+function (parent, pattern, flags) {
+this.htMeasures =  new java.util.Hashtable ();
+var molecule =  new org.jmol.smiles.SmilesSearch ();
+molecule.setTop (parent);
+molecule.isSmarts = this.isSmarts;
+molecule.pattern = pattern;
+molecule.flags = flags;
+if (pattern.indexOf ("$(") >= 0) pattern = this.parseNested (molecule, pattern, "");
+this.parseSmiles (molecule, pattern, null, false);
+if (this.braceCount != 0) throw  new org.jmol.smiles.InvalidSmilesException ("unmatched '{'");
+if (!this.ringBonds.isEmpty ()) throw  new org.jmol.smiles.InvalidSmilesException ("Open ring");
+molecule.setAtomArray ();
+for (var i = molecule.atomCount; --i >= 0; ) {
+var atom = molecule.patternAtoms[i];
+atom.setBondArray ();
+if (!this.isSmarts && atom.bioType == '\0' && !atom.setHydrogenCount (molecule)) throw  new org.jmol.smiles.InvalidSmilesException ("unbracketed atoms must be one of: B, C, N, O, P, S, F, Cl, Br, I,");
+}
+if (this.isSmarts) for (var i = molecule.atomCount; --i >= 0; ) {
+var atom = molecule.patternAtoms[i];
+this.checkNested (molecule, atom, flags);
+for (var k = 0; k < atom.nAtomsOr; k++) this.checkNested (molecule, atom.atomsOr[k], flags);
+
+for (var k = 0; k < atom.nPrimitives; k++) this.checkNested (molecule, atom.primitives[k], flags);
+
+}
+if (!this.isSmarts && !this.isBioSequence) molecule.elementCounts[1] = molecule.getMissingHydrogenCount ();
+this.fixChirality (molecule);
+return molecule;
+}, "org.jmol.smiles.SmilesSearch,~S,~N");
+Clazz.defineMethod (c$, "checkNested", 
+($fz = function (molecule, atom, flags) {
+if (atom.iNested > 0) {
+var o = molecule.getNested (atom.iNested);
+if (Clazz.instanceOf (o, String)) {
+var s = o;
+if (s.startsWith ("select")) return;
+if (s.charAt (0) != '~' && atom.bioType != '\0') s = "~" + atom.bioType + "~" + s;
+var search = this.getSearch (molecule, s, flags);
+if (search.atomCount > 0 && search.patternAtoms[0].selected) atom.selected = true;
+molecule.setNested (atom.iNested, search);
+}}}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,org.jmol.smiles.SmilesAtom,~N");
+Clazz.defineMethod (c$, "fixChirality", 
+($fz = function (molecule) {
+for (var i = molecule.atomCount; --i >= 0; ) {
+var sAtom = molecule.patternAtoms[i];
+var stereoClass = sAtom.getChiralClass ();
+if (stereoClass == -2147483648) continue;
+var nBonds = sAtom.missingHydrogenCount;
+if (nBonds < 0) nBonds = 0;
+nBonds += sAtom.getBondCount ();
+switch (stereoClass) {
+case 0:
+switch (nBonds) {
+case 2:
+stereoClass = (sAtom.getValence () == 3 ? 3 : 2);
+break;
+case 3:
+case 4:
+case 5:
+case 6:
+stereoClass = nBonds;
+break;
+}
+break;
+case 8:
+if (nBonds != 4) stereoClass = 0;
+break;
+case 2:
+case 6:
+case 4:
+case 5:
+if (nBonds != stereoClass) stereoClass = 0;
+break;
+}
+if (stereoClass == 0) throw  new org.jmol.smiles.InvalidSmilesException ("Incorrect number of bonds for stereochemistry descriptor");
+sAtom.setChiralClass (stereoClass);
+}
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch");
+Clazz.defineMethod (c$, "parseSmiles", 
+($fz = function (molecule, pattern, currentAtom, isBranchAtom) {
+var ret =  Clazz.newIntArray (1, 0);
+var pt = 0;
+var ch;
+var bond = null;
+while (pattern != null && pattern.length != 0) {
+var index = 0;
+if (currentAtom == null || bond != null && bond.order == 0) {
+if (this.isBioSequence) molecule.top.needAromatic = false;
+index = this.checkBioType (pattern, 0);
+}ch = org.jmol.smiles.SmilesParser.getChar (pattern, index);
+var haveOpen = this.checkBrace (molecule, ch, '{');
+if (haveOpen) ch = org.jmol.smiles.SmilesParser.getChar (pattern, ++index);
+if (ch == '(') {
+var isMeasure = (org.jmol.smiles.SmilesParser.getChar (pattern, index + 1) == '.');
+if (currentAtom == null) throw  new org.jmol.smiles.InvalidSmilesException ("No previous atom for " + (isMeasure ? "measure" : "branch"));
+var subString = org.jmol.smiles.SmilesParser.getSubPattern (pattern, index, '(');
+if (subString.startsWith (".")) {
+this.parseMeasure (molecule, subString.substring (1), currentAtom);
+} else if (subString.length == 0 && this.isBioSequence) {
+currentAtom.notCrossLinked = true;
+} else {
+this.branchLevel++;
+this.parseSmiles (molecule, subString, currentAtom, true);
+this.branchLevel--;
+}index = subString.length + 2;
+ch = org.jmol.smiles.SmilesParser.getChar (pattern, index);
+if (ch == '}' && this.checkBrace (molecule, ch, '}')) index++;
+} else {
+pt = index;
+while (org.jmol.smiles.SmilesBond.isBondType (ch, this.isSmarts, this.isBioSequence)) ch = org.jmol.smiles.SmilesParser.getChar (pattern, ++index);
+
+bond = this.parseBond (molecule, null, pattern.substring (pt, index), null, currentAtom, false, isBranchAtom);
+if (haveOpen && bond.order != -1) index = pt;
+ch = org.jmol.smiles.SmilesParser.getChar (pattern, index);
+if (this.checkBrace (molecule, ch, '{')) ch = org.jmol.smiles.SmilesParser.getChar (pattern, ++index);
+if (ch == '~' && bond.order == 0) {
+index = this.checkBioType (pattern, index);
+ch = org.jmol.smiles.SmilesParser.getChar (pattern, index);
+}if (ch == '\0' && bond.order == 0) return;
+var isRing = (Character.isDigit (ch) || ch == '%');
+var isAtom = (!isRing && (ch == '_' || ch == '[' || ch == '*' || Character.isLetter (ch)));
+if (isRing) {
+var ringNumber;
+switch (ch) {
+case '%':
+if (org.jmol.smiles.SmilesParser.getChar (pattern, index + 1) == '(') {
+var subPattern = org.jmol.smiles.SmilesParser.getSubPattern (pattern, index + 1, '(');
+org.jmol.smiles.SmilesParser.getDigits (subPattern, 0, ret);
+index += subPattern.length + 3;
+if (ret[0] < 0) throw  new org.jmol.smiles.InvalidSmilesException ("Invalid ring designation: " + subPattern);
+} else {
+if (index + 3 <= pattern.length) index = org.jmol.smiles.SmilesParser.getDigits (pattern.substring (0, index + 3), index + 1, ret);
+if (ret[0] < 10) throw  new org.jmol.smiles.InvalidSmilesException ("Two digits must follow the % sign");
+}ringNumber = ret[0];
+break;
+default:
+ringNumber = ch.charCodeAt (0) - 48;
+index++;
+}
+this.parseRing (molecule, ringNumber, currentAtom, bond);
+} else if (isAtom) {
+switch (ch) {
+case '[':
+case '_':
+var subPattern = org.jmol.smiles.SmilesParser.getSubPattern (pattern, index, ch);
+index += subPattern.length + (ch == '[' ? 2 : 0);
+if (this.isBioSequence && ch == '[' && subPattern.indexOf (".") < 0 && subPattern.indexOf ("_") < 0) subPattern += ".0";
+currentAtom = this.parseAtom (molecule, null, subPattern, currentAtom, bond, ch == '[', false, isBranchAtom);
+if (bond.order != -1 && bond.order != 0) bond.set (null, currentAtom);
+break;
+default:
+var ch2 = (!this.isBioSequence && Character.isUpperCase (ch) ? org.jmol.smiles.SmilesParser.getChar (pattern, index + 1) : '\0');
+if (ch != 'X' || ch2 != 'x') if (!Character.isLowerCase (ch2) || org.jmol.util.Elements.elementNumberFromSymbol (pattern.substring (index, index + 2), true) == 0) ch2 = '\0';
+if (ch2 != '\0' && "NA CA BA PA SC AC".indexOf (pattern.substring (index, index + 2)) >= 0) {
+ch2 = '\0';
+}var size = (Character.isUpperCase (ch) && Character.isLowerCase (ch2) ? 2 : 1);
+currentAtom = this.parseAtom (molecule, null, pattern.substring (index, index + size), currentAtom, bond, false, false, isBranchAtom);
+index += size;
+}
+} else {
+throw  new org.jmol.smiles.InvalidSmilesException ("Unexpected character: " + org.jmol.smiles.SmilesParser.getChar (pattern, index));
+}ch = org.jmol.smiles.SmilesParser.getChar (pattern, index);
+if (ch == '}' && this.checkBrace (molecule, ch, '}')) index++;
+}pattern = pattern.substring (index);
+isBranchAtom = false;
+}
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,~S,org.jmol.smiles.SmilesAtom,~B");
+Clazz.defineMethod (c$, "checkBioType", 
+($fz = function (pattern, index) {
+this.isBioSequence = (pattern.charAt (index) == '~');
+if (this.isBioSequence) {
+index++;
+this.bioType = '*';
+var ch = org.jmol.smiles.SmilesParser.getChar (pattern, 2);
+if (ch == '~' && ((ch = pattern.charAt (1)) == '*' || Character.isLowerCase (ch))) {
+this.bioType = ch;
+index = 3;
+}}return index;
+}, $fz.isPrivate = true, $fz), "~S,~N");
+Clazz.defineMethod (c$, "parseMeasure", 
+($fz = function (molecule, strMeasure, currentAtom) {
+var pt = strMeasure.indexOf (":");
+var isNot = false;
+var id = (pt < 0 ? strMeasure : strMeasure.substring (0, pt));
+while (pt != 0) {
+var len = id.length;
+if (len == 1) id += "0";
+var m = this.htMeasures.get (id);
+if ((m == null) == (pt < 0)) break;
+try {
+if (pt > 0) {
+var type = ("__dat".indexOf (id.charAt (0)));
+if (type < 2) break;
+var ret =  Clazz.newIntArray (1, 0);
+var index = org.jmol.smiles.SmilesParser.getDigits (id, 1, ret);
+var pt2 = strMeasure.indexOf (",", pt);
+if (pt2 < 0) pt2 = strMeasure.indexOf ("-", pt + 1);
+if (pt2 < 0) break;
+var s = strMeasure.substring (pt + 1, pt2);
+if (s.startsWith ("!")) {
+isNot = true;
+s = s.substring (1);
+}var min = (pt + 1 == pt2 ? 0 : Float.parseFloat (s));
+s = strMeasure.substring (pt2 + 1);
+var max = (s.length == 0 ? 3.4028235E38 : Float.parseFloat (s));
+m =  new org.jmol.smiles.SmilesMeasure (molecule, index, type, min, max, isNot);
+molecule.measures.add (m);
+if (index > 0) this.htMeasures.put (id, m);
+ else if (index == 0 && org.jmol.util.Logger.debugging) org.jmol.util.Logger.debug ("measure created: " + m);
+} else {
+if (!m.addPoint (currentAtom.index)) break;
+if (m.nPoints == m.type) {
+this.htMeasures.remove (id);
+if (org.jmol.util.Logger.debugging) org.jmol.util.Logger.debug ("measure created: " + m);
+}return;
+}if (!m.addPoint (currentAtom.index)) break;
+} catch (e) {
+if (Clazz.exceptionOf (e, NumberFormatException)) {
+break;
+} else {
+throw e;
+}
+}
+return;
+}
+throw  new org.jmol.smiles.InvalidSmilesException ("invalid measure: " + strMeasure);
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,~S,org.jmol.smiles.SmilesAtom");
+Clazz.defineMethod (c$, "checkBrace", 
+($fz = function (molecule, ch, type) {
+switch (ch) {
+case '{':
+if (ch != type) break;
+this.braceCount++;
+molecule.top.haveSelected = true;
+return true;
+case '}':
+if (ch != type) break;
+if (this.braceCount > 0) {
+this.braceCount--;
+return true;
+}break;
+default:
+return false;
+}
+throw  new org.jmol.smiles.InvalidSmilesException ("Unmatched '}'");
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,~S,~S");
+Clazz.defineMethod (c$, "parseNested", 
+($fz = function (molecule, pattern, prefix) {
+var index;
+prefix = "$(" + prefix;
+while ((index = pattern.lastIndexOf (prefix)) >= 0) {
+var s = org.jmol.smiles.SmilesParser.getSubPattern (pattern, index + 1, '(');
+var pt = index + s.length + 3;
+pattern = pattern.substring (0, index) + "_" + molecule.addNested (s) + "_" + pattern.substring (pt);
+}
+return pattern;
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,~S,~S");
+Clazz.defineMethod (c$, "parseVariables", 
+($fz = function (pattern) {
+var keys =  new java.util.ArrayList ();
+var values =  new java.util.ArrayList ();
+var index;
+var ipt = 0;
+var iptLast = -1;
+while ((index = pattern.indexOf ("$", ipt)) >= 0) {
+if (org.jmol.smiles.SmilesParser.getChar (pattern, ipt + 1) == '(') break;
+ipt = org.jmol.smiles.SmilesParser.skipTo (pattern, index, '=');
+if (ipt <= index + 1 || org.jmol.smiles.SmilesParser.getChar (pattern, ipt + 1) != '\"') break;
+var key = pattern.substring (index, ipt);
+if (key.lastIndexOf ('$') > 0 || key.indexOf (']') > 0) throw  new org.jmol.smiles.InvalidSmilesException ("Invalid variable name: " + key);
+var s = org.jmol.smiles.SmilesParser.getSubPattern (pattern, ipt + 1, '\"');
+keys.add ("[" + key + "]");
+values.add (s);
+ipt += s.length + 2;
+ipt = org.jmol.smiles.SmilesParser.skipTo (pattern, ipt, ';');
+iptLast = ++ipt;
+}
+if (iptLast < 0) return pattern;
+return org.jmol.util.TextFormat.replaceStrings (pattern.substring (iptLast), keys, values);
+}, $fz.isPrivate = true, $fz), "~S");
+Clazz.defineMethod (c$, "parseAtom", 
+($fz = function (molecule, atomSet, pattern, currentAtom, bond, isBracketed, isPrimitive, isBranchAtom) {
+if (pattern == null || pattern.length == 0) throw  new org.jmol.smiles.InvalidSmilesException ("Empty atom definition");
+var newAtom = (atomSet == null ? molecule.addAtom () : isPrimitive ? atomSet.addPrimitive () : atomSet.addAtomOr ());
+if (this.braceCount > 0) newAtom.selected = true;
+if (!this.checkLogic (molecule, pattern, newAtom, null, currentAtom, isPrimitive, isBranchAtom)) {
+var ret =  Clazz.newIntArray (1, 0);
+if (this.isBioSequence && pattern.length == 1) pattern += ".0";
+var ch = pattern.charAt (0);
+var index = 0;
+var isNot = false;
+if (this.isSmarts && ch == '!') {
+ch = org.jmol.smiles.SmilesParser.getChar (pattern, ++index);
+if (ch == '\0') throw  new org.jmol.smiles.InvalidSmilesException ("invalid '!'");
+newAtom.not = isNot = true;
+}var hydrogenCount = -2147483648;
+var biopt = pattern.indexOf ('.');
+if (biopt >= 0) {
+var name = pattern.substring (index, biopt);
+if (name.length == 0) name = "*";
+if (name.length > 1) newAtom.residueName = name.toUpperCase ();
+ else if (!name.equals ("*")) newAtom.residueChar = name;
+name = pattern.substring (biopt + 1).toUpperCase ();
+if ((biopt = name.indexOf ("#")) >= 0) {
+org.jmol.smiles.SmilesParser.getDigits (name, biopt + 1, ret);
+newAtom.elementNumber = ret[0];
+name = name.substring (0, biopt);
+}if (name.length == 0) name = "*";
+if (!name.equals ("*")) newAtom.setAtomName (name);
+ch = '\0';
+}newAtom.setBioAtom (this.bioType);
+while (ch != '\0') {
+newAtom.setAtomName (this.isBioSequence ? "0" : "");
+if (Character.isDigit (ch)) {
+index = org.jmol.smiles.SmilesParser.getDigits (pattern, index, ret);
+var mass = ret[0];
+if (mass == -2147483648) throw  new org.jmol.smiles.InvalidSmilesException ("Non numeric atomic mass");
+if (org.jmol.smiles.SmilesParser.getChar (pattern, index) == '?') {
+index++;
+mass = -mass;
+}newAtom.setAtomicMass (mass);
+} else {
+switch (ch) {
+case '"':
+var type = org.jmol.util.Parser.getQuotedStringAt (pattern, index);
+index += type.length + 2;
+newAtom.setAtomType (type);
+break;
+case '_':
+index = org.jmol.smiles.SmilesParser.getDigits (pattern, index + 1, ret) + 1;
+if (ret[0] == -2147483648) throw  new org.jmol.smiles.InvalidSmilesException ("Invalid SEARCH primitive: " + pattern.substring (index));
+newAtom.iNested = ret[0];
+if (this.isBioSequence && isBracketed) {
+if (index != pattern.length) throw  new org.jmol.smiles.InvalidSmilesException ("invalid characters: " + pattern.substring (index));
+}break;
+case '=':
+index = org.jmol.smiles.SmilesParser.getDigits (pattern, index + 1, ret);
+newAtom.jmolIndex = ret[0];
+break;
+case '#':
+index = org.jmol.smiles.SmilesParser.getDigits (pattern, index + 1, ret);
+newAtom.elementNumber = ret[0];
+break;
+case '-':
+case '+':
+index = this.checkCharge (pattern, index, newAtom);
+break;
+case '@':
+molecule.haveAtomStereochemistry = true;
+index = this.checkChirality (pattern, index, molecule.patternAtoms[newAtom.index]);
+break;
+default:
+var nextChar = org.jmol.smiles.SmilesParser.getChar (pattern, index + 1);
+var sym2 = pattern.substring (index + 1, index + (Character.isLowerCase (nextChar) && (!isBracketed || !Character.isDigit (org.jmol.smiles.SmilesParser.getChar (pattern, index + 2))) ? 2 : 1));
+var symbol = Character.toUpperCase (ch) + sym2;
+var mustBeSymbol = true;
+var checkForPrimitive = (isBracketed && Character.isLetter (ch));
+if (checkForPrimitive) {
+if (!isNot && (isPrimitive ? atomSet : newAtom).hasSymbol) {
+mustBeSymbol = false;
+} else if (ch == 'H') {
+mustBeSymbol = !Character.isDigit (nextChar) || org.jmol.smiles.SmilesParser.getChar (pattern, index + 2) == '?';
+} else if ("DdhRrvXx".indexOf (ch) >= 0 && Character.isDigit (nextChar)) {
+mustBeSymbol = false;
+} else if (!symbol.equals ("A") && !symbol.equals ("Xx")) {
+mustBeSymbol = (org.jmol.util.Elements.elementNumberFromSymbol (symbol, true) > 0);
+if (!mustBeSymbol && sym2 !== "") {
+sym2 = "";
+symbol = symbol.substring (0, 1);
+mustBeSymbol = (org.jmol.util.Elements.elementNumberFromSymbol (symbol, true) > 0);
+}}}if (mustBeSymbol) {
+if (!isBracketed && !this.isSmarts && !this.isBioSequence && !org.jmol.smiles.SmilesAtom.allowSmilesUnbracketed (symbol) || !newAtom.setSymbol (symbol = ch + sym2)) throw  new org.jmol.smiles.InvalidSmilesException ("Invalid atom symbol: " + symbol);
+if (isPrimitive) atomSet.hasSymbol = true;
+index += symbol.length;
+} else {
+index = org.jmol.smiles.SmilesParser.getDigits (pattern, index + 1, ret);
+var val = ret[0];
+switch (ch) {
+default:
+throw  new org.jmol.smiles.InvalidSmilesException ("Invalid SEARCH primitive: " + pattern.substring (index));
+case 'D':
+newAtom.setDegree (val == -2147483648 ? 1 : val);
+break;
+case 'd':
+newAtom.setNonhydrogenDegree (val == -2147483648 ? 1 : val);
+break;
+case 'H':
+hydrogenCount = (val == -2147483648 ? 1 : val);
+break;
+case 'h':
+newAtom.setImplicitHydrogenCount (val == -2147483648 ? -1 : val);
+break;
+case 'R':
+if (val == -2147483648) val = -1;
+newAtom.setRingMembership (val);
+molecule.top.needRingData = true;
+break;
+case 'r':
+if (val == -2147483648) {
+val = -1;
+newAtom.setRingMembership (val);
+} else {
+newAtom.setRingSize (val);
+switch (val) {
+case 500:
+val = 5;
+break;
+case 600:
+val = 6;
+break;
+}
+if (val > molecule.ringDataMax) molecule.ringDataMax = val;
+}molecule.top.needRingData = true;
+break;
+case 'v':
+newAtom.setValence (val == -2147483648 ? 1 : val);
+break;
+case 'X':
+newAtom.setConnectivity (val == -2147483648 ? 1 : val);
+break;
+case 'x':
+newAtom.setRingConnectivity (val == -2147483648 ? -1 : val);
+molecule.top.needRingData = true;
+break;
+}
+}}
+}ch = org.jmol.smiles.SmilesParser.getChar (pattern, index);
+if (isNot && ch != '\0') throw  new org.jmol.smiles.InvalidSmilesException ("'!' may only involve one primitive.");
+}
+if (hydrogenCount == -2147483648 && isBracketed) hydrogenCount = -2147483647;
+newAtom.setExplicitHydrogenCount (hydrogenCount);
+molecule.patternAtoms[newAtom.index].setExplicitHydrogenCount (hydrogenCount);
+}if (currentAtom != null && bond.order == 0) {
+newAtom.notBondedIndex = currentAtom.index;
+}if (currentAtom != null && bond.order != 0) {
+if (bond.order == -1) bond.order = (this.isBioSequence && isBranchAtom ? 112 : this.isSmarts || currentAtom.isAromatic () && newAtom.isAromatic () ? 81 : 1);
+if (!isBracketed) bond.set (null, newAtom);
+if (this.branchLevel == 0 && (bond.order == 17 || bond.order == 112)) this.branchLevel++;
+}if (this.branchLevel == 0) molecule.lastChainAtom = newAtom;
+return newAtom;
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,org.jmol.smiles.SmilesAtom,~S,org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesBond,~B,~B,~B");
+Clazz.defineMethod (c$, "parseRing", 
+($fz = function (molecule, ringNum, currentAtom, bond) {
+var r = Integer.$valueOf (ringNum);
+var bond0 = this.ringBonds.get (r);
+if (bond0 == null) {
+this.ringBonds.put (r, bond);
+return;
+}this.ringBonds.remove (r);
+switch (bond.order) {
+case -1:
+bond.order = (bond0.order != -1 ? bond0.order : this.isSmarts || currentAtom.isAromatic () && bond0.getAtom1 ().isAromatic () ? 81 : 1);
+break;
+case 257:
+bond.order = 513;
+break;
+case 513:
+bond.order = 257;
+break;
+}
+if (bond0.order != -1 && bond0.order != bond.order) throw  new org.jmol.smiles.InvalidSmilesException ("Incoherent bond type for ring");
+bond0.set (bond);
+currentAtom.bondCount--;
+bond0.setAtom2 (currentAtom);
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,~N,org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesBond");
+Clazz.defineMethod (c$, "checkCharge", 
+($fz = function (pattern, index, newAtom) {
+var len = pattern.length;
+var ch = pattern.charAt (index);
+var count = 1;
+++index;
+if (index < len) {
+var nextChar = pattern.charAt (index);
+if (Character.isDigit (nextChar)) {
+var ret =  Clazz.newIntArray (1, 0);
+index = org.jmol.smiles.SmilesParser.getDigits (pattern, index, ret);
+count = ret[0];
+if (count == -2147483648) throw  new org.jmol.smiles.InvalidSmilesException ("Non numeric charge");
+} else {
+while (index < len && pattern.charAt (index) == ch) {
+index++;
+count++;
+}
+}}newAtom.setCharge (ch == '+' ? count : -count);
+return index;
+}, $fz.isPrivate = true, $fz), "~S,~N,org.jmol.smiles.SmilesAtom");
+Clazz.defineMethod (c$, "checkChirality", 
+($fz = function (pattern, index, newAtom) {
+var stereoClass = 0;
+var order = -2147483648;
+var len = pattern.length;
+var ch;
+stereoClass = 0;
+order = 1;
+if (++index < len) {
+switch (ch = pattern.charAt (index)) {
+case '@':
+order = 2;
+index++;
+break;
+case 'H':
+break;
+case 'A':
+case 'D':
+case 'E':
+case 'O':
+case 'S':
+case 'T':
+stereoClass = (index + 1 < len ? org.jmol.smiles.SmilesAtom.getChiralityClass (pattern.substring (index, index + 2)) : -1);
+index += 2;
+break;
+default:
+order = (Character.isDigit (ch) ? 1 : -1);
+}
+var pt = index;
+if (order == 1) {
+while (pt < len && Character.isDigit (pattern.charAt (pt))) pt++;
+
+if (pt > index) {
+try {
+order = Integer.parseInt (pattern.substring (index, pt));
+} catch (e) {
+if (Clazz.exceptionOf (e, NumberFormatException)) {
+order = -1;
+} else {
+throw e;
+}
+}
+index = pt;
+}}if (order < 1 || stereoClass < 0) throw  new org.jmol.smiles.InvalidSmilesException ("Invalid stereochemistry descriptor");
+}newAtom.setChiralClass (stereoClass);
+newAtom.setChiralOrder (order);
+if (org.jmol.smiles.SmilesParser.getChar (pattern, index) == '?') {
+org.jmol.util.Logger.info ("Ignoring '?' in stereochemistry");
+index++;
+}return index;
+}, $fz.isPrivate = true, $fz), "~S,~N,org.jmol.smiles.SmilesAtom");
+Clazz.defineMethod (c$, "parseBond", 
+($fz = function (molecule, bondSet, pattern, bond, currentAtom, isPrimitive, isBranchAtom) {
+var ch = org.jmol.smiles.SmilesParser.getChar (pattern, 0);
+if (ch == '.') {
+if (bond != null || bondSet != null) throw  new org.jmol.smiles.InvalidSmilesException ("invalid '.'");
+this.isBioSequence = (org.jmol.smiles.SmilesParser.getChar (pattern, 1) == '~');
+return  new org.jmol.smiles.SmilesBond (0, false);
+}if (ch == '+' && bondSet != null) throw  new org.jmol.smiles.InvalidSmilesException ("invalid '+'");
+var newBond = (bondSet == null ? (bond == null ?  new org.jmol.smiles.SmilesBond (currentAtom, null, (this.isBioSequence && currentAtom != null ? (isBranchAtom ? 112 : 96) : -1), false) : bond) : isPrimitive ? bondSet.addPrimitive () : bondSet.addBondOr ());
+if (ch != '\0' && !this.checkLogic (molecule, pattern, null, newBond, currentAtom, isPrimitive, false)) {
+var isBondNot = (ch == '!');
+if (isBondNot) {
+ch = org.jmol.smiles.SmilesParser.getChar (pattern, 1);
+if (ch == '\0' || ch == '!') throw  new org.jmol.smiles.InvalidSmilesException ("invalid '!'");
+}var bondType = org.jmol.smiles.SmilesBond.getBondTypeFromCode (ch);
+if (bondType == 65) molecule.top.needRingMemberships = true;
+if (currentAtom == null && bondType != 0) throw  new org.jmol.smiles.InvalidSmilesException ("Bond without a previous atom");
+switch (bondType) {
+case 769:
+case 1025:
+if (isBondNot) {
+isBondNot = false;
+bondType = (bondType == 769 ? 1025 : 769);
+}molecule.haveBondStereochemistry = true;
+break;
+case 257:
+case 513:
+molecule.haveBondStereochemistry = true;
+break;
+case 17:
+break;
+case 2:
+case 1:
+if (currentAtom.isAromatic ()) molecule.top.needRingData = true;
+break;
+}
+newBond.set (bondType, isBondNot);
+if (this.isBioSequence && bondSet != null) bondSet.set (bondType, isBondNot);
+}return newBond;
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,org.jmol.smiles.SmilesBond,~S,org.jmol.smiles.SmilesBond,org.jmol.smiles.SmilesAtom,~B,~B");
+Clazz.defineMethod (c$, "checkLogic", 
+($fz = function (molecule, pattern, atom, bond, currentAtom, isPrimitive, isBranchAtom) {
+var pt = pattern.indexOf (',');
+var len = pattern.length;
+while (true) {
+var haveOr = (pt > 0);
+if (haveOr && !this.isSmarts || pt == 0) break;
+var props = "";
+pt = pattern.indexOf (';');
+if (pt >= 0) {
+if (!this.isSmarts || pt == 0) break;
+props = "&" + pattern.substring (pt + 1);
+pattern = pattern.substring (0, pt);
+if (!haveOr) {
+pattern += props;
+props = "";
+}}var index = 0;
+if (haveOr) {
+pattern += ",";
+while ((pt = pattern.indexOf (',', index)) > 0 && pt <= len) {
+var s = pattern.substring (index, pt) + props;
+if (s.length == 0) throw  new org.jmol.smiles.InvalidSmilesException ("missing " + (bond == null ? "atom" : "bond") + " token");
+if (bond == null) this.parseAtom (molecule, atom, s, null, null, true, false, isBranchAtom);
+ else this.parseBond (molecule, bond, s, null, currentAtom, false, false);
+index = pt + 1;
+}
+} else if ((pt = pattern.indexOf ('&')) >= 0 || bond != null && len > 1 && !isPrimitive) {
+if (!this.isSmarts || pt == 0) break;
+if (bond != null && pt < 0) {
+if (len > 1) {
+var sNew =  new org.jmol.util.StringXBuilder ();
+for (var i = 0; i < len; ) {
+var ch = pattern.charAt (i++);
+sNew.appendC (ch);
+if (ch != '!' && i < len) sNew.appendC ('&');
+}
+pattern = sNew.toString ();
+len = pattern.length;
+}}pattern += "&";
+while ((pt = pattern.indexOf ('&', index)) > 0 && pt <= len) {
+var s = pattern.substring (index, pt) + props;
+if (bond == null) this.parseAtom (molecule, atom, s, null, null, true, true, isBranchAtom);
+ else this.parseBond (molecule, bond, s, null, currentAtom, true, false);
+index = pt + 1;
+}
+} else {
+return false;
+}return true;
+}
+var ch = pattern.charAt (pt);
+throw  new org.jmol.smiles.InvalidSmilesException ((this.isSmarts ? "invalid placement for '" + ch + "'" : "[" + ch + "] notation only valid with SMARTS, not SMILES,") + " in " + pattern);
+}, $fz.isPrivate = true, $fz), "org.jmol.smiles.SmilesSearch,~S,org.jmol.smiles.SmilesAtom,org.jmol.smiles.SmilesBond,org.jmol.smiles.SmilesAtom,~B,~B");
+c$.getSubPattern = Clazz.defineMethod (c$, "getSubPattern", 
+($fz = function (pattern, index, ch) {
+var ch2;
+var margin = 1;
+switch (ch) {
+case '[':
+ch2 = ']';
+break;
+case '"':
+case '%':
+ch2 = ch;
+break;
+case '(':
+ch2 = ')';
+break;
+default:
+ch2 = ch;
+margin = 0;
+}
+var len = pattern.length;
+var pCount = 1;
+for (var pt = index + 1; pt < len; pt++) {
+var ch1 = pattern.charAt (pt);
+if (ch1 == ch2) {
+pCount--;
+if (pCount == 0) return pattern.substring (index + margin, pt + 1 - margin);
+} else if (ch1 == ch) {
+pCount++;
+}}
+throw  new org.jmol.smiles.InvalidSmilesException ("Unmatched " + ch);
+}, $fz.isPrivate = true, $fz), "~S,~N,~S");
+c$.getChar = Clazz.defineMethod (c$, "getChar", 
+($fz = function (pattern, i) {
+return (i < pattern.length ? pattern.charAt (i) : '\0');
+}, $fz.isPrivate = true, $fz), "~S,~N");
+c$.getDigits = Clazz.defineMethod (c$, "getDigits", 
+($fz = function (pattern, index, ret) {
+var pt = index;
+var len = pattern.length;
+while (pt < len && Character.isDigit (pattern.charAt (pt))) pt++;
+
+try {
+ret[0] = Integer.parseInt (pattern.substring (index, pt));
+} catch (e) {
+if (Clazz.exceptionOf (e, NumberFormatException)) {
+ret[0] = -2147483648;
+} else {
+throw e;
+}
+}
+return pt;
+}, $fz.isPrivate = true, $fz), "~S,~N,~A");
+c$.skipTo = Clazz.defineMethod (c$, "skipTo", 
+($fz = function (pattern, index, ch0) {
+var pt = index;
+var ch;
+while ((ch = org.jmol.smiles.SmilesParser.getChar (pattern, ++pt)) != ch0 && ch != '\0') {
+}
+return (ch == '\0' ? -1 : pt);
+}, $fz.isPrivate = true, $fz), "~S,~N,~S");
+c$.getRingPointer = Clazz.defineMethod (c$, "getRingPointer", 
+function (i) {
+return (i < 10 ? "" + i : i < 100 ? "%" + i : "%(" + i + ")");
+}, "~N");
+c$.cleanPattern = Clazz.defineMethod (c$, "cleanPattern", 
+function (pattern) {
+pattern = pattern.replaceAll ("\\s", "").replaceAll ("\\^\\^", "'");
+var i = 0;
+var i2 = 0;
+while ((i = pattern.indexOf ("//*")) >= 0 && (i2 = pattern.indexOf ("*//")) >= i) pattern = pattern.substring (0, i) + pattern.substring (i2 + 3);
+
+pattern = pattern.replaceAll ("//", "");
+return pattern;
+}, "~S");
+});

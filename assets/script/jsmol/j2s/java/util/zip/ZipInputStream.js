@@ -19,7 +19,7 @@ this.tmpbuf =  Clazz.newByteArray (512, 0);
 this.byteTest = [0x20];
 this.$b =  Clazz.newByteArray (256, 0);
 });
-$_M(c$, "ensureOpen", 
+Clazz.defineMethod (c$, "ensureOpen", 
 ($fz = function () {
 if (this.$closed) {
 throw  new java.io.IOException ("Stream closed");
@@ -39,11 +39,11 @@ throw e;
 }
 this.zc = charset;
 }, "java.io.InputStream");
-c$.newInflater = $_M(c$, "newInflater", 
+c$.newInflater = Clazz.defineMethod (c$, "newInflater", 
 ($fz = function () {
-return  new java.util.zip.Inflater ().init (0, true);
+return  new java.util.zip.Inflater (true);
 }, $fz.isPrivate = true, $fz));
-$_M(c$, "getNextEntry", 
+Clazz.defineMethod (c$, "getNextEntry", 
 function () {
 this.ensureOpen ();
 if (this.entry != null) {
@@ -57,7 +57,7 @@ this.remaining = this.entry.size;
 }this.entryEOF = false;
 return this.entry;
 });
-$_M(c$, "closeEntry", 
+Clazz.defineMethod (c$, "closeEntry", 
 function () {
 this.ensureOpen ();
 while (this.read (this.tmpbuf, 0, this.tmpbuf.length) != -1) {
@@ -69,7 +69,7 @@ function () {
 this.ensureOpen ();
 return (this.entryEOF ? 0 : 1);
 });
-Clazz.overrideMethod (c$, "read", 
+Clazz.defineMethod (c$, "read", 
 function (b, off, len) {
 this.ensureOpen ();
 if (off < 0 || len < 0 || off > b.length - len) {
@@ -80,7 +80,7 @@ return 0;
 return -1;
 }switch (this.entry.method) {
 case 8:
-len = this.readInf (b, off, len);
+len = Clazz.superCall (this, java.util.zip.ZipInputStream, "read", [b, off, len]);
 if (len == -1) {
 this.readEnd (this.entry);
 this.entryEOF = true;
@@ -126,13 +126,13 @@ break;
 }
 return total;
 }, "~N");
-$_M(c$, "close", 
+Clazz.defineMethod (c$, "close", 
 function () {
 if (!this.$closed) {
 Clazz.superCall (this, java.util.zip.ZipInputStream, "close", []);
 this.$closed = true;
 }});
-$_M(c$, "readLOC", 
+Clazz.defineMethod (c$, "readLOC", 
 ($fz = function () {
 try {
 this.readFully (this.tmpbuf, 0, 30);
@@ -153,7 +153,7 @@ do blen = blen * 2;
  while (len > blen);
 this.$b =  Clazz.newByteArray (blen, 0);
 }this.readFully (this.$b, 0, len);
-var e = this.createZipEntry (((this.flag & 2048) != 0) ? this.toStringUTF8 (this.$b, len) : this.toStringb2 (this.$b, len));
+var e = this.createZipEntry (((this.flag & 2048) != 0) ? this.toStringUTF8 (this.$b, len) : this.toString (this.$b, len));
 if ((this.flag & 1) == 1) {
 throw  new java.util.zip.ZipException ("encrypted ZIP entry not supported");
 }e.method = java.util.zip.ZipInputStream.get16 (this.tmpbuf, 8);
@@ -185,34 +185,34 @@ break;
 }
 }}return e;
 }, $fz.isPrivate = true, $fz));
-$_M(c$, "toStringUTF8", 
+Clazz.defineMethod (c$, "toString", 
+($fz = function (b2, len) {
+return  String.instantialize (b2, 0, len);
+}, $fz.isPrivate = true, $fz), "~A,~N");
+Clazz.defineMethod (c$, "toStringUTF8", 
 ($fz = function (b2, len) {
 try {
 return  String.instantialize (b2, 0, len, this.zc);
 } catch (e) {
 if (Clazz.exceptionOf (e, java.io.UnsupportedEncodingException)) {
-return this.toStringb2 (b2, len);
+return this.toString (b2, len);
 } else {
 throw e;
 }
 }
 }, $fz.isPrivate = true, $fz), "~A,~N");
-$_M(c$, "toStringb2", 
-($fz = function (b2, len) {
-return  String.instantialize (b2, 0, len);
-}, $fz.isPrivate = true, $fz), "~A,~N");
-$_M(c$, "createZipEntry", 
+Clazz.defineMethod (c$, "createZipEntry", 
 function (name) {
 return  new java.util.zip.ZipEntry (name);
 }, "~S");
-$_M(c$, "readEnd", 
+Clazz.defineMethod (c$, "readEnd", 
 ($fz = function (e) {
-var n = this.inf.getAvailIn ();
+var n = this.inf.getRemaining ();
 if (n > 0) {
 (this.$in).unread (this.buf, this.len - n, n);
 this.eof = false;
 }if ((this.flag & 8) == 8) {
-if (this.inf.getTotalOut () > 4294967295 || this.inf.getTotalIn () > 4294967295) {
+if (this.inf.getBytesWritten () > 4294967295 || this.inf.getBytesRead () > 4294967295) {
 this.readFully (this.tmpbuf, 0, 24);
 var sig = java.util.zip.ZipInputStream.get32 (this.tmpbuf, 0);
 if (sig != 134695760) {
@@ -236,14 +236,14 @@ e.size = java.util.zip.ZipInputStream.get32 (this.tmpbuf, 8);
 e.crc = java.util.zip.ZipInputStream.get32 (this.tmpbuf, 4);
 e.csize = java.util.zip.ZipInputStream.get32 (this.tmpbuf, 8);
 e.size = java.util.zip.ZipInputStream.get32 (this.tmpbuf, 12);
-}}}if (e.size != this.inf.getTotalOut ()) {
-throw  new java.util.zip.ZipException ("invalid entry size (expected " + e.size + " but got " + this.inf.getTotalOut () + " bytes)");
-}if (e.csize != this.inf.getTotalIn ()) {
-throw  new java.util.zip.ZipException ("invalid entry compressed size (expected " + e.csize + " but got " + this.inf.getTotalIn () + " bytes)");
+}}}if (e.size != this.inf.getBytesWritten ()) {
+throw  new java.util.zip.ZipException ("invalid entry size (expected " + e.size + " but got " + this.inf.getBytesWritten () + " bytes)");
+}if (e.csize != this.inf.getBytesRead ()) {
+throw  new java.util.zip.ZipException ("invalid entry compressed size (expected " + e.csize + " but got " + this.inf.getBytesRead () + " bytes)");
 }if (e.crc != this.crc.getValue ()) {
 throw  new java.util.zip.ZipException ("invalid entry CRC (expected 0x" + Long.toHexString (e.crc) + " but got 0x" + Long.toHexString (this.crc.getValue ()) + ")");
 }}, $fz.isPrivate = true, $fz), "java.util.zip.ZipEntry");
-$_M(c$, "readFully", 
+Clazz.defineMethod (c$, "readFully", 
 ($fz = function (b, off, len) {
 while (len > 0) {
 var n = this.$in.read (b, off, len);
@@ -253,15 +253,15 @@ throw  new java.io.EOFException ();
 len -= n;
 }
 }, $fz.isPrivate = true, $fz), "~A,~N,~N");
-c$.get16 = $_M(c$, "get16", 
+c$.get16 = Clazz.defineMethod (c$, "get16", 
 ($fz = function (b, off) {
 return (b[off] & 0xff) | ((b[off + 1] & 0xff) << 8);
 }, $fz.isPrivate = true, $fz), "~A,~N");
-c$.get32 = $_M(c$, "get32", 
+c$.get32 = Clazz.defineMethod (c$, "get32", 
 ($fz = function (b, off) {
 return (java.util.zip.ZipInputStream.get16 (b, off) | (java.util.zip.ZipInputStream.get16 (b, off + 2) << 16)) & 0xffffffff;
 }, $fz.isPrivate = true, $fz), "~A,~N");
-c$.get64 = $_M(c$, "get64", 
+c$.get64 = Clazz.defineMethod (c$, "get64", 
 ($fz = function (b, off) {
 return java.util.zip.ZipInputStream.get32 (b, off) | (java.util.zip.ZipInputStream.get32 (b, off + 4) << 32);
 }, $fz.isPrivate = true, $fz), "~A,~N");

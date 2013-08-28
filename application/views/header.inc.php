@@ -43,24 +43,35 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
   <link rel="stylesheet" href="/sites/all/themes/rsldc2012/style/screenIE7.css">
   <![endif]-->
 
-  <!-- jQuery -->
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/jquery/jquery.js"></script>
 
-  <!-- JSmol -->
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmoljQueryExt.js"></script>
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmolCore.js"></script>
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmolApplet.js"></script>
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmolApi.js"></script>
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmolControls.js"></script>
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/j2sjmol.js"></script>
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmol.js"></script>
+  <!-- JSmol & jQuery -->
+  <?php if($view=='editor'): ?>
+
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jquery-1.7.2.min.js"></script>
+
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/JSmolCore.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/JSmolApplet.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/JSmolApi.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/j2s/j2sjmol.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/JSmol.js"></script>
+  <?php else: ?>
+
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/jquery/jquery.js"></script>
+
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmoljQueryExt.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmolCore.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmolApplet.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmolApi.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmolControls.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/j2sjmol.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmol.js"></script>
   <!-- // following two only necessary for WebGL version -->
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmolThree.js"></script>
-  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol/js/JSmolGLmol.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmolThree.js"></script>
+  <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jsmol-13.2.4/js/JSmolGLmol.js"></script>
+  <?php endif; ?>
 
 
   <!-- MolCalc -->
-  <!-- <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jquery&#45;1.7.2.min.js"></script> -->
   <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jquery.prompt.js"></script>
   <script type="text/javascript" src="<?php print BASEURL ?>/assets/script/jquery.molcalc_main.js"></script> 
 

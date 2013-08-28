@@ -1,8 +1,5 @@
 // BH 12/15/2012 1:56:28 PM  adds corezip.z.js and corebio.z.js
 // later additions include coresym.z.js, coresurface.z.js, coremenu.z.js
-
-// NOTE: Any changes here must also be reflected in buildtojs.xml
-
 if (!window["java.registered"])
  window["java.registered"] = false;
 
@@ -43,224 +40,74 @@ var	basefile = base + "core.z.js";
 		"java.util.Calendar", // bypassed in ModelCollection
 		"java.text.SimpleDateFormat", // not used
 		"java.text.DateFormat", // not used
+		//"java.util.zip.ZipOutputStream",
 		"java.util.concurrent.Executors"
 	])
 	
 	ClazzLoader.loadZJar (basefile, ClazzLoader.runtimeKeyClass);
 
-  if (Jmol.debugCode)
-    return;
-
-	ClazzLoader.jarClasspath (base + "corescript.z.js",	[  
-    "java.util.regex.Pattern", 
-    "$.Matcher", 
-    "$.MatchResult",     
-    "J.api.JmolScriptManager", 
-    "$.JmolScriptEvaluator",
-    "$.JmolScriptFunction",
-    "J.script.ScriptEvaluator", 
-    "$.ScriptCompiler", 
-    "$.ScriptCompilationTokenParser",
-    "$.ScriptFlowContext", 
-    "$.ScriptFunction", 
-    "$.ScriptInterruption", 
-    "$.ScriptMathProcessor", 
-    "$.CommandWatcherThread", 
-    "$.ScriptQueueThread", 
-    "$.ScriptDelayThread", 
-    "$.ScriptManager" 
-	]);
-	
-	ClazzLoader.jarClasspath (base + "corestate.z.js",	[  
-    "J.api.JmolStateCreator", 
-    "J.viewer.StateCreator" 
-	]);
-	
-	ClazzLoader.jarClasspath (base + "coreprop.z.js",	[  
-    "J.api.JmolPropertyManager", 
-    "J.viewer.PropertyManager" 
-	]);  
-  
-	ClazzLoader.jarClasspath (base + "coreconsole.z.js",	[
-		"J.api.JmolAppConsoleInterface",
-		"J.console.GenericTextArea",
-		"$.GenericConsole",
-		"J.consolejs.AppletConsole"
-	]);
-
-	ClazzLoader.jarClasspath (base + "coremenu.z.js",	[
-		"J.api.JmolPopupInterface",
-		"J.awtjs2d.JSmolPopup",		
-		"$.JSPopup",
-		"$.JSmolPopup",
-		"J.popup.JmolAbstractMenu",
-		"$.GenericPopup",
-		"$.PopupResource",
-		"$.MainPopupResourceBundle"
-	]);
-
-	ClazzLoader.jarClasspath (base + "corebinary.z.js",	[
-    "java.io.DataInputStream",
-    "J.api.JmolDocument",
-    "J.io2.BinaryDocument"
-	]);
-
-	ClazzLoader.jarClasspath (base + "corepymol.z.js",	[
-    "J.api.JmolSceneGenerator",
-    "J.api.PymolAtomReader", // -- required by J.adapter.readers.pymol.PyMOLReader
-    "J.adapter.readers.pymol.PickleReader",
-    "$.PyMOL",
-    "$.JmolObject",
-    "$.PyMOLGroup",
-    "$.PyMOLScene",
-    "$.PyMOLReader"
-	]);
-
-	ClazzLoader.jarClasspath (base + "coremin.z.js",	[
-		"J.api.MinimizerInterface", // -- required by J.minimize.Minimizer
-		"J.minimize.Minimizer",
-		"$.MinObject", // -- required by $.MinAngle
-		"$.MinAngle",
-		"$.MinAtom",
-		"$.MinBond",
-		"$.MinTorsion",
-		"$.Util",
-		"J.minimize.forcefield.AtomType",
-		"$.Calculation", // -- required by $.CalculationsMMFF
-		"$.Calculations", // -- required by $.CalculationsMMFF
-		"$.CalculationsMMFF",
-		"$.CalculationsUFF",
-		"$.FFParam",
-		"$.ForceField", // -- required by $.forcefield.ForceFieldMMFF
-		"$.ForceFieldUFF",
-		"$.ForceFieldMMFF",
-		"J.thread.MinimizationThread"
-	]);
 
 	ClazzLoader.jarClasspath (base + "corezip.z.js",	[
-		"JZ.Checksum",
-		"$.CRC32",
-		"$.InflaterInputStream",
-		"$.ZStream",
+		"com.jcraft.jzlib.Checksum", // required by $.CRC32
+		"$.CRC32", // required by java.util.zip.CRC32
+		"$.InflaterInputStream", // required by java.util.zip.InflaterInputStream
+		"$.ZStream", // required by $.Inflater
 		"$.Inflater",
 		"$.Adler32",
-		"$.Tree",
+		"$.Tree", // required by $.Deflate
 		"$.Deflate",
 		"$.GZIPHeader",
 		"$.StaticTree",
 		"$.Inflate",
-		"$.InfTree",
+		"$.InfTree", // required by $.InfBlocks
 		"$.InfBlocks",
 		"$.InfCodes",
 		"$.Inflater",
-		"$.InflaterInputStream",
+		"$.InflaterInputStream", // required by $.GZIPInputStream
 		"$.GZIPInputStream",
 		"$.Deflater",
 		"$.DeflaterOutputStream",
 
+		"org.jmol.api.JmolZipUtility", // required by org.jmol.io2.ZipUtil
+		"$.ZInputStream", // required by org.jmol.io2.JmolZipInputStream
+		"$.JmolImageCreatorInterface", // required by org.jmol.export.image.GenericImageCreator
+
+		"org.jmol.export.image.GenericCRCEncoder", // required by org.jmol.export.image.GenericPngEncoder
+		"$.GenericPngEncoder",
+		"$.GenericImageCreator", // required by org.jmol.exportjs.JSImageCreator
+
+		"org.jmol.exportjs.JSImageCreator",
+		
+		"org.jmol.io2.ZipUtil",
+		"$.JpegEncoder",
+		"$.JmolZipInputStream",
+		
+
 		"java.io.ByteArrayOutputStream",
 		"$.PushbackInputStream",
+		
 		"java.util.zip.CRC32",
 		"$.CheckedInputStream",
 		"$.GZIPInputStream",
 		"$.Inflater",
-		"$.InflaterInputStream",
+		"$.InflaterInputStream", // required by $.GZIPInputStream
 		"$.ZipException",
-		"$.ZipConstants",
+		"$.ZipConstants", // required by $.ZipEntry
 		"$.ZipEntry",
-		"$.ZipConstants64",
+		"$.ZipConstants64", // required by $.ZipInputStream
 		"$.ZipInputStream",
 		"$.Deflater",
 		"$.DeflaterOutputStream",
-		"$.ZipOutputStream",
-
-		"J.api.JmolZipUtility",
-		"$.ZInputStream",
-		"$.JmolImageCreatorInterface",
-		"J.export.image.GenericCRCEncoder",
-		"$.GenericPngEncoder",
-		"$.GenericImageCreator",
-		"J.exportjs.JSImageCreator",
-		"J.io2.ZipUtil",
-		"$.JpegEncoder",
-		"$.JmolZipInputStream"		
+		"$.ZipOutputStream"
+		
 	]);
 	
-	ClazzLoader.jarClasspath (base + "corebio.z.js",	[
-		"J.adapter.readers.pdb.PdbReader",
-		"J.adapter.smarter.Structure",
-		"J.api.JmolBioResolver",
-		"J.modelsetbio.Resolver",
-		"$.Monomer",
-		"$.AlphaMonomer",
-		"$.ProteinStructure",
-		"$.Helix",
-		"$.Sheet",
-		"$.Turn",
-		"$.BioPolymer", 
-		"$.AlphaPolymer",
-		"$.AminoMonomer",
-		"$.AminoPolymer",
-		"$.APBridge",
-		"$.BioModel",
-		"$.CarbohydrateMonomer",
-		"$.CarbohydratePolymer",
-		"$.PhosphorusMonomer", 
-		"$.NucleicMonomer",
-		"$.NucleicPolymer",
-		"$.PhosphorusPolymer",
-		"J.shapebio.BioShape",
-		"$.BioShapeCollection",
-		"$.Ribbons",	
-		"$.MeshRibbons",
-		"$.Strands",
-		"$.Rockets",
-		"$.Cartoon",
-	    "$.Backbone",
-	    "$.Trace",
-		"J.renderbio.BioShapeRenderer",
-		"$.StrandsRenderer",
-		"$.RibbonsRenderer",
-		"$.MeshRibbonsRenderer",
-		"$.RocketsRenderer",
-		"$.CartoonRenderer",
-	    "$.BackboneRenderer",
-	    "$.TraceRenderer"
-	]);
-
-
-	ClazzLoader.jarClasspath (base + "coresurface.z.js",	[
-		"J.api.VolumeDataInterface",
-		"J.jvxl.api.VertexDataServer",
-		"$.MeshDataServer",
-		"J.jvxl.calc.MarchingCubes",
-		"$.MarchingSquares",
-		"J.jvxl.data.JvxlCoder",
-		"$.VolumeData",
-		"$.JvxlData",
-		"$.MeshData",
-    "J.io.XmlReader",
-		"J.jvxl.readers.SurfaceGenerator",
-		"$.Parameters",
-		"$.SurfaceReader",
-		"$.VolumeDataReader",
-		"$.AtomDataReader",
-		"$.IsoSolventReader",
-    "$.SurfaceFileReader",
-    "$.VolumeFileReader",
-    "$.JvxlXmlReader",
-		"J.shapesurface.Isosurface",
-		"$.IsosurfaceMesh",
-		"J.rendersurface.IsosurfaceRenderer"
-	]);
-
 	ClazzLoader.jarClasspath (base + "coresym.z.js",	[
-		"J.api.SymmetryInterface",
-		"J.symmetry.Symmetry",
+		"org.jmol.api.SymmetryInterface", // required by org.jmol.symmetry.Symmetry
+		"org.jmol.symmetry.Symmetry",
 		"$.PointGroup",
 		"$.SpaceGroup",
 		"$.HallInfo",
-		"$.HallRotationTerm",
 		"$.HallRotation",
 		"$.HallTranslation",
 		"$.SymmetryOperation",
@@ -269,10 +116,10 @@ var	basefile = base + "core.z.js";
 	]);
 
 	ClazzLoader.jarClasspath (base + "coresmiles.z.js",	[
-    "J.api.SmilesMatcherInterface",
-    "J.smiles.SmilesMatcher",
+    "org.jmol.api.SmilesMatcherInterface", // required by org.jmol.smiles.SmilesMatcher
+    "org.jmol.smiles.SmilesMatcher",
     "$.InvalidSmilesException",
-    "$.SmilesSearch",
+    "$.SmilesSearch", // required by $.SmilesGenerator
     "$.SmilesGenerator",
     "$.SmilesAromatic",
     "$.SmilesAtom",
@@ -281,5 +128,84 @@ var	basefile = base + "core.z.js";
     "$.SmilesParser"
 	]);
 
+	ClazzLoader.jarClasspath (base + "coresurface.z.js",	[
+		"org.jmol.api.VolumeDataInterface", // required by org.jmol.jvxl.data.VolumeData
+		"org.jmol.jvxl.api.VertexDataServer", // required by org.jmol.jvxl.api.MeshDataServer
+		"$.MeshDataServer", // required by org.jmol.shapesurface.Isosurface
+		"org.jmol.jvxl.calc.MarchingCubes",
+		"$.MarchingSquares",
+		"org.jmol.jvxl.data.JvxlCoder",
+		"$.VolumeData",
+		"$.JvxlData",
+		"$.MeshData",
+		"org.jmol.jvxl.readers.SurfaceGenerator",
+		"$.Parameters",
+		"$.SurfaceReader",
+		"$.VolumeDataReader", // required by org.jmol.jvxl.readers.AtomDataReader
+		"$.AtomDataReader", // required by org.jmol.jvxl.readers.IsoSolventReader
+		"$.IsoSolventReader",
+		"org.jmol.shapesurface.Isosurface",
+		"$.IsosurfaceMesh",
+		"org.jmol.rendersurface.IsosurfaceRenderer"
+
+	]);
+
+	ClazzLoader.jarClasspath (base + "corebio.z.js",	[
+		"org.jmol.adapter.readers.cifpdb.PdbReader",
+		"org.jmol.adapter.smarter.Structure",
+		"org.jmol.api.JmolBioResolver", // required by org.jmol.modelsetbio.Resolver
+		"org.jmol.modelsetbio.Resolver",
+		"$.Monomer", // required by $.AlphaMonomer
+		"$.AlphaMonomer",
+		"$.ProteinStructure", // required by $.Helix
+		"$.Helix",
+		"$.Sheet",
+		"$.Turn",
+		"$.BioPolymer", // required by $.AlphaPolymer
+		"$.AlphaPolymer",
+		"$.AminoMonomer",
+		"$.AminoPolymer",
+		"$.APBridge",
+		"$.BioModel",
+		"$.CarbohydrateMonomer",
+		"$.CarbohydratePolymer",
+		"$.PhosphorusMonomer", // required by $.NucleicMonomer
+		"$.NucleicMonomer",
+		"$.NucleicPolymer",
+		"$.PhosphorusPolymer",
+		"org.jmol.shapebio.BioShape",
+		"$.BioShapeCollection", // required by $.Rockets
+		"$.Rockets", // required by $.Cartoon
+		"$.Cartoon",
+    "$.Backbone",
+    "$.Trace",
+		"org.jmol.renderbio.BioShapeRenderer", // required by org.jmol.renderbio.RocketsRenderer
+		"$.RocketsRenderer", // required by org.jmol.renderbio.CartoonRenderer
+		"$.CartoonRenderer",
+    "$.BackboneRenderer",
+    "$.TraceRenderer"
+	]);
+
+	ClazzLoader.jarClasspath (base + "coremenu.z.js",	[
+		"org.jmol.awtjs2d.JSmolPopup",		
+		"org.jmol.api.JmolPopupInterface", // -- required by org.jmol.awtjs2d.JSmolPopup
+		"org.jmol.popup.JmolAbstractMenu", //  -- required by org.jmol.popup.GenericPopup
+		"org.jmol.popup.GenericPopup",
+		"org.jmol.awtjs2d.JSPopup", //  -- required by org.jmol.awtjs2d.JSmolPopup
+		"org.jmol.awtjs2d.JSmolPopup",
+		"org.jmol.popup.PopupResource", //  -- required by org.jmol.popup.MainPopupResourceBundle
+		"org.jmol.popup.MainPopupResourceBundle"
+	]);
+
+	ClazzLoader.jarClasspath (base + "coreconsole.z.js",	[
+		"org.jmol.api.JmolAppConsoleInterface",
+		"org.jmol.console.GenericTextArea",
+		"$.GenericConsole",
+		"org.jmol.consolejs.AppletConsole"
+	]);
+
 }) ();
 window["java.registered"] = true;
+
+
+

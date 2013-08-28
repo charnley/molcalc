@@ -7,13 +7,13 @@ this.markpos = -1;
 this.marklimit = 0;
 Clazz.instantialize (this, arguments);
 }, java.io, "BufferedInputStream", java.io.FilterInputStream);
-$_M(c$, "getInIfOpen", 
+Clazz.defineMethod (c$, "getInIfOpen", 
 ($fz = function () {
 var input = this.$in;
 if (input == null) throw  new java.io.IOException ("Stream closed");
 return input;
 }, $fz.isPrivate = true, $fz));
-$_M(c$, "getBufIfOpen", 
+Clazz.defineMethod (c$, "getBufIfOpen", 
 ($fz = function () {
 var buffer = this.buf;
 if (buffer == null) throw  new java.io.IOException ("Stream closed");
@@ -24,7 +24,7 @@ function ($in) {
 Clazz.superConstructor (this, java.io.BufferedInputStream, [$in]);
 this.buf =  Clazz.newByteArray (java.io.BufferedInputStream.defaultBufferSize, 0);
 }, "java.io.InputStream");
-$_M(c$, "fill", 
+Clazz.defineMethod (c$, "fill", 
 ($fz = function () {
 var buffer = this.getBufIfOpen ();
 if (this.markpos < 0) this.pos = 0;
@@ -53,7 +53,7 @@ this.fill ();
 if (this.pos >= this.count) return -1;
 }return this.getBufIfOpen ()[this.pos++] & 0xff;
 });
-$_M(c$, "read1", 
+Clazz.defineMethod (c$, "read1", 
 ($fz = function (b, off, len) {
 var avail = this.count - this.pos;
 if (avail <= 0) {

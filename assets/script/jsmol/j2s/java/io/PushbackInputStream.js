@@ -4,7 +4,7 @@ this.buf = null;
 this.pos = 0;
 Clazz.instantialize (this, arguments);
 }, java.io, "PushbackInputStream", java.io.FilterInputStream);
-$_M(c$, "ensureOpen", 
+Clazz.defineMethod (c$, "ensureOpen", 
 ($fz = function () {
 if (this.$in == null) throw  new java.io.IOException ("Stream closed");
 }, $fz.isPrivate = true, $fz));
@@ -16,14 +16,14 @@ throw  new IllegalArgumentException ("size <= 0");
 }this.buf =  Clazz.newByteArray (size, 0);
 this.pos = size;
 }, "java.io.InputStream,~N");
-Clazz.overrideMethod (c$, "readByteAsInt", 
+Clazz.defineMethod (c$, "readByteAsInt", 
 function () {
 this.ensureOpen ();
 if (this.pos < this.buf.length) {
 return this.buf[this.pos++] & 0xff;
-}return this.$in.readByteAsInt ();
+}return Clazz.superCall (this, java.io.PushbackInputStream, "readByteAsInt", []);
 });
-Clazz.overrideMethod (c$, "read", 
+Clazz.defineMethod (c$, "read", 
 function (b, off, len) {
 this.ensureOpen ();
 if (b == null) {
@@ -41,20 +41,20 @@ this.pos += avail;
 off += avail;
 len -= avail;
 }if (len > 0) {
-len = this.$in.read (b, off, len);
+len = Clazz.superCall (this, java.io.PushbackInputStream, "read", [b, off, len]);
 if (len == -1) {
 return avail == 0 ? -1 : avail;
 }return avail + len;
 }return avail;
 }, "~A,~N,~N");
-$_M(c$, "unreadByte", 
+Clazz.defineMethod (c$, "unreadByte", 
 function (b) {
 this.ensureOpen ();
 if (this.pos == 0) {
 throw  new java.io.IOException ("Push back buffer is full");
 }this.buf[--this.pos] = b;
 }, "~N");
-$_M(c$, "unread", 
+Clazz.defineMethod (c$, "unread", 
 function (b, off, len) {
 this.ensureOpen ();
 if (len > this.pos) {
@@ -62,14 +62,14 @@ throw  new java.io.IOException ("Push back buffer is full");
 }this.pos -= len;
 System.arraycopy (b, off, this.buf, this.pos, len);
 }, "~A,~N,~N");
-Clazz.overrideMethod (c$, "available", 
+Clazz.defineMethod (c$, "available", 
 function () {
 this.ensureOpen ();
 var n = this.buf.length - this.pos;
-var avail = this.$in.available ();
+var avail = Clazz.superCall (this, java.io.PushbackInputStream, "available", []);
 return n > (2147483647 - avail) ? 2147483647 : n + avail;
 });
-Clazz.overrideMethod (c$, "skip", 
+Clazz.defineMethod (c$, "skip", 
 function (n) {
 this.ensureOpen ();
 if (n <= 0) {
@@ -81,7 +81,7 @@ pskip = n;
 }this.pos += pskip;
 n -= pskip;
 }if (n > 0) {
-pskip += this.$in.skip (n);
+pskip += Clazz.superCall (this, java.io.PushbackInputStream, "skip", [n]);
 }return pskip;
 }, "~N");
 Clazz.overrideMethod (c$, "markSupported", 

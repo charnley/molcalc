@@ -8,7 +8,7 @@ Clazz.makeConstructor (c$,
 function ($in, cksum) {
 Clazz.superConstructor (this, java.util.zip.CheckedInputStream, [$in]);
 this.cksum = cksum;
-}, "java.io.InputStream,JZ.Checksum");
+}, "java.io.InputStream,com.jcraft.jzlib.Checksum");
 Clazz.overrideMethod (c$, "readByteAsInt", 
 function () {
 var b = this.$in.readByteAsInt ();
@@ -36,7 +36,7 @@ return total;
 }
 return total;
 }, "~N");
-$_M(c$, "getChecksum", 
+Clazz.defineMethod (c$, "getChecksum", 
 function () {
 return this.cksum;
 });
