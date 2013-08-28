@@ -42,28 +42,22 @@ $hash = md5($xyz); // Primary ID of the molecule
 $tmpfile = $tmp.$hash.".xyz";
 file_put_contents($tmpfile, $xyz);
 
-// First, Check the multiplicity
-#$checkcharge = '../tools/molecule_charge.py';
-#$mol_charges = intval(shell_exec($checkcharge.' q '.$tmpfile));
-#$cor_charges = intval(shell_exec($checkcharge.' z '.$tmpfile));
-
 unlink($tmpfile); // Removes the tmp file
 
 
-#if($odd = ($cor_charges - $mol_charges)%2)
-#{
-#
-#
-#  print "Your current molecule has an odd number of electrons";
-#  print "With core charge of <strong>".$cor_charges."</strong> and a molecule charge of <strong>".$mol_charges."</strong>. ";
-#  print "MolCalc only works for molecules with all doubly occupied orbitals.";
-#  print "<br /><br />";
-#  print "Did you remmeber to minimise the molecule?";
-#  exit();
-#}
+// Integer charge
+$mol_charges = intval($mol_charges);
 
-// Okay, seems fine, now minimize and save the
-// molecule
+
+// Check if single atom
+$xyz_array = explode("\n", $xyz);
+$single_atom = False;
+
+if(intval($xyz_array[0]) == 1)
+{
+  $single_atom = True;
+}
+
 
 // Change folder
 $folder = '../data/'.$hash;
@@ -78,35 +72,46 @@ else
 }
 chdir($folder);
 
-// Save jmol_structure
-$jmol_struc = "structure_jmol.xyz";
-file_put_contents($jmol_struc, $xyz);
-
-$mol_charges = intval($mol_charges);
-
-// Prepare Minimisation
-shell_exec('babel -xf ../../tools/gamess/headers/minimise.inp -ixyz structure_jmol.xyz -ogamin '.$hash.'.inp');
-shell_exec('sed -i "s/icharg=0/icharg='.$mol_charges.'/" '.$hash.'.inp');
-
-// Minimise jmol structure
-rungms($hash);
-
-// Check output for abnormally
-$pattern = "EXECUTION OF GAMESS TERMINATED -ABNORMALLY-";
-$pattern2 = "TOO MANY ITERATIONS";
-$min = file_get_contents($hash.'.log');
-if(strpos($min, $pattern) or strpos($min, $pattern2))
+// Save Structure in hash-dir
+if($single_atom)
 {
-  // Delete and die
-  chdir('../');
-  shell_exec('rm -r '.$hash);
-  print "Minimisation ended abnormally. Please check your molecule.";
-  die();
-  exit();
+  // Only single atom, do not minimise
+  file_put_contents('coordinates.xyz', $xyz);
+}
+else
+{
+  // Okay, seems fine, now minimize and save the
+  // molecule
+
+  // Save jmol_structure
+  $jmol_struc = "structure_jmol.xyz";
+  file_put_contents($jmol_struc, $xyz);
+
+  // Prepare Minimisation
+  shell_exec('babel -xf ../../tools/gamess/headers/minimise.inp -ixyz structure_jmol.xyz -ogamin '.$hash.'.inp');
+  shell_exec('sed -i "s/icharg=0/icharg='.$mol_charges.'/" '.$hash.'.inp');
+
+  // Minimise jmol structure
+  rungms($hash);
+
+  // Check output for abnormally
+  $pattern = "EXECUTION OF GAMESS TERMINATED -ABNORMALLY-";
+  $pattern2 = "TOO MANY ITERATIONS";
+  $min = file_get_contents($hash.'.log');
+  if(strpos($min, $pattern) or strpos($min, $pattern2))
+  {
+    // Delete and die
+    chdir('../');
+    shell_exec('rm -r '.$hash);
+    print "Minimisation ended abnormally. Please check your molecule.";
+    die();
+    exit();
+  }
+
+  // Save XYZ
+  shell_exec('babel -igamess '.$hash.'.log -oxyz coordinates.xyz');
 }
 
-// Save XYZ
-shell_exec('babel -igamess '.$hash.'.log -oxyz coordinates.xyz');
 
 // TODO Check if XYZ file length is larger than 0
 
@@ -123,6 +128,7 @@ $inchikey = preg_replace("/\s+/",'', $inchikey);
 $name     = "";
 
 // TODO Check if SMILES is empty
+// TODO Check if multiple molecules, and get individual names
 
 if(!strpos($smiles, "."))
 {
