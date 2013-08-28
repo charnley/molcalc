@@ -1,4 +1,4 @@
-# The Molecule Calculator (MolCAlc)
+# The Molecule Calculator (MolCalc)
 
 Hosted at [dgu.ki.ku.dk/molcalc](http://dgu.ki.ku.dk/molcalc)
 
