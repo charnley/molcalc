@@ -77,7 +77,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
 <div class="acontainer"> <!-- need this for ajax call -->
 
-<h2>Solvation Energy</h2>
+<h2>Aqueous Solvation Energy at 298.15 K</h2>
 <br />
 
 <div class="surface" style="width:400px;float:left;">
