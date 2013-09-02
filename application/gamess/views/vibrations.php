@@ -129,7 +129,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
   Jmol.script(jmol_vib, 'vibration on');
 
   // Switch to the first real vibration
-  Jmol.script(jmol_vib, 'frame <?php print $start+1 ?>')
+  Jmol.script(jmol_vib, 'frame <?php print $start+1 ?>');
   </script>
 
 </div>

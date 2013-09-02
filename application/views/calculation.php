@@ -71,7 +71,7 @@ else
   var myInfo1 = {
       height: '100%',
       width: '100%',
-      j2sPath: "../assets/script/jsmol/j2s",
+      j2sPath: "../assets/script/jsmol-13.2.4/j2s",
       use: 'HTML5',
       console: "myJmol1_infodiv",
       debug: false

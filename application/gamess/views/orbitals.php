@@ -79,7 +79,6 @@ for($k=0;$k<count($result);$k++)
   Jmol.script(jmol_orbitals, 'set bondRadiusMilliAngstroms 100; set multipleBondSpacing -0.3');
   </script>
 
-
 </div>
 
 

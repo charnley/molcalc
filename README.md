@@ -1,4 +1,4 @@
-# The Molecule Calculator (MolCAlc)
+# The Molecule Calculator (MolCalc)
 
 Hosted at [dgu.ki.ku.dk/molcalc](http://dgu.ki.ku.dk/molcalc)
 
@@ -74,7 +74,8 @@ Changes in 1.2
 
 ### Credits
 
-MolCalc s written by Jimmy Charnley Kromann based on an idea by Jan Jensen.
+MolCalc is written by Jimmy Charnley Kromann and Maher Channir, based on an idea by Jan Jensen.
+
 The development of MolCalc is supported by the University of Copenhagen through
 the Education at its Best Initiative (Den Gode Uddannelse).
 
