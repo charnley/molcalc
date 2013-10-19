@@ -108,7 +108,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
   </table>
 
   <table>
-    <tr><td class="center" style="width:50%">Property</td><td style="width:25%" class="center">Value</td><td style="width:25%" class="center">Units</td><tr>
+    <tr><td class="center" style="width:50%">Property</td><td style="width:25%" class="center">Value</td><td style="width:25%" class="center">Unit</td><tr>
     <tr><td>Total Solvation Energy</td><td class="right"><?php print format($totsolv*$c2j) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
     <tr><td>Polar Solvation Energy</td><td class="right"><?php print format($elec*$c2j) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
     <tr><td>Nonpolar Solvation Energy</td><td class="right"><?php print format($nonpolar*$c2j) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>

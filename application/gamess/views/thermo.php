@@ -88,73 +88,47 @@ $c2j = 4.18;
 <h2>Thermodynamics at 298.15 K and standard pressure</h2>
 <br />
 
+
 <div style="width:445px;float:left;">
   <table>
-    <tr><td class="center">Property</td><td class="center">Value</td><td class="center">Unit</td></tr>
-    <tr><td>Heat of Formation</td><td class="right"><?php print format($hof*$c2j) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
-    <tr><td>Enthalpy</td><td class="right"><?php print format($enthalpy_total) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
-    <tr><td>Entropy</td><td class="right"><?php print format($entropy_total) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
-    <tr><td>Heat Capacity at Constant Pressure</td><td class="right"><?php print format($cp_total) ?></td><td class="right">J mol <sup>-1</sup> K<sup>-1</sup></td><tr>
-   <!-- <tr><td>Free Energy</td><td class="right"><?php print format($g_total) ?></td><td class="right">kJ mol <sup>-1</sup> </td><tr>-->
-  </table>
-
-  <table>
-    <tr><td class="center" colspan="3">Enthalpy Contributions</td></tr>
-    <tr><td class="center">Property</td><td class="center">Value</td><td class="center">Unit</td></tr>
+    <tr><td class="center" colspan="3" style="font-weight:bold">Enthalpy</td></tr>
+    <tr><td class="center" style="width:50%">Property</td><td style="width:25%" class="center">Value</td><td style="width:25%" class="center">Unit</td></tr>
     <tr><td>Translational</td><td class="right"><?php print format($enthalpy_tra) ?></td><td class="right">kJ mol<sup>-1</sup> </td><tr>
     <tr><td>Rotational</td><td class="right"><?php print format($enthalpy_rot) ?></td><td class="right">kJ mol<sup>-1</sup> </td><tr>
     <tr><td>Vibrational</td><td class="right"><?php print format($enthalpy_vib) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
+    <tr><td>Total (Trans. + Rot. + Vib.)</td><td class="right"><?php print format($enthalpy_total) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
   </table>
 
-</div>
-
-<div style="width:445px;float:right;">
-
   <table>
-    <tr><td class="center" colspan="3">Heat Capacity Contributions</td></tr>
-    <tr><td class="center">Property</td><td class="center">Value</td><td class="center">Unit</td></tr>
+    <tr><td class="center" colspan="3" style="font-weight:bold">Heat Capacity at Constant Pressure</td></tr>
+    <tr><td class="center" style="width:50%">Property</td><td style="width:25%" class="center">Value</td><td style="width:25%" class="center">Unit</td></tr>
     <tr><td>Translational</td><td class="right"><?php print format($cp_tra) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
     <tr><td>Rotational</td><td class="right"><?php print format($cp_rot) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
     <tr><td>Vibrational</td><td class="right"><?php print format($cp_vib) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
+    <tr><td>Total (Trans. + Rot. + Vib.)</td><td class="right"><?php print format($cp_total) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
   </table>
+</div>
 
-<!--
-  <div style="width:445px;height:180px;margin:0 0 20px 0;">
-
--->
-<!--
-    <script type="text/javascript">
-    jmol_thermo = Jmol.getApplet("jmol_thermo", myInfo1);
-    Jmol.script(jmol_thermo, 'load "<?php print BASEURL?>/data/<?php print $molid ?>/coordinates.xyz";');
-    Jmol.script(jmol_thermo, 'set bondRadiusMilliAngstroms 100; set multipleBondSpacing -0.3');
-    </script>
--->
-
-<!--
-  </div>
-
--->
-
-<!--
+<div style="width:445px;float:right;">
   <table>
-    <tr><td class="center" colspan="3">Free Energy Contributions</td></tr>
-    <tr><td class="center">Property</td><td class="center">Value</td><td class="center">Unit</td></tr>
-    <tr><td>Translational</td><td class="right"><?php print format($g_tra) ?></td><td class="right">kJ mol <sup>-1</sup></td><tr>
-    <tr><td>Rotational</td><td class="right"><?php print format($g_rot) ?></td><td class="right">kJ mol <sup>-1</sup></td><tr>
-    <tr><td>Vibrational</td><td class="right"><?php print format($g_vib) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
-  </table>
--->
-
-  <table>
-    <tr><td class="center" colspan="3">Entropy Contributions</td></tr>
-    <tr><td class="center">Property</td><td class="center">Value</td><td class="center">Unit</td></tr>
+    <tr><td class="center" colspan="3" style="font-weight:bold">Entropy</td></tr>
+    <tr><td class="center" style="width:50%">Property</td><td style="width:25%" class="center">Value</td><td style="width:25%" class="center">Unit</td></tr>
     <tr><td>Translational</td><td class="right"><?php print format($entropy_tra) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
     <tr><td>Rotational</td><td class="right"><?php print format($entropy_rot) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
     <tr><td>Vibrational</td><td class="right"><?php print format($entropy_vib) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
+    <tr><td>Total (Trans. + Rot. + Vib.)</td><td class="right"><?php print format($entropy_total) ?></td><td class="right">J mol<sup>-1</sup> K<sup>-1</sup></td><tr>
   </table>
 
+  <table>
+    <tr><td class="center" colspan="3" style="font-weight:bold">Other Properties</td></tr>
+    <tr><td class="center" style="width:50%">Property</td><td style="width:25%" class="center">Value</td><td style="width:25%" class="center">Unit</td></tr>
+    <tr><td>Heat of Formation</td><td class="right"><?php print format($hof*$c2j) ?></td><td class="right">kJ mol<sup>-1</sup></td><tr>
+  </table>
 </div>
 
+
+
+</div>
 
 <div class="clean"></div>
 </div>
