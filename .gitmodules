@@ -1,0 +1,3 @@
+[submodule "assets/web-ui"]
+	path = assets/web-ui
+	url = https://github.com/charnley/web-user-interface.git
